@@ -4,6 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 require("mysqli_connect.php");
+require("mysqli_logs.php");
 
 
 // Registration Form Request; isset function makes sure the form submitted is for registration
@@ -71,6 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType']) == 'regist
 
         if ($result) {
             // register is successful
+            log_register($email);
 
             // set the session variables
             //$result = mysqli_stmt_get_result($query);
@@ -80,6 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType']) == 'regist
             $_SESSION['username'] = $username;
             $_SESSION['email'] = $email;
             $_SESSION['usertype'] = $usertype;
+
 
             header("location: dashboard.php");
             mysqli_free_result($result);
