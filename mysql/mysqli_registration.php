@@ -15,9 +15,8 @@ $param_error = array("usernameTaken" => false,
                             "emailValid" => true);
 $display_errors = array("username" => "",
                         "email" => "",
-                        "password" => "");
-
-$loginError = "";
+                        "password" => "",
+                        "login" => "");
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType']) == 'register') {
@@ -72,17 +71,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType']) == 'regist
 
         if ($result) {
             // register is successful
-            log_register($email);
-
-            // set the session variables
-            //$result = mysqli_stmt_get_result($query);
-            //$_SESSION = mysqli_fetch_array($result, MYSQLI_ASSOC);
             
             // set the session variables - manually
             $_SESSION['username'] = $username;
             $_SESSION['email'] = $email;
             $_SESSION['usertype'] = $usertype;
 
+            // record/log it
+            logs("register", $username);
 
             header("location: dashboard.php");
             mysqli_free_result($result);
@@ -106,99 +102,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType']) == 'regist
 }
 
 
-
 // Login Form Request; isset function makes sure the form submitted is for login
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType2']) == 'login') {
 
-    // variable that will handle the errors and hold error messages
-    $errors = array();
+    $username = (!empty($_POST['//'])) ? mysqli_real_escape_string($dbcon, trim($_POST['//'])) : FALSE;
+    $password = (!empty($_POST['//'])) ? mysqli_real_escape_string($dbcon, trim($_POST['//'])) : FALSE;
 
+    if ($username && $password) {
 
-    // validate USERNAME / EMAIL
-    if (!empty($_POST['//'])) {
-        $username = trim($_POST['//']);
-        
-        // protection from SQL Injections
-        $sanitized_username = mysqli_real_escape_string($dbcon, $username);
-    } else {
-        $errors[] = "Username";
-        $loginError = " *invalid username or password";
-    }
+        $q1 = "SELECT * FROM users WHERE (username = '". $username ."' AND psword = '". md5($pass) . "')";
+        $q2 = "SELECT * FROM users WHERE (email = '". $username ."' AND psword = '". md5($pass) . "')";
+        $result1 = @mysqli_query($dbcon, $q1);
+        $result2 = @mysqli_query($dbcon, $q2);
 
-    // validate PASSWORD
-    if (!empty($_POST['//'])) {
-        $email = trim($_POST['//']);
-        
-        // protection from SQL Injections
-        $sanitized_email = mysqli_real_escape_string($dbcon, $email);
+        // check if username and pass OR email and pass
+        // -note: papaikliin pa
+        if ($result1) {
+            $_SESSION = mysqli_fetch_array($result1, MYSQLI_ASSOC);
+            logs("login", $_SESSION['username']);  
 
+            mysqli_free_result($result);
+            mysqli_close($dbcon);
+    
+            header("location: dashboard.php");
+            exit();
+        } else if ($result2) {
+            $_SESSION = mysqli_fetch_array($result2, MYSQLI_ASSOC);
+            logs("login", $_SESSION['username']); 
 
-    } else {
-        $errors[] = "Email Address";
-        $loginError = " *invalid username or password";
-    }
-
-    // validate PASSWORD and CONFIRM PASSWORD
-    if (!empty($_POST['pword'])) {
-        if ($_POST['pword'] != $_POST['pword2']) {
-            $errors[] = "Your passwords did not match";
-        } else {
-            $pass = trim($_POST['pword']);
-
-            // protection from SQL Injections
-            $sanitized_pass = mysqli_real_escape_string($dbcon, $pass);
-
-        }
-    } else {
-        $errors[] = "Password";
-    }
-
-    if (empty($errors)) {
-        
-
-        $query = "INSERT INTO users(username, email, pword, type, registration_date) 
-        VALUES ('$sanitized_username',  
-                '$sanitized_email', 
-                md5($sanitized_pass), 
-                'user',
-                NOW())";
-
-
-        $query = mysqli_prepare($dbcon, "INSERT INTO users(username, email, pword, type, registration_date) 
-                                        VALUES (?, ?, ?, ?, NOW())");
-
-        mysqli_stmt_bind_param($query, "ssss", $sanitized_username, $sanitized_email, md5($sanitized_pass), 'user');
-
-        
-        $result = mysqli_stmt_execute($query);
-        #$result = @mysqli_query($dbcon, $query);
-
-        if ($result) {
-            // register is successful
-
-            // set the session variables
-            $_SESSION['username'] = $sanitized_username;
-            $_SESSION['email'] = $sanitized_email;
-
-
-            
-            echo "<script> alert('Goods') </script>";
+            mysqli_free_result($result);
+            mysqli_close($dbcon);
+    
             header("location: dashboard.php");
             exit();
         } else {
-            echo " q<script>alert('System Error. \\nPlease try again or contact the System Administrator. We apologize for the inconvenience');</script>";
+            // display error
+            $display_errors['login']  = "invalid username/email or password";
         }
-        mysqli_close($dbcon);
-        
-
     } else {
-        echo "<script>alert('You forgot to enter your: \\n";
-        foreach ($errors as $msg) {
-            echo " - $msg\\n";
-        }
-        echo "Please try again'); </script>";
+        $display_errors['login']  = "invalid username/email or password";
     }
+
 }
 
 
