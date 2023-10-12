@@ -1,3 +1,7 @@
+
+<?php require("mysql/mysqli_session.php"); ?>
+
+<?php // if (isset($_SESSION['username'])) ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,8 +52,11 @@
         <!-- Login -->
         <div class="d-flex flex-column justify-content-conter align-items-center gap-3 flex-lg-row">
           
-          <button class="btn btn-primary rounded-pill text-center" data-bs-toggle="modal" data-bs-target="#enroll"
-            style="border-width: 2px; padding: 10px 20px; font-family: 'Young Serif', serif;">Logout</button>
+          <a href="logout.php" class="btn btn-primary rounded-pill text-center" data-bs-toggle="modal" data-bs-target="#enroll"
+            style="border-width: 2px; padding: 10px 20px; font-family: 'Young Serif', serif;">Logout</a>
+
+          <!--<button class="btn btn-primary rounded-pill text-center" data-bs-toggle="modal" data-bs-target="#enroll"
+            style="border-width: 2px; padding: 10px 20px; font-family: 'Young Serif', serif;">Logout</button>-->
 
         </div>
       </div>
@@ -62,7 +69,7 @@
     <div class="row">
       <!-- Welcome Specific User from the dashboard-->
       <h1 class="text-white hellouser">
-        Welcome to your Dashboard <p class=>"USER"</p>
+        Welcome to your Dashboard, <p class=><?php echo $_SESSION['username']; ?></p>
       </h1>
       <!-- First Rectangle - Upload Feature -->
       <div class="col-md-4">
