@@ -181,41 +181,41 @@
           
           <!-- REGISTER FORM-->
           <form action="index.php" method="post"> <!--  -->
+            
+            <!-- This input type determines whether form is REGISTER or login -->
+            <input type="hidden" id="formType" name="formType" value="register">
+            
             <div class="mb-3">
-
-              <!-- This input type determines whether form is REGISTER or login -->
-              <input type="hidden" id="formType" name="formType" value="register">
-
               <!-- Username -->
               <label for="username" class="col-form-label">
                 Username:
               </label>
+
               <!-- span element for handling USERNAME ERRORS -->
-              <span id="username-error" class="text-danger" style="font-size: 12px; font-style: italic;"></span>
+              <span id="username-error" class="text-danger" style="font-size: 12px; font-style: italic;"><?php echo $display_errors['username']; ?></span>
 
               <input type="text" class="form-control" id="username" name="username" value=""/>
             </div>
-            <div class="mb-3">
 
+            <div class="mb-3">
               <!-- Email -->
               <label for="email" class="col-form-label">Email:</label>
               <!-- span element for handling EMAIL ERRORS -->
-              <span id="email-error" class="text-danger" style="font-size: 12px; font-style: italic;"></span>
+              <span id="email-error" class="text-danger" style="font-size: 12px; font-style: italic;"><?php echo $display_errors['email']; ?></span>
 
               <input type="email" class="form-control" id="email" name="email" value=""/>
             </div>
-            <div class="mb-3">
 
+            <div class="mb-3">
               <!-- Password -->
               <label for="pword" class="col-form-label">Password:</label>
               <!-- span element for handling PASSWORD ERRORS -->
-              <span id="pword-error" class="text-danger" style="font-size: 12px; font-style: italic;"></span>
+              <span id="pword-error" class="text-danger" style="font-size: 12px; font-style: italic;"><?php echo $display_errors['password']; ?></span>
 
-              
               <input type="password" class="form-control" id="pword" name="pword" value="" />
             </div>
-            <div class="mb-3">
 
+            <div class="mb-3">
               <!-- Confirm Password -->
               <label for="pword2" class="col-form-label">Confirm Password:</label>
               <input type="password" class="form-control" id="pword2" name="pword2" value=""/>
@@ -224,7 +224,7 @@
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                 Close
               </button>
-              <input type="submit" id="submit-register" name="submit-register" class="btn btn-primary" value="Submit">
+              <input type="submit" id="submit-register" name="submit-register" class="btn btn-primary" value="Submit" disabled>
             </div>
           </form>
         
@@ -239,7 +239,7 @@
 
 
 
-
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
