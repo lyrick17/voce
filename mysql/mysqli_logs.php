@@ -3,7 +3,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-require("mysqli_connect");
+require("mysqli_connect.php");
 
 function logs($log_act, $user) {
     // every action of user records a log in db
