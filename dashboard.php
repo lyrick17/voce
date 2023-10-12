@@ -26,7 +26,7 @@
     <div class="container">
       <!-- Logo -->
 
-      <<a class="navbar-brand fs-4 text-light nav-link active" style="color: #D3C5C3; font-family: 'Young Serif', serif;"
+      <a class="navbar-brand fs-4 text-light nav-link active" style="color: #D3C5C3; font-family: 'Young Serif', serif;"
         aria-current="page" href="index.php">Voice</a>
 
 
@@ -47,9 +47,9 @@
         </ul>
         <!-- Login -->
         <div class="d-flex flex-column justify-content-conter align-items-center gap-3 flex-lg-row">
-          <a href="#login" class="" style="color: #D2ACA4"><span class="login">Login</span></a>
+          
           <button class="btn btn-primary rounded-pill text-center" data-bs-toggle="modal" data-bs-target="#enroll"
-            style="border-width: 2px; padding: 10px 20px; font-family: 'Young Serif', serif;">Signup</button>
+            style="border-width: 2px; padding: 10px 20px; font-family: 'Young Serif', serif;">Logout</button>
 
         </div>
       </div>
@@ -57,8 +57,13 @@
     </div>
   </nav>
   <!-- Dashboard content -->
+\
   <div class="container mt-5">
     <div class="row">
+      <!-- Welcome Specific User from the dashboard-->
+      <h1 class="text-white hellouser">
+        Welcome to your Dashboard <p class=>"USER"</p>
+      </h1>
       <!-- First Rectangle - Upload Feature -->
       <div class="col-md-4">
         <div class="dashboard-rectangle" style="background-color: #D2ACA4;">
