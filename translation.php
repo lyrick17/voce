@@ -60,6 +60,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	} 
 
 	
+
 	$src_lang =  $lang_codes[$_POST["src"]] ?? '';
 	$trg_lang = $lang_codes[$_POST["target"]] ?? '';
 	curl_setopt_array($curl, [
@@ -95,4 +96,3 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 
 ?>
-
