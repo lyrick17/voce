@@ -133,8 +133,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	</form>
 				<br>
 	<div class="text-center">
-	<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;" >Original: <?= $_POST['text']?? ''?></p>
-	<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;">Translated: <?= $translation ?? ''?> </p>
+	<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;" >Original: <?= mysqli_fetch_assoc($history)['translate_from']?? ''?></p>
+	<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;">Translated: <?= mysqli_fetch_assoc($history)['translate_to'] ?? ''?> </p>
 			</div>
         </div>
 </div>
