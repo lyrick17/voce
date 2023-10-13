@@ -75,6 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType']) == 'regist
             // register is successful
             
             // set the session variables - manually
+            $user_id = mysqli_query($dbcon, "SELECT user_id FROM users WHERE username = '$username'
+                and email = '$email'");
+
+            $_SESSION['user_id'] = mysqli_fetch_assoc($user_id);
             $_SESSION['username'] = $username;
             $_SESSION['email'] = $email;
             $_SESSION['usertype'] = $usertype;
