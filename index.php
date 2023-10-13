@@ -69,8 +69,8 @@
             converting it into text</p>
           <br><br>
           <center>
-            <button class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#enroll"
-              style="border-width: 2px; padding: 20px 50px; font-family: 'Young Serif', serif;">Get Started</button>
+            <a href="loginpage.php"><button class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#enroll"
+              style="border-width: 2px; padding: 20px 50px; font-family: 'Young Serif', serif;">Get Started</button></a>
           </center>
 
       </div>

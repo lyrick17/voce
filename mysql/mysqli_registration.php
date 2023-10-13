@@ -6,6 +6,8 @@ if (session_status() == PHP_SESSION_NONE) {
 require("mysqli_connect.php");
 require("mysqli_logs.php");
 
+// file if user/admin is not logged in
+
 
 // Registration Form Request; isset function makes sure the form submitted is for registration
 
@@ -78,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType']) == 'regist
             $_SESSION['usertype'] = $usertype;
 
             // record/log it
-            logs("register", $username);
+            logs("register", $username, $dbcon);
 
             header("location: dashboard.php");
             mysqli_free_result($result);
@@ -94,7 +96,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType']) == 'regist
 
     } else {
         //determines what is the server-side error
-        header("location: index.php?usernametaken=". (int) $param_error['usernameTaken'] ."&emailtaken=". (int) $param_error['emailTaken'] ."&emailvalid=". (int) $param_error['emailValid']);
+        header("location: loginpage.php?usernametaken=". (int) $param_error['usernameTaken'] ."&emailtaken=". (int) $param_error['emailTaken'] ."&emailvalid=". (int) $param_error['emailValid']);
+        
+        echo "<script>alert('Please do not leave any inputs blank. \\n'";
+        if ($param_error['usernameTaken'] == 1) {
+            echo " - username already taken \\n";
+        }
+        if ($param_error['emailTaken'] == 1) {
+            echo " - email already taken \\n";
+        }
+        if ($param_error['emailValid'] == 0) {
+            echo " - invalid email \\n";
+        }
+        echo "');</script>";
         exit();
     }
 
@@ -106,13 +120,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType']) == 'regist
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType2']) == 'login') {
 
-    $username = (!empty($_POST['//'])) ? mysqli_real_escape_string($dbcon, trim($_POST['//'])) : FALSE;
-    $password = (!empty($_POST['//'])) ? mysqli_real_escape_string($dbcon, trim($_POST['//'])) : FALSE;
-
+    $username = (!empty($_POST['user'])) ? mysqli_real_escape_string($dbcon, trim($_POST['user'])) : FALSE;
+    $password = (!empty($_POST['pass'])) ? mysqli_real_escape_string($dbcon, trim($_POST['pass'])) : FALSE;
+    $hashedPass = md5($password);
     if ($username && $password) {
 
-        $q1 = "SELECT * FROM users WHERE (username = '". $username ."' AND psword = '". md5($pass) . "')";
-        $q2 = "SELECT * FROM users WHERE (email = '". $username ."' AND psword = '". md5($pass) . "')";
+        $q1 = "SELECT * FROM users WHERE (`username` = '". $username ."' AND `pword` = '". $hashedPass . "')";
+        $q2 = "SELECT * FROM users WHERE (`email` = '". $username ."' AND `pword` = '". $hashedPass . "')";
         $result1 = @mysqli_query($dbcon, $q1);
         $result2 = @mysqli_query($dbcon, $q2);
 
@@ -120,27 +134,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType2']) == 'login
         // -note: papaikliin pa
         if ($result1) {
             $_SESSION = mysqli_fetch_array($result1, MYSQLI_ASSOC);
-            logs("login", $_SESSION['username']);  
+            logs("login", $_SESSION['username'], $dbcon);  
 
-            mysqli_free_result($result);
+            mysqli_free_result($result1);
             mysqli_close($dbcon);
     
             header("location: dashboard.php");
             exit();
         } else if ($result2) {
             $_SESSION = mysqli_fetch_array($result2, MYSQLI_ASSOC);
-            logs("login", $_SESSION['username']); 
+            logs("login", $_SESSION['username'], $dbcon); 
 
-            mysqli_free_result($result);
+            mysqli_free_result($result2);
             mysqli_close($dbcon);
     
             header("location: dashboard.php");
             exit();
         } else {
             // display error
+            echo "<script>alert('invalid username/email or password');</script>";
             $display_errors['login']  = "invalid username/email or password";
         }
     } else {
+        echo "<script>alert('invalid username/email or password');</script>";
         $display_errors['login']  = "invalid username/email or password";
     }
 

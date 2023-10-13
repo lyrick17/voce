@@ -21,10 +21,10 @@ function checkRegisterUser() {
     // validates username input textbox by checking
     //  if username textbox is EMPTY or NOT
     let username = document.getElementById('username').value;
-    let errorElement = document.getElementById('username-error');
+    //let errorElement = document.getElementById('username-error');
 
     regUsernameFilled = (username) ? true : false;
-    errorElement.innerHTML = (username) ? "" : " *please enter your username"; // display the error message if username empty
+    //errorElement.innerHTML = (username) ? "" : " *please enter your username"; // display the error message if username empty
 
     allowRegister();
 }
@@ -35,10 +35,10 @@ function checkRegisterEmail() {
     //                   is a VALID EMAIL ADDRESS
 
     let email = document.getElementById('email').value;
-    let errorElement = document.getElementById('email-error');
+    //let errorElement = document.getElementById('email-error');
 
     regEmailFilled = (email) ? true : false;
-    errorElement.innerHTML = (email) ? "" : " *please enter your email";
+    //errorElement.innerHTML = (email) ? "" : " *please enter your email";
     // EMAIL REGEX TO BE ADDED
     allowRegister();
 }
@@ -51,24 +51,24 @@ function checkRegisterPassword() {
 
     let password = document.getElementById('pword').value;
     let cPassword = document.getElementById('pword2').value;
-    let errorElement = document.getElementById('pword-error');
+    //let errorElement = document.getElementById('pword-error');
 
     // check first if password textbox is empty and atleast 8 chars, 
     //  then once user started writing confirm password, automatically compare password and cPassword
     if (!password) {
-        errorElement.innerHTML = " *please enter your password";
+        //errorElement.innerHTML = " *please enter your password";
         regPasswordFilledMatched = false;
-    } else if (password.length < 8) {
-        errorElement.innerHTML = " *must be atleast 8 characters";
-        regPasswordFilledMatched = false;
+    //} else if (password.length < 8) {
+        //errorElement.innerHTML = " *must be atleast 8 characters";
+        //regPasswordFilledMatched = false;
     } else if (cPassword && (password != cPassword)) {
-        errorElement.innerHTML = " *passwords do not match";
+        //errorElement.innerHTML = " *passwords do not match";
         regPasswordFilledMatched = false;
     } else if (!cPassword) {
-        errorElement.innerHTML = "";
+        //errorElement.innerHTML = "";
         regPasswordFilledMatched = false;
     } else {
-        errorElement.innerHTML = "";
+        //errorElement.innerHTML = "";
         regPasswordFilledMatched = true;
     }
     allowRegister();
@@ -85,6 +85,7 @@ function allowRegister() {
 
 
 // for server-side errors, immediately show modal after webpage refresh
+/*
 window.addEventListener('load', function() {
     let params = new URLSearchParams(window.location.search);
     let myModal = new bootstrap.Modal(document.getElementById('enroll'));
@@ -107,7 +108,7 @@ window.addEventListener('load', function() {
     if ($error) 
         myModal.show();
 
-});
+});*/
 
 // next thing to do is login validation and addition of logout.php
 
