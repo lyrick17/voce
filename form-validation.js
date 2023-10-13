@@ -2,7 +2,7 @@
 
 // TO BE ADDED:
 //  - email regex
-//  - password must be at least 8 characters - DONE
+
 
 // checks all input textbox to see if they are empty or invalid by adding Event Listeners 
 //  this will not work at the start, but rather would work when the user started using the textboxes
@@ -12,10 +12,9 @@ document.getElementById('pword').addEventListener("input", checkRegisterPassword
 document.getElementById('pword2').addEventListener("input", checkRegisterPassword);
 
 // VARIABLES as Logic Gates. Once these are all true, the user can Register
-let regUsernameFilled = false;
-let regEmailFilled = false;
+let regUsernameFilled = (document.getElementById('username').value != "");
+let regEmailFilled = (document.getElementById('email').value != "");
 let regPasswordFilledMatched = false;
-let regTermsChecked = false;
 
 // functions for checking each input text box
 function checkRegisterUser() {
@@ -24,16 +23,10 @@ function checkRegisterUser() {
     let username = document.getElementById('username').value;
     let errorElement = document.getElementById('username-error');
 
-    if (!username) {
-        errorElement.innerHTML = " *please enter your username"; // automatically display the error message
-        regUsernameFilled = false;
-    } else {
-        errorElement.innerHTML = ""; // clear our the error message when textbox is not empty
-        regUsernameFilled = true;
-    }
-    allowRegister();
+    regUsernameFilled = (username) ? true : false;
+    errorElement.innerHTML = (username) ? "" : " *please enter your username"; // display the error message if username empty
 
-    // NOTE: additional requirement of checking if username already exists will be added in the future
+    allowRegister();
 }
 
 function checkRegisterEmail() {
@@ -44,16 +37,10 @@ function checkRegisterEmail() {
     let email = document.getElementById('email').value;
     let errorElement = document.getElementById('email-error');
 
-    if (!email) {
-        errorElement.innerHTML = " *please enter your email";
-        regEmailFilled = false;
-    } else { // EMAIL REGEX TO BE ADDED
-        errorElement.innerHTML = "";
-        regEmailFilled = true;
-    }
+    regEmailFilled = (email) ? true : false;
+    errorElement.innerHTML = (email) ? "" : " *please enter your email";
+    // EMAIL REGEX TO BE ADDED
     allowRegister();
-
-    // NOTE: additional requirement of checking if email is valid will be added in the future
 }
 
 function checkRegisterPassword() {
@@ -69,13 +56,16 @@ function checkRegisterPassword() {
     // check first if password textbox is empty and atleast 8 chars, 
     //  then once user started writing confirm password, automatically compare password and cPassword
     if (!password) {
-        errorElement.innerHTML = " *please type your password";
+        errorElement.innerHTML = " *please enter your password";
         regPasswordFilledMatched = false;
     } else if (password.length < 8) {
-        errorElement.innerHTML = " *password must be atleast 8 characters";
+        errorElement.innerHTML = " *must be atleast 8 characters";
         regPasswordFilledMatched = false;
-    } else if (cPassword && password != cPassword) {
+    } else if (cPassword && (password != cPassword)) {
         errorElement.innerHTML = " *passwords do not match";
+        regPasswordFilledMatched = false;
+    } else if (!cPassword) {
+        errorElement.innerHTML = "";
         regPasswordFilledMatched = false;
     } else {
         errorElement.innerHTML = "";
@@ -85,24 +75,47 @@ function checkRegisterPassword() {
 }
 
 // function checks if all fields are ok to be passed to server and would allow the Register button to be clickable
-/*function allowRegister() {
+function allowRegister() {
     if (regUsernameFilled && regEmailFilled && regPasswordFilledMatched) {
-        document.getElementById('submitRegister').disabled = false;
-    } else {
-        document.getElementById('submitRegister').disabled = true;
+        document.getElementById('submit-register').disabled = false;
+        return;
     }
-}*/
+    document.getElementById('submit-register').disabled = true;
+}
 
 
+// for server-side errors, immediately show modal after webpage refresh
+window.addEventListener('load', function() {
+    let params = new URLSearchParams(window.location.search);
+    let myModal = new bootstrap.Modal(document.getElementById('enroll'));
 
+    $error = false;
+    if (params.get('usernametaken') == '1') {
+        console.log("eyy");
+        $error = true;
+        this.document.getElementById('username-error').innerHTML = " *username already taken";
+    }
+    if (params.get('emailtaken') == '1') {
+        $error = true;
+        this.document.getElementById('email-error').innerHTML = " *email already exists";
+    }
+    if (params.get('emailvalid') == '0') {
+        $error = true;
+        this.document.getElementById('email-error').innerHTML = " *email invalid";
+    
+    }
+    if ($error) 
+        myModal.show();
 
+});
 
+// next thing to do is login validation and addition of logout.php
 
 // !!! Dynamic Form Validation for LOGIN !!! 
 
 // checks all input textbox to see if they are empty or invalid by adding Event Listeners 
 //  this will not work at the start, but rather would work when the user started using the textboxes
-document.getElementById('loginUser').addEventListener("input", checkLoginUser);
+/*document.getElementById('loginUser').addEventListener("input", checkLoginUser);
 document.getElementById('loginPassword').addEventListener("input", checkLoginPassword);
 
 // VARIABLES as Logic Gates. Once these are all true, the user can Login
@@ -141,4 +154,4 @@ function checkLoginPassword() {
         errorElement.innerHTML = "";
     }
 }
-
+*/
