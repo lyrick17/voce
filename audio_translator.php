@@ -1,7 +1,7 @@
 
-<?php require("mysql/mysqli_session.php"); ?>
-
-<?php if (isset($_SESSION['username'])) { ?>
+<?php // require("mysql/mysqli_session.php"); ?>
+<?php require "translation.php" ?>
+<?php // if (isset($_SESSION['username'])) ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,7 +52,7 @@
         <!-- Login -->
         <div class="d-flex flex-column justify-content-conter align-items-center gap-3 flex-lg-row">
           
-          <a href="logout.php" class="btn btn-primary rounded-pill text-center"
+          <a href="logout.php" class="btn btn-primary rounded-pill text-center" data-bs-toggle="modal" data-bs-target="#enroll"
             style="border-width: 2px; padding: 10px 20px; font-family: 'Young Serif', serif;">Logout</a>
 
           <!--<button class="btn btn-primary rounded-pill text-center" data-bs-toggle="modal" data-bs-target="#enroll"
@@ -64,49 +64,44 @@
     </div>
   </nav>
   <!-- Dashboard content -->
-\
-  <div class="container mt-5">
-    <div class="row">
-      <!-- Welcome Specific User from the dashboard-->
-      <h1 class="text-white hellouser">
-        Welcome to your Dashboard, <p class=><?php if (isset($_SESSION['username'])) echo $_SESSION['username']; ?></p>
-      </h1>
-      <!-- First Rectangle - Upload Feature -->
-      <div class="col-md-4">
-        <div class="dashboard-rectangle" style="background-color: #D2ACA4;">
-          <h3><a href="#" id="uploadTrigger">Upload<i class="fas fa-download"></i></a></h3>
-          <p>Convert any audio file (mp3, mp4, wav, aac, m4a, webm,...) or video file to text.</p>
-        </div>
-      </div>
 
-
-
-      <!-- Second Rectangle - Record Feature -->
-      <div class="col-md-4">
-        <div class="dashboard-rectangle" style="background-color: rgba(210, 172, 164, 0.7);">
-          <h3>Record <i class="fas fa-microphone"></i></h3>
-          <p>Record Your Voice Or Meetings Directly Using Browser Then Convert It To Text.</p>
-        </div>
-      </div>
-
-
-      <!-- Third Rectangle - List of File Types -->
-      <div class="col-md-4">
-        <div class="dashboard-rectangle" style="background-color: rgba(210, 172, 164, 0.7);">
-          <h3>File Types</h3>
-          <ul>
-            <li>mp3</li>
-            <li>mp4</li>
-            <li>wav</li>
-            <!-- Add more file types as needed -->
-          </ul>
-        </div>
-      </div>
     <!-- Text File -->
     <center>
-      <?php include("translation.php")?>
+    <div class="col-md-4">
+    <div class="dashboard-rectangle1" style="background-color: #D2ACA4;">
+			<center><h3 class="text-dark">Audio File to Translate<i class="fas fa-download"></i></h3></center>
+			<p><form enctype="multipart/form-data" action = "audio_translator.php" method = "POST">
+			<input type = "file" name = "user_file" class="form-control"><br>
+			<label>
+			Source language:
+			<select name="src" class="form-control">
+				<option value="">Select One …</option>
+				<?php foreach($languages as $language): ?>
+					<option name = "language"><?= $language["name"]?></option>
+				<?php endforeach ?> 	
+			</select>
+			</label>
+			<label>
+			Target language:
+			<select name="target" class="form-control">
+				<option value="">Select One …</option>
+				<?php foreach($languages as $language): ?>
+					<option name = "language"><?= $language["name"]?></option>
+				<?php endforeach ?>
+			</select>
+			</label><br><br>
+			<button type = "submit" class="rounded-pill" style="border-width: 2px; padding: 10px 20px;">Translate</button>
+		</form>
+		<br>
+		<center>
+		<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;" >Original: <?= $transcript ?? ''?></p>
+		<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;">Translated: <?= $result ?? ''?> </p>
+		</center>
+    </div>
+</div>
     </center>
     
+      <!-- Translate History -->
       <div class="container mt-4">
         <table class="table table-hover table-bordered">
           <thead>
@@ -187,8 +182,3 @@
 </body>
 
 </html>
-<?php } else {
-  header("location: index.php");
-  exit();
-
- } ?>
