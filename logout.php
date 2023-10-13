@@ -1,6 +1,9 @@
 <?php // based on PHP manual about session_destroy();
-session_start();
+include("mysql/mysqli_registration.php");
 
+session_start();
+echo $_SESSION['username'];
+logs("logout", $_SESSION['username'] , $dbcon);
 // unset all session variables
 $_SESSION = array();
 
@@ -15,7 +18,6 @@ if(ini_get("session.use_cookies"))  {
 
 
 session_destroy();
-
 header("location: index.php");
 exit();
 
