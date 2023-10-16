@@ -1,9 +1,51 @@
 
 <?php require("mysql/mysqli_session.php"); ?>
-<?php require "translation.php" ?>
 
 
 <?php if (isset($_SESSION['username'])) { ?>
+
+<?php
+require "Translator_Functions.php";
+
+$languages = Translator::getLangCodes();
+$lang_codes = [];
+
+$id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
+
+
+$history = mysqli_query($dbcon, "SELECT * FROM text_only_translations WHERE user_id = $id ORDER BY translation_date DESC");
+
+foreach($languages as $language){
+  $lang_codes[$language["name"]] = $language["code"];
+}
+// Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+  
+	$translation = Translator::translate($_POST["text"], 
+    $lang_codes[$_POST["src"]], 
+    $lang_codes[$_POST["target"]]
+  );
+
+  $source_lang = $_POST['src'];
+  $target_lang = $_POST['target'];
+  $orig_text = $_POST["text"];
+
+  mysqli_query($dbcon, "INSERT INTO text_only_translations(user_id, original_language, translated_language,
+  translate_from, translate_to) VALUES 
+  ('$id',
+  '$source_lang', 
+  '$target_lang',
+  '$orig_text', '$translation')");
+  logs("text-to-text", $_SESSION['username'], $dbcon);
+
+  header("Location: text_translator.php?translated=1");
+}
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,9 +63,6 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Roboto+Mono:wght@100&family=Young+Serif&display=swap"
     rel="stylesheet">
-
-
-
 
 </head>
 
@@ -54,7 +93,7 @@
         <!-- Login -->
         <div class="d-flex flex-column justify-content-conter align-items-center gap-3 flex-lg-row">
           
-          <a href="logout.php" class="btn btn-primary rounded-pill text-center" data-bs-toggle="modal" data-bs-target="#enroll"
+          <a href="logout.php" class="btn btn-primary rounded-pill text-center"
             style="border-width: 2px; padding: 10px 20px; font-family: 'Young Serif', serif;">Logout</a>
 
           <!--<button class="btn btn-primary rounded-pill text-center" data-bs-toggle="modal" data-bs-target="#enroll"
@@ -96,8 +135,15 @@
 	</form>
 				<br>
 	<div class="text-center">
-	<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;" >Original: <?= $_POST['text']?? ''?></p>
-	<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;">Translated: <?= $result ?? ''?> </p>
+	<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;" >Original: <?php
+   $data = mysqli_query($dbcon, "SELECT * FROM text_only_translations WHERE user_id = $id ORDER BY translation_date DESC LIMIT 1")->fetch_row();
+   echo $data[4] ?? '';
+
+   ?></p>
+	<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;">Translated: <?php 
+   echo $data[5] ?? '';
+   
+  ?> </p>
 			</div>
         </div>
 </div>
@@ -108,36 +154,27 @@
         <table class="table table-hover table-bordered">
           <thead>
             <tr>
-              <th>File Name</th>
-              <th>Type</th>
-              <th>Size</th>
-              <th>Actions</th>
+              <th>Original Text</th>
               <th>Source Language</th>
+              <th>Translated Text</th>
               <th>Target Language</th>
-              <th>Output</th>
+              <th>Translation Date</th>                   
 
             </tr>
           </thead>
           <tbody>
             <!-- Example rows, replace with your actual file data -->
+            <?php while($row = mysqli_fetch_assoc($history)) : ?>
             <tr>
-              <td>audio.mp3</td>
-              <td>mp3</td>
-              <td>2.5 MB</td>
-              <td>
-                <button class="btn btn-primary btn-sm">Download</button>
-                <button class="btn btn-danger btn-sm">Delete</button>
-              </td>
+              <td><?= $row['translate_from'] ?></td>
+              <td><?= $row['original_language'] ?></td>
+              <td><?= $row['translate_to']?></td>
+              <td><?= $row['translated_language']?></td>
+              <td><?= $row['translation_date']?></td>
+
             </tr>
-            <tr>
-              <td>video.mp4</td>
-              <td>mp4</td>
-              <td>4.2 MB</td>
-              <td>
-                <button class="btn btn-primary btn-sm">Download</button>
-                <button class="btn btn-danger btn-sm">Delete</button>
-              </td>
-            </tr>
+            <?php endwhile ?>
+
             <!-- Add more rows for additional files -->
           </tbody>
         </table>
