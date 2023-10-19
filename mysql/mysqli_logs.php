@@ -3,9 +3,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-require("mysqli_connect.php");
-
-function logs($log_act, $user) {
+function logs($log_act, $user, $dbcon) {
     // every action of user records a log in db
     // 1 determine the activity of the user before
     // 2 finding the user in db and
@@ -25,6 +23,9 @@ function logs($log_act, $user) {
             break;
         case "text-to-text":
             $activity = "translation: text-to-text";
+            break;
+        case "audio-to-text":
+            $activity = "translation: audio-to-text";
             break;
         default:
             $activity = "unknown activity";
@@ -49,5 +50,5 @@ function logs($log_act, $user) {
     mysqli_free_result($result);
 }
 
-mysqli_close($dbcon);
+//mysqli_close($dbcon);
 ?>
