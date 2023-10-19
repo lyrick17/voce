@@ -1,7 +1,67 @@
 
-<?php // require("mysql/mysqli_session.php"); ?>
+<?php require("mysql/mysqli_session.php"); ?>
 <?php require "translation.php" ?>
-<?php // if (isset($_SESSION['username'])) ?>
+<?php if (!isset($_SESSION['username'])) {
+  header("location: index.php");
+  exit(); 
+}?>
+
+<?php 
+$id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
+
+// Translation history for text to text 
+$history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 1 ORDER BY translation_date DESC");
+
+foreach($languages as $language){
+  $lang_codes[$language["name"]] = $language["code"];
+}
+// Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
+
+// Translate text input
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+  $source_lang = $_POST['src'];
+  $target_lang = $_POST['target'];
+  $isFromAudio = TRUE;
+  
+  
+  
+  $file_name = $_FILES['user_file']['name'];
+  $file_size = filesize('audio_files/' . $file_name);
+  $file_format =  pathinfo('audio_files/' . $file_name, PATHINFO_EXTENSION);
+  $query_insert2 = mysqli_prepare($dbcon, "INSERT INTO audio_files(user_id, file_name, file_size, file_format,
+  upload_date) VALUES (?, ?, ?, ?, NOW())");
+  mysqli_stmt_bind_param($query_insert2, 'isss', $id, $file_name, $file_size, $file_format);
+  mysqli_stmt_execute($query_insert2);
+
+
+  $get_fileid = "SELECT file_id FROM audio_files WHERE user_id = '$id' ORDER BY file_id DESC LIMIT 1";
+  $fileresult = mysqli_query($dbcon, $get_fileid);
+  $row = mysqli_fetch_assoc($fileresult);
+
+  $query_insert1 = mysqli_prepare($dbcon, "INSERT INTO text_translations(file_id, user_id, from_audio_file, original_language, translated_language,
+  translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+  mysqli_stmt_bind_param($query_insert1, 'iiissss', $row['file_id'], $id, $isFromAudio, $source_lang, $target_lang, $transcript, $result);
+  mysqli_stmt_execute($query_insert1);
+
+
+
+
+  /*
+  mysqli_query($dbcon, "INSERT INTO text_translations(user_id, from_audio_file, original_language, translated_language,
+  translate_from, translate_to) VALUES 
+  ('$id',
+   '$isFromAudio',
+  '$source_lang', 
+  '$target_lang',
+  '$orig_text', '$translation')");*/
+
+  logs("audio-to-text", $_SESSION['username'], $dbcon);
+  header("Location: audio_translator.php?translated=1");
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,8 +111,8 @@
         </ul>
         <!-- Login -->
         <div class="d-flex flex-column justify-content-conter align-items-center gap-3 flex-lg-row">
-          
-          <a href="logout.php" class="btn btn-primary rounded-pill text-center" data-bs-toggle="modal" data-bs-target="#enroll"
+      
+          <a href="logout.php" class="btn btn-primary rounded-pill text-center"
             style="border-width: 2px; padding: 10px 20px; font-family: 'Young Serif', serif;">Logout</a>
 
           <!--<button class="btn btn-primary rounded-pill text-center" data-bs-toggle="modal" data-bs-target="#enroll"
@@ -94,8 +154,18 @@
 		</form>
 		<br>
 		<center>
-		<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;" >Original: <?= $transcript ?? ''?></p>
-		<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;">Translated: <?= $result ?? ''?> </p>
+		<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;" >Original: 
+      <?php
+   $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 1 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
+   echo $data[6] ?? '';
+   ?>
+    </p>
+		<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;">Translated:
+      <?php
+   $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 1 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
+   echo $data[7] ?? '';
+   ?>
+    </p>
 		</center>
     </div>
 </div>

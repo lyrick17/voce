@@ -7,19 +7,22 @@
 <?php
 require "Translator_Functions.php";
 
+//  Get language codes for each language
 $languages = Translator::getLangCodes();
 $lang_codes = [];
 
+
 $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
-
-$history = mysqli_query($dbcon, "SELECT * FROM text_only_translations WHERE user_id = $id ORDER BY translation_date DESC");
+// Translation history for text to text 
+$history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 0 ORDER BY translation_date DESC");
 
 foreach($languages as $language){
   $lang_codes[$language["name"]] = $language["code"];
 }
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
 
+// Translate text input
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   
 	$translation = Translator::translate($_POST["text"], 
@@ -30,13 +33,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $source_lang = $_POST['src'];
   $target_lang = $_POST['target'];
   $orig_text = $_POST["text"];
+  $isFromAudio = False;
+  
 
-  mysqli_query($dbcon, "INSERT INTO text_only_translations(user_id, original_language, translated_language,
+  $query_insert = mysqli_prepare($dbcon, "INSERT INTO text_translations(user_id, from_audio_file, original_language, translated_language,
+  translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, NOW())");
+  mysqli_stmt_bind_param($query_insert, 'iissss', $id, $isFromAudio, $source_lang, $target_lang, $orig_text, $translation);
+  mysqli_stmt_execute($query_insert);
+
+
+  /*
+  mysqli_query($dbcon, "INSERT INTO text_translations(user_id, from_audio_file, original_language, translated_language,
   translate_from, translate_to) VALUES 
   ('$id',
+   '$isFromAudio',
   '$source_lang', 
   '$target_lang',
-  '$orig_text', '$translation')");
+  '$orig_text', '$translation')");*/
+
   logs("text-to-text", $_SESSION['username'], $dbcon);
 
   header("Location: text_translator.php?translated=1");
@@ -136,12 +150,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 				<br>
 	<div class="text-center">
 	<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;" >Original: <?php
-   $data = mysqli_query($dbcon, "SELECT * FROM text_only_translations WHERE user_id = $id ORDER BY translation_date DESC LIMIT 1")->fetch_row();
-   echo $data[4] ?? '';
+   $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 0 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
+   echo $data[6] ?? '';
 
    ?></p>
 	<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;">Translated: <?php 
-   echo $data[5] ?? '';
+   echo $data[7] ?? '';
+
    
   ?> </p>
 			</div>

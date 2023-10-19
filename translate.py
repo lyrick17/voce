@@ -1,6 +1,7 @@
 import sys
 import whisper
 
-model = whisper.load_model("large")
-result = model.transcribe("audio_files/lyrick.mp3")
-print(result['text'])
+model = whisper.load_model("base")
+result = model.transcribe('audio_files/' + sys.argv[1])
+print(result["text"])
+
