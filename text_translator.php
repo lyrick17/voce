@@ -52,6 +52,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   '$orig_text', '$translation')");*/
 
   logs("text-to-text", $_SESSION['username'], $dbcon);
+
   header("Location: text_translator.php?translated=1");
 }
 
@@ -155,6 +156,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
    ?></p>
 	<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;">Translated: <?php 
    echo $data[7] ?? '';
+
    
   ?> </p>
 			</div>

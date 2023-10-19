@@ -62,8 +62,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -113,7 +111,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         </ul>
         <!-- Login -->
         <div class="d-flex flex-column justify-content-conter align-items-center gap-3 flex-lg-row">
-          
+      
           <a href="logout.php" class="btn btn-primary rounded-pill text-center"
             style="border-width: 2px; padding: 10px 20px; font-family: 'Young Serif', serif;">Logout</a>
 
