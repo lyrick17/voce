@@ -35,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType']) == 'regist
     $usertype = "user";
     $hashedPass = md5($password);
 
+
     // 2
     $usernameCheck = "SELECT * FROM `users` WHERE username = '" . $username . "' ";
     $usernameResult = mysqli_query($dbcon, $usernameCheck);
@@ -100,9 +101,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType']) == 'regist
 
     } else {
         //determines what is the server-side error
-        header("location: loginpage.php?usernametaken=". (int) $param_error['usernameTaken'] ."&emailtaken=". (int) $param_error['emailTaken'] ."&emailvalid=". (int) $param_error['emailValid']);
+        //header("location: loginpage.php?usernametaken=". (int) $param_error['usernameTaken'] ."&emailtaken=". (int) $param_error['emailTaken'] ."&emailvalid=". (int) $param_error['emailValid']);
         
-        echo "<script>alert('Please do not leave any inputs blank. \\n'";
+        echo "<script>alert('Please do not leave any inputs blank. \\n";
         if ($param_error['usernameTaken'] == 1) {
             echo " - username already taken \\n";
         }
@@ -113,7 +114,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType']) == 'regist
             echo " - invalid email \\n";
         }
         echo "');</script>";
-        exit();
+
+        //exit();
     }
 
     mysqli_close($dbcon);
@@ -163,7 +165,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType2']) == 'login
         echo "<script>alert('invalid username/email or password');</script>";
         $display_errors['login']  = "invalid username/email or password";
     }
-
 }
 
 
