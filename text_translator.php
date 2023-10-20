@@ -1,8 +1,11 @@
 
 <?php require("mysql/mysqli_session.php"); ?>
 
+<?php if (!isset($_SESSION['username'])) {
+  header("location: index.php");
+  exit(); 
+}?>
 
-<?php if (isset($_SESSION['username'])) { ?>
 
 <?php
 require "Translator_Functions.php";
@@ -236,8 +239,3 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </body>
 
 </html>
-<?php } else {
-  header("location: index.php");
-  exit();
-
- } ?>
