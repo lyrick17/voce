@@ -1,11 +1,7 @@
 
 <?php require("mysql/mysqli_session.php"); ?>
 
-<?php if (!isset($_SESSION['username'])) {
-  header("location: loginpage.php");
-  exit(); 
-}?>
-
+<?php if (isset($_SESSION['username'])) { ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -154,3 +150,8 @@
 </body>
 
 </html>
+<?php } else {
+  header("location: index.php");
+  exit();
+
+ } ?>

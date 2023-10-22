@@ -6,16 +6,74 @@
 
 // checks all input textbox to see if they are empty or invalid by adding Event Listeners 
 //  this will not work at the start, but rather would work when the user started using the textboxes
-document.getElementById('username').addEventListener("input", checkRegisterUser);
-document.getElementById('email').addEventListener("input", checkRegisterEmail);
-document.getElementById('pword').addEventListener("input", checkRegisterPassword);
-document.getElementById('pword2').addEventListener("input", checkRegisterPassword);
+document.getElementById('username').addEventListener("input", allowRegister);
+document.getElementById('email').addEventListener("input", allowRegister);
+document.getElementById('pword').addEventListener("input", allowRegister);
+document.getElementById('pword2').addEventListener("input", allowRegister);
 
 // VARIABLES as Logic Gates. Once these are all true, the user can Register
 let regUsernameFilled = (document.getElementById('username').value != "");
 let regEmailFilled = (document.getElementById('email').value != "");
 let regPasswordFilledMatched = false;
 
+// function checks if all fields are ok to be passed to server and would allow the Register button to be clickable
+function allowRegister() {
+    // just combine all the checking of each textbox instead of using different functions
+    let username = document.getElementById('username').value;
+    let email = document.getElementById('email').value;
+    let password = document.getElementById('pword').value;
+    let cPassword = document.getElementById('pword2').value;
+
+    regUsernameFilled = (username) ? true : false;
+    regEmailFilled = (email) ? true : false; // EMAIL REGEX TO BE ADDED
+
+    // check first if password textbox is empty and atleast 8 chars, 
+    //  then once user started writing confirm password, automatically compare password and cPassword
+    if (!password) {
+        regPasswordFilledMatched = false;
+    } else if (cPassword && (password != cPassword)) {
+        regPasswordFilledMatched = false;
+    } else if (!cPassword) {
+        regPasswordFilledMatched = false;
+    } else {
+        regPasswordFilledMatched = true;
+    }
+
+
+    if (regUsernameFilled && regEmailFilled && regPasswordFilledMatched) {
+        document.getElementById('submit-register').disabled = false;
+        return;
+    }
+    document.getElementById('submit-register').disabled = true;
+}
+
+// checks if there is error in register form when user has submitted it in server side
+// automatically animates to showing the create account form.
+window.addEventListener('load', function() {
+    let userError = document.getElementById('usererror').innerHTML;
+    let emailError = document.getElementById('emailerror').innerHTML;
+    let passError = document.getElementById('passerror').innerHTML;
+    if (userError || emailError || passError) {
+        this.document.getElementById('container').classList.add("active");
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------------------------
+/* --- This Huge block of code was used for dynamic error handling
+   ---  but the current version does not need it
 // functions for checking each input text box
 function checkRegisterUser() {
     // validates username input textbox by checking
@@ -24,8 +82,7 @@ function checkRegisterUser() {
     //let errorElement = document.getElementById('username-error');
 
     regUsernameFilled = (username) ? true : false;
-    //errorElement.innerHTML = (username) ? "" : " *please enter your username"; // display the error message if username empty
-
+    
     allowRegister();
 }
 
@@ -38,7 +95,7 @@ function checkRegisterEmail() {
     //let errorElement = document.getElementById('email-error');
 
     regEmailFilled = (email) ? true : false;
-    //errorElement.innerHTML = (email) ? "" : " *please enter your email";
+    
     // EMAIL REGEX TO BE ADDED
     allowRegister();
 }
@@ -73,17 +130,7 @@ function checkRegisterPassword() {
     }
     allowRegister();
 }
-
-// function checks if all fields are ok to be passed to server and would allow the Register button to be clickable
-function allowRegister() {
-    if (regUsernameFilled && regEmailFilled && regPasswordFilledMatched) {
-        document.getElementById('submit-register').disabled = false;
-        return;
-    }
-    document.getElementById('submit-register').disabled = true;
-}
-
-
+*/
 // for server-side errors, immediately show modal after webpage refresh
 /*
 window.addEventListener('load', function() {
@@ -109,50 +156,4 @@ window.addEventListener('load', function() {
         myModal.show();
 
 });*/
-
-// next thing to do is login validation and addition of logout.php
-
-// !!! Dynamic Form Validation for LOGIN !!! 
-
-// checks all input textbox to see if they are empty or invalid by adding Event Listeners 
-//  this will not work at the start, but rather would work when the user started using the textboxes
-/*document.getElementById('loginUser').addEventListener("input", checkLoginUser);
-document.getElementById('loginPassword').addEventListener("input", checkLoginPassword);
-
-// VARIABLES as Logic Gates. Once these are all true, the user can Login
-let logUserFilled = false;
-let logPasswordFilled = false;
-
-// functions for checking user and pass textbox
-function checkLoginUser() {
-    // validates user input textbox by checking
-    //  if user textbox is EMPTY or NOT
-    let user = document.getElementById('loginUser').value;
-    let errorElement = document.getElementById('loginUserError');
-
-    if (!user) {
-        errorElement.innerHTML = " *username/email required"; // automatically display the error message
-    } else {
-        errorElement.innerHTML = ""; // clear our the error message when textbox is not empty
-    }
-
-}
-
-function checkLoginPassword() {
-    // validates password input textbox by consecutively checking
-    //  if pass textbox is EMPTY or NOT
-    //                  is less than 8 characters or NOT
-    //                  matches the confirm pass textbox
-
-    let password = document.getElementById('loginPassword').value;
-    let errorElement = document.getElementById('loginPasswordError');
-
-    // check first if password textbox is empty and atleast 8 chars, 
-    //  then once user started writing confirm password, automatically compare password and cPassword
-    if (!password) {
-        errorElement.innerHTML = " *password required";
-    } else {
-        errorElement.innerHTML = "";
-    }
-}
-*/
+//------------------------------------------------------------------------------------------------
