@@ -1,0 +1,126 @@
+/* rect */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+
+body {
+	
+	background: linear-gradient(rgba(0, 0, 0, 0.75),rgba(0,0,0,0.75)),url('headset.jpg');
+	background-blend-mode: multiply;
+	background-position: center;
+	background-size:cover;
+	background-repeat: no-repeat;
+	
+	
+}
+
+@media(max-width:991px) {
+	.sidebar {
+		background-color: rgba(255, 255, 255, 0.15);
+		backdrop-filter: blur(10px);
+	}
+}
+
+
+h1 {
+	font-family: 'Young Serif', serif;
+}
+
+.login {
+	font-family: 'Young Serif', serif;
+}
+
+li{
+	
+	color: aqua;
+}
+
+        /* Dashboard styling */
+
+        .dashboard-rectangle1 {
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: left;
+        }
+
+        .dashboard-rectangle {
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .dashboard-rectangle, .dashboard-rectangle1 h3 {
+            font-family: 'Young Serif', serif;
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .dashboard-rectangle p {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .dashboard-rectangle ul {
+            list-style-type: circle;
+            padding-left: 20px;
+        }
+
+        .dashboard-rectangle li {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 18px;
+            color: #fff;
+        }
+
+ 
+    /* Style the table header */
+    .table th {
+        background-color: #D2ACA4;
+        color: #fff;
+        font-size: 18px;
+    }
+
+    /* Style the table rows */
+    .table tbody tr {
+        background-color: #f5f5f5;
+    }
+
+    /* Style the buttons in the "Actions" column */
+    .table tbody .btn {
+        margin-right: 5px;
+    }
+
+	/* Style the modal background */
+    .modal-content {
+        background: transparent;
+        border: none;
+    }
+
+    /* Style the outer rectangle */
+    .rectangle-outline {
+        border: 2px solid #D2ACA4;
+        padding: 20px;
+        text-align: center;
+        position: relative; /* For cut lines */
+    }
+
+    /* Style the inner rectangle */
+    .rectangle {
+        border: 2px solid #D2ACA4;
+        padding: 20px;
+        text-align: center;
+        position: relative; /* For cut lines */
+    }
+
+    /* Style the icon */
+    .fa-download {
+        color: #D2ACA4;
+    }
+
+    
+
+    
