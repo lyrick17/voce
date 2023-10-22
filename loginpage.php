@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <title>Modern Login Page | AsmrProg</title>
-    
 </head>
 
 <body>
@@ -20,20 +19,18 @@
             <form action="loginpage.php" method="post">
                 <h1>Create Account</h1>
                 <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <span id="usererror" style="color: red; font-style: italic;"><?= $display_errors['user'] ?? ""; ?></span><br />
+                    <span id="emailerror" style="color: red; font-style: italic;"><?= $display_errors['email'] ?? ""; ?></span><br />
+                    <span id="passerror" style="color: red; font-style: italic;"><?= $display_errors['pass'] ?? ""; ?></span>
                 </div>
-                <span>or use your email for registeration</span>
                 
                 <!-- This input type determines whether form is REGISTER or login -->
                 <input type="hidden" id="formType" name="formType" value="register">
 
-                <input type="text" placeholder="Name" id="username" name="username">
-                <input type="email" placeholder="Email" id="email" name="email">
-                <input type="password" placeholder="Password" id="pword" name="pword">
-                <input type="password" placeholder="Confirm Password" id="pword2" name="pword2">
+                <input type="text" placeholder="Name" id="username" name="username" required>
+                <input type="email" placeholder="Email" id="email" name="email" required>
+                <input type="password" placeholder="Password" id="pword" name="pword" required>
+                <input type="password" placeholder="Confirm Password" id="pword2" name="pword2" required>
                 <input type="submit" id="submit-register" name="submit-register" value="Submit" disabled>
                 
             </form>
@@ -43,15 +40,10 @@
             <form action="loginpage.php" method="post">
                 <h1>Sign In</h1>
                 <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <span id="loginerror" style="color: red; font-style: italic;"><?= $display_errors['login'] ?? ""; ?></span>
                 </div>
-                <span>or use your email password</span>
-                
                 <!-- This input type determines whether form is register or LOGIN -->
-                <input type="hidden" id="formType" name="formType2" value="register">
+                <input type="hidden" id="formType" name="formType2" value="login">
                 
                 <input type="text" placeholder="Username/Email" id="user" name="user">
                 <input type="password" placeholder="Password" id="pass" name="pass">
@@ -74,9 +66,9 @@
             </div>
         </div>
     </div>
-
     <script src="script.js"></script>
     <script src="form-validation.js"></script>
+    
 </body>
 
 </html>

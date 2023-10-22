@@ -52,7 +52,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   '$orig_text', '$translation')");*/
 
   logs("text-to-text", $_SESSION['username'], $dbcon);
-
   header("Location: text_translator.php?translated=1");
 }
 
@@ -149,14 +148,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	</form>
 				<br>
 	<div class="text-center">
-	<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;" >Original: <?php
+	<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;" >Original:
+   <?php
    $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 0 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
    echo $data[6] ?? '';
-
    ?></p>
 	<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;">Translated: <?php 
    echo $data[7] ?? '';
-
    
   ?> </p>
 			</div>
