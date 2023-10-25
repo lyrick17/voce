@@ -27,6 +27,12 @@ function logs($log_act, $user, $dbcon) {
         case "audio-to-text":
             $activity = "translation: audio-to-text";
             break;
+        case "error-tt":
+            $activity = "error text-text translation";
+            break;
+        case "error-at":
+            $activity = "error audio-text translation";
+            break;
         default:
             $activity = "unknown activity";
             break;

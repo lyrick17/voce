@@ -5,7 +5,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <?php if (!isset($_SESSION['username'])) {
         header("location: loginpage.php");
         exit();
-    } ?>
+} ?>   
 
 <?php
 require "Translator_Functions.php";
@@ -14,7 +14,7 @@ require "Translator_Functions.php";
 $languages = Translator::getLangCodes();
 $lang_codes = [];
 
-
+// get session id
 $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
 // Translation history for text to text 
@@ -26,19 +26,36 @@ foreach($languages as $language){
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
 
 // Translate text input
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-  
-	$translation = Translator::translate($_POST["text"], 
-    $lang_codes[$_POST["src"]], 
-    $lang_codes[$_POST["target"]]
+if($_SERVER["REQUEST_METHOD"] == "POST"){ 
+
+    // Error Handling first before translation 
+    if ($_POST["src"] == "" || $_POST['target'] == "") {
+        // error, user did not choose language
+        logs("error-tt", $_SESSION['username'], $dbcon);
+        header("Location: text-text.php?error=1");
+        exit();
+        
+    } 
+    if (empty(trim($_POST['text']))) {
+        // error, user did not type anything
+        logs("error-tt", $_SESSION['username'], $dbcon);
+        header("Location: text-text.php?error=2");
+        exit();
+    }
+    
+  // translates text, get output
+  $translation = Translator::translate($_POST["text"], 
+      $lang_codes[$_POST["src"]], 
+      $lang_codes[$_POST["target"]]
   );
 
+  // insert into database
   $source_lang = $_POST['src'];
   $target_lang = $_POST['target'];
   $orig_text = $_POST["text"];
   $isFromAudio = False;
   
-
+  // db query
   $query_insert = mysqli_prepare($dbcon, "INSERT INTO text_translations(user_id, from_audio_file, original_language, translated_language,
   translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, NOW())");
   mysqli_stmt_bind_param($query_insert, 'iissss', $id, $isFromAudio, $source_lang, $target_lang, $orig_text, $translation);
@@ -58,6 +75,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
   
   header("Location: text-text.php?translated=1");
+  exit();
 }
 
 
@@ -141,6 +159,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <h1>
                     Text-Text Translator 
                     </h1>
+
+
+                    <!-- Error Message: Pabago nalang if may naiisip kang ibang design -->
+                    <p style="color: red;"><i>
+                    <?php
+                        if (isset($_GET['error']) && $_GET['error'] == 1) {
+                            echo "Please select a source/translated language.";
+                        }
+                        if (isset($_GET['error']) && $_GET['error'] == 2) {
+                            echo "Please type text to be translated.";
+                        }
+                    ?> 
+                    </i></p>
+
+                    
                 </div>
             </div>
          
@@ -172,16 +205,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         
                        <!-- Input text-->
                        <!-- <input type = "text" name = "text" class="form-control"> -->
-                        <textarea class="custom-textfield" name = "text" placeholder='Type Here'>
-                        <?php
-
-                            // url must have translated=1 before showing the output
-                            if (isset($_GET['translated']) && $_GET['translated'] == 1) {
-                                $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 0 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
-                                echo $data[6] ?? '';
-                            }
-                            ?>
-                        </textarea>
+                        <textarea class="custom-textfield" name = "text" placeholder='Type Here...'><?php
+                        // url must have translated=1 before showing the output
+                        if (isset($_GET['translated']) && $_GET['translated'] == 1) {
+                            $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 0 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
+                            echo $data[6] ?? '';
+                        }
+                        ?></textarea>
 
                         <!-- Button to submit -->
                         <a href="javascript:void(0);" onclick="document.getElementById('myForm').submit();">

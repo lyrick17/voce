@@ -42,7 +42,7 @@ if ($err) {
 function uploadAndTranscribe($path){
 	$pathto="audio_files/".$path;
     move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die( "Could not copy file!");
-	return shell_exec("C:\Users\User\AppData\Local\Programs\Python\Python311\python.exe translate.py " . $_FILES["user_file"]['full_path']);
+	return shell_exec("python translate.py " . $_FILES["user_file"]['full_path']);
 }
 
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.

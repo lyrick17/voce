@@ -29,7 +29,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $lang_codes[$_POST["src"]], 
     $lang_codes[$_POST["target"]]
   );
-
+  
   $source_lang = $_POST['src'];
   $target_lang = $_POST['target'];
   $orig_text = $_POST["text"];
