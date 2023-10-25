@@ -25,7 +25,7 @@ CREATE TABLE audio_files (
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
-CREATE TABLE text_transcriptions (
+CREATE TABLE text_translations (
     text_id INT PRIMARY KEY AUTO_INCREMENT,
     file_id INT,
     user_id INT,
@@ -34,7 +34,7 @@ CREATE TABLE text_transcriptions (
     translated_language VARCHAR(255),
     translate_from VARCHAR(255),
     translate_to VARCHAR(255),
-    transcription_date TIMESTAMP,
+    translation_date TIMESTAMP,
     FOREIGN KEY (file_id) REFERENCES audio_files (file_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );

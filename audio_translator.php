@@ -7,37 +7,43 @@
 }?>
 
 <?php 
+// get id
 $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
-// Translation history for text to text 
+// Translation history for audio to text 
 $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN audio_files a ON t.file_id = a.file_id WHERE t.user_id = $id AND a.user_id = $id AND t.from_audio_file = 1 ORDER BY translation_date DESC");
 foreach($languages as $language){
   $lang_codes[$language["name"]] = $language["code"];
 }
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
 
-// Translate text input
+
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+  
 
   $source_lang = $_POST['src'];
   $target_lang = $_POST['target'];
   $isFromAudio = TRUE;
   
   
-  
+  // getting file and inserting into database
   $file_name = $_FILES['user_file']['name'];
   $file_size = filesize('audio_files/' . $file_name)/1000000;
   $file_format =  pathinfo('audio_files/' . $file_name, PATHINFO_EXTENSION);
+
+  // insert into audio_files database
   $query_insert2 = mysqli_prepare($dbcon, "INSERT INTO audio_files(user_id, file_name, file_size, file_format,
   upload_date) VALUES (?, ?, ?, ?, NOW())");
   mysqli_stmt_bind_param($query_insert2, 'isss', $id, $file_name, $file_size, $file_format);
   mysqli_stmt_execute($query_insert2);
 
-
+  // get file_id from audio_files 
   $get_fileid = "SELECT file_id FROM audio_files WHERE user_id = '$id' ORDER BY file_id DESC LIMIT 1";
   $fileresult = mysqli_query($dbcon, $get_fileid);
   $row = mysqli_fetch_assoc($fileresult);
 
+  // insert translation record
   $query_insert1 = mysqli_prepare($dbcon, "INSERT INTO text_translations(file_id, user_id, from_audio_file, original_language, translated_language,
   translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
   mysqli_stmt_bind_param($query_insert1, 'iiissss', $row['file_id'], $id, $isFromAudio, $source_lang, $target_lang, $transcript, $result);
