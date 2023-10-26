@@ -140,7 +140,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <div class="header">
                 <div class="left">
                     <h1>Audio Transcriber</h1>
-
+                  
                     <!-- Error Message: Pabago nalang if may naiisip kang ibang design -->
                     <p style="color: red;"><i>
                     <?php
@@ -154,32 +154,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     </i></p>
                 </div>
             </div>
-
-            <!-- Insights 
-            <ul class="insights">
-                <li>
-                    <i class='bx bx-calendar-check'></i>
-                    <span class="info">
-                        <h3>
-                        </h3>
-                        <p>Total Audio to Text Translations</p>
-                    </span>
-                </li>
-                <li><i class='bx bx-show-alt'></i>
-                    <span class="info">
-                        <h3>
-                            3,944
-                        </h3>
-                        <p>Site Visit</p>
-                    </span>
-                </li>
-            </ul>
-            <!-- End of Insights -->
-
             <form enctype="multipart/form-data" action = "history_audio.php" method = "POST">
 			<label>
 			Source language:
-			<select name="src" class="form-control">
+			<select name="src" id="sourceLanguage" class="form-control">
 				<option value="">Select One …</option>
 				<?php foreach($languages as $language): ?>
 					<option name = "language"><?= $language["name"]?></option>
@@ -189,7 +167,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <br>
 			<label>
 			Target language:
-			<select name="target" class="form-control">
+			<select name="target" id="targetLanguage" class="form-control">
 				<option value="">Select One …</option>
 				<?php foreach($languages as $language): ?>
 					<option name = "language"><?= $language["name"]?></option>
@@ -213,7 +191,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   </div>
  
 
-<button type = "submit" id="yourButtonID" class="custom-button">Translate</button>
+
+<button type = "submit" id="yourButtonID" class="custom-button" disabled>Translate</button>
 </form>
   <div class="text-section">
         <header>Original text:</header>
@@ -277,12 +256,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         </tbody>
                     </table>
 
-                    
                 </div>
-
-
-                <!-- End of Reminders-->
-
 
             </div>
 

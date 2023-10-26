@@ -54,23 +54,20 @@ toggler.addEventListener('change', function () {
         document.body.classList.remove('dark');
     }
 });
-/*
-    // Get the file input element and the label
-    const fileInput = document.getElementById("fileInput");
-    const fileInputLabel = document.getElementById("fileInputLabel");
+    // Get references to the select elements and the translate button
+    const sourceLanguageSelect = document.getElementById('sourceLanguage');
+    const targetLanguageSelect = document.getElementById('targetLanguage');
+    const yourButtonID = document.getElementById('yourButtonID');
 
-    // Add a click event listener to the label
-    fileInputLabel.addEventListener("click", function () {
-        // Trigger a click on the file input
-        fileInput.click();
-    });
+    // Add an event listener to both select elements
+    sourceLanguageSelect.addEventListener('change', toggleTranslateButton);
+    targetLanguageSelect.addEventListener('change', toggleTranslateButton);
 
-    // Optionally, you can handle the file selection change event
-    fileInput.addEventListener("change", function () {
-        // This code will run when a file is selected
-        // You can add further actions here, such as displaying the selected file name
-        const selectedFile = fileInput.files[0];
-        if (selectedFile) {
-            alert("Selected file: " + selectedFile.name);
+    // Function to enable/disable the translate button based on selections
+    function toggleTranslateButton() {
+        if (sourceLanguageSelect.value && targetLanguageSelect.value) {
+            yourButtonID.removeAttribute('disabled');
+        } else {
+            yourButtonID.setAttribute('disabled', 'true');
         }
-    }); */
+    }
