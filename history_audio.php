@@ -148,7 +148,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             echo "Please select a source/translated language.";
                         }
                         if (isset($_GET['error']) && $_GET['error'] == 2) { // user did not upload file
-                            echo "Processing Failed. Please try again.";
+                            echo "No File Upload. Please try again.";
+                        }
+                        if (isset($_GET['error']) && $_GET['error'] == 3) { // user upload wrong file
+                            echo "Invalid File Format. Please try again.";
                         }
                     ?> 
                     </i></p>
@@ -186,8 +189,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       <p>Browse File to Upload</p>
                 </div>
       <input class="file-input" type="file" name="user_file" id="fileInputLabel" for="fileInput">
-
- 
+      <!-- accepts only Supported formats: ['m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg'] -->
   </div>
  
 
