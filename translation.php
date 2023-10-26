@@ -60,10 +60,9 @@ function validateFormat() {
 	// error, user uploaded invalid file format
 	// only accepts these formats provided
 	$validExtensions = array('m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg');
-	$filePath = $_POST['user_file'];
 
 	// get the file extension, then check if extension is in array, return error if none
-	$ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+	$ext = strtolower(pathinfo($_FILES['user_file']['tmp_name'], PATHINFO_EXTENSION));
 	global $dbcon;
 
 	if (!in_array($ext, $validExtensions)) {
@@ -87,6 +86,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } 
 
 	
+	validateFormat();
 	
 
 	if(ISSET($_POST["text"])){

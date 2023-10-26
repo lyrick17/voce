@@ -61,16 +61,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   mysqli_stmt_bind_param($query_insert, 'iissss', $id, $isFromAudio, $source_lang, $target_lang, $orig_text, $translation);
   mysqli_stmt_execute($query_insert);
 
-
-  /*
-  mysqli_query($dbcon, "INSERT INTO text_translations(user_id, from_audio_file, original_language, translated_language,
-  translate_from, translate_to) VALUES 
-  ('$id',
-   '$isFromAudio',
-  '$source_lang', 
-  '$target_lang',
-  '$orig_text', '$translation')");*/
-
   logs("text-to-text", $_SESSION['username'], $dbcon);
 
   
