@@ -7,38 +7,43 @@
 }?>
 
 <?php 
+// get id
 $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
-// Translation history for text to text 
-$history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 1 ORDER BY translation_date DESC");
-
+// Translation history for audio to text 
+$history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN audio_files a ON t.file_id = a.file_id WHERE t.user_id = $id AND a.user_id = $id AND t.from_audio_file = 1 ORDER BY translation_date DESC");
 foreach($languages as $language){
   $lang_codes[$language["name"]] = $language["code"];
 }
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
 
-// Translate text input
+
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+  
 
   $source_lang = $_POST['src'];
   $target_lang = $_POST['target'];
   $isFromAudio = TRUE;
   
   
-  
+  // getting file and inserting into database
   $file_name = $_FILES['user_file']['name'];
-  $file_size = filesize('audio_files/' . $file_name);
+  $file_size = filesize('audio_files/' . $file_name)/1000000;
   $file_format =  pathinfo('audio_files/' . $file_name, PATHINFO_EXTENSION);
+
+  // insert into audio_files database
   $query_insert2 = mysqli_prepare($dbcon, "INSERT INTO audio_files(user_id, file_name, file_size, file_format,
   upload_date) VALUES (?, ?, ?, ?, NOW())");
   mysqli_stmt_bind_param($query_insert2, 'isss', $id, $file_name, $file_size, $file_format);
   mysqli_stmt_execute($query_insert2);
 
-
+  // get file_id from audio_files 
   $get_fileid = "SELECT file_id FROM audio_files WHERE user_id = '$id' ORDER BY file_id DESC LIMIT 1";
   $fileresult = mysqli_query($dbcon, $get_fileid);
   $row = mysqli_fetch_assoc($fileresult);
 
+  // insert translation record
   $query_insert1 = mysqli_prepare($dbcon, "INSERT INTO text_translations(file_id, user_id, from_audio_file, original_language, translated_language,
   translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
   mysqli_stmt_bind_param($query_insert1, 'iiissss', $row['file_id'], $id, $isFromAudio, $source_lang, $target_lang, $transcript, $result);
@@ -61,6 +66,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -111,7 +118,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         </ul>
         <!-- Login -->
         <div class="d-flex flex-column justify-content-conter align-items-center gap-3 flex-lg-row">
-      
+          
           <a href="logout.php" class="btn btn-primary rounded-pill text-center"
             style="border-width: 2px; padding: 10px 20px; font-family: 'Young Serif', serif;">Logout</a>
 
@@ -130,7 +137,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <div class="col-md-4">
     <div class="dashboard-rectangle1" style="background-color: #D2ACA4;">
 			<center><h3 class="text-dark">Audio File to Translate<i class="fas fa-download"></i></h3></center>
-			<p><form enctype="multipart/form-data" action = "audio_translator.php" method = "POST">
+			<form enctype="multipart/form-data" action = "audio_translator.php" method = "POST">
 			<input type = "file" name = "user_file" class="form-control"><br>
 			<label>
 			Source language:
@@ -162,7 +169,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </p>
 		<p class="text-dark" style="font-family: Times New Roman, Times, serif; font-size: 150%;">Translated:
       <?php
-   $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 1 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
    echo $data[7] ?? '';
    ?>
     </p>
@@ -177,35 +183,31 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           <thead>
             <tr>
               <th>File Name</th>
-              <th>Type</th>
-              <th>Size</th>
-              <th>Actions</th>
+              <th>File Type</th>
+              <th>File Size</th>  
+              <th>Original Text</th>
               <th>Source Language</th>
+              <th>Translated Text</th>
               <th>Target Language</th>
-              <th>Output</th>
-
+              <th>Translation Date</th>    
+  
             </tr>
           </thead>
           <tbody>
             <!-- Example rows, replace with your actual file data -->
+            <?php while($row = mysqli_fetch_assoc($history)) : ?>
             <tr>
-              <td>audio.mp3</td>
-              <td>mp3</td>
-              <td>2.5 MB</td>
-              <td>
-                <button class="btn btn-primary btn-sm">Download</button>
-                <button class="btn btn-danger btn-sm">Delete</button>
-              </td>
+              <td><?= $row['file_name'] ?></td>
+              <td><?= $row['file_format'] ?></td>
+              <td><?= $row['file_size'].' mb' ?></td>
+
+              <td><?= $row['translate_from'] ?></td>
+              <td><?= $row['original_language'] ?></td>
+              <td><?= $row['translate_to']?></td>
+              <td><?= $row['translated_language']?></td>
+              <td><?= $row['translation_date']?></td>
             </tr>
-            <tr>
-              <td>video.mp4</td>
-              <td>mp4</td>
-              <td>4.2 MB</td>
-              <td>
-                <button class="btn btn-primary btn-sm">Download</button>
-                <button class="btn btn-danger btn-sm">Delete</button>
-              </td>
-            </tr>
+            <?php endwhile ?>
             <!-- Add more rows for additional files -->
           </tbody>
         </table>

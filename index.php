@@ -44,13 +44,7 @@
             <a class="nav-link" style="color: #D2ACA4; font-family: 'Roboto Mono', monospace;" href="#">Enthusiasts</a>
           </li>
         </ul>
-        <!-- Login -->
-        <div class="d-flex flex-column justify-content-conter align-items-center gap-3 flex-lg-row">
-          <a href="dashboard.php" class="" style="color: #D2ACA4"><span class="login">Login</span></a>
-          <button class="btn btn-primary rounded-pill text-center" data-bs-toggle="modal" data-bs-target="#enroll"
-            style="border-width: 2px; padding: 10px 20px; font-family: 'Young Serif', serif;">Signup</button>
 
-        </div>
       </div>
     </div>
     </div>

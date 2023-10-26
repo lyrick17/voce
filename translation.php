@@ -41,13 +41,33 @@ if ($err) {
 
 function uploadAndTranscribe($path){
 	$pathto="audio_files/".$path;
-    move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die( "Could not copy file!");
-	return shell_exec("C:\Users\User\AppData\Local\Programs\Python\Python311\python.exe translate.py " . $_FILES["user_file"]['full_path']);
+    //move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die( "Could not copy file!");
+    
+	// modified die() if user did not upload file
+	move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(audioError2());
+	return shell_exec("python translate.py " . $_FILES["user_file"]['full_path']);
+}
+
+function audioError2() {
+	// error, user did not upload file
+	global $dbcon;
+	logs("error-at", $_SESSION['username'], $dbcon);
+	header("Location: history_audio.php?error=2");
+	exit();
 }
 
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 	$curl = curl_init();
+
+	// Error Handling if user did not select language
+	if ($_POST["src"] == "" || $_POST['target'] == "") {
+        // error, user did not choose language
+        logs("error-at", $_SESSION['username'], $dbcon);
+        header("Location: history_audio.php?error=1");
+        exit();
+        
+    } 
 
 	if(ISSET($_POST["text"])){
 		$transcript = $_POST["text"];
@@ -57,6 +77,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		$transcript = uploadAndTranscribe($path);
 		echo 'TRANSCRIPT: ' . $transcript;
 	} 
+	
+	// needed pa ng error handling pag invalid ang file format
 
 	
 	$src_lang =  $lang_codes[$_POST["src"]] ?? '';
@@ -87,7 +109,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	} else {
 		$decoded = json_decode($response, true);
 		//var_dump($decoded);
-		//$result = $decoded["data"]["translatedText"];
 		$result = $decoded["data"]["translatedText"];
 	}
 }

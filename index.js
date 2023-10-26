@@ -54,7 +54,6 @@ toggler.addEventListener('change', function () {
         document.body.classList.remove('dark');
     }
 });
-
     // Get references to the select elements and the translate button
     const sourceLanguageSelect = document.getElementById('sourceLanguage');
     const targetLanguageSelect = document.getElementById('targetLanguage');

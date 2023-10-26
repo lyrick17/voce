@@ -140,6 +140,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <div class="header">
                 <div class="left">
                     <h1>Audio Transcriber</h1>
+                  
+                    <!-- Error Message: Pabago nalang if may naiisip kang ibang design -->
+                    <p style="color: red;"><i>
+                    <?php
+                        if (isset($_GET['error']) && $_GET['error'] == 1) { // user did not choose language
+                            echo "Please select a source/translated language.";
+                        }
+                        if (isset($_GET['error']) && $_GET['error'] == 2) { // user did not upload file
+                            echo "Processing Failed. Please try again.";
+                        }
+                    ?> 
+                    </i></p>
                 </div>
             </div>
             <form enctype="multipart/form-data" action = "history_audio.php" method = "POST">
@@ -178,6 +190,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
  
   </div>
  
+
 
 <button type = "submit" id="yourButtonID" class="custom-button" disabled>Translate</button>
 </form>
@@ -243,7 +256,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         </tbody>
                     </table>
 
-                    
                 </div>
 
             </div>
