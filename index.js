@@ -67,6 +67,7 @@ toggler.addEventListener('change', function () {
     function toggleTranslateButton() {
         if (sourceLanguageSelect.value && targetLanguageSelect.value) {
             yourButtonID.removeAttribute('disabled');
+            
         } else {
             yourButtonID.setAttribute('disabled', 'true');
         }

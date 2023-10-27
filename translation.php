@@ -56,6 +56,22 @@ function audioError2() {
 	exit();
 }
 
+function validateFormat() {
+	// error, user uploaded invalid file format
+	// only accepts these formats provided
+	$validExtensions = array('m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg');
+
+	// get the file extension, then check if extension is in array, return error if none
+	$ext = strtolower(pathinfo($_FILES['user_file']['tmp_name'], PATHINFO_EXTENSION));
+	global $dbcon;
+
+	if (!in_array($ext, $validExtensions)) {
+		logs("error-at", $_SESSION['username'], $dbcon);
+		header("Location: history_audio.php?error=3");
+		exit();
+	}
+}
+
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 	$curl = curl_init();
@@ -68,6 +84,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         exit();
         
     } 
+
+	
+	validateFormat();
+	
 
 	if(ISSET($_POST["text"])){
 		$transcript = $_POST["text"];
