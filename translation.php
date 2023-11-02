@@ -38,16 +38,8 @@ if ($err) {
 	}
 }
 
-
-function uploadAndTranscribe($path){
-	$pathto="audio_files/".$path;
-    //move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die( "Could not copy file!");
-    
-	// modified die() if user did not upload file
-	move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(audioError2());
-	return shell_exec("python translate.py " . $_FILES["user_file"]['full_path']);
-}
-
+// Error Logs: --------------------------------------
+// 		contains user did not upload file and invalid file format
 function audioError2() {
 	// error, user did not upload file
 	global $dbcon;
@@ -60,9 +52,10 @@ function validateFormat() {
 	// error, user uploaded invalid file format
 	// only accepts these formats provided
 	$validExtensions = array('m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg');
+	$filePath = $_FILES['user_file']['name'];
 
 	// get the file extension, then check if extension is in array, return error if none
-	$ext = strtolower(pathinfo($_FILES['user_file']['tmp_name'], PATHINFO_EXTENSION));
+	$ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
 	global $dbcon;
 
 	if (!in_array($ext, $validExtensions)) {
@@ -70,6 +63,39 @@ function validateFormat() {
 		header("Location: history_audio.php?error=3");
 		exit();
 	}
+}
+// Error Logs: --------------------------------------
+
+
+function getVocals($file) {
+	# Activate the virtual environment
+    # call the separate.py which includes the spleeter code for extracting vocals,
+    #   and pass the file as argument 
+    # then, deactivate virtual environment
+    $output = shell_exec("spleeter_env\\Scripts\\activate && python separate.py " . $file . " && deactivate");
+}
+
+function uploadAndTranscribe($path){
+
+	$pathto="audio_files/".$path;
+
+	// get the name of file only, for translating the vocals
+    $filename = pathinfo($_FILES['user_file']['name'], PATHINFO_FILENAME);
+
+
+	// modified die() if user did not upload file
+	move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(audioError2());
+
+	// separate bg music from vocals using spleeter
+	getVocals($_FILES["user_file"]['full_path']);
+	
+	// make sure to go to php.ini in xampp (config > php.ini) 
+	// and set max_execution_time into 600 [10 minutes] or higher (write in seconds), for longer processing
+	
+	// you only need to pass the name of file as argument for translation (file extension not needed)
+	return shell_exec("python translate.py " . $filename);
+
+	//return shell_exec("python translate.py " . $_FILES["user_file"]['full_path'] . " " . $_FILES['user_file']['name']);
 }
 
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
@@ -85,10 +111,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         
     } 
 
-	
-	validateFormat();
-	
-
 	if(ISSET($_POST["text"])){
 		$transcript = $_POST["text"];
 	}
@@ -98,9 +120,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		echo 'TRANSCRIPT: ' . $transcript;
 	} 
 	
-	// needed pa ng error handling pag invalid ang file format
+	// check file format
+	validateFormat();
 
-	
 	$src_lang =  $lang_codes[$_POST["src"]] ?? '';
 	$trg_lang = $lang_codes[$_POST["target"]] ?? '';
 	curl_setopt_array($curl, [
