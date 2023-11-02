@@ -202,14 +202,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
             <?php
             $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 1 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
-            echo $data[6] ?? '';
+            if (isset($_GET['translated']) && $_GET['translated'] == 1) {
+                echo $data[6] ?? '';
+            }
             ?>
         </textarea>
 
         <header>Translated text:</header>
         <textarea id="translatedText" name="translatedText" class="customtextfield" rows="4" readonly>
             <?php
-            echo $data[7] ?? '';
+            if (isset($_GET['translated']) && $_GET['translated'] == 1) {
+                echo $data[7] ?? '';
+            }
             ?>
         </textarea>
                
