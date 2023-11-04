@@ -1,5 +1,4 @@
-# voice-website-project
-
 # Speech To Text Web Translator
 
-# Project Description
+## Project Description
+This project is Kuru ~ kuru
