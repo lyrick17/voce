@@ -12,7 +12,7 @@
   <title>Document</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles/styles.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -103,48 +103,6 @@
         </div>
       </div>
     <!-- Text File -->
-    <center>
-      <?php include("translation.php")?>
-    </center>
-    
-      <div class="container mt-4">
-        <table class="table table-hover table-bordered">
-          <thead>
-            <tr>
-              <th>File Name</th>
-              <th>Type</th>
-              <th>Size</th>
-              <th>Actions</th>
-              <th>Source Language</th>
-              <th>Target Language</th>
-              <th>Output</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Example rows, replace with your actual file data -->
-            <tr>
-              <td>audio.mp3</td>
-              <td>mp3</td>
-              <td>2.5 MB</td>
-              <td>
-                <button class="btn btn-primary btn-sm">Download</button>
-                <button class="btn btn-danger btn-sm">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>video.mp4</td>
-              <td>mp4</td>
-              <td>4.2 MB</td>
-              <td>
-                <button class="btn btn-primary btn-sm">Download</button>
-                <button class="btn btn-danger btn-sm">Delete</button>
-              </td>
-            </tr>
-            <!-- Add more rows for additional files -->
-          </tbody>
-        </table>
-      </div>
 
     </div>
   </div>
@@ -163,8 +121,10 @@
                 <div class="rectangle-outline">
                     <div class="rectangle">
                         <i class="fas fa-download fa-5x"></i>
-                        <p class="text-center mt-3 text-white" style="font-size: 18px;">Upload Your File</p>
-                        <input class="bg-primary text-white" style="font-size: 14px;" value="Browse Your Computer" type="file">
+                        <p class="text-center mt-3 text-white" style="font-size: 18px;">Translate your Text</p>
+                        <a href="text_translator.php" class="btn btn-primary rounded-pill text-center justify-content-center"
+            style="border-width: 2px; padding: 10px 20px; font-family: 'Young Serif', serif;">Start Translating</a>
+                       <!-- <input class="bg-primary text-white" style="font-size: 14px;" value="Browse Your Computer" type="file"> -->
                     </div>
 
                 </div>
@@ -172,6 +132,9 @@
         </div>
     </div>
 </div>
+
+<a href="text_translator.php" class="btn btn-primary rounded-pill text-center justify-content-center"
+            style="border-width: 2px; padding: 10px 20px; font-family: 'Young Serif', serif;">Translate Text</a>
 
 
 
@@ -182,7 +145,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
-  <script src="javascript.js"></script>
+  <script src="scripts/javascript.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 

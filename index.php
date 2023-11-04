@@ -1,4 +1,10 @@
-<?php include("mysql/mysqli_registration.php"); ?>
+<?php include("mysql/mysqli_registration.php"); 
+	if (isset($_SESSION['username'])) {
+    	header("location: dashboard1.php");
+        exit();
+    }
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +16,7 @@
   <title>Document</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles/styles.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,13 +50,7 @@
             <a class="nav-link" style="color: #D2ACA4; font-family: 'Roboto Mono', monospace;" href="#">Enthusiasts</a>
           </li>
         </ul>
-        <!-- Login -->
-        <div class="d-flex flex-column justify-content-conter align-items-center gap-3 flex-lg-row">
-          <a href="dashboard.php" class="" style="color: #D2ACA4"><span class="login">Login</span></a>
-          <button class="btn btn-primary rounded-pill text-center" data-bs-toggle="modal" data-bs-target="#enroll"
-            style="border-width: 2px; padding: 10px 20px; font-family: 'Young Serif', serif;">Signup</button>
 
-        </div>
       </div>
     </div>
     </div>
@@ -243,8 +243,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
-  <script src="javascript.js"></script>
-  <script src="form-validation.js"></script>
+  <script src="scripts/javascript.js"></script>
+  <script src="scripts/form-validation.js"></script>
 </body>
 
 </html>
