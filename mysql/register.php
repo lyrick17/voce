@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="bootstrap.css">
 	<title>Terra</title>
 </head>
@@ -220,7 +220,7 @@
     </div>
 
     <script src="bootstrap.bundle.js"></script>
-    <script src="form-validation.js"></script>
+    <script src="scripts/form-validation.js"></script>
     <!-- <script src="design.js"></script> -->
     <script>
 

@@ -410,7 +410,7 @@ body{
 
 
 .content main .insights li:nth-child(1){
-    background-image: url('li3.png');
+    background-image: url('images/li3.png');
     background-size: 150px 250px;
     background-repeat: no-repeat;
     background-position: right;
@@ -419,7 +419,7 @@ body{
 }
 
 .content main .insights li:nth-child(2){
-    background-image: url('li2.png');
+    background-image: url('images/li2.png');
     background-size: 150px 250px;
     background-repeat: no-repeat;
     background-position: right;

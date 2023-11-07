@@ -79,7 +79,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="styles/style2.css">
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
@@ -98,12 +98,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <ul class="side-menu">
             <li><a href="dashboard1.php"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
             <li class="<?php echo ($current_page === 'text-text.php') ? 'active' : ''; ?>">
-            <a href="text-text.php"><img src="sidebartext.png" alt="scroll icon" width="25" height="25" style="margin-left: 5px;">
+            <a href="text-text.php"><img src="images/sidebartext.png" alt="scroll icon" width="25" height="25" style="margin-left: 5px;">
             &nbsp Text to Text</a> 
                  
 
             <li class="<?php echo ($current_page === 'history_audio.php') ? 'active' : ''; ?>">
-            <a href="history_audio.php"><img src="sidebaraudio.png" alt="scroll icon" width="25" height="25" style="margin-left: 5px;">
+            <a href="history_audio.php"><img src="images/sidebaraudio.png" alt="scroll icon" width="25" height="25" style="margin-left: 5px;">
             &nbsp Audio to Text</a> 
             <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
         </ul>
@@ -205,7 +205,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                         <!-- Button to submit -->
                         <a href="javascript:void(0);" onclick="document.getElementById('myForm').submit();">
-                        <img src="arrows.png" alt="Image Description" class="center-image" width="50px" height="40px">
+                        <img src="images/arrows.png" alt="Image Description" class="center-image" width="50px" height="40px">
                         </a>
                      
                 </div>
@@ -278,16 +278,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                 <!-- End of Reminders-->
 
-
-                <!-- End of Reminders-->
-
             </div>
 
         </main>
 
     </div>
 
-    <script src="index.js"></script>
+    <script src="scripts/index.js"></script>
 </body>
 
 </html>

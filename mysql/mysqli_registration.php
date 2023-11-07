@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType'])) {
 
     } else {
 
-        // let javascript do the error handling, on form-validation.js
+        // let javascript do the error handling, on scripts/form-validation.js
     }
 
     mysqli_close($dbcon);

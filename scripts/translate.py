@@ -11,7 +11,7 @@ filename = sys.argv[1]
 
 if __name__ == '__main__':
 
-    #subprocess.call(['python', 'separate.py'])
+    #subprocess.call(['python', 'scripts/separate.py'])
     #time.sleep(1)
 
     # make sure the audio has been processed in spleeter first        
@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
 
 
-''' ------- PREVIOS CODE
+''' ------- PREVIOUS CODE
 import sys
 import whisper
 

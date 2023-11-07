@@ -18,7 +18,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="styles/style2.css">
     <title>History</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -35,7 +35,7 @@
         <ul class="side-menu">
             <li><a href="dashboard1.php"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
             <li class="<?php echo ($current_page === 'history.php') ? 'active' : ''; ?>">
-            <a href="history.php"><img src="scroll-solid.svg" alt="scroll icon" width="25" height="25" style="margin-left: 5px;">
+            <a href="history.php"><img src="images/scroll-solid.svg" alt="scroll icon" width="25" height="25" style="margin-left: 5px;">
             &nbsp History</a>      
            </li> 
             
@@ -159,7 +159,7 @@
 
     </div>
 
-    <script src="index.js"></script>
+    <script src="scripts/index.js"></script>
 </body>
 
 </html>
