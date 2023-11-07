@@ -72,7 +72,7 @@ function getVocals($file) {
     # call the separate.py which includes the spleeter code for extracting vocals,
     #   and pass the file as argument 
     # then, deactivate virtual environment
-    $output = shell_exec("spleeter_env\\Scripts\\activate && python separate.py " . $file . " && deactivate");
+    $output = shell_exec("spleeter_env\\Scripts\\activate && python scripts/separate.py " . $file . " && deactivate");
 }
 
 function uploadAndTranscribe($path){
@@ -93,9 +93,9 @@ function uploadAndTranscribe($path){
 	// and set max_execution_time into 600 [10 minutes] or higher (write in seconds), for longer processing
 	
 	// you only need to pass the name of file as argument for translation (file extension not needed)
-	return shell_exec("python translate.py " . $filename);
+	return shell_exec("python scripts/translate.py " . $filename);
 
-	//return shell_exec("python translate.py " . $_FILES["user_file"]['full_path'] . " " . $_FILES['user_file']['name']);
+	//return shell_exec("python scripts/translate.py " . $_FILES["user_file"]['full_path'] . " " . $_FILES['user_file']['name']);
 }
 
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.

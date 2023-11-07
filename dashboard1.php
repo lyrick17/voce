@@ -15,7 +15,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="styles/style2.css">
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
@@ -35,11 +35,11 @@
         <li class="<?php echo ($current_page === 'dashboard1.php') ? 'active' : ''; ?>">
         <a href="dashboard1.php"><i class='bx bxs-dashboard'></i>Dashboard</a>
         </li>
-            <li><a href="text-text.php"><img src="sidebartext.png" alt="scroll icon" width="25" height="25" style="margin-left: 5px;">
+            <li><a href="text-text.php"><img src="images/sidebartext.png" alt="scroll icon" width="25" height="25" style="margin-left: 5px;">
             &nbsp Text-Text</a></li>        
 
             <li class="<?php echo ($current_page === 'history_audio.php') ? 'active' : ''; ?>">
-            <a href="history_audio.php"><img src="sidebaraudio.png" alt="scroll icon" width="25" height="25" style="margin-left: 5px;">
+            <a href="history_audio.php"><img src="images/sidebaraudio.png" alt="scroll icon" width="25" height="25" style="margin-left: 5px;">
             &nbsp Audio to Text</a> 
             <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
         </ul>
@@ -118,7 +118,7 @@
             <div class="bottom-data">
                 <div class="orders">
                     <div class="header">
-                            <img src="translateicon.png" width="120px" height="100px">
+                            <img src="images/translateicon.png" width="120px" height="100px">
                             <h3>Text to Text Translation</h3>      
                             <p class="description">
                                 Revolutionize your communication and content adaptation with this advanced language transformation technology
@@ -131,7 +131,7 @@
                 <!-- Reminders -->
                 <div class="orders">
                     <div class="header">
-                    <img src="languageicon.png" width="120px" height="100px">
+                    <img src="images/languageicon.png" width="120px" height="100px">
                             <h3>Audio to Text Translation</h3>      
                             <p class="description">
                             Audio-to-text translation is the process of converting spoken language or audio content into written text
@@ -148,7 +148,7 @@
 
     </div>
 
-    <script src="index.js"></script>
+    <script src="scripts/index.js"></script>
 </body>
 
 </html>
