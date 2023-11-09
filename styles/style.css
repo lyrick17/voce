@@ -15,7 +15,7 @@ body{
     justify-content: center;
     flex-direction: column;
     height: 100vh;
-    background-image:linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)),url('images/headset.jpg');
+    background-image:linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)),url('../images/headset.jpg');
     
 	background-position: right;
 	background-size: cover;
