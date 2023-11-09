@@ -4,7 +4,7 @@
 
 body {
 	
-	background: linear-gradient(rgba(0, 0, 0, 0.75),rgba(0,0,0,0.75)),url('images/headset.jpg');
+	background: linear-gradient(rgba(0, 0, 0, 0.75),rgba(0,0,0,0.75)),url('../images/headset.jpg');
 	background-blend-mode: multiply;
 	background-position: center;
 	background-size:cover;
