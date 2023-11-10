@@ -15,7 +15,7 @@ body{
     justify-content: center;
     flex-direction: column;
     height: 100vh;
-    background-image:linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)),url('images/headset.jpg');
+    background-image:linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)),url('../images/headset.jpg');
     
 	background-position: right;
 	background-size: cover;
@@ -212,4 +212,19 @@ body{
 
 .container.active .toggle-right{
     transform: translateX(200%);
+}
+
+/* Add hover styles for the "Sign In" button in the sign-in form */
+.container .sign-in input[type="submit"]:hover {
+    background-color: #a82d98; /* Change the background color on hover */
+    color: #fff; /* Change the text color on hover */
+    border: 1px solid #fff; /* Change the border on hover */
+    cursor: pointer;
+}
+
+/* Add hover styles for the "Submit" button in the sign-up form */
+.container .sign-up input[type="submit"]:hover {
+    background-color: #a82d98; /* Change the background color on hover */
+    color: #fff; /* Change the text color on hover */
+    border: 1px solid #fff; /* Change the border on hover */
 }

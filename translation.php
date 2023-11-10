@@ -21,7 +21,7 @@ curl_setopt_array($curl, [
 	CURLOPT_CUSTOMREQUEST => "GET",
 	CURLOPT_HTTPHEADER => [
 		"X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-		"X-RapidAPI-Key: 81901ce272msh4265f1573ac1dc7p17b83ejsnc3b7fa66ab56"
+		"X-RapidAPI-Key: 5a4a854aecmsh5aefb5b52f1c29ap189bdfjsnebc4acefe413"
 	],
 ]);
 
@@ -72,7 +72,7 @@ function getVocals($file) {
     # call the separate.py which includes the spleeter code for extracting vocals,
     #   and pass the file as argument 
     # then, deactivate virtual environment
-    $output = shell_exec("spleeter_env\\Scripts\\activate && python scripts/separate.py " . $file . " && deactivate");
+    $output = shell_exec("spleeter_env\\Scripts\\activate && python scripts\\separate.py " . $file . " && deactivate");
 }
 
 function uploadAndTranscribe($path){
@@ -81,19 +81,17 @@ function uploadAndTranscribe($path){
 
 	// get the name of file only, for translating the vocals
     $filename = pathinfo($_FILES['user_file']['name'], PATHINFO_FILENAME);
-
-
 	// modified die() if user did not upload file
 	move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(audioError2());
-
+	
 	// separate bg music from vocals using spleeter
 	getVocals($_FILES["user_file"]['full_path']);
 	
 	// make sure to go to php.ini in xampp (config > php.ini) 
 	// and set max_execution_time into 600 [10 minutes] or higher (write in seconds), for longer processing
-	
+
 	// you only need to pass the name of file as argument for translation (file extension not needed)
-	return shell_exec("python scripts/translate.py " . $filename);
+	return shell_exec("python scripts\\translate.py " . $filename);
 
 	//return shell_exec("python scripts/translate.py " . $_FILES["user_file"]['full_path'] . " " . $_FILES['user_file']['name']);
 }
@@ -117,7 +115,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	else{
 		$path=$_FILES['user_file']['name'];
 		$transcript = uploadAndTranscribe($path);
-		echo 'TRANSCRIPT: ' . $transcript;
+
+
 	} 
 	
 	// check file format
@@ -136,7 +135,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		CURLOPT_POSTFIELDS => "source_language=".$src_lang."&target_language=".$trg_lang."&text=".$transcript,
 		CURLOPT_HTTPHEADER => [
 			"X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-			"X-RapidAPI-Key: 81901ce272msh4265f1573ac1dc7p17b83ejsnc3b7fa66ab56",
+			"X-RapidAPI-Key: 5a4a854aecmsh5aefb5b52f1c29ap189bdfjsnebc4acefe413",
 			"content-type: application/x-www-form-urlencoded"
 		],
 	]);
@@ -156,4 +155,3 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 
 ?>
-
