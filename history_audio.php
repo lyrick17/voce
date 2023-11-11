@@ -73,10 +73,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="styles/style2.css">
+    
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    
+
 
 
 
@@ -117,20 +118,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <!-- Navbar -->
         <nav>
             <i class='bx bx-menu'></i>
-            <input type="checkbox" id="theme-toggle" hidden>
-            <label for="theme-toggle" class="theme-toggle"></label>
-            <a href="#" class="notif">
-                <i class='bx bx-bell'></i>
-                <span class="count">12</span>
-            </a>
-            <a href="#" class="profile">
-                <img src="images/logo.png">
-            </a>
         </nav>
 
         <!-- End of Navbar -->
 
         <main>
+
+    
             <div class="header">
                 <div class="left">
                     <h1>Audio Transcriber</h1>
@@ -151,7 +145,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     </i></p>
                 </div>
             </div>
-            <form enctype="multipart/form-data" action = "history_audio.php" method = "POST">
+            <form enctype="multipart/form-data" action = "history_audio.php" method = "POST" onsubmit="showLoading()">
 			<label>
 			Source language:
 			<select name="src" id="sourceLanguage" class="form-control">
@@ -189,12 +183,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
 <button type = "submit" id="yourButtonID" class="custom-button" disabled>Translate</button>
+
+<!-- Loading Div -->
+<!-- <div id="loading" class="hidden">
+<div class="loader"></div>
+        <p>Loading...</p>
+    </div> -->
 </form>
   <div class="text-section">
         <header>Original text:</header>
-        <textarea id="originalText" name="originalText" class="customtextfield" rows="4" readonly>
-
-            <?php
+        <textarea id="originalText" name="originalText" class="customtextfield" rows="4" readonly><?php
             $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 1 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
             if (isset($_GET['translated']) && $_GET['translated'] == 1) {
                 echo $data[6] ?? '';
@@ -203,8 +201,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         </textarea>
 
         <header>Translated text:</header>
-        <textarea id="translatedText" name="translatedText" class="customtextfield" rows="4" readonly>
-            <?php
+        <textarea id="translatedText" name="translatedText" class="customtextfield" rows="4" readonly>`<?php
             if (isset($_GET['translated']) && $_GET['translated'] == 1) {
                 echo $data[7] ?? '';
             }
@@ -235,6 +232,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <th>Translated Text</th>
                             <th>Target Language</th>
                             <th>Translation Date</th>    
+                            <th>Delete</th>    
                             </tr>
                         </thead>
                         <tbody>
@@ -250,6 +248,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <td><?= $row['translate_to']?></td>
                             <td><?= $row['translated_language']?></td>
                             <td><?= $row['translation_date']?></td>
+                            <td><a href = "#">Delete</a></td>
+
                             </tr>
                             <?php endwhile ?>
                             <!-- Add more rows for additional files -->

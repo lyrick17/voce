@@ -72,9 +72,10 @@ function getVocals($file) {
     # call the separate.py which includes the spleeter code for extracting vocals,
     #   and pass the file as argument 
     # then, deactivate virtual environment
+    // $output = shell_exec("spleeter_env\\Scripts\\activate && python scripts\\separate.py " . $file . " && deactivate");
 
-	#$output = shell_exec("spleeter_env\\Scripts\\activate && python scripts/separate.py " . $file . " && deactivate");
-    $output = shell_exec("python scripts/separate.py " . $file . " && deactivate");
+	$output = shell_exec("python scripts\\separate.py " . $file . " && deactivate");
+
 }
 
 function uploadAndTranscribe($path){
@@ -83,21 +84,23 @@ function uploadAndTranscribe($path){
 
 	// get the name of file only, for translating the vocals
     $filename = pathinfo($_FILES['user_file']['name'], PATHINFO_FILENAME);
-
-
 	// modified die() if user did not upload file
+	
 	move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(audioError2());
-
+	
 	// separate bg music from vocals using spleeter
 	getVocals($_FILES["user_file"]['full_path']);
 	
 	// make sure to go to php.ini in xampp (config > php.ini) 
 	// and set max_execution_time into 600 [10 minutes] or higher (write in seconds), for longer processing
-	
-	// you only need to pass the name of file as argument for translation (file extension not needed)
-	return shell_exec("python scripts/translate.py " . $filename);
 
+	// you only need to pass the name of file as argument for translation (file extension not needed)
+	return shell_exec("python scripts\\translate.py " . escapeshellarg($filename));
+	
 	//return shell_exec("python scripts/translate.py " . $_FILES["user_file"]['full_path'] . " " . $_FILES['user_file']['name']);
+
+
+	// add user id on filename and the date
 }
 
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
@@ -119,6 +122,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	else{
 		$path=$_FILES['user_file']['name'];
 		$transcript = uploadAndTranscribe($path);
+		
+
 	} 
 	
 	// check file format
@@ -151,9 +156,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		echo "cURL Error #:" . $err;
 	} else {
 		$decoded = json_decode($response, true);
+		//var_dump($decoded);
 		$result = $decoded["data"]["translatedText"];
 	}
 }
 
 ?>
-
