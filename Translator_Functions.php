@@ -2,6 +2,7 @@
 
 class Translator{
 
+
     //IMPORTANT! $history should contain the query result 
     // translation format should either be text2text
     static function displayHistory($history, $translation_format){

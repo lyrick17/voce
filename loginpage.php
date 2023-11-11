@@ -31,7 +31,6 @@
                 
                 <!-- This input type determines whether form is REGISTER or login -->
                 <input type="hidden" id="formType" name="formType" value="register">
-
                 <input type="text" placeholder="Name" id="username" name="username" required>
                 <input type="email" placeholder="Email" id="email" name="email" required>
                 <input type="password" placeholder="Password" id="pword" name="pword" required>
