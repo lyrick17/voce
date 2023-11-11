@@ -1,6 +1,43 @@
 <?php 
 
 class Translator{
+
+    //IMPORTANT! $history should contain the query result 
+    // translation format should either be text2text
+    static function displayHistory($history, $translation_format){
+        // Displays text to text history  or audio2text
+        if($translation_format == "text2text"){
+            while($row = mysqli_fetch_assoc($history)){
+                echo               
+                "<tr>
+                <td>" .$row['translate_from'] . "</td>" . 
+                "<td>" .$row['original_language'] . "</td>" .
+                "<td>" .$row['translate_to'] . "</td>" .
+                "<td>" .$row['translated_language'] . "</td>" . 
+                "<td>" .$row['translation_date'] . "</td>" .  
+                "<td><a href = '#'>Delete</a></td>"   
+                . "</tr>";
+            }
+        }
+        // Displays audio to text history
+        elseif($translation_format == "audio2text"){
+            while($row = mysqli_fetch_assoc($history)){
+                echo               
+                "<tr>
+                <td>" .$row['file_name'] . "</td>" . 
+                "<td>" .$row['file_format'] . "</td>" .
+                "<td>" .$row['file_size'] . "</td>" .
+                "<td>" .$row['translate_from'] . "</td>" . 
+                "<td>" .$row['original_language'] . "</td>" . 
+                "<td>" .$row['translate_to'] . "</td>" .
+                "<td>" .$row['translated_language'] . "</td>" .
+                "<td>" .$row['translation_date'] . "</td>" . 
+                "<td><a href = '#'>Delete</a></td>"  
+                . "</tr>";
+            }
+        }
+    }
+
     static function getLangCodes(){
         $lang_codes = [];
 

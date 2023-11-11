@@ -242,19 +242,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <th>Translated Text</th>
                             <th>Target Language</th>
                             <th>Translation Date</th>  
+                            <th>Delete</th>  
                             </tr>
                         </thead>
                         <tbody>
-                        <?php while($row = mysqli_fetch_assoc($history)) : ?>
-                            <tr>
-                            <td><?= $row['translate_from'] ?></td>
-                            <td><?= $row['original_language'] ?></td>
-                            <td><?= $row['translate_to']?></td>
-                            <td><?= $row['translated_language']?></td>
-                            <td><?= $row['translation_date']?></td>
+                        
+                        <!-- Displays text to text history -->
+                        <?php Translator::displayHistory($history, "text2text")?>
 
-                            </tr>
-                        <?php endwhile ?>
                         </tbody>
                     </table>
                 </div>
