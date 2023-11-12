@@ -9,6 +9,18 @@ let history = document.querySelector(".history-body");
 //initialize form data content
 let deleteId = 0;
 let userId = 0;
+let fromAudio = 0;
+
+for(let i = 0; i <deleteBtn.length;i++){
+    deleteBtn[i].addEventListener("click", (e) => {
+        //updates form data content with user data
+        deleteId = e.target.parentNode.parentNode.id;
+        userId = e.target.parentNode.parentNode.classList[0];
+        //checks if the row is from text2text or audio2text
+        fromAudio = (e.target.parentNode.parentNode.classList[1] === undefined) ? 1 : e.target.parentNode.parentNode.classList[1];
+        displayConfirmWindow(deleteWindow);
+    });
+}
 
 //Hides delete confirmation window if user clicks no
 noBtn.addEventListener("click", () => {
@@ -21,24 +33,19 @@ yesBtn.addEventListener("click", () => {
     let fd = new FormData();
     fd.append('rowId', deleteId);
     fd.append('userId', userId);
+    fd.append('fromAudio', fromAudio);
     fetch('delete_query.php',{
         method : 'post', 
         body: fd})
         .then((res) => res.json()) // Converts response to JSON
         .then(response => {
+            console.log(response);
             let newHistory = '';
 
             //add rows to new history
             for(let i = 0; i < response.length; i++){
                 let obj = response[i];
-                newHistory += "<tr id = " + obj['text_id'] + " class = " + obj['user_id'] + ">" +
-                "<td class = " + obj['user_id']+ ">"+ obj['translate_from'] + "</td>" +
-                "<td class = " + obj['user_id']+ ">"+ obj['original_language'] + "</td>" +
-                "<td class = " + obj['user_id']+ ">"+ obj['translate_to'] + "</td>" +
-                "<td class = " + obj['user_id']+ ">"+ obj['translated_language'] + "</td>" + 
-                "<td class = " + obj['user_id']+ ">"+ obj['translation_date'] + "</td>" +
-                "<td class = " + obj['user_id']+ ">"+ "<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
-                + "</tr>";
+                newHistory += setNewRow(obj);
             }
 
 
@@ -49,26 +56,20 @@ yesBtn.addEventListener("click", () => {
             deleteWindow = document.querySelector(".delete-window");
             deleteBtn = document.querySelectorAll(".delete-btn");
 
+            //re-adds eventlisteners to new delete buttons.
             for(let i = 0; i <deleteBtn.length;i++){
                deleteBtn[i].addEventListener("click", (e) => {
                    deleteId = e.target.parentNode.parentNode.id;
-                   userId = e.target.parentNode.parentNode.className;
+                   userId = e.target.parentNode.parentNode.classList[0];
+                   fromAudio = (e.target.parentNode.parentNode.classList[1] === undefined) ? 1 : e.target.parentNode.parentNode.classList[1];
                    displayConfirmWindow(deleteWindow);
                });
            }
-
             hideConfirmWindow(deleteWindow);
         });
 });
 
-for(let i = 0; i <deleteBtn.length;i++){
-    deleteBtn[i].addEventListener("click", (e) => {
-        //updates form data content with user data
-        deleteId = e.target.parentNode.parentNode.id;
-        userId = e.target.parentNode.parentNode.className;
-        displayConfirmWindow(deleteWindow);
-    });
-}
+
 
 //shows confirmation window
 function displayConfirmWindow(window){
@@ -78,4 +79,34 @@ function displayConfirmWindow(window){
 //hides confirmation window
 function hideConfirmWindow(window){
     window.style.visibility = "hidden";
+}
+
+function setNewRow(objData){
+
+    //Sets new rows for audio to text history
+    if(fromAudio == 0)
+    {    return "<tr id = " + objData['text_id'] + " class = " + objData['user_id'] + " " + objData['from_audio_file'] + ">" +
+        "<td class = " + objData['user_id']+ ">"+ objData['translate_from'] + "</td>" +
+        "<td class = " + objData['user_id']+ ">"+ objData['original_language'] + "</td>" +
+        "<td class = " + objData['user_id']+ ">"+ objData['translate_to'] + "</td>" +
+        "<td class = " + objData['user_id']+ ">"+ objData['translated_language'] + "</td>" + 
+        "<td class = " + objData['user_id']+ ">"+ objData['translation_date'] + "</td>" +
+        "<td class = " + objData['user_id']+ ">"+ "<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
+        + "</tr>";
+    }
+
+    //Sets new rows for audio to text history
+    else{
+        return "<tr id = " + objData['text_id'] + " class = '" + objData['user_id'] + " " + objData['from_audio_file'] + "'>" +
+        "<td class = " + objData['user_id'] + ">"  + objData['file_name'] + "</td>" + 
+        "<td class = " + objData['user_id'] + ">"  + objData['file_format'] + "</td>" +
+        "<td class = " + objData['user_id'] + ">"  + objData['file_size'] + "</td>" +
+        "<td class = " + objData['user_id'] + ">"  + objData['translate_from'] + "</td>" + 
+        "<td class = " + objData['user_id'] + ">"  + objData['original_language'] + "</td>" + 
+        "<td class = " + objData['user_id'] + ">"  + objData['translate_to'] + "</td>" +
+        "<td class = " + objData['user_id'] + ">"  + objData['translated_language'] + "</td>" +
+        "<td class = " + objData['user_id'] + ">"  + objData['translation_date'] + "</td>" +
+        "<td class = " + objData['user_id'] + ">"  +  "<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
+        + "</tr>";
+    }
 }

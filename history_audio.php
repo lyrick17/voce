@@ -83,6 +83,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 </head>
 
+<!-- Confirm delete window -->
+<div class = "delete-window">
+    <div class = "confirm-div">
+        <h4 class = "confirm-text">Are you sure you want to delete this row?</h4>
+        <div class = "confirm-btn-div">
+            <button class = "confirm-btn confirm-yes">Yes</button>
+            <button class = "confirm-btn confirm-no">No</button>
+        </div>
+    </div>
+</div>
+
 <body>
 
     <!-- Sidebar -->
@@ -235,11 +246,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <th>Delete</th>    
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class = "history-body">
                             <!-- Example rows, replace with your actual file data -->
                         <!-- Displays audio to text history -->
                         <?php Translator::displayHistory($history, "audio2text")?>
-                            <!-- Add more rows for additional files -->
                         </tbody>
                     </table>
 
@@ -252,6 +262,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </div>
                                 
     <script src="scripts/index.js"></script>
+    <script src="scripts/delete.js"></script>
 </body>
 
 </html>
