@@ -9,7 +9,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 <?php
 require "Translator_Functions.php";
-
 //  Get language codes for each language
 $languages = Translator::getLangCodes();
 $lang_codes = [];
@@ -87,7 +86,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 </head>
 
+<!-- Confirm delete window -->
+<div class = "delete-window">
+    <div class = "confirm-div">
+        <h4 class = "confirm-text">Are you sure you want to delete this row?</h4>
+        <div class = "confirm-btn-div">
+            <button class = "confirm-btn confirm-yes">Yes</button>
+            <button class = "confirm-btn confirm-no">No</button>
+        </div>
+    </div>
+</div>
+
 <body>
+
 
     <!-- Sidebar -->
     <div class="sidebar">
@@ -245,11 +256,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <th>Delete</th>  
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class = "history-body">
                         
                         <!-- Displays text to text history -->
                         <?php Translator::displayHistory($history, "text2text")?>
-
                         </tbody>
                     </table>
                 </div>
@@ -264,7 +274,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     </div>
 
+
+
     <script src="scripts/index.js"></script>
+    <script src="scripts/delete.js"></script>
+
 </body>
 
 </html>

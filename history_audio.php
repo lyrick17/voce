@@ -1,8 +1,8 @@
 <?php require("mysql/mysqli_session.php"); 
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
-<?php require "translation.php" 
-?>
+<?php require "translation.php" ?>
+<?php require "Translator_Functions.php" ?>
 
 <?php if (!isset($_SESSION['username'])) {
     
@@ -237,21 +237,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         </thead>
                         <tbody>
                             <!-- Example rows, replace with your actual file data -->
-                            <?php while($row = mysqli_fetch_assoc($history)) : ?>
-                            <tr>
-                            <td><?= $row['file_name'] ?></td>
-                            <td><?= $row['file_format'] ?></td>
-                            <td><?= $row['file_size'].' mb' ?></td>
-
-                            <td><?= $row['translate_from'] ?></td>
-                            <td><?= $row['original_language'] ?></td>
-                            <td><?= $row['translate_to']?></td>
-                            <td><?= $row['translated_language']?></td>
-                            <td><?= $row['translation_date']?></td>
-                            <td><a href = "#">Delete</a></td>
-
-                            </tr>
-                            <?php endwhile ?>
+                        <!-- Displays audio to text history -->
+                        <?php Translator::displayHistory($history, "audio2text")?>
                             <!-- Add more rows for additional files -->
                         </tbody>
                     </table>

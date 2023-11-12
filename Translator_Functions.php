@@ -10,13 +10,13 @@ class Translator{
         if($translation_format == "text2text"){
             while($row = mysqli_fetch_assoc($history)){
                 echo               
-                "<tr>
-                <td>" .$row['translate_from'] . "</td>" . 
-                "<td>" .$row['original_language'] . "</td>" .
-                "<td>" .$row['translate_to'] . "</td>" .
-                "<td>" .$row['translated_language'] . "</td>" . 
-                "<td>" .$row['translation_date'] . "</td>" .  
-                "<td><a href = '#'>Delete</a></td>"   
+                "<tr id = ". $row['text_id'] ." class = ". $row['user_id'] . ">" .
+                "<td class = " .$row['user_id']. ">" .$row['translate_from'] . "</td>" . 
+                "<td class = " .$row['user_id']. ">" .$row['original_language'] . "</td>" .
+                "<td class = " .$row['user_id']. ">" .$row['translate_to'] . "</td>" .
+                "<td class = " .$row['user_id']. ">" .$row['translated_language'] . "</td>" . 
+                "<td class = " .$row['user_id']. ">" .$row['translation_date'] . "</td>" .  
+                "<td class = " .$row['user_id']. ">"."<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
                 . "</tr>";
             }
         }
@@ -24,16 +24,16 @@ class Translator{
         elseif($translation_format == "audio2text"){
             while($row = mysqli_fetch_assoc($history)){
                 echo               
-                "<tr>
-                <td>" .$row['file_name'] . "</td>" . 
-                "<td>" .$row['file_format'] . "</td>" .
-                "<td>" .$row['file_size'] . "</td>" .
-                "<td>" .$row['translate_from'] . "</td>" . 
-                "<td>" .$row['original_language'] . "</td>" . 
-                "<td>" .$row['translate_to'] . "</td>" .
-                "<td>" .$row['translated_language'] . "</td>" .
-                "<td>" .$row['translation_date'] . "</td>" . 
-                "<td><a href = '#'>Delete</a></td>"  
+                "<tr id = ". $row['text_id'] ." class = ". $row['user_id'] . ">" .
+                "<td class = " .$row['user_id']. ">" .$row['file_name'] . "</td>" . 
+                "<td class = " .$row['user_id']. ">" .$row['file_format'] . "</td>" .
+                "<td class = " .$row['user_id']. ">" .$row['file_size'] . "</td>" .
+                "<td class = " .$row['user_id']. ">" .$row['translate_from'] . "</td>" . 
+                "<td class = " .$row['user_id']. ">" .$row['original_language'] . "</td>" . 
+                "<td class = " .$row['user_id']. ">" .$row['translate_to'] . "</td>" .
+                "<td class = " .$row['user_id']. ">" .$row['translated_language'] . "</td>" .
+                "<td class = " .$row['user_id']. ">" .$row['translation_date'] . "</td>" . 
+                "<td class = " .$row['user_id']. ">" . "<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
                 . "</tr>";
             }
         }
