@@ -9,7 +9,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 <?php
 require "Translator_Functions.php";
-
 //  Get language codes for each language
 $languages = Translator::getLangCodes();
 $lang_codes = [];
@@ -87,7 +86,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 </head>
 
+<!-- Confirm delete window -->
+<div class = "delete-window">
+    <div class = "confirm-div">
+        <h4 class = "confirm-text">Are you sure you want to delete this row?</h4>
+        <div class = "confirm-btn-div">
+            <button class = "confirm-btn confirm-yes">Yes</button>
+            <button class = "confirm-btn confirm-no">No</button>
+        </div>
+    </div>
+</div>
+
 <body>
+
 
     <!-- Sidebar -->
     <div class="sidebar">
@@ -123,21 +134,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <!-- Navbar -->
         <nav>
             <i class='bx bx-menu'></i>
-            <form action="#">
-                <div class="form-input">
-                    <input type="search" placeholder="Search...">
-                    <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
-                </div>
-            </form>
-            <input type="checkbox" id="theme-toggle" hidden>
-            <label for="theme-toggle" class="theme-toggle"></label>
-            <a href="#" class="notif">
-                <i class='bx bx-bell'></i>
-                <span class="count">12</span>
-            </a>
-            <a href="#" class="profile">
-                <img src="images/logo.png">
-            </a>
         </nav>
 
         <!-- End of Navbar -->
@@ -257,19 +253,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <th>Translated Text</th>
                             <th>Target Language</th>
                             <th>Translation Date</th>  
+                            <th>Delete</th>  
                             </tr>
                         </thead>
-                        <tbody>
-                        <?php while($row = mysqli_fetch_assoc($history)) : ?>
-                            <tr>
-                            <td><?= $row['translate_from'] ?></td>
-                            <td><?= $row['original_language'] ?></td>
-                            <td><?= $row['translate_to']?></td>
-                            <td><?= $row['translated_language']?></td>
-                            <td><?= $row['translation_date']?></td>
-
-                            </tr>
-                        <?php endwhile ?>
+                        <tbody class = "history-body">
+                        
+                        <!-- Displays text to text history -->
+                        <?php Translator::displayHistory($history, "text2text")?>
                         </tbody>
                     </table>
                 </div>
@@ -284,7 +274,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     </div>
 
+
+
     <script src="scripts/index.js"></script>
+    <script src="scripts/delete.js"></script>
+
 </body>
 
 </html>

@@ -41,13 +41,13 @@
       <div class="offcanvas-body d-flex flex-column flex-lg-row p-4">
         <ul class="navbar-nav justify-content-center align-items-center fs-5 flex-grow-1 pe-3">
           <li class="nav-item mx-2">
-            <a class="nav-link" style="color: #D2ACA4; font-family: 'Roboto Mono', monospace;" href="#">Sample Audio</a>
-          </li>
-          <li class="nav-item mx-2">
             <a class="nav-link" style="color: #D2ACA4; font-family: 'Roboto Mono', monospace;" href="#">Features</a>
           </li>
           <li class="nav-item mx-2">
-            <a class="nav-link" style="color: #D2ACA4; font-family: 'Roboto Mono', monospace;" href="#">Enthusiasts</a>
+            <a class="nav-link" style="color: #D2ACA4; font-family: 'Roboto Mono', monospace;" href="#">About</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link" style="color: #D2ACA4; font-family: 'Roboto Mono', monospace;" href="#">Contact</a>
           </li>
         </ul>
 
@@ -74,10 +74,6 @@
           </center>
 
       </div>
-      <!--  <div class="col-md-6">
-			<iframe class="embed-responsive-item rounded-pill" width="660" height="500"	src="vid.mp4" frameborder="0" ></iframe>
-         <img src="vid.mp4" alt="Sample Image" class="img-fluid rounded-pill"> 
-        </div> -->
     </div>
   </div>
    <!-- Add a new section about how your translator works with a blue background 

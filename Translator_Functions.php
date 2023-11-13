@@ -1,6 +1,44 @@
 <?php 
 
 class Translator{
+
+
+    //IMPORTANT! $history should contain the query result 
+    // translation format should either be text2text
+    static function displayHistory($history, $translation_format){
+        // Displays text to text history  or audio2text
+        if($translation_format == "text2text"){
+            while($row = mysqli_fetch_assoc($history)){
+                echo               
+                "<tr id = ". $row['text_id'] ." class = '". $row['user_id']. " " . $row['from_audio_file'] . "'>" .
+                "<td class = " .$row['user_id']. ">" .$row['translate_from'] . "</td>" . 
+                "<td class = " .$row['user_id']. ">" .$row['original_language'] . "</td>" .
+                "<td class = " .$row['user_id']. ">" .$row['translate_to'] . "</td>" .
+                "<td class = " .$row['user_id']. ">" .$row['translated_language'] . "</td>" . 
+                "<td class = " .$row['user_id']. ">" .$row['translation_date'] . "</td>" .  
+                "<td class = " .$row['user_id']. ">"."<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
+                . "</tr>";
+            }
+        }
+        // Displays audio to text history
+        elseif($translation_format == "audio2text"){
+            while($row = mysqli_fetch_assoc($history)){
+                echo               
+                "<tr id = ". $row['text_id'] ." class = '". $row['user_id']. " " . $row['from_audio_file'] . "'>" .
+                "<td class = " .$row['user_id']. ">" .$row['file_name'] . "</td>" . 
+                "<td class = " .$row['user_id']. ">" .$row['file_format'] . "</td>" .
+                "<td class = " .$row['user_id']. ">" .$row['file_size'] . "</td>" .
+                "<td class = " .$row['user_id']. ">" .$row['translate_from'] . "</td>" . 
+                "<td class = " .$row['user_id']. ">" .$row['original_language'] . "</td>" . 
+                "<td class = " .$row['user_id']. ">" .$row['translate_to'] . "</td>" .
+                "<td class = " .$row['user_id']. ">" .$row['translated_language'] . "</td>" .
+                "<td class = " .$row['user_id']. ">" .$row['translation_date'] . "</td>" . 
+                "<td class = " .$row['user_id']. ">" . "<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
+                . "</tr>";
+            }
+        }
+    }
+
     static function getLangCodes(){
         $lang_codes = [];
 
@@ -15,7 +53,7 @@ class Translator{
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => [
                 "X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-                "X-RapidAPI-Key: 5a4a854aecmsh5aefb5b52f1c29ap189bdfjsnebc4acefe413"
+                "X-RapidAPI-Key: d5185f2565msh3cdba754dc69affp10ba69jsn87d2b93e11ba"
             ],
         ]);
 
@@ -68,7 +106,7 @@ class Translator{
             CURLOPT_POSTFIELDS => "source_language=".$src_lang."&target_language=".$trg_lang."&text=".$transcript,
             CURLOPT_HTTPHEADER => [
                 "X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-                "X-RapidAPI-Key: 5a4a854aecmsh5aefb5b52f1c29ap189bdfjsnebc4acefe413",
+                "X-RapidAPI-Key: d5185f2565msh3cdba754dc69affp10ba69jsn87d2b93e11ba",
                 "content-type: application/x-www-form-urlencoded"
             ],
         ]);

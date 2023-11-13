@@ -843,3 +843,50 @@ select::after {
     padding: 10px;
     pointer-events: none;
 }
+
+
+/* STYLES ADDED FOR CONFIRMATION DELETE IN HISTORY */
+.delete-window{
+    position: absolute;
+    width:100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    z-index: 2;
+    visibility: hidden;
+}
+
+.delete-btn{
+    background : #ff3838;
+    color: white;
+    padding: 0.5em;
+    border: none;
+    border-radius: 0.5em;
+}
+
+.delete-btn:hover{
+    cursor: pointer;
+    background: #fe4c5a;
+}
+
+.confirm-div{
+    background: #fccdcd;
+    position: absolute;
+    left: 45%;
+    top: 50%;
+    z-index: 3;
+    opacity: 100;
+    border-radius: 2em;
+    padding: 2em;
+}
+
+.confirm-btn-div{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.confirm-btn{
+    padding: 1em;
+    border-radius: 1em;
+    text-align: center;
+    cursor: pointer;
+}
