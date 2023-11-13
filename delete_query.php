@@ -14,4 +14,5 @@ else
 
 $sql = mysqli_query($dbcon, $q);
 $result = mysqli_fetch_all($sql, MYSQLI_ASSOC);
+
 exit(json_encode($result));

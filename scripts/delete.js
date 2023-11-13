@@ -34,6 +34,7 @@ yesBtn.addEventListener("click", () => {
     fd.append('rowId', deleteId);
     fd.append('userId', userId);
     fd.append('fromAudio', fromAudio);
+
     fetch('delete_query.php',{
         method : 'post', 
         body: fd})
@@ -85,7 +86,7 @@ function setNewRow(objData){
 
     //Sets new rows for audio to text history
     if(fromAudio == 0)
-    {    return "<tr id = " + objData['text_id'] + " class = " + objData['user_id'] + " " + objData['from_audio_file'] + ">" +
+    {    return "<tr id = " + objData['text_id'] + " class = '" + objData['user_id'] + " " + objData['from_audio_file'] + "'>" +
         "<td class = " + objData['user_id']+ ">"+ objData['translate_from'] + "</td>" +
         "<td class = " + objData['user_id']+ ">"+ objData['original_language'] + "</td>" +
         "<td class = " + objData['user_id']+ ">"+ objData['translate_to'] + "</td>" +
