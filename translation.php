@@ -21,7 +21,7 @@ curl_setopt_array($curl, [
 	CURLOPT_CUSTOMREQUEST => "GET",
 	CURLOPT_HTTPHEADER => [
 		"X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-		"X-RapidAPI-Key: 5a4a854aecmsh5aefb5b52f1c29ap189bdfjsnebc4acefe413"
+		"X-RapidAPI-Key: d5185f2565msh3cdba754dc69affp10ba69jsn87d2b93e11ba"
 	],
 ]);
 
@@ -82,6 +82,7 @@ function uploadAndTranscribe($path){
 	// get the name of file only, for translating the vocals
     $filename = pathinfo($_FILES['user_file']['name'], PATHINFO_FILENAME);
 	// modified die() if user did not upload file
+	
 	move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(audioError2());
 	
 	// separate bg music from vocals using spleeter
@@ -91,9 +92,12 @@ function uploadAndTranscribe($path){
 	// and set max_execution_time into 600 [10 minutes] or higher (write in seconds), for longer processing
 
 	// you only need to pass the name of file as argument for translation (file extension not needed)
-	return shell_exec("python scripts\\translate.py " . $filename);
-
+	return shell_exec("python scripts\\translate.py " . escapeshellarg($filename));
+	
 	//return shell_exec("python scripts/translate.py " . $_FILES["user_file"]['full_path'] . " " . $_FILES['user_file']['name']);
+
+
+	// add user id on filename and the date
 }
 
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
@@ -116,7 +120,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		$path=$_FILES['user_file']['name'];
 		$transcript = uploadAndTranscribe($path);
 
-
 	} 
 	
 	// check file format
@@ -135,7 +138,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		CURLOPT_POSTFIELDS => "source_language=".$src_lang."&target_language=".$trg_lang."&text=".$transcript,
 		CURLOPT_HTTPHEADER => [
 			"X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-			"X-RapidAPI-Key: 5a4a854aecmsh5aefb5b52f1c29ap189bdfjsnebc4acefe413",
+			"X-RapidAPI-Key: d5185f2565msh3cdba754dc69affp10ba69jsn87d2b93e11ba",
+
 			"content-type: application/x-www-form-urlencoded"
 		],
 	]);
