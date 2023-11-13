@@ -72,10 +72,7 @@ function getVocals($file) {
     # call the separate.py which includes the spleeter code for extracting vocals,
     #   and pass the file as argument 
     # then, deactivate virtual environment
-    // $output = shell_exec("spleeter_env\\Scripts\\activate && python scripts\\separate.py " . $file . " && deactivate");
-
-	$output = shell_exec("python scripts\\separate.py " . $file . " && deactivate");
-
+    $output = shell_exec("spleeter_env\\Scripts\\activate && python scripts\\separate.py " . $file . " && deactivate");
 }
 
 function uploadAndTranscribe($path){
@@ -122,7 +119,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	else{
 		$path=$_FILES['user_file']['name'];
 		$transcript = uploadAndTranscribe($path);
-		
 
 	} 
 	
@@ -143,6 +139,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		CURLOPT_HTTPHEADER => [
 			"X-RapidAPI-Host: text-translator2.p.rapidapi.com",
 			"X-RapidAPI-Key: d5185f2565msh3cdba754dc69affp10ba69jsn87d2b93e11ba",
+
 			"content-type: application/x-www-form-urlencoded"
 		],
 	]);
