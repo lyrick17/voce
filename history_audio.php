@@ -27,19 +27,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $target_lang = $_POST['target'];
   $isFromAudio = TRUE;
   
-  
-  // insert audio file into database
-  $file_name = $_FILES['user_file']['name'];
-  $file_size = round(filesize('audio_files/' . $file_name)/1000000, 2);
-  $file_format =  pathinfo('audio_files/' . $file_name, PATHINFO_EXTENSION);
-
-  $query_insert2 = mysqli_prepare($dbcon, "INSERT INTO audio_files(user_id, file_name, file_size, file_format,
-  upload_date) VALUES (?, ?, ?, ?, NOW())");
-
-  mysqli_stmt_bind_param($query_insert2, 'isss', $id, $file_name, $file_size, $file_format);
-  mysqli_stmt_execute($query_insert2);
-
-
   $get_fileid = "SELECT file_id FROM audio_files WHERE user_id = '$id' ORDER BY file_id DESC LIMIT 1";
   $fileresult = mysqli_query($dbcon, $get_fileid);
 
