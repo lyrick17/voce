@@ -23,7 +23,7 @@ curl_setopt_array($curl, [
 	CURLOPT_CUSTOMREQUEST => "GET",
 	CURLOPT_HTTPHEADER => [
 		"X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-		"X-RapidAPI-Key: 81901ce272msh4265f1573ac1dc7p17b83ejsnc3b7fa66ab56"
+		"X-RapidAPI-Key: d5185f2565msh3cdba754dc69affp10ba69jsn87d2b93e11ba"
 	],
 ]);
 
@@ -40,33 +40,93 @@ if ($err) {
 	}
 }
 
+
+
+
+
 // Error Logs: --------------------------------------
-// 		contains user did not upload file and invalid file format
-function audioError2() {
-	// error, user did not upload file
-	global $dbcon;
-	logs("error-at", $_SESSION['username'], $dbcon);
-	header("Location: history_audio.php?error=2");
-	exit();
-}
-
-function validateFormat() {
-	// error, user uploaded invalid file format
-	// only accepts these formats provided
-	$validExtensions = array('m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg');
-	$filePath = $_FILES['user_file']['name'];
-
-	// get the file extension, then check if extension is in array, return error if none
-	$ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
-	global $dbcon;
-
-	if (!in_array($ext, $validExtensions)) {
+// 		contains user did not upload file, invalid file format
+class ErrorHandling {
+	function audioError2() {
+		// error, user did not upload file
+		global $dbcon;
 		logs("error-at", $_SESSION['username'], $dbcon);
-		header("Location: history_audio.php?error=3");
+		header("Location: history_audio.php?error=2");
 		exit();
+	}
+	function audioError3() {
+		// error, for some reason, there is no output
+		global $dbcon;
+		logs("error-at", $_SESSION['username'], $dbcon);
+		header("Location: history_audio.php?error=5");
+		exit();
+	}
+	
+	static function checkLanguageChosen() {
+		global $dbcon;
+	
+		// Error Handling if user did not select language 
+		//	and if user select same language on src and target
+	
+		if ($_POST["src"] == "" || $_POST['target'] == "") {
+			// error, user did not choose language
+			logs("error-at-1", $_SESSION['username'], $dbcon);
+			header("Location: history_audio.php?error=1");
+			exit();
+		} 
+	
+		if ($_POST["src"] == $_POST['target']) {
+			// error, user choose two same language
+			logs("error-at-4", $_SESSION['username'], $dbcon);
+			header("Location: history_audio.php?error=4");
+			exit();
+		} 
+	
+	}
+	
+	static function validateFormat($filePath) {
+		// error, user uploaded invalid file format
+		// only accepts these formats provided
+		$validExtensions = array('m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg');
+	
+		// get the file extension, then check if extension is in array, return error if none
+		$ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+		global $dbcon;
+	
+		if (!in_array($ext, $validExtensions)) {
+			logs("error-at", $_SESSION['username'], $dbcon);
+			header("Location: history_audio.php?error=3");
+			exit();
+		}
+	}
+
+	static function checkFolder() {
+		// make sure audio_files folder is created
+		if(!is_dir("audio_files")){
+			mkdir("audio_files", 0777, true);
+		}
 	}
 }
 // Error Logs: --------------------------------------
+
+
+
+
+function db_insertAudioFile($path, $userid) {
+	global $dbcon;
+	// prepare userid, filename, filesize, fileformat
+	$file_name = $path;
+	$file_size = round(filesize('audio_files/' . $file_name)/1000000, 2);
+	$file_format =  pathinfo('audio_files/' . $file_name, PATHINFO_EXTENSION);
+	
+	// insert audio file into database
+  	$query_insert2 = mysqli_prepare($dbcon, "INSERT INTO audio_files(user_id, file_name, file_size, file_format,
+  	upload_date) VALUES (?, ?, ?, ?, NOW())");
+
+	// execute the query
+  	mysqli_stmt_bind_param($query_insert2, 'isss', $userid, $file_name, $file_size, $file_format);
+  	mysqli_stmt_execute($query_insert2);
+}
 
 
 function getVocals($file) {
@@ -81,69 +141,75 @@ function getVocals($file) {
 }
 
 function uploadAndTranscribe($path, $userid){
-
-	// 3. get the name of file and extension separately
+	global $dbcon;
+	// get the name of file and extension separately
 	$filename = pathinfo($path, PATHINFO_FILENAME);
   	$extension = pathinfo($path, PATHINFO_EXTENSION);
 
-	// Append the user's ID to the filename
-	$newFilename = $filename . "_" . $userid . "." . $extension;
+		// get the date of the file
+		$datequery = "SELECT DATE_FORMAT(upload_date, '%m%d%Y_%H%i%s') AS formatted_date 
+						FROM audio_files WHERE user_id = '$userid' and file_name = '$path' ORDER BY file_id DESC LIMIT 1";
+		$dateresult = mysqli_query($dbcon, $datequery);
+		$row = mysqli_fetch_assoc($dateresult);
+
+	// 5. 
+	$newFile = $userid . "_" . $filename . $row['formatted_date'] . "." . $extension;
+	$newFilename = pathinfo($newFilename, PATHINFO_FILENAME);
+	$newFilename = escapeshellarg($newFilename);
 	// audio files folder
-	$pathto="audio_files/".$newFilename;
+	$pathto="audio_files/" . $newFile;
 
-	// 4.
-		// make sure audio_files folder is created
-		if(!is_dir("audio_files")){
-			mkdir("audio_files", 0777, true);
-		}
 
-		// check if a file with same name already exists
-		if(file_exists($pathto)){
-			// Handle the error, e.g. by logging it or displaying a message
-			//error_log("A file with the name " . $newFilename . " already exists.");
-			return;
-		}
-	
-	// 5.
- 	move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(audioError2());
-	//move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(audioError2());
-	
 	// 6.
-	getVocals($pathto);
-	
-	// make sure to go to php.ini in xampp (config > php.ini) 
-	// and set max_execution_time into 600 [10 minutes] or higher (write in seconds), for longer processing
-	
-	// you only need to pass the name of file as argument for translation (file extension not needed)
-	// 7.
-	return shell_exec("python scripts/translate.py " . $newFilename);
+ 	move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(ErrorHandling::audioError2());
+	//move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(audioError2());
 
-	//return shell_exec("python scripts/translate.py " . $_FILES["user_file"]['full_path'] . " " . $_FILES['user_file']['name']);
+	// 7.
+	getVocals($newFile);
+	
+			/* make sure to go to php.ini in xampp (config > php.ini) 
+			*  and set max_execution_time into 600 [10 minutes] or higher (write in seconds), for longer processing
+			*  you only need to pass the name of file as argument for translation (file extension not needed)
+			*/
+
+	// 8.
+	$output = shell_exec("python scripts\\translate.py " . escapeshellarg($newFilename));
+	if ($output) {
+		return $output;
+	} else {
+		ErrorHandling::audioError3();
+	}
 }
+
+
+
+
+
+
 
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-	// start of the audio to text translation
-	//	1. Error handling, if user did not select language
-	//	2. Check file format
-	//  3. append user_id into the filename
-	//  4. double check if (audio_files folder exists) and (filename already exists)
-	//	5. Upload the file onto audio_files folder of server (must be updated with user id)
-	//	6. remove background noise/music, get the vocals
-	// 	7. translate the transcribed file
+	// steps of audio to text translation
+	//	1. Error handling, if user did not select language / same language
+	//	2. Error handling, Check file format
+	//	3. Error handling, make sure there is audio_files folder
+	//  4. insert audio file into database
+	//  5. append user_id and upload date into the filename
+	//	6. Upload the file onto audio_files folder of server (must be updated with user id)
+	//	7. remove background noise/music, get the vocals
+	// 	8. translate the transcribed file
 	
 	$curl = curl_init();
 
 	// 1.
-	if ($_POST["src"] == "" || $_POST['target'] == "") {
-        // error, user did not choose language
-        logs("error-at", $_SESSION['username'], $dbcon);
-        header("Location: history_audio.php?error=1");
-        exit();
-        
-    } 
+	ErrorHandling::checkLanguageChosen();
 
 	// 2.
+	ErrorHandling::validateFormat($_FILES['user_file']['name']);
+
+	// 3. 
+	ErrorHandling::checkFolder();
+
 	if(ISSET($_POST["text"])){
 		$transcript = $_POST["text"];
 	}
@@ -152,10 +218,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		$path=$_FILES['user_file']['name']; // file
 		$userid = $_SESSION['user_id']; // user id needed to separate all files between each user by appending userid to filename
 		
-		// 2. 
-		validateFormat();
-
-		// 3. 4. 5. 6. 7.
+		// 4.
+		db_insertAudioFile($path, $userid);
+		
+		// 5. 6. 7. 8.
 		$transcript = uploadAndTranscribe($path, $userid);
 		echo 'TRANSCRIPT: ' . $transcript;
 	} 
@@ -174,7 +240,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		CURLOPT_POSTFIELDS => "source_language=".$src_lang."&target_language=".$trg_lang."&text=".$transcript,
 		CURLOPT_HTTPHEADER => [
 			"X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-			"X-RapidAPI-Key: 81901ce272msh4265f1573ac1dc7p17b83ejsnc3b7fa66ab56",
+			"X-RapidAPI-Key: d5185f2565msh3cdba754dc69affp10ba69jsn87d2b93e11ba",
 			"content-type: application/x-www-form-urlencoded"
 		],
 	]);
@@ -194,3 +260,4 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 
 ?>
+

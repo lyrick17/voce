@@ -39,6 +39,9 @@ function logs($log_act, $user, $dbcon) {
         case "audio-to-text":
             $activity = "translation: audio-to-text";
             break;
+        case "audio-to-text-fail":
+            $activity = "translation no output: audio-to-text";
+            break;
         case "delete-text-to-text":
             $activity = "user delete: text-to-text record id __";
             break;
@@ -52,24 +55,33 @@ function logs($log_act, $user, $dbcon) {
             // Errors for TEXT TO TEXT
         case "error-tt-1":
             $activity = "error text-text: language not selected";
+            break;
         case "error-tt-2":
             $activity = "error text-text: no text input";
+            break;
         case "error-tt-3":
             $activity = "error text-text: same language selected";
+            break;
         case "error-tt-4":
             $activity = "error text-text: system error";
+            break;
 
             // Errors for AUDIO TO TEXT
         case "error-at-1":
             $activity = "error audio-text: language not selected";
+            break;
         case "error-at-2":
             $activity = "error audio-text: no file uploaded";
+            break;
         case "error-at-3":
             $activity = "error audio-text: invalid file uploaded";
+            break;
         case "error-at-4":
             $activity = "error audio-text: same language selected";
+            break;
         case "error-at-5":
             $activity = "error audio-text: system error";
+            break;
         // -----------------------------
 
         default:

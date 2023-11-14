@@ -28,22 +28,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $isFromAudio = TRUE;
   
   
-  
+  // insert audio file into database
   $file_name = $_FILES['user_file']['name'];
   $file_size = round(filesize('audio_files/' . $file_name)/1000000, 2);
   $file_format =  pathinfo('audio_files/' . $file_name, PATHINFO_EXTENSION);
+
   $query_insert2 = mysqli_prepare($dbcon, "INSERT INTO audio_files(user_id, file_name, file_size, file_format,
   upload_date) VALUES (?, ?, ?, ?, NOW())");
+
   mysqli_stmt_bind_param($query_insert2, 'isss', $id, $file_name, $file_size, $file_format);
   mysqli_stmt_execute($query_insert2);
 
 
   $get_fileid = "SELECT file_id FROM audio_files WHERE user_id = '$id' ORDER BY file_id DESC LIMIT 1";
   $fileresult = mysqli_query($dbcon, $get_fileid);
+
   $row = mysqli_fetch_assoc($fileresult);
 
   $query_insert1 = mysqli_prepare($dbcon, "INSERT INTO text_translations(file_id, user_id, from_audio_file, original_language, translated_language,
   translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+  
   mysqli_stmt_bind_param($query_insert1, 'iiissss', $row['file_id'], $id, $isFromAudio, $source_lang, $target_lang, $transcript, $result);
   mysqli_stmt_execute($query_insert1);
 
@@ -143,14 +147,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <!-- Error Message: Pabago nalang if may naiisip kang ibang design -->
                     <p style="color: red;"><i>
                     <?php
-                        if (isset($_GET['error']) && $_GET['error'] == 1) { // user did not choose language
-                            echo "Please select a source/translated language.";
-                        }
-                        if (isset($_GET['error']) && $_GET['error'] == 2) { // user did not upload file
-                            echo "No File Upload. Please try again.";
-                        }
-                        if (isset($_GET['error']) && $_GET['error'] == 3) { // user upload wrong file
-                            echo "Invalid File Format. Please try again.";
+                        if (isset($_GET['error'])) {
+                            switch ($_GET['error']) {
+                                case 1: // user did not choose language
+                                    echo "Please select a source/translated language.";
+                                    break;
+                                case 2:  // user did not upload file
+                                    echo "No File Upload. Please try again.";
+                                    break;
+                                case 3: // user upload wrong file type
+                                    echo "Invalid File Format. Please try again.";
+                                    break;
+                                case 4: // user choose two same language
+                                    echo "Please choose two different language.";
+                                    break;
+                                case 5: // it's what the programmers say, "WHY IS IT NOT WORKING??"
+                                    echo "Audio File not processed well. Please try again.";
+                                    break;
+                                default;
+                                    break;
+                            }
                         }
                     ?> 
                     </i></p>
