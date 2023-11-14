@@ -50,14 +50,14 @@ class ErrorHandling {
 	static function audioError2() {
 		// error, user did not upload file
 		global $dbcon;
-		logs("error-at", $_SESSION['username'], $dbcon);
+		logs("error-at-2", $_SESSION['username'], $dbcon);
 		header("Location: history_audio.php?error=2");
 		exit();
 	}
 	static function audioError3() {
 		// error, for some reason, there is no output
 		global $dbcon;
-		logs("error-at", $_SESSION['username'], $dbcon);
+		logs("audio-to-text-fail", $_SESSION['username'], $dbcon);
 		header("Location: history_audio.php?error=5");
 		exit();
 	}
@@ -85,6 +85,11 @@ class ErrorHandling {
 	}
 	
 	static function validateFormat($filePath) {
+		// error, user no upload file
+		if (!$filePath) {
+			self::audioError2();
+		}
+		
 		// error, user uploaded invalid file format
 		// only accepts these formats provided
 		$validExtensions = array('m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg');
@@ -92,9 +97,9 @@ class ErrorHandling {
 		// get the file extension, then check if extension is in array, return error if none
 		$ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
 		global $dbcon;
-	
+		
 		if (!in_array($ext, $validExtensions)) {
-			logs("error-at", $_SESSION['username'], $dbcon);
+			logs("error-at-3", $_SESSION['username'], $dbcon);
 			header("Location: history_audio.php?error=3");
 			exit();
 		}
@@ -192,7 +197,7 @@ function uploadAndTranscribe($path, $userid){
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 	// steps of audio to text translation
 	//	1. Error handling, if user did not select language / same language
-	//	2. Error handling, Check file format
+	//	2. Error handling, Check file format and if user uploads file
 	//	3. Error handling, make sure there is audio_files folder
 	//  4. insert audio file into database
 	//  5. append user_id and upload date into the filename
@@ -201,7 +206,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	// 	8. translate the transcribed file
 	
 	$curl = curl_init();
-
+	
 	// 1.
 	ErrorHandling::checkLanguageChosen();
 
