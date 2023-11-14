@@ -70,8 +70,8 @@
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
-    <script src="form-validation.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/form-validation.js"></script>
     
 </body>
 

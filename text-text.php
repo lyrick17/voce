@@ -30,15 +30,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Error Handling first before translation 
     if ($_POST["src"] == "" || $_POST['target'] == "") {
         // error, user did not choose language
-        logs("error-tt", $_SESSION['username'], $dbcon);
+        logs("error-tt-1", $_SESSION['username'], $dbcon);
         header("Location: text-text.php?error=1");
         exit();
         
     } 
     if (empty(trim($_POST['text']))) {
         // error, user did not type anything
-        logs("error-tt", $_SESSION['username'], $dbcon);
+        logs("error-tt-2", $_SESSION['username'], $dbcon);
         header("Location: text-text.php?error=2");
+        exit();
+    }
+    if ($_POST["src"] == $_POST['target']) {
+        // error, user picked same language, useless
+        logs("error-tt-3", $_SESSION['username'], $dbcon);
+        header("Location: text-text.php?error=3");
         exit();
     }
     
@@ -150,11 +156,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <!-- Error Message: Pabago nalang if may naiisip kang ibang design -->
                     <p style="color: red;"><i>
                     <?php
-                        if (isset($_GET['error']) && $_GET['error'] == 1) {
-                            echo "Please select a source/translated language.";
-                        }
-                        if (isset($_GET['error']) && $_GET['error'] == 2) {
-                            echo "Please type text to be translated.";
+                        if (isset($_GET['error'])) {
+                            switch ($_GET['error']) {
+                                case 1: // user did not chooose language
+                                    echo "Please select a source/translated language.";
+                                    break;
+                                case 2: // user did not enter text
+                                    echo "Please type text to be translated.";
+                                    break;
+                                case 3: // user chose two same language
+                                    echo "Please choose two different language.";
+                                    break;
+                                default;
+                                    break;
+                            }
                         }
                     ?> 
                     </i></p>
