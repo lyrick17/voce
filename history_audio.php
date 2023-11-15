@@ -7,7 +7,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
   exit(); 
 }?>
 
-<?php 
+<?php
+
+function dd($item){
+    var_dump($item);
+    exit();
+}
 require "Translator_Functions.php";
 $languages = Translator::getLangCodes();
 $lang_codes = [];
@@ -35,7 +40,11 @@ $trg_lang = $lang_codes[$_POST["target"]] ?? '';
 
 Translator::db_insertAudioFile($path, $userid);
 
-$transcript = Translator::uploadAndTranscribe($path, $userid);
+// Checks whether checkbox is checked or not
+$removeBGM = ISSET($_POST["removeBGM"]) ?  "on" : "off";
+
+# Arguments: path of the audio file, user id, on (if checkbox is checked)
+$transcript = Translator::uploadAndTranscribe($path, $userid, $removeBGM);
 
 $result = Translator::translate($transcript, $src_lang, $trg_lang);
 $source_lang = $_POST['src'];
@@ -207,6 +216,10 @@ $target_lang = $_POST['target'];
       <p>Browse File to Upload</p>
                 </div>
       <input class="file-input" type="file" name="user_file" id="fileInputLabel" for="fileInput">
+
+
+      <input class = "removeBGM" type = "checkbox" name = "removeBGM">
+      <label for = "removeBGM">Remove BGM <br> <span style = "font-style: italic; color: red;">PS: Remove BGM before translating music.</span></label>
       <!-- accepts only Supported formats: ['m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg'] -->
   </div>
  

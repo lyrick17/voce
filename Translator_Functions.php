@@ -21,9 +21,8 @@ class Translator{
     
 
     
-    static function uploadAndTranscribe($path, $userid){
-        global $dbcon;
-    
+    static function uploadAndTranscribe($path, $userid, $removeBGM){
+        global $dbcon;      
             // get the name of file and extension separately
             $filename = pathinfo($path, PATHINFO_FILENAME);
             $extension = pathinfo($path, PATHINFO_EXTENSION);
@@ -47,15 +46,19 @@ class Translator{
         //move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(audioError2());
     
         // 7.
-        Translator::getVocals($newFile);
+
+        # Extract vocals if checkbox is checked
+        if ($removeBGM === "on")
+            Translator::getVocals($newFile);
         
+            
                 /* make sure to go to php.ini in xampp (config > php.ini) 
                 *  and set max_execution_time into 600 [10 minutes] or higher (write in seconds), for longer processing
                 *  you only need to pass the name of file as argument for translation (file extension not needed)
                 */
     
         // 8.
-        $output = shell_exec("python scripts\\translate.py " . escapeshellarg($newFilename));
+        $output = shell_exec("python scripts\\translate.py " . escapeshellarg($newFilename) . " " . $removeBGM . " " . $extension);
         if ($output)
             return $output;
         else
@@ -150,7 +153,6 @@ class Translator{
 
   
     
-        
         $src_lang =  $src;
         $trg_lang =  $target;
         curl_setopt_array($curl, [
