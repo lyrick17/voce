@@ -3,10 +3,12 @@ import os
 import whisper
 import subprocess
 import time
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 model = whisper.load_model("base")
 
-# TAKE NOTE: make sure the filename does not have any space
 filename = sys.argv[1]
 removeBGM = sys.argv[2]
 extension = sys.argv[3]
@@ -28,13 +30,3 @@ if __name__ == '__main__':
         print(result["text"])
 
 
-
-
-''' ------- PREVIOUS CODE
-import sys
-import whisper
-
-model = whisper.load_model("base")
-result = model.transcribe('audio_files/' + sys.argv[1])
-print(result["text"])
-'''

@@ -2,11 +2,12 @@
 require "error_handling.php";
 class Translator{
 
-    static function db_insertAudioFile($path, $userid) {
+    static function db_insertAudioFile($path, $userid,  $pathsize) {
         global $dbcon;
         // prepare userid, filename, filesize, fileformat
         $file_name = $path;
-        $file_size = round(filesize('audio_files/' . $file_name)/1000000, 2);
+        $file_size = round($pathsize / 1000000, 2);
+            //$file_size = round(filesize('audio_files/' . $file_name)/1000000, 2);
         $file_format =  pathinfo('audio_files/' . $file_name, PATHINFO_EXTENSION);
         
         // insert audio file into database
@@ -22,6 +23,7 @@ class Translator{
 
     
     static function uploadAndTranscribe($path, $userid, $removeBGM){
+        
         global $dbcon;      
             // get the name of file and extension separately
             $filename = pathinfo($path, PATHINFO_FILENAME);
@@ -42,14 +44,14 @@ class Translator{
     
     
         // 6.
-         move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(ErrorHandling::audioError2());
-        //move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(audioError2());
-    
+        move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(ErrorHandling::audioError2());
+        
         // 7.
 
         # Extract vocals if checkbox is checked
-        if ($removeBGM === "on")
-            Translator::getVocals($newFile);
+        if ($removeBGM == "on") {
+            self::getVocals($newFile);
+        }
         
             
                 /* make sure to go to php.ini in xampp (config > php.ini) 
@@ -58,7 +60,7 @@ class Translator{
                 */
     
         // 8.
-        $output = shell_exec("python scripts\\translate.py " . escapeshellarg($newFilename) . " " . $removeBGM . " " . $extension);
+        $output = shell_exec("python scripts\\translate.py " . escapeshellarg($newFilename) . " " . escapeshellarg($removeBGM) . " " . escapeshellarg($extension));
         if ($output)
             return $output;
         else
@@ -71,10 +73,13 @@ class Translator{
         # use spleeter for extracting vocals,
         #   and pass the file as argument 
         # then, deactivate virtual environment
-        $output = shell_exec("python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
-        #  shell_exec("spleeter_env\\Scripts\\activate")
-        #  $output = shell_exec("spleeter separate -o audio_output " . $file);
-        #  shell_exec("deactivate");
+        
+        #   code for Python 3.8 system
+        # $output = shell_exec("python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
+        
+        #   code for Python 3.11 system with py3.8 spleeter_env virtual env
+        $output = shell_exec("spleeter_env\\Scripts\\activate && python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
+       
     }
 
     
