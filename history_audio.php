@@ -1,30 +1,55 @@
 <?php require("mysql/mysqli_session.php"); 
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
-<?php require "translation.php" ?>
-<?php require "Translator_Functions.php" ?>
-
 <?php if (!isset($_SESSION['username'])) {
     
   header("location: index.php");
   exit(); 
 }?>
 
-<?php 
-$id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
+<?php
+
+function dd($item){
+    var_dump($item);
+    exit();
+}
+require "Translator_Functions.php";
+$languages = Translator::getLangCodes();
+$lang_codes = [];
+foreach($languages as $language){
+    $lang_codes[$language["name"]] = $language["code"];
+  }
+
+
+  $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
+
 
 // Translation history for text to text 
 $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN audio_files a ON t.file_id = a.file_id WHERE t.user_id = $id AND a.user_id = $id AND t.from_audio_file = 1 ORDER BY translation_date DESC");
-foreach($languages as $language){
-  $lang_codes[$language["name"]] = $language["code"];
-}
+
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
 
 // Translate text input
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+    // required for uploading the file
+$path=$_FILES['user_file']['name']; // file
+$userid = $_SESSION['user_id']; // user id needed to separate all files between each user by appending userid to filename
+$src_lang =  $lang_codes[$_POST["src"]] ?? '';
+$trg_lang = $lang_codes[$_POST["target"]] ?? '';
 
-  $source_lang = $_POST['src'];
-  $target_lang = $_POST['target'];
+
+Translator::db_insertAudioFile($path, $userid);
+
+// Checks whether checkbox is checked or not
+$removeBGM = ISSET($_POST["removeBGM"]) ?  "on" : "off";
+
+# Arguments: path of the audio file, user id, on (if checkbox is checked)
+$transcript = Translator::uploadAndTranscribe($path, $userid, $removeBGM);
+
+$result = Translator::translate($transcript, $src_lang, $trg_lang);
+$source_lang = $_POST['src'];
+$target_lang = $_POST['target'];
+
   $isFromAudio = TRUE;
   
   $get_fileid = "SELECT file_id FROM audio_files WHERE user_id = '$id' ORDER BY file_id DESC LIMIT 1";
@@ -191,6 +216,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       <p>Browse File to Upload</p>
                 </div>
       <input class="file-input" type="file" name="user_file" id="fileInputLabel" for="fileInput">
+
+
+      <input class = "removeBGM" type = "checkbox" name = "removeBGM">
+      <label for = "removeBGM">Remove BGM <br> <span style = "font-style: italic; color: red;">PS: Remove BGM before translating music.</span></label>
       <!-- accepts only Supported formats: ['m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg'] -->
   </div>
  
