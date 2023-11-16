@@ -9,7 +9,6 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 model = whisper.load_model("base")
 
-# TAKE NOTE: make sure the filename does not have any space
 filename = sys.argv[1]
 removeBGM = sys.argv[2]
 extension = sys.argv[3]

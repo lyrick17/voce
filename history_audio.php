@@ -33,12 +33,13 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     // required for uploading the file
 $path=$_FILES['user_file']['name']; // file
+$pathsize = $_FILES['user_file']['size']; // file size
 $userid = $_SESSION['user_id']; // user id needed to separate all files between each user by appending userid to filename
 $src_lang =  $lang_codes[$_POST["src"]] ?? '';
 $trg_lang = $lang_codes[$_POST["target"]] ?? '';
 
 
-Translator::db_insertAudioFile($path, $userid);
+Translator::db_insertAudioFile($path, $userid, $pathsize);
 
 // Checks whether checkbox is checked or not
 $removeBGM = ISSET($_POST["removeBGM"]) ?  "on" : "off";
