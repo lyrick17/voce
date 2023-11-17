@@ -94,9 +94,47 @@ $target_lang = $_POST['target'];
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <script>
+    function showLoading() {
+        document.getElementById('loadingModal').style.display = 'flex';
+    }
+</script>
 
 
+<style>
+    /* Modal styles */
+    .modalloading {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Make the entire modal transparent */
+        justify-content: center;
+        align-items: center;
+        border: none; /* Remove border for the modal */
+    }
 
+    .modal-contentloading {
+        background-color: transparent; /* Make the content background transparent */
+        border: none; /* Remove border for the content */
+        text-align: center;
+    }
+
+    /* Ensure the image is centered */
+    .modal-contentloading img {
+        display: block;
+        margin: 0 auto;
+    }
+    .modal-contentloading p {
+        color: white; 
+        font-size: 26px;
+    }
+   
+    
+    
+</style>
 
 </head>
 
@@ -185,6 +223,14 @@ $target_lang = $_POST['target'];
                     </i></p>
                 </div>
             </div>
+            <!-- Add this div for the loading feature -->
+<!-- Loading Modal after clicking translate button -->
+            <div id="loadingModal" class="modalloading">
+    <div class="modal-contentloading">
+    <img src="images/loading.gif" alt="Loading..." />
+    <p>Loading....</p>
+    </div>
+</div>
             <form enctype="multipart/form-data" action = "history_audio.php" method = "POST" onsubmit="showLoading()">
 			<label>
 			Source language:
@@ -278,7 +324,7 @@ $target_lang = $_POST['target'];
                             </tr>
                         </thead>
                         <tbody class = "history-body">
-    
+                        
                         <!-- Displays audio to text history -->
                         <?php Translator::displayHistory($history, "audio2text")?>
                         </tbody>
