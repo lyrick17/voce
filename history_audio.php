@@ -228,11 +228,6 @@ $target_lang = $_POST['target'];
 
 <button type = "submit" id="yourButtonID" class="custom-button" disabled>Translate</button>
 
-<!-- Loading Div -->
-<!-- <div id="loading" class="hidden">
-<div class="loader"></div>
-        <p>Loading...</p>
-    </div> -->
 </form>
   <div class="text-section">
         <header>Original text:</header>
@@ -256,14 +251,17 @@ $target_lang = $_POST['target'];
         </div>
       
 <br>
-
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modalText"></p>
+  </div>
+</div>
 
             <div class="bottom-data">
                 <div class="orders">
                     <div class="header">
                         <h2>Recent Audio to Text Translations</h3>
-                        <i class='bx bx-filter'></i>
-                        <i class='bx bx-search'></i>
                     </div>
                     <table>
                         <thead>
@@ -280,7 +278,7 @@ $target_lang = $_POST['target'];
                             </tr>
                         </thead>
                         <tbody class = "history-body">
-                            <!-- Example rows, replace with your actual file data -->
+    
                         <!-- Displays audio to text history -->
                         <?php Translator::displayHistory($history, "audio2text")?>
                         </tbody>
