@@ -934,5 +934,34 @@ select::after {
     text-decoration: none;
     cursor: pointer;
   }
-  
+
+      /* Modal styles for loading */
+      .modalloading {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Make the entire modal transparent */
+        justify-content: center;
+        align-items: center;
+        border: none; /* Remove border for the modal */
+    }
+
+    .modal-contentloading {
+        background-color: transparent; /* Make the content background transparent */
+        border: none; /* Remove border for the content */
+        text-align: center;
+    }
+
+    /* Ensure the image is centered */
+    .modal-contentloading img {
+        display: block;
+        margin: 0 auto;
+    }
+    .modal-contentloading p {
+        color: white; 
+        font-size: 26px;
+    } 
   
