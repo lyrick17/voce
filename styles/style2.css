@@ -868,7 +868,7 @@ select::after {
     background: #fe4c5a;
 }
 
-.delete-btn{
+.deleteAll-btn{
     background : #ff3838;
     color: white;
     padding: 0.5em;
@@ -876,7 +876,7 @@ select::after {
     border-radius: 0.5em;
 }
 
-.delete-btn:hover{
+.deleteAll-btn:hover{
     cursor: pointer;
     background: #fe4c5a;
 }

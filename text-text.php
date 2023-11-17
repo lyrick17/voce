@@ -257,7 +257,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <!-- Table -->
 
                 <div class="orders">
-                <button type = 'button' class = "deleteAll-btn">Delete All</button>
+                <button type = 'button' class = "deleteAll-btn" id = "t2t">Delete All</button>
                     <div class="header">
                         <h2>Recent Text to Text Translations</h2>
                         <br>

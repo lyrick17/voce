@@ -103,7 +103,7 @@ $target_lang = $_POST['target'];
 <!-- Confirm delete window -->
 <div class = "delete-window">
     <div class = "confirm-div">
-        <h4 class = "confirm-text">Are you sure you want to delete this row?</h4>
+        <h4 class = "confirm-text"></h4>
         <div class = "confirm-btn-div">
             <button class = "confirm-btn confirm-yes">Yes</button>
             <button class = "confirm-btn confirm-no">No</button>
@@ -220,7 +220,7 @@ $target_lang = $_POST['target'];
 
 
       <input class = "removeBGM" type = "checkbox" name = "removeBGM">
-      <label for = "removeBGM">Remove BGM <br> <span style = "font-style: italic; color: red;">PS: Remove BGM before translating music.</span></label>
+      <label for = "removeBGM">Remove BGM <br> <span style = "font-style: italic; color: red;">PS: Remove BGM before translating audio with music.</span></label>
       <!-- accepts only Supported formats: ['m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg'] -->
   </div>
  
@@ -260,6 +260,7 @@ $target_lang = $_POST['target'];
 
             <div class="bottom-data">
                 <div class="orders">
+                <button type = 'button' class = "deleteAll-btn" id = "a2t">Delete All</button>
                     <div class="header">
                         <h2>Recent Audio to Text Translations</h3>
                         <i class='bx bx-filter'></i>
