@@ -1,49 +1,66 @@
 <?php require("mysql/mysqli_session.php"); 
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
-<?php require "translation.php" 
-?>
-
 <?php if (!isset($_SESSION['username'])) {
     
   header("location: index.php");
   exit(); 
 }?>
 
-<?php 
-$id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
+<?php
+
+function dd($item){
+    var_dump($item);
+    exit();
+}
+require "Translator_Functions.php";
+$languages = Translator::getLangCodes();
+$lang_codes = [];
+foreach($languages as $language){
+    $lang_codes[$language["name"]] = $language["code"];
+  }
+
+
+  $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
+
 
 // Translation history for text to text 
 $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN audio_files a ON t.file_id = a.file_id WHERE t.user_id = $id AND a.user_id = $id AND t.from_audio_file = 1 ORDER BY translation_date DESC");
-foreach($languages as $language){
-  $lang_codes[$language["name"]] = $language["code"];
-}
+
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
 
 // Translate text input
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+    // required for uploading the file
+$path=$_FILES['user_file']['name']; // file
+$pathsize = $_FILES['user_file']['size']; // file size
+$userid = $_SESSION['user_id']; // user id needed to separate all files between each user by appending userid to filename
+$src_lang =  $lang_codes[$_POST["src"]] ?? '';
+$trg_lang = $lang_codes[$_POST["target"]] ?? '';
 
-  $source_lang = $_POST['src'];
-  $target_lang = $_POST['target'];
+
+Translator::db_insertAudioFile($path, $userid, $pathsize);
+
+// Checks whether checkbox is checked or not
+$removeBGM = ISSET($_POST["removeBGM"]) ?  "on" : "off";
+
+# Arguments: path of the audio file, user id, on (if checkbox is checked)
+$transcript = Translator::uploadAndTranscribe($path, $userid, $removeBGM);
+
+$result = Translator::translate($transcript, $src_lang, $trg_lang);
+$source_lang = $_POST['src'];
+$target_lang = $_POST['target'];
+
   $isFromAudio = TRUE;
   
-  
-  
-  $file_name = $_FILES['user_file']['name'];
-  $file_size = round(filesize('audio_files/' . $file_name)/1000000, 2);
-  $file_format =  pathinfo('audio_files/' . $file_name, PATHINFO_EXTENSION);
-  $query_insert2 = mysqli_prepare($dbcon, "INSERT INTO audio_files(user_id, file_name, file_size, file_format,
-  upload_date) VALUES (?, ?, ?, ?, NOW())");
-  mysqli_stmt_bind_param($query_insert2, 'isss', $id, $file_name, $file_size, $file_format);
-  mysqli_stmt_execute($query_insert2);
-
-
   $get_fileid = "SELECT file_id FROM audio_files WHERE user_id = '$id' ORDER BY file_id DESC LIMIT 1";
   $fileresult = mysqli_query($dbcon, $get_fileid);
+
   $row = mysqli_fetch_assoc($fileresult);
 
   $query_insert1 = mysqli_prepare($dbcon, "INSERT INTO text_translations(file_id, user_id, from_audio_file, original_language, translated_language,
   translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+  
   mysqli_stmt_bind_param($query_insert1, 'iiissss', $row['file_id'], $id, $isFromAudio, $source_lang, $target_lang, $transcript, $result);
   mysqli_stmt_execute($query_insert1);
 
@@ -76,36 +93,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script>
-document.addEventListener('DOMContentLoaded', function () {
-            // Get all the cells with class 'truncate-text'
-            var cells = document.querySelectorAll('.truncate-text');
 
-            // Iterate through each cell and add the truncation functionality
-            cells.forEach(function (cell) {
-                var originalText = cell.textContent.trim();
-                var truncatedText = originalText.length > 150 ? originalText.substring(0, 150) + '...' : originalText;
-
-                // Create a span with truncated text and ellipsis
-                var contentSpan = document.createElement('span');
-                contentSpan.innerHTML = truncatedText + '<span class="ellipsis" onclick="showPopup(this)" style="font-size: 1.2em;">&#8250;</span>';
-
-                // Replace the content of the cell with the new span
-                cell.innerHTML = '';
-                cell.appendChild(contentSpan);
-            });
-        });
-
-        function showPopup(element) {
-            var originalText = element.parentNode.textContent.trim();
-            alert(originalText);
-        }
-    </script>
 
 
 
 
 </head>
+
+<!-- Confirm delete window -->
+<div class = "delete-window">
+    <div class = "confirm-div">
+        <h4 class = "confirm-text">Are you sure you want to delete this row?</h4>
+        <div class = "confirm-btn-div">
+            <button class = "confirm-btn confirm-yes">Yes</button>
+            <button class = "confirm-btn confirm-no">No</button>
+        </div>
+    </div>
+</div>
 
 <body>
 
@@ -156,14 +160,26 @@ document.addEventListener('DOMContentLoaded', function () {
                     <!-- Error Message: Pabago nalang if may naiisip kang ibang design -->
                     <p style="color: red;"><i>
                     <?php
-                        if (isset($_GET['error']) && $_GET['error'] == 1) { // user did not choose language
-                            echo "Please select a source/translated language.";
-                        }
-                        if (isset($_GET['error']) && $_GET['error'] == 2) { // user did not upload file
-                            echo "No File Upload. Please try again.";
-                        }
-                        if (isset($_GET['error']) && $_GET['error'] == 3) { // user upload wrong file
-                            echo "Invalid File Format. Please try again.";
+                        if (isset($_GET['error'])) {
+                            switch ($_GET['error']) {
+                                case 1: // user did not choose language
+                                    echo "Please select a source/translated language.";
+                                    break;
+                                case 2:  // user did not upload file
+                                    echo "No File Upload. Please try again.";
+                                    break;
+                                case 3: // user upload wrong file type
+                                    echo "Invalid File Format. Please try again.";
+                                    break;
+                                case 4: // user choose two same language
+                                    echo "Please choose two different language.";
+                                    break;
+                                case 5: // it's what the programmers say, "WHY IS IT NOT WORKING??"
+                                    echo "Audio File not processed well. Please try again.";
+                                    break;
+                                default;
+                                    break;
+                            }
                         }
                     ?> 
                     </i></p>
@@ -201,16 +217,22 @@ document.addEventListener('DOMContentLoaded', function () {
       <p>Browse File to Upload</p>
                 </div>
       <input class="file-input" type="file" name="user_file" id="fileInputLabel" for="fileInput">
+
+
+      <input class = "removeBGM" type = "checkbox" name = "removeBGM">
+      <label for = "removeBGM">Remove BGM <br> <span style = "font-style: italic; color: red;">PS: Remove BGM before translating music.</span></label>
       <!-- accepts only Supported formats: ['m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg'] -->
   </div>
  
 
 
 <button type = "submit" id="yourButtonID" class="custom-button" disabled>Translate</button>
-<div id="loading" class="hidden">
+
+<!-- Loading Div -->
+<!-- <div id="loading" class="hidden">
 <div class="loader"></div>
         <p>Loading...</p>
-    </div>
+    </div> -->
 </form>
   <div class="text-section">
         <header>Original text:</header>
@@ -254,24 +276,13 @@ document.addEventListener('DOMContentLoaded', function () {
                             <th>Translated Text</th>
                             <th>Target Language</th>
                             <th>Translation Date</th>    
+                            <th>Delete</th>    
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class = "history-body">
                             <!-- Example rows, replace with your actual file data -->
-                            <?php while($row = mysqli_fetch_assoc($history)) : ?>
-                            <tr>
-                            <td><?= $row['file_name'] ?></td>
-                            <td><?= $row['file_format'] ?></td>
-                            <td><?= $row['file_size'].' mb' ?></td>
-
-                            <td class="truncate-text"><?= $row['translate_from'] ?></td>
-                            <td><?= $row['original_language'] ?></td>
-                            <td class="truncate-text"><?= $row['translate_to']?></td>
-                            <td><?= $row['translated_language']?></td>
-                            <td><?= $row['translation_date']?></td>
-                            </tr>
-                            <?php endwhile ?>
-                            <!-- Add more rows for additional files -->
+                        <!-- Displays audio to text history -->
+                        <?php Translator::displayHistory($history, "audio2text")?>
                         </tbody>
                     </table>
 
@@ -282,8 +293,9 @@ document.addEventListener('DOMContentLoaded', function () {
         </main>
 
     </div>
-                        
+                                
     <script src="scripts/index.js"></script>
+    <script src="scripts/delete.js"></script>
 </body>
 
 </html>
