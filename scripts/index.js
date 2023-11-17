@@ -123,7 +123,10 @@ window.addEventListener('resize', () => {
             }
         });
     });
-    
+    // modal for loading the duck
+    function showLoading() {
+        document.getElementById('loadingModal').style.display = 'flex';
+    }
     
     
     
