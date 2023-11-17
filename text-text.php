@@ -95,7 +95,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <!-- Confirm delete window -->
 <div class = "delete-window">
     <div class = "confirm-div">
-        <h4 class = "confirm-text">Are you sure you want to delete this row?</h4>
+        <h4 class = "confirm-text"></h4>
         <div class = "confirm-btn-div">
             <button class = "confirm-btn confirm-yes">Yes</button>
             <button class = "confirm-btn confirm-no">No</button>
@@ -255,7 +255,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
                 <!-- Table -->
+
                 <div class="orders">
+                <button type = 'button' class = "deleteAll-btn">Delete All</button>
                     <div class="header">
                         <h2>Recent Text to Text Translations</h2>
                         <br>
