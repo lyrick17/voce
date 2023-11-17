@@ -260,7 +260,9 @@ $target_lang = $_POST['target'];
 
             <div class="bottom-data">
                 <div class="orders">
-                <button type = 'button' class = "deleteAll-btn" id = "a2t">Delete All</button>
+                <div class = "deleteAllClass">
+                    <button type = 'button' class = "deleteAll-btn" id = "a2t">Delete All</button>
+                </div>
                     <div class="header">
                         <h2>Recent Audio to Text Translations</h3>
                         <i class='bx bx-filter'></i>

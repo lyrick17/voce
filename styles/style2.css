@@ -876,6 +876,10 @@ select::after {
     border-radius: 0.5em;
 }
 
+.deleteAllClass{
+    text-align:right;
+}
+
 .deleteAll-btn:hover{
     cursor: pointer;
     background: #fe4c5a;
