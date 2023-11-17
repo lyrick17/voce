@@ -92,9 +92,9 @@ class Translator{
                 echo               
                 "<tr id = ". $row['text_id'] ." class = '". $row['user_id']. " " . $row['from_audio_file'] . "'>" .
                 "<td class = " .$row['user_id']. ">" .$row['translate_from'] . "</td>" . 
-                "<td class = " .$row['user_id']. ">" .$row['original_language'] . "</td>" .
+                "<td class = '" .$row['user_id']. " truncate-text'>" .$row['original_language'] . "</td>" .
                 "<td class = " .$row['user_id']. ">" .$row['translate_to'] . "</td>" .
-                "<td class = " .$row['user_id']. ">" .$row['translated_language'] . "</td>" . 
+                "<td class = '" .$row['user_id']. " truncate-text'>" .$row['translated_language'] . "</td>" . 
                 "<td class = " .$row['user_id']. ">" .$row['translation_date'] . "</td>" .  
                 "<td class = " .$row['user_id']. ">"."<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
                 . "</tr>";
