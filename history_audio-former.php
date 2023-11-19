@@ -98,12 +98,13 @@ $target_lang = $_POST['target'];
 
 
 
+
 </head>
 
 <!-- Confirm delete window -->
 <div class = "delete-window">
     <div class = "confirm-div">
-        <h4 class = "confirm-text"></h4>
+        <h4 class = "confirm-text">Are you sure you want to delete this row?</h4>
         <div class = "confirm-btn-div">
             <button class = "confirm-btn confirm-yes">Yes</button>
             <button class = "confirm-btn confirm-no">No</button>
@@ -112,7 +113,6 @@ $target_lang = $_POST['target'];
 </div>
 
 <body>
-
 
     <!-- Sidebar -->
     <div class="sidebar">
@@ -186,14 +186,14 @@ $target_lang = $_POST['target'];
                     </i></p>
                 </div>
             </div>
-                        <!-- Add this div for the loading feature -->
-            <!-- Loading Modal after clicking translate button -->
-                <div id="loadingModal" class="modalloading">
-                    <div class="modal-contentloading">
-                        <img src="images/loading.gif" alt="Loading..." />
-                        <p>Loading....</p>
-                    </div>
-                </div>
+            <!-- Add this div for the loading feature -->
+<!-- Loading Modal after clicking translate button -->
+            <div id="loadingModal" class="modalloading">
+    <div class="modal-contentloading">
+    <img src="images/loading.gif" alt="Loading..." />
+    <p>Loading....</p>
+    </div>
+</div>
             <form enctype="multipart/form-data" action = "history_audio.php" method = "POST" onsubmit="showLoading()">
 			<label>
 			Source language:
@@ -229,7 +229,7 @@ $target_lang = $_POST['target'];
 
 
       <input class = "removeBGM" type = "checkbox" name = "removeBGM">
-      <label for = "removeBGM">Remove BGM <br> <span style = "font-style: italic; color: red;">PS: Remove BGM before translating audio with music.</span></label>
+      <label for = "removeBGM">Remove BGM <br> <span style = "font-style: italic; color: red;">PS: Remove BGM before translating music.</span></label>
       <!-- accepts only Supported formats: ['m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg'] -->
   </div>
  
@@ -259,23 +259,18 @@ $target_lang = $_POST['target'];
              </div>
         </div>
       
-<br>    
-                <!-- Truncate Text -->
-                <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <p id="modalText"></p>
-                </div>
-                </div>
+<br>
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modalText"></p>
+  </div>
+</div>
+
             <div class="bottom-data">
                 <div class="orders">
-                <div class = "deleteAllClass">
-                    <button type = 'button' class = "deleteAll-btn" id = "a2t">Delete All</button>
-                </div>
                     <div class="header">
                         <h2>Recent Audio to Text Translations</h3>
-                        <i class='bx bx-filter'></i>
-                        <i class='bx bx-search'></i>
                     </div>
                     <table>
                         <thead>
@@ -292,7 +287,7 @@ $target_lang = $_POST['target'];
                             </tr>
                         </thead>
                         <tbody class = "history-body">
-                            <!-- Example rows, replace with your actual file data -->
+                        
                         <!-- Displays audio to text history -->
                         <?php Translator::displayHistory($history, "audio2text")?>
                         </tbody>
