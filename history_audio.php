@@ -15,6 +15,7 @@ function dd($item){
 }
 require "Translator_Functions.php";
 $languages = Translator::getLangCodes();
+
 $lang_codes = [];
 foreach($languages as $language){
     $lang_codes[$language["name"]] = $language["code"];
@@ -24,7 +25,7 @@ foreach($languages as $language){
   $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
 
-// Translation history for text to text 
+// Translation history for audio to text 
 $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN audio_files a ON t.file_id = a.file_id WHERE t.user_id = $id AND a.user_id = $id AND t.from_audio_file = 1 ORDER BY translation_date DESC");
 
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
@@ -32,24 +33,34 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
 // Translate text input
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     // required for uploading the file
-$path=$_FILES['user_file']['name']; // file
-$pathsize = $_FILES['user_file']['size']; // file size
-$userid = $_SESSION['user_id']; // user id needed to separate all files between each user by appending userid to filename
-$src_lang =  $lang_codes[$_POST["src"]] ?? '';
-$trg_lang = $lang_codes[$_POST["target"]] ?? '';
+    $path=$_FILES['user_file']['name']; // file
+    $pathsize = $_FILES['user_file']['size']; // file size
+    $userid = $_SESSION['user_id']; // user id needed to separate all files between each user by appending userid to filename
+    $src_lang =  $lang_codes[$_POST["src"]] ?? '';
+    $trg_lang = $lang_codes[$_POST["target"]] ?? '';
 
+    
+    // error handlings first before proceeding to the main process
+        // will automatically halt the process once error caught
+	ErrorHandling::checkLanguageChosen();
+	ErrorHandling::validateFormat($path);
+	ErrorHandling::checkFolder();
 
-Translator::db_insertAudioFile($path, $userid, $pathsize);
+    Translator::db_insertAudioFile($path, $userid, $pathsize);
 
-// Checks whether checkbox is checked or not
-$removeBGM = ISSET($_POST["removeBGM"]) ?  "on" : "off";
+    // Checks whether checkbox is checked or not
+    $removeBGM = ISSET($_POST["removeBGM"]) ?  "on" : "off";
 
-# Arguments: path of the audio file, user id, on (if checkbox is checked)
-$transcript = Translator::uploadAndTranscribe($path, $userid, $removeBGM);
+    # Arguments: path of the audio file, user id, on (if checkbox is checked)
+    # NOTE: $transcript SOON will be an assoc_array, with ['text'] && ['language']
+    # NOTE: as of Nov 20, 2023, it's still text
+    $transcript = Translator::uploadAndTranscribe($path, $userid, $removeBGM);
 
-$result = Translator::translate($transcript, $src_lang, $trg_lang);
-$source_lang = $_POST['src'];
-$target_lang = $_POST['target'];
+    $result = Translator::translate($transcript, $src_lang, $trg_lang);
+    # $result = Translator::translate($transcript['text'], $src_lang, $trg_lang);
+    
+    $source_lang = $_POST['src'];
+    $target_lang = $_POST['target'];
 
   $isFromAudio = TRUE;
   
@@ -63,18 +74,6 @@ $target_lang = $_POST['target'];
   
   mysqli_stmt_bind_param($query_insert1, 'iiissss', $row['file_id'], $id, $isFromAudio, $source_lang, $target_lang, $transcript, $result);
   mysqli_stmt_execute($query_insert1);
-
-
-
-
-  /*
-  mysqli_query($dbcon, "INSERT INTO text_translations(user_id, from_audio_file, original_language, translated_language,
-  translate_from, translate_to) VALUES 
-  ('$id',
-   '$isFromAudio',
-  '$source_lang', 
-  '$target_lang',
-  '$orig_text', '$translation')");*/
 
   logs("audio-to-text", $_SESSION['username'], $dbcon);
   header("Location: history_audio.php?translated=1");
