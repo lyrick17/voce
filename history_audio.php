@@ -113,7 +113,6 @@ $target_lang = $_POST['target'];
 
 <body>
 
-
     <!-- Sidebar -->
     <div class="sidebar">
         <a href="dashboard1.php" class="logo">
@@ -186,14 +185,6 @@ $target_lang = $_POST['target'];
                     </i></p>
                 </div>
             </div>
-                        <!-- Add this div for the loading feature -->
-            <!-- Loading Modal after clicking translate button -->
-                <div id="loadingModal" class="modalloading">
-                    <div class="modal-contentloading">
-                        <img src="images/loading.gif" alt="Loading..." />
-                        <p>Loading....</p>
-                    </div>
-                </div>
             <form enctype="multipart/form-data" action = "history_audio.php" method = "POST" onsubmit="showLoading()">
 			<label>
 			Source language:
@@ -237,6 +228,11 @@ $target_lang = $_POST['target'];
 
 <button type = "submit" id="yourButtonID" class="custom-button" disabled>Translate</button>
 
+<!-- Loading Div -->
+<!-- <div id="loading" class="hidden">
+<div class="loader"></div>
+        <p>Loading...</p>
+    </div> -->
 </form>
   <div class="text-section">
         <header>Original text:</header>
@@ -259,14 +255,9 @@ $target_lang = $_POST['target'];
              </div>
         </div>
       
-<br>    
-                <!-- Truncate Text -->
-                <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <p id="modalText"></p>
-                </div>
-                </div>
+<br>
+
+
             <div class="bottom-data">
                 <div class="orders">
                 <div class = "deleteAllClass">

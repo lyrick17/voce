@@ -146,9 +146,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         <main>
            
-<!-- Add this div for the loading feature -->
-<!-- Loading Modal after clicking translate button -->
-  
             <div class="header">
                 <div class="left">
                     <h1>
@@ -182,16 +179,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
          
 
-  
+            <!-- Insights -->
 
-            <!-- Truncate Text -->
-            <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <p id="modalText"></p>
-                </div>
-            </div>
-            
+            <!-- End of Insights -->
             <div class="bottom-data">
 
                 <!-- SOURCE LANGUAGE DIVISION-->
@@ -201,23 +191,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <br>   
                     </div>
 
-                    <div id="loadingModal" class="modalloading">
-                    <div class="modal-contentloading">
-                        <img src="images/loading.gif" alt="Loading..." />
-                        <p>Loading....</p>
-                    </div>
-                </div>
 
                     <!-- START OF FORM, COVERS TWO SELECT AND ONE TEXT AREA -->
-                    <form id="myForm" action="text-text.php" method="POST" onsubmit="showLoading()">   
+                    <form id="myForm" action="text-text.php" method="POST">   
                         <!-- SELECT LANGUAGE -->     
-                        <select name="src" id="sourceLanguage">
+                        <select name="src" id="SourceLanguage">
                         <option value="">Select One …</option>
                             <?php foreach($languages as $language): ?>
                                 <option name = "language"><?= $language["name"]?></option>
                             <?php endforeach ?> 	
                         </select>
-
+            
+                       <!-- <input type="text" class="textfield" style="vertical-align: top;"> -->
+                        
+                       <!-- Input text-->
                        <!-- <input type = "text" name = "text" class="form-control"> -->
                         <textarea class="custom-textfield" name = "text" placeholder='Type Here...'><?php
                         // url must have translated=1 before showing the output
@@ -228,9 +215,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         ?></textarea>
 
                         <!-- Button to submit -->
-                        <!--<button type = "submit" id="yourButtonID" class="custom-button">Translate</button> -->
-
-                        <a href="javascript:void(0);" onclick="document.getElementById('myForm').submit(); showLoading();">
+                        <a href="javascript:void(0);" onclick="document.getElementById('myForm').submit();">
                         <img src="images/arrows.png" alt="Image Description" class="center-image" width="50px" height="40px">
                         </a>
                      
@@ -244,7 +229,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     </div>
 
                     <!-- SELECT LANGUAGE -->  
-                    <select name="target" class="form-control" id="targetLanguage">
+                    <select name="target" class="form-control">
                         <option value="">Select One …</option>
                         <?php foreach($languages as $language): ?>
                             <option name = "language"><?= $language["name"]?></option>
