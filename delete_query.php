@@ -1,7 +1,7 @@
 <?php
  require("mysql/mysqli_connect.php"); 
 
-
+ 
  if($_POST['clearAll'] == 'true'){
     // Deletes all rows corresponding to user from audio_files table if it's an audio to text translation
     if($_POST['fromAudio'] == 1){

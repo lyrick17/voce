@@ -865,23 +865,6 @@ select::after {
     background: #fe4c5a;
 }
 
-.deleteAll-btn{
-    background : #ff3838;
-    color: white;
-    padding: 0.5em;
-    border: none;
-    border-radius: 0.5em;
-}
-
-.deleteAllClass{
-    text-align:right;
-}
-
-.deleteAll-btn:hover{
-    cursor: pointer;
-    background: #fe4c5a;
-}
-
 .confirm-div{
     background: #fccdcd;
     position: absolute;
