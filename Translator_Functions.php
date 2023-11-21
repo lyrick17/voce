@@ -92,6 +92,7 @@ class Translator{
                 echo               
                 "<tr id = ". $row['text_id'] ." class = '". $row['user_id']. " " . "t2t" . "'>" .
                 "<td class = '" .$row['user_id']. " truncate-text'>" .$row['translate_from'] . "</td>" . 
+
                 "<td class = " .$row['user_id']. ">" .$row['original_language'] . "</td>" .
                 "<td class = '" .$row['user_id']. " truncate-text'>" .$row['translate_to'] . "</td>" .
                 "<td class = " .$row['user_id']. ">" .$row['translated_language'] . "</td>" . 
@@ -105,6 +106,7 @@ class Translator{
             while($row = mysqli_fetch_assoc($history)){
                 echo               
                 "<tr id = ". $row['text_id'] ." class = '". $row['user_id']. " " . "a2t". " " . $row['file_id'] . "'>" .
+
                 "<td class = " .$row['user_id']. ">" .$row['file_name'] . "</td>" . 
                 "<td class = " .$row['user_id']. ">" .$row['file_format'] . "</td>" .
                 "<td class = " .$row['user_id']. ">" .$row['file_size'] . "</td>" .
