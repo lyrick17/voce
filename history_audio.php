@@ -13,6 +13,7 @@ function dd($item){
     var_dump($item);
     exit();
 }
+
 require "Translator_Functions.php";
 $languages = Translator::getLangCodes();
 $lang_codes = [];
@@ -31,6 +32,9 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
 
 // Translate text input
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+
+
     // required for uploading the file
 $path=$_FILES['user_file']['name']; // file
 $pathsize = $_FILES['user_file']['size']; // file size
@@ -45,7 +49,7 @@ Translator::db_insertAudioFile($path, $userid, $pathsize);
 $removeBGM = ISSET($_POST["removeBGM"]) ?  "on" : "off";
 
 # Arguments: path of the audio file, user id, on (if checkbox is checked)
-$transcript = Translator::uploadAndTranscribe($path, $userid, $removeBGM);
+$transcript = Translator::uploadAndTranscribe($path, $userid, $removeBGM, $_POST['modelSize']);
 
 $result = Translator::translate($transcript, $src_lang, $trg_lang);
 $source_lang = $_POST['src'];
@@ -53,7 +57,11 @@ $target_lang = $_POST['target'];
 
   $isFromAudio = TRUE;
   
+  
   $get_fileid = "SELECT file_id FROM audio_files WHERE user_id = '$id' ORDER BY file_id DESC LIMIT 1";
+  ErrorHandling::checkLanguageChosen();
+  ErrorHandling::validateFormat($_FILES['user_file']['name']);
+  ErrorHandling::checkFolder();
   $fileresult = mysqli_query($dbcon, $get_fileid);
 
   $row = mysqli_fetch_assoc($fileresult);
@@ -195,7 +203,18 @@ $target_lang = $_POST['target'];
                     </div>
                 </div>
             <form enctype="multipart/form-data" action = "history_audio.php" method = "POST" onsubmit="showLoading()">
-			<label>
+            <label>  
+			Model Size:
+			<select name="modelSize" id="modelSize" class="form-control">
+				<option value="">Select One …</option>
+				<option value="base">Base</option>
+				<option value="medium">Medium</option>
+				<option value="large">Large</option>
+
+			</select>
+			</label>
+            <br>
+            <label>  
 			Source language:
 			<select name="src" id="sourceLanguage" class="form-control">
 				<option value="">Select One …</option>

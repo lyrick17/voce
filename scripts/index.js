@@ -50,15 +50,18 @@ window.addEventListener('resize', () => {
     // Get references to the select elements and the translate button
     const sourceLanguageSelect = document.getElementById('sourceLanguage');
     const targetLanguageSelect = document.getElementById('targetLanguage');
+    const modelSizeSelect = document.getElementById('modelSize');
+
     const yourButtonID = document.getElementById('yourButtonID');
 
     // Add an event listener to both select elements
     sourceLanguageSelect.addEventListener('change', toggleTranslateButton);
     targetLanguageSelect.addEventListener('change', toggleTranslateButton);
+    modelSizeSelect.addEventListener('change', toggleTranslateButton);
 
     // Function to enable/disable the translate button based on selections
     function toggleTranslateButton() {
-        if (sourceLanguageSelect.value && targetLanguageSelect.value) {
+        if (sourceLanguageSelect.value && targetLanguageSelect.value && modelSizeSelect.value) {
             yourButtonID.removeAttribute('disabled');
             
         } else {

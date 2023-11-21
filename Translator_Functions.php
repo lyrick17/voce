@@ -22,7 +22,7 @@ class Translator{
     
 
     
-    static function uploadAndTranscribe($path, $userid, $removeBGM){
+    static function uploadAndTranscribe($path, $userid, $removeBGM, $modelSize){
         
         global $dbcon;      
             // get the name of file and extension separately
@@ -60,7 +60,7 @@ class Translator{
                 */
     
         // 8.
-        $output = shell_exec("python scripts\\translate.py " . escapeshellarg($newFilename) . " " . escapeshellarg($removeBGM) . " " . escapeshellarg($extension));
+        $output = shell_exec("python scripts\\translate.py " . escapeshellarg($newFilename) . " " . escapeshellarg($modelSize) . " " . escapeshellarg($removeBGM) . " " . escapeshellarg($extension));
         if ($output)
             return $output;
         else

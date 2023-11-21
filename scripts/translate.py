@@ -7,11 +7,14 @@ import io
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-model = whisper.load_model("base")
-
 filename = sys.argv[1]
-removeBGM = sys.argv[2]
-extension = sys.argv[3]
+modelSize = sys.argv[2]
+removeBGM = sys.argv[3]
+extension = sys.argv[4]
+
+model = whisper.load_model(modelSize)
+
+
 if __name__ == '__main__':
 
     #subprocess.call(['python', 'scripts/separate.py'])
