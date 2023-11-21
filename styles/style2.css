@@ -615,10 +615,7 @@ body{
     object-fit: cover;
 }
 
-.content main .bottom-data .orders table tbody tr{
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+
 
 .content main .bottom-data .orders table tbody tr:hover{
     background: var(--grey);
@@ -868,6 +865,23 @@ select::after {
     background: #fe4c5a;
 }
 
+.deleteAll-btn{
+    background : #ff3838;
+    color: white;
+    padding: 0.5em;
+    border: none;
+    border-radius: 0.5em;
+}
+
+.deleteAllClass{
+    text-align:right;
+}
+
+.deleteAll-btn:hover{
+    cursor: pointer;
+    background: #fe4c5a;
+}
+
 .confirm-div{
     background: #fccdcd;
     position: absolute;
@@ -890,3 +904,81 @@ select::after {
     text-align: center;
     cursor: pointer;
 }
+
+.ellipsis {
+    cursor: pointer;
+    background-color: var(--light);
+    border: 1px solid #888;
+    border-radius: 10px; /* Add rounded corners */
+    padding: 3px;
+}
+
+.ellipsis:hover {
+    background: var(--grey);
+}
+/* Add this CSS for the modal styling with rounded corners */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    border-radius: 10px; /* Add rounded corners */
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+      /* Modal styles for loading */
+      .modalloading {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Make the entire modal transparent */
+        justify-content: center;
+        align-items: center;
+        border: none; /* Remove border for the modal */
+    }
+
+    .modal-contentloading {
+        background-color: transparent; /* Make the content background transparent */
+        border: none; /* Remove border for the content */
+        text-align: center;
+    }
+
+    /* Ensure the image is centered */
+    .modal-contentloading img {
+        display: block;
+        margin: 0 auto;
+    }
+    .modal-contentloading p {
+        color: white; 
+        font-size: 26px;
+    } 
+  

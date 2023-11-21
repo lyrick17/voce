@@ -78,7 +78,7 @@ class Translator{
         # $output = shell_exec("python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
         
         #   code for Python 3.11 system with py3.8 spleeter_env virtual env
-        $output = shell_exec("spleeter_env\\Scripts\\activate && python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
+        $output = shell_exec("python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
        
     }
 
@@ -91,11 +91,9 @@ class Translator{
             while($row = mysqli_fetch_assoc($history)){
                 echo               
                 "<tr id = ". $row['text_id'] ." class = '". $row['user_id']. " " . "t2t" . "'>" .
-
                 "<td class = '" .$row['user_id']. " truncate-text'>" .$row['translate_from'] . "</td>" . 
-
                 "<td class = " .$row['user_id']. ">" .$row['original_language'] . "</td>" .
-                "<td class = " .$row['user_id']. ">" .$row['translate_to'] . "</td>" .
+                "<td class = '" .$row['user_id']. " truncate-text'>" .$row['translate_to'] . "</td>" .
                 "<td class = " .$row['user_id']. ">" .$row['translated_language'] . "</td>" . 
                 "<td class = " .$row['user_id']. ">" .$row['translation_date'] . "</td>" .  
                 "<td class = " .$row['user_id']. ">"."<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
@@ -106,17 +104,19 @@ class Translator{
         elseif($translation_format == "audio2text"){
             while($row = mysqli_fetch_assoc($history)){
                 echo               
-                "<tr id = ". $row['text_id'] ." class = '". $row['user_id']. " " . "a2t" . " " . $row['file_id'] . "'>" .
+                "<tr id = ". $row['text_id'] ." class = '". $row['user_id']. " " . "a2t". " " . $row['file_id'] . "'>" .
+
                 "<td class = " .$row['user_id']. ">" .$row['file_name'] . "</td>" . 
                 "<td class = " .$row['user_id']. ">" .$row['file_format'] . "</td>" .
                 "<td class = " .$row['user_id']. ">" .$row['file_size'] . "</td>" .
-                "<td class = " .$row['user_id']. ">" .$row['translate_from'] . "</td>" . 
+                "<td class = '" .$row['user_id']. " truncate-text'>" .$row['translate_from'] . "</td>" . 
                 "<td class = " .$row['user_id']. ">" .$row['original_language'] . "</td>" . 
-                "<td class = " .$row['user_id']. ">" .$row['translate_to'] . "</td>" .
+                "<td class = '" .$row['user_id']. " truncate-text'>" .$row['translate_to'] . "</td>" .
                 "<td class = " .$row['user_id']. ">" .$row['translated_language'] . "</td>" .
                 "<td class = " .$row['user_id']. ">" .$row['translation_date'] . "</td>" . 
                 "<td class = " .$row['user_id']. ">" . "<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
                 . "</tr>";
+
             }
         }
     }
@@ -134,7 +134,7 @@ class Translator{
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => [
                 "X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-                "X-RapidAPI-Key: dd79fde36amsh4a5e9db6ec28ec6p1577f9jsn41a1205a8919"
+                "X-RapidAPI-Key: 1404802bd3msh016a1d77bd4d159p13ca69jsnfcb6fc6df689"
             ],
         ]);
 
@@ -172,7 +172,7 @@ class Translator{
             CURLOPT_POSTFIELDS => "source_language=".$src_lang."&target_language=".$trg_lang."&text=".$transcript,
             CURLOPT_HTTPHEADER => [
                 "X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-                "X-RapidAPI-Key: dd79fde36amsh4a5e9db6ec28ec6p1577f9jsn41a1205a8919",
+                "X-RapidAPI-Key: 1404802bd3msh016a1d77bd4d159p13ca69jsnfcb6fc6df689",
                 "content-type: application/x-www-form-urlencoded"
             ],
         ]);
