@@ -32,3 +32,5 @@ if __name__ == '__main__':
 # --- additional lines of code to be added when language is also needed ---
 # srcLanguage = sys.argv[4]
     # result = model.transcribe("audio_files/" + filename + "." + extension, language=srcLanguage)
+
+#languages = whisper.languages()
