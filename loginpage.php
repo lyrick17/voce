@@ -24,8 +24,10 @@
             <form action="loginpage.php" method="post">
                 <h1>Create Account</h1>
                 <div>
+                <div>
                     <span id="usererror" style="color: red; font-style: italic;"><?= $display_errors['user'] ?? ""; ?></span><br />
                     <span id="emailerror" style="color: red; font-style: italic;"><?= $display_errors['email'] ?? ""; ?></span><br />
+                    <span id="passerror" style="color: red; font-style: italic;"><?= $display_errors['pass'] ?? ""; ?></span><br />
                     <span id="passerror" style="color: red; font-style: italic;"><?= $display_errors['pass'] ?? ""; ?></span><br />
                 </div>
                 

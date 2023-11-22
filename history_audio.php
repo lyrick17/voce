@@ -14,7 +14,39 @@ function dd($item){
     exit();
 }
 require "Translator_Functions.php";
+require "whisper_languages.php"; // consists of languages supported
+
+
 $languages = Translator::getLangCodes();
+//debugging_show_lang($languages);
+
+
+// Convert the arrays to a format that can be used with array_intersect
+$whisper_lang_codes = array_column($whisperlanguages, 'code');
+$api_lang_codes = array_column($languages, 'code');
+// Find the common languages
+$common_languages = array_intersect($whisper_lang_codes, $api_lang_codes);
+debugging_show_lang($common_languages);
+
+/*
+// Create an associative array from $array1 where the keys are the language codes
+$array1_assoc = [];
+foreach ($array1 as $language) {
+    $array1_assoc[$language['code']] = $language;
+}
+
+// Convert the common languages back to the original format using the associative array
+$array3 = [];
+foreach ($common_languages as $code) {
+    if (isset($array1_assoc[$code])) {
+        $array3[] = $array1_assoc[$code];
+    }
+}
+
+print_r($array3);
+*/
+// https://www.phind.com/search?cache=qaxf8ok3fexjpuva1k1l94ed
+
 
 $lang_codes = [];
 foreach($languages as $language){

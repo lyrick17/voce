@@ -3,6 +3,7 @@ import whisper
 import io
 
 # allows other characters (ex. jp, kr) to be printed and passed to PHP
+
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 model = whisper.load_model("small")
@@ -16,6 +17,7 @@ if __name__ == '__main__':
 
     # script will transcribe the audio file, then 'text' and 'language' will be stored
     # in a separate dictionary to be printed out
+    # this allows detect language
     output = {}
 
     # Translates uploaded file directly if checkbox is not checked
@@ -31,6 +33,7 @@ if __name__ == '__main__':
 
 # --- additional lines of code to be added when language is also needed ---
 # srcLanguage = sys.argv[4]
+
     # result = model.transcribe("audio_files/" + filename + "." + extension, language=srcLanguage)
 
-#languages = whisper.languages()
+

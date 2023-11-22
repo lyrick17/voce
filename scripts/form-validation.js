@@ -2,8 +2,8 @@
 
 // checks all input textbox to see if they are empty or invalid by adding Event Listeners 
 //  this will not work at the start, but rather would work when the user started using the textboxes
-//document.getElementById('username').addEventListener("input", checkRegisterUser);
-//document.getElementById('email').addEventListener("input", checkRegisterEmail);
+document.getElementById('username').addEventListener("input", checkRegisterUser);
+document.getElementById('email').addEventListener("input", checkRegisterEmail);
 document.getElementById('pword').addEventListener("input", checkRegisterPassword);
 document.getElementById('pword2').addEventListener("input", checkRegisterPassword);
 

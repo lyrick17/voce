@@ -23,8 +23,7 @@ class Translator{
 
     
     static function uploadAndTranscribe($path, $userid, $removeBGM){
-        // 2. move the file onto audio_files with new filename
-        // 3. 
+
         global $dbcon;      
         
         // create a new filename with format
@@ -68,6 +67,9 @@ class Translator{
             ErrorHandling::audioError3();
         
     }
+
+
+
 
     static function getVocals($file) {
         # Activate the virtual environment
@@ -121,6 +123,9 @@ class Translator{
         }
     }
 
+
+
+    
     static function getLangCodes(){
         $lang_codes = [];
 
@@ -134,7 +139,7 @@ class Translator{
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => [
                 "X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-                "X-RapidAPI-Key: dd79fde36amsh4a5e9db6ec28ec6p1577f9jsn41a1205a8919"
+                "X-RapidAPI-Key: 81901ce272msh4265f1573ac1dc7p17b83ejsnc3b7fa66ab56"
             ],
         ]);
 
@@ -172,7 +177,7 @@ class Translator{
             CURLOPT_POSTFIELDS => "source_language=".$src_lang."&target_language=".$trg_lang."&text=".$transcript,
             CURLOPT_HTTPHEADER => [
                 "X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-                "X-RapidAPI-Key: dd79fde36amsh4a5e9db6ec28ec6p1577f9jsn41a1205a8919",
+                "X-RapidAPI-Key: 81901ce272msh4265f1573ac1dc7p17b83ejsnc3b7fa66ab56",
                 "content-type: application/x-www-form-urlencoded"
             ],
         ]);
