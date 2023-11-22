@@ -23,14 +23,15 @@
         <div class="form-container sign-up">
             <form action="loginpage.php" method="post">
                 <h1>Create Account</h1>
-                <div class="social-icons">
+                <div>
                     <span id="usererror" style="color: red; font-style: italic;"><?= $display_errors['user'] ?? ""; ?></span><br />
                     <span id="emailerror" style="color: red; font-style: italic;"><?= $display_errors['email'] ?? ""; ?></span><br />
-                    <span id="passerror" style="color: red; font-style: italic;"><?= $display_errors['pass'] ?? ""; ?></span>
+                    <span id="passerror" style="color: red; font-style: italic;"><?= $display_errors['pass'] ?? ""; ?></span><br />
                 </div>
                 
                 <!-- This input type determines whether form is REGISTER or login -->
                 <input type="hidden" id="formType" name="formType" value="register">
+
                 <input type="text" placeholder="Name" id="username" name="username" required maxlength="50">
                 <input type="email" placeholder="Email" id="email" name="email" required maxlength="100">
                 <input type="password" placeholder="Password" id="pword" name="pword" required>
@@ -46,25 +47,26 @@
                 <div class="social-icons">
                     <span id="loginerror" style="color: red; font-style: italic;"><?= $display_errors['login'] ?? ""; ?></span>
                 </div>
+                
                 <!-- This input type determines whether form is register or LOGIN -->
-                <input type="hidden" id="formType" name="formType2" value="login">
+                <input type="hidden" id="formType2" name="formType2" value="login">
                 
                 <input type="text" placeholder="Username/Email" id="user" name="user">
                 <input type="password" placeholder="Password" id="pass" name="pass">
                 <a href="#">Forget Your Password?</a>
-                <input type="submit" id="submit-register" name="submit-register" value="Sign In">
+                <input type="submit" id="submit-login" name="submit-register" value="Sign In">
             </form>
         </div>
         <div class="toggle-container">
             <div class="toggle">
                 <div class="toggle-panel toggle-left">
-                    <h1>Welcome Back!</h1>
-                    <p>Enter your personal details to use all of site features</p>
+                    <h1>Hello, Friend!</h1>
+                    <p>Register with your personal details to use all of site features</p>
                     <button class="hidden" id="login">Sign In</button>
                 </div>
                 <div class="toggle-panel toggle-right">
-                    <h1>Hello, Friend!</h1>
-                    <p>Register with your personal details to use all of site features</p>
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all of site features</p>
                     <button class="hidden" id="register">Sign Up</button>
                 </div>
             </div>
