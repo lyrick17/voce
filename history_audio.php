@@ -14,20 +14,29 @@ function dd($item){
     exit();
 }
 require "Translator_Functions.php";
-require "whisper_languages.php"; // consists of languages supported
 
 
-$languages = Translator::getLangCodes();
+require "whisper_languages.php"; // consists of supported whisper languages
+$languages = Translator::getLangCodes(); // consists of supported api languages 
+
 //debugging_show_lang($languages);
 
 
-// Convert the arrays to a format that can be used with array_intersect
+// extract the language codes from both Whisper and API and combine them to find
+// common languages of both sides using language codes
+//	then, loop through the array of common codes to put it in another array with their name
 $whisper_lang_codes = array_column($whisperlanguages, 'code');
 $api_lang_codes = array_column($languages, 'code');
-// Find the common languages
-$common_languages = array_intersect($whisper_lang_codes, $api_lang_codes);
-debugging_show_lang($common_languages);
 
+$common_languages = array_intersect($whisper_lang_codes, $api_lang_codes);
+
+
+$lang_codes = [];
+foreach ($common_languages as $common_code) {
+	$lang_codes[$language["name"]] = $common_code;
+	//if (in_array($lang_code, $whisper_lang_codes)) {
+	//}
+}
 /*
 // Create an associative array from $array1 where the keys are the language codes
 $array1_assoc = [];
@@ -48,11 +57,11 @@ print_r($array3);
 // https://www.phind.com/search?cache=qaxf8ok3fexjpuva1k1l94ed
 
 
-$lang_codes = [];
+/*
 foreach($languages as $language){
     $lang_codes[$language["name"]] = $language["code"];
   }
-
+*/
 
   $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
