@@ -970,6 +970,7 @@ select::after {
         background-color: transparent; /* Make the content background transparent */
         border: none; /* Remove border for the content */
         text-align: center;
+        z-index: 3;
     }
 
     /* Ensure the image is centered */
