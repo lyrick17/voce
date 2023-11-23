@@ -16,52 +16,44 @@ function dd($item){
 require "Translator_Functions.php";
 
 
-require "whisper_languages.php"; // consists of supported whisper languages
-$languages = Translator::getLangCodes(); // consists of supported api languages 
+require "whisper_languages.php";            // consists of supported whisper languages
+$languages = Translator::getLangCodes();    // consists of supported api languages 
 
-//debugging_show_lang($languages);
 
 
 // extract the language codes from both Whisper and API and combine them to find
-// common languages of both sides using language codes
-//	then, loop through the array of common codes to put it in another array with their name
+//  common languages of both sides using language codes
 $whisper_lang_codes = array_column($whisperlanguages, 'code');
 $api_lang_codes = array_column($languages, 'code');
+$api_lang_names = array_column($languages, 'name');
 
-$common_languages = array_intersect($whisper_lang_codes, $api_lang_codes);
+$common_codes = array_intersect($whisper_lang_codes, $api_lang_codes);
 
+$common_languages = [];
 
-$lang_codes = [];
-foreach ($common_languages as $common_code) {
-	$lang_codes[$language["name"]] = $common_code;
-	//if (in_array($lang_code, $whisper_lang_codes)) {
-	//}
-}
-/*
-// Create an associative array from $array1 where the keys are the language codes
-$array1_assoc = [];
-foreach ($array1 as $language) {
-    $array1_assoc[$language['code']] = $language;
-}
-
-// Convert the common languages back to the original format using the associative array
-$array3 = [];
-foreach ($common_languages as $code) {
-    if (isset($array1_assoc[$code])) {
-        $array3[] = $array1_assoc[$code];
+foreach($languages as $language) {
+    if (in_array($language['code'], $common_codes)) {
+        array_push($common_languages, array("code" => $language['code'], "name" => $language['name']));
     }
 }
 
-print_r($array3);
-*/
-// https://www.phind.com/search?cache=qaxf8ok3fexjpuva1k1l94ed
-
-
-/*
+// loop through the array of api language codes and check if code is present in common_languages
+//  once it's present, put it in another array to be displayed on the website
+$audio_src_lang_codes = [];
+$audio_trgt_lang_codes = [];
 foreach($languages as $language){
-    $lang_codes[$language["name"]] = $language["code"];
-  }
-*/
+    
+    if (in_array($language['code'], $common_codes)) {
+        $audio_src_lang_codes[$language["name"]] = $language["code"];
+    }
+
+    $audio_trgt_lang_codes[$language["name"]] = $language["code"];
+}
+
+// for debugging purposes only
+//debugging_show_lang($PUT_YOUR_ARRAY_HERE);
+
+
 
   $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
@@ -77,8 +69,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $path=$_FILES['user_file']['name']; // file
     $pathsize = $_FILES['user_file']['size']; // file size
     $userid = $_SESSION['user_id']; // user id needed to separate all files between each user by appending userid to filename
-    $src_lang =  $lang_codes[$_POST["src"]] ?? '';
-    $trg_lang = $lang_codes[$_POST["target"]] ?? '';
+    
+    if ($_POST['src'] == 'auto') {
+        $src_lang = "auto";
+    } else {
+        $src_lang =  $audio_src_lang_codes[$_POST["src"]] ?? '';    
+    }
+    $trg_lang = $audio_trgt_lang_codes[$_POST["target"]] ?? ''; 
 
     
     // error handlings first before proceeding to the main process
@@ -95,29 +92,35 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     # Arguments: path of the audio file, user id, on (if checkbox is checked)
     # NOTE: $transcript SOON will be an assoc_array, with ['text'] && ['language']
     # NOTE: as of Nov 20, 2023, it's still text
-    $transcript = Translator::uploadAndTranscribe($path, $userid, $removeBGM);
+    $transcript = Translator::uploadAndTranscribe($path, $userid, $removeBGM, $src_lang);
 
-    $result = Translator::translate($transcript, $src_lang, $trg_lang);
-    # $result = Translator::translate($transcript['text'], $src_lang, $trg_lang);
-    
-    $source_lang = $_POST['src'];
+    $result = Translator::translate($transcript['text'], $transcript['language'], $trg_lang);
+
+    // after translating, find the language name in the common language array
+    $key = array_search($transcript['language'], array_column($common_languages, 'code'));    
+    if ($_POST['src'] == 'auto') {
+        $source_lang = $common_languages[$key]['name']; // extract the lang name from array if user chooses auto-detect
+    } else {
+        $source_lang = $_POST['src']; 
+    }
+
     $target_lang = $_POST['target'];
 
-  $isFromAudio = TRUE;
-  
-  $get_fileid = "SELECT file_id FROM audio_files WHERE user_id = '$id' ORDER BY file_id DESC LIMIT 1";
-  $fileresult = mysqli_query($dbcon, $get_fileid);
+    $isFromAudio = TRUE;
+    
+    $get_fileid = "SELECT file_id FROM audio_files WHERE user_id = '$id' ORDER BY file_id DESC LIMIT 1";
+    $fileresult = mysqli_query($dbcon, $get_fileid);
 
-  $row = mysqli_fetch_assoc($fileresult);
+    $row = mysqli_fetch_assoc($fileresult);
 
-  $query_insert1 = mysqli_prepare($dbcon, "INSERT INTO text_translations(file_id, user_id, from_audio_file, original_language, translated_language,
-  translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
-  
-  mysqli_stmt_bind_param($query_insert1, 'iiissss', $row['file_id'], $id, $isFromAudio, $source_lang, $target_lang, $transcript, $result);
-  mysqli_stmt_execute($query_insert1);
+    $query_insert1 = mysqli_prepare($dbcon, "INSERT INTO text_translations(file_id, user_id, from_audio_file, original_language, translated_language,
+    translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+    
+    mysqli_stmt_bind_param($query_insert1, 'iiissss', $row['file_id'], $id, $isFromAudio, $source_lang, $target_lang, $transcript['text'], $result);
+    mysqli_stmt_execute($query_insert1);
 
-  logs("audio-to-text", $_SESSION['username'], $dbcon);
-  header("Location: history_audio.php?translated=1");
+    logs("audio-to-text", $_SESSION['username'], $dbcon);
+    header("Location: history_audio.php?translated=1");
 }
 
 ?>
@@ -238,20 +241,25 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 			<label>
 			Source language:
 			<select name="src" id="sourceLanguage" class="form-control">
+                <!-- Will display Languages supported by API and Whisper -->
 				<option value="">Select One …</option>
-				<?php foreach($languages as $language): ?>
+				<option value="auto">Auto-Detect Language...</option> <!-- Auto-Detect --> 
+				<?php foreach($common_languages as $language): ?>
 					<option name = "language"><?= $language["name"]?></option>
-				<?php endforeach ?> 	
+				<?php endforeach ?> 
+
 			</select>
 			</label>
             <br>
 			<label>
 			Target language:
 			<select name="target" id="targetLanguage" class="form-control">
+                <!-- Will display languages supported by API only-->
 				<option value="">Select One …</option>
 				<?php foreach($languages as $language): ?>
 					<option name = "language"><?= $language["name"]?></option>
 				<?php endforeach ?>
+
 			</select>
 			</label><br><br>
                     

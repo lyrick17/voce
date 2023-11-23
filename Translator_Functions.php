@@ -22,7 +22,7 @@ class Translator{
     
 
     
-    static function uploadAndTranscribe($path, $userid, $removeBGM){
+    static function uploadAndTranscribe($path, $userid, $removeBGM, $src_lang){
 
         global $dbcon;      
         
@@ -55,17 +55,23 @@ class Translator{
                 */
         
         // will receive json containing text and language
-        $outputString = shell_exec("python scripts\\translate.py " . escapeshellarg($newFilename) . " " . escapeshellarg($removeBGM) . " " . escapeshellarg($extension));
+        $outputString = shell_exec("python scripts\\translate.py " . 
+                                    escapeshellarg($newFilename) . " " . 
+                                    escapeshellarg($removeBGM) . " " . 
+                                    escapeshellarg($extension) . " " .
+                                    escapeshellarg($src_lang));
+
+        // to be revised
         $outputString = str_replace("'", "\"", $outputString);
         
         $output = json_decode($outputString, true);
-        if ($output["text"])
-            return $output["text"];
-            // soon, the we will return the whole array, $output, kasama na yung language
-            //  for detect language purposes
-        else
-            ErrorHandling::audioError3();
         
+        if ($output["text"]) {
+            return $output;
+            // the array will be returned so both text and language can be accessed
+        } else {
+            ErrorHandling::audioError3();
+        }
     }
 
 
