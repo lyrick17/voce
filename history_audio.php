@@ -129,14 +129,14 @@ $target_lang = $_POST['target'];
             <div class="logo-name"><span>Vo</span>CE</div>
         </a>
         <ul class="side-menu">
-            <li><a href="dashboard1.php"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-            
+            <li><a href="dashboard1.php"><i class='bx bxs-dashboard'></i>Dashboard</a></li> 
             <li><a href="text-text.php"><img src="images/sidebartext.png" alt="scroll icon" width="25" height="25" style="margin-left: 5px;">
             &nbsp Text-Text</a></li>        
-
             <li class="<?php echo ($current_page === 'history_audio.php') ? 'active' : ''; ?>">
             <a href="history_audio.php"><img src="images/sidebaraudio.png" alt="scroll icon" width="25" height="25" style="margin-left: 5px;">
             &nbsp Audio to Text</a>  
+            <li><a href="admin.php"><img src="images/sidebartext.png" alt="scroll icon" width="25" height="25" style="margin-left: 5px;">
+            &nbsp Admin</a></li>      
             <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
         </ul>
         <ul class="side-menu">
