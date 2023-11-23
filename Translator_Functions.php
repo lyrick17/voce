@@ -22,7 +22,7 @@ class Translator{
     
 
     
-    static function uploadAndTranscribe($path, $userid, $removeBGM, $src_lang){
+    static function uploadAndTranscribe($path, $userid, $removeBGM, $src_lang, $modelSize){
 
         global $dbcon;      
         
@@ -59,7 +59,8 @@ class Translator{
                                     escapeshellarg($newFilename) . " " . 
                                     escapeshellarg($removeBGM) . " " . 
                                     escapeshellarg($extension) . " " .
-                                    escapeshellarg($src_lang));
+                                    escapeshellarg($src_lang) . " " .
+                                    escapeshellarg($modelSize));
 
         // to be revised
         $outputString = str_replace("'", "\"", $outputString);

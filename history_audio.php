@@ -67,8 +67,6 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
 // Translate text input
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-
-
     // required for uploading the file
     $path=$_FILES['user_file']['name']; // file
     $pathsize = $_FILES['user_file']['size']; // file size
@@ -96,7 +94,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     # Arguments: path of the audio file, user id, on (if checkbox is checked)
     # NOTE: $transcript SOON will be an assoc_array, with ['text'] && ['language']
     # NOTE: as of Nov 20, 2023, it's still text
-    $transcript = Translator::uploadAndTranscribe($path, $userid, $removeBGM, $src_lang);
+    $transcript = Translator::uploadAndTranscribe($path, $userid, $removeBGM, $src_lang, $_POST['modelSize']);
 
     $result = Translator::translate($transcript['text'], $transcript['language'], $trg_lang);
 
