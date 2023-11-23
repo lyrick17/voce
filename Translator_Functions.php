@@ -22,51 +22,60 @@ class Translator{
     
 
     
-    static function uploadAndTranscribe($path, $userid, $removeBGM, $modelSize){
-        
+    static function uploadAndTranscribe($path, $userid, $removeBGM, $src_lang){
+
         global $dbcon;      
-            // get the name of file and extension separately
+        
+        // create a new filename with format
             $filename = pathinfo($path, PATHINFO_FILENAME);
             $extension = pathinfo($path, PATHINFO_EXTENSION);
     
-            // get the date of the file
+            // get the date of the file from db
             $datequery = "SELECT DATE_FORMAT(upload_date, '%m%d%Y_%H%i%s') AS formatted_date 
                             FROM audio_files WHERE user_id = '$userid' and file_name = '$path' ORDER BY file_id DESC LIMIT 1";
             $dateresult = mysqli_query($dbcon, $datequery);
             $row = mysqli_fetch_assoc($dateresult);
     
-        // 5. 
         $newFilename = $userid . "_" . $filename . $row['formatted_date'];
         $newFile = $newFilename . "." . $extension;
         
         // audio files folder
         $pathto="audio_files/" . $newFile;
     
-    
-        // 6.
         move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(ErrorHandling::audioError2());
         
-        // 7.
-
         # Extract vocals if checkbox is checked
         if ($removeBGM == "on") {
             self::getVocals($newFile);
         }
         
-            
                 /* make sure to go to php.ini in xampp (config > php.ini) 
                 *  and set max_execution_time into 600 [10 minutes] or higher (write in seconds), for longer processing
                 *  you only need to pass the name of file as argument for translation (file extension not needed)
                 */
-    
-        // 8.
-        $output = shell_exec("python scripts\\translate.py " . escapeshellarg($newFilename) . " " . escapeshellarg($modelSize) . " " . escapeshellarg($removeBGM) . " " . escapeshellarg($extension));
-        if ($output)
-            return $output;
-        else
-            ErrorHandling::audioError3();
         
+        // will receive json containing text and language
+        $outputString = shell_exec("python scripts\\translate.py " . 
+                                    escapeshellarg($newFilename) . " " . 
+                                    escapeshellarg($removeBGM) . " " . 
+                                    escapeshellarg($extension) . " " .
+                                    escapeshellarg($src_lang));
+
+        // to be revised
+        $outputString = str_replace("'", "\"", $outputString);
+        
+        $output = json_decode($outputString, true);
+        
+        if ($output["text"]) {
+            return $output;
+            // the array will be returned so both text and language can be accessed
+        } else {
+            ErrorHandling::audioError3();
+        }
     }
+
+
+
 
     static function getVocals($file) {
         # Activate the virtual environment
@@ -121,6 +130,9 @@ class Translator{
         }
     }
 
+
+
+    
     static function getLangCodes(){
         $lang_codes = [];
 
@@ -147,7 +159,7 @@ class Translator{
             echo "cURL Error #:" . $err;
         } else {
             return json_decode($response, true)['data']['languages'];
-
+            
         }
     }
 
