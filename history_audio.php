@@ -13,6 +13,7 @@ function dd($item){
     var_dump($item);
     exit();
 }
+
 require "Translator_Functions.php";
 
 
@@ -65,6 +66,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
 
 // Translate text input
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+
     // required for uploading the file
     $path=$_FILES['user_file']['name']; // file
     $pathsize = $_FILES['user_file']['size']; // file size
@@ -92,7 +94,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     # Arguments: path of the audio file, user id, on (if checkbox is checked)
     # NOTE: $transcript SOON will be an assoc_array, with ['text'] && ['language']
     # NOTE: as of Nov 20, 2023, it's still text
-    $transcript = Translator::uploadAndTranscribe($path, $userid, $removeBGM, $src_lang);
+    $transcript = Translator::uploadAndTranscribe($path, $userid, $removeBGM, $src_lang, $_POST['modelSize']);
 
     $result = Translator::translate($transcript['text'], $transcript['language'], $trg_lang);
 
@@ -158,32 +160,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
     <!-- Sidebar -->
-    <div class="sidebar">
-        <a href="dashboard1.php" class="logo">
-            <i class="fa fa-microphone"></i>
-            <div class="logo-name"><span>Vo</span>CE</div>
-        </a>
-        <ul class="side-menu">
-            <li><a href="dashboard1.php"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-            
-            <li><a href="text-text.php"><img src="images/sidebartext.png" alt="scroll icon" width="25" height="25" style="margin-left: 5px;">
-            &nbsp Text-Text</a></li>        
-
-            <li class="<?php echo ($current_page === 'history_audio.php') ? 'active' : ''; ?>">
-            <a href="history_audio.php"><img src="images/sidebaraudio.png" alt="scroll icon" width="25" height="25" style="margin-left: 5px;">
-            &nbsp Audio to Text</a>  
-            <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
-        </ul>
-        <ul class="side-menu">
-            <li>
-                <a href="logout.php" class="logout">
-                    <i class='bx bx-log-out-circle'></i>
-                    Logout
-                </a>
-            </li>
-        </ul>
-    </div>
-    <!-- End of Sidebar -->
+    <?php require "sidebar.php"?>
 
     <!-- Main Content -->
     <div class="content">
@@ -238,7 +215,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     </div>
                 </div>
             <form enctype="multipart/form-data" action = "history_audio.php" method = "POST" onsubmit="showLoading()">
-			<label>
+            <label>  
+			Model Size:
+			<select name="modelSize" id="modelSize" class="form-control">
+				<option value="">Select One …</option>
+				<option value="base">Base</option>
+				<option value="medium">Medium</option>
+				<option value="large">Large</option>
+
+			</select>
+			</label>
+            <br>
+            <label>  
 			Source language:
 			<select name="src" id="sourceLanguage" class="form-control">
                 <!-- Will display Languages supported by API and Whisper -->

@@ -22,7 +22,7 @@ class Translator{
     
 
     
-    static function uploadAndTranscribe($path, $userid, $removeBGM, $src_lang){
+    static function uploadAndTranscribe($path, $userid, $removeBGM, $src_lang, $modelSize){
 
         global $dbcon;      
         
@@ -59,7 +59,8 @@ class Translator{
                                     escapeshellarg($newFilename) . " " . 
                                     escapeshellarg($removeBGM) . " " . 
                                     escapeshellarg($extension) . " " .
-                                    escapeshellarg($src_lang));
+                                    escapeshellarg($src_lang) . " " .
+                                    escapeshellarg($modelSize));
 
         // to be revised
         $outputString = str_replace("'", "\"", $outputString);
@@ -87,7 +88,7 @@ class Translator{
         # $output = shell_exec("python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
         
         #   code for Python 3.11 system with py3.8 spleeter_env virtual env
-        $output = shell_exec("spleeter_env\\Scripts\\activate && python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
+        $output = shell_exec("python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
        
     }
 
@@ -114,6 +115,7 @@ class Translator{
             while($row = mysqli_fetch_assoc($history)){
                 echo               
                 "<tr id = ". $row['text_id'] ." class = '". $row['user_id']. " " . "a2t". " " . $row['file_id'] . "'>" .
+
                 "<td class = " .$row['user_id']. ">" .$row['file_name'] . "</td>" . 
                 "<td class = " .$row['user_id']. ">" .$row['file_format'] . "</td>" .
                 "<td class = " .$row['user_id']. ">" .$row['file_size'] . "</td>" .
@@ -145,7 +147,7 @@ class Translator{
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => [
                 "X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-                "X-RapidAPI-Key: 81901ce272msh4265f1573ac1dc7p17b83ejsnc3b7fa66ab56"
+                "X-RapidAPI-Key: 1404802bd3msh016a1d77bd4d159p13ca69jsnfcb6fc6df689"
             ],
         ]);
 
@@ -183,7 +185,7 @@ class Translator{
             CURLOPT_POSTFIELDS => "source_language=".$src_lang."&target_language=".$trg_lang."&text=".$transcript,
             CURLOPT_HTTPHEADER => [
                 "X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-                "X-RapidAPI-Key: 81901ce272msh4265f1573ac1dc7p17b83ejsnc3b7fa66ab56",
+                "X-RapidAPI-Key: 1404802bd3msh016a1d77bd4d159p13ca69jsnfcb6fc6df689",
                 "content-type: application/x-www-form-urlencoded"
             ],
         ]);

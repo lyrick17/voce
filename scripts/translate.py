@@ -6,12 +6,14 @@ import io
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-model = whisper.load_model("small")
-
 filename = sys.argv[1]
 removeBGM = sys.argv[2]
 extension = sys.argv[3]
 srcLanguage = sys.argv[4]
+modelSize = sys.argv[5]
+
+model = whisper.load_model(modelSize)
+
 if __name__ == '__main__':
 
     # make sure the audio has been processed in spleeter first        

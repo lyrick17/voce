@@ -1,9 +1,6 @@
 const sideLinks = document.querySelectorAll('.sidebar .side-menu li a:not(.logout)');
 const menuBar = document.querySelector('.content nav .bx.bx-menu');
 const sideBar = document.querySelector('.sidebar');
-const searchBtn = document.querySelector('.content nav form .form-input button');
-const searchBtnIcon = document.querySelector('.content nav form .form-input button .bx');
-const searchForm = document.querySelector('.content nav form');
 
 // Function to save sidebar state to localStorage
 function saveSidebarState(isClosed) {
@@ -48,25 +45,23 @@ window.addEventListener('resize', () => {
         sideBar.classList.remove('close');
         saveSidebarState(false);
     }
-
-    if (window.innerWidth > 576) {
-        searchBtnIcon.classList.replace('bx-x', 'bx-search');
-        searchForm.classList.remove('show');
-    }
 });
 
     // Get references to the select elements and the translate button
     const sourceLanguageSelect = document.getElementById('sourceLanguage');
     const targetLanguageSelect = document.getElementById('targetLanguage');
+    const modelSizeSelect = document.getElementById('modelSize');
+
     const yourButtonID = document.getElementById('yourButtonID');
 
     // Add an event listener to both select elements
     sourceLanguageSelect.addEventListener('change', toggleTranslateButton);
     targetLanguageSelect.addEventListener('change', toggleTranslateButton);
+    modelSizeSelect.addEventListener('change', toggleTranslateButton);
 
     // Function to enable/disable the translate button based on selections
     function toggleTranslateButton() {
-        if (sourceLanguageSelect.value && targetLanguageSelect.value) {
+        if (sourceLanguageSelect.value && targetLanguageSelect.value && modelSizeSelect.value) {
             yourButtonID.removeAttribute('disabled');
             
         } else {
