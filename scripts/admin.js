@@ -39,12 +39,14 @@ fetchPromise.then((response) =>
       d.setDate(d.getDate() - 1);
     dates[i] = d.toDateString();
   }
+
+  dates.reverse();
       //line graph data
       const line_data = {
           labels: dates,
           datasets: [{
             label: 'text-to-text translations',
-            data: graphData['line_values']['t2t_totals'],
+            data: graphData['line_values']['t2t_totals'].reverse(),
             borderColor: [
               'rgba(255, 26, 104, 1)',
               'rgba(54, 162, 235, 1)',
@@ -58,7 +60,7 @@ fetchPromise.then((response) =>
           },
           {
             label: 'audio-to-text translations',
-            data: graphData['line_values']['a2t_totals'],
+            data: graphData['line_values']['a2t_totals'].reverse(),
             backgroundColor: [
               'rgba(255, 26, 104, 0.2)',
               'rgba(54, 162, 235, 0.2)',
