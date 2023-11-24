@@ -57,7 +57,7 @@ for($i = 0; $i < 7; $i++){
 }
 
 
-
+// Associative array containing the graph values
 $graph_data = [
     'line_values' => [
         'a2t_totals' => $a2t_per_day, 
@@ -67,4 +67,3 @@ $graph_data = [
 
 exit(json_encode($graph_data));
 
-// exit(json_encode($result));

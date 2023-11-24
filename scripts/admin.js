@@ -11,16 +11,19 @@ fetchPromise.then((response) =>
     console.log(graphData);
 })
 
+//Executes code after initializing graphData
   .then(() => {
   let linebtn = document.querySelector(".line-btn");
   let piebtn = document.querySelector(".pie-btn");
   let chart = document.getElementById('myChart');
 
+  //Changes graph to a pie chart
   piebtn.addEventListener("click", (e) => {
       changeActiveBtn("pie");
       changeGraph("pie", chart, pie_data);
   });
 
+  //Changes graph to a line chart
   linebtn.addEventListener("click", (e) => {
       changeActiveBtn("line");
       changeGraph("line", chart, line_data);
@@ -79,6 +82,7 @@ fetchPromise.then((response) =>
         ]
       };
     
+      //Pie graph data
         const pie_data = {
           labels: ['# of text-to-text translations', '# of audio-to-text translations'],
           datasets: [{
@@ -162,6 +166,7 @@ fetchPromise.then((response) =>
 
 
 
+  //function for changing colors of button depending on which chart type is active.
   function changeActiveBtn(activeBtn, color1 = "gray", color2 = "pink"){
 
       if(activeBtn == "pie")
