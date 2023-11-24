@@ -74,8 +74,12 @@ yesBtn.addEventListener("click", () => {
             }
 
 
+
             //updates history content.
             history.innerHTML = newHistory;
+
+            //Truncates text after history is updated
+            truncateText();
 
             //re-initializes delete variables after updating the history.
             deleteWindow = document.querySelector(".delete-window");
@@ -117,9 +121,9 @@ function setNewRow(objData){
     //Sets new rows for audio to text history
     if(fromAudio == 0)
     {    return "<tr id = " + objData['text_id'] + " class = '" + objData['user_id'] + " " + "t2t" + "'>" +
-        "<td class = " + objData['user_id']+ ">"+ objData['translate_from'] + "</td>" +
-        "<td class = " + objData['user_id']+ ">"+ objData['original_language'] + "</td>" +
-        "<td class = " + objData['user_id']+ ">"+ objData['translate_to'] + "</td>" +
+    "<td class = '" + objData['user_id']+  " truncate-text'>" + objData['translate_from'] + "</td>" + 
+    "<td class = " + objData['user_id']+ ">"+ objData['original_language'] + "</td>" +
+    "<td class = '" + objData['user_id']+  " truncate-text'>" + objData['translate_to'] + "</td>" + 
         "<td class = " + objData['user_id']+ ">"+ objData['translated_language'] + "</td>" + 
         "<td class = " + objData['user_id']+ ">"+ objData['translation_date'] + "</td>" +
         "<td class = " + objData['user_id']+ ">"+ "<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
@@ -132,12 +136,63 @@ function setNewRow(objData){
         "<td class = " + objData['user_id'] + ">"  + objData['file_name'] + "</td>" + 
         "<td class = " + objData['user_id'] + ">"  + objData['file_format'] + "</td>" +
         "<td class = " + objData['user_id'] + ">"  + objData['file_size'] + "</td>" +
-        "<td class = " + objData['user_id'] + ">"  + objData['translate_from'] + "</td>" + 
+        "<td class = '" + objData['user_id']+  " truncate-text'>" + objData['translate_from'] + "</td>" + 
         "<td class = " + objData['user_id'] + ">"  + objData['original_language'] + "</td>" + 
-        "<td class = " + objData['user_id'] + ">"  + objData['translate_to'] + "</td>" +
+        "<td class = '" + objData['user_id'] +  " truncate-text'>" + objData['translate_to'] +  "</td>" +
         "<td class = " + objData['user_id'] + ">"  + objData['translated_language'] + "</td>" +
         "<td class = " + objData['user_id'] + ">"  + objData['translation_date'] + "</td>" +
         "<td class = " + objData['user_id'] + ">"  +  "<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
         + "</tr>";
     }
+}
+
+// Truncates text that have characters greater than 150
+function truncateText() {
+    // Get all the cells with class 'truncate-text'
+    var cells = document.querySelectorAll('.truncate-text');
+
+    // Get the modal and its close button
+    var modal = document.getElementById('myModal');
+    var closeBtn = modal.querySelector('.close');
+
+    // Iterate through each cell and add the truncation functionality
+    cells.forEach(function (cell) {
+        var originalText = cell.textContent.trim();
+
+        // Check if the text length is greater than 150 characters
+        if (originalText.length > 150) {
+            // If yes, truncate the text and add ellipsis as a button
+            var truncatedText = originalText.substring(0, 150);
+            var contentSpan = document.createElement('span');
+            contentSpan.innerHTML = truncatedText + '<button class="ellipsis" type="button">.....</button>';
+
+            // Replace the content of the cell with the new span
+            cell.innerHTML = '';
+            cell.appendChild(contentSpan);
+
+            // Add a click event listener to the ellipsis button to show the full text in a modal
+            var ellipsisButton = cell.querySelector('.ellipsis');
+            ellipsisButton.addEventListener('click', function () {
+                // Set the full text in the modal
+                document.getElementById('modalText').textContent = originalText;
+
+                // Display the modal
+                modal.style.display = 'block';
+            });
+        } else {
+            // If not, display the original text without ellipsis
+            cell.innerHTML = originalText;
+        }
+    });
+
+    // Close the modal when the close button or outside the modal is clicked
+    closeBtn.addEventListener('click', function () {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function (event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    });
 }

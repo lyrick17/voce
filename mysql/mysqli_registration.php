@@ -11,12 +11,9 @@ require("mysqli_logs.php");
 
 // Registration Form Request; isset function makes sure the form submitted is for registration
 
-// variables used on server-side error handling 
-$param_error = array("usernameTaken" => false,
-                            "emailTaken" => false,
-                            "emailValid" => true);
-$display_errors = array();
 
+
+$display_errors = array();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType'])) {
     $error = 0;
@@ -30,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType'])) {
     $email = mysqli_real_escape_string($dbcon, trim($_POST['email']));
     $password = mysqli_real_escape_string($dbcon, trim($_POST['pword']));
     $usertype = "user";
-    $hashedPass = md5($password);
+    $hashedPass = password_hash($password, PASSWORD_BCRYPT);
 
 
     // 2
@@ -41,26 +38,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType'])) {
 
     // 3
     if (empty($_POST['username'])) {
-        $display_errors["user"] = " *please enter your username"; $error++;
+        $display_errors['user'] = error_message("user-1"); $error++;
     } else if (mysqli_num_rows($usernameResult) >= 1) {
-        $display_errors['user'] = " *username already taken"; $error++;
-        $param_error['usernameTaken'] = true;
+        $display_errors['user'] = error_message("user-2"); $error++;
     }
 
     if (empty($_POST['email'])) {
-        $display_errors["email"] = " *please enter your email"; $error++;
+        $display_errors['email'] = error_message("email-1"); $error++;
     } else if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-        $display_errors["email"] = " *email not valid"; $error++;
-        $param_error['emailValid'] = false;
+        $display_errors['email'] = error_message("email-2"); $error++;
     } else if (mysqli_num_rows($emailResult) >= 1) {
-        $display_errors['email'] = " *email already taken"; $error++;
-        $param_error['emailTaken'] = true;
+        $display_errors['email'] = error_message("email-3"); $error++;
     }
 
     if (empty($_POST['pword'])) {
-        $display_errors["pass"] = " *please enter your password"; $error++;
+        $display_errors['pass'] = error_message("pass-1"); $error++;
     } else if ($_POST['pword'] != $_POST['pword2']) {
-        $display_errors["pass"] = " *passwords do not match"; $error++;
+        $display_errors['pass'] = error_message("pass-2"); $error++;
     }
 
     if ($error == 0) {
@@ -102,12 +96,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType'])) {
         mysqli_close($dbcon);
         
 
-    } else {
-
-        // let javascript do the error handling, on scripts/form-validation.js
     }
 
-    mysqli_close($dbcon);
 }
 
 
@@ -117,32 +107,71 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType2'])) {
 
     $username = (!empty($_POST['user'])) ? mysqli_real_escape_string($dbcon, trim($_POST['user'])) : FALSE;
     $password = (!empty($_POST['pass'])) ? mysqli_real_escape_string($dbcon, trim($_POST['pass'])) : FALSE;
-    $hashedPass = md5($password);
+    
     if ($username && $password) {
 
-        $q1 = "SELECT * FROM users WHERE (`username` = '". $username ."' OR `email` = '". $username ."') AND `pword` = '". $hashedPass . "'";
+        $q1 = "SELECT * FROM users WHERE (`username` = '". $username ."' OR `email` = '". $username ."')";
         $result1 = @mysqli_query($dbcon, $q1);
         
-        // check if username and pass OR email and pass
-        // -note: papaikliin pa
-        if (mysqli_num_rows($result1) > 0) {
-            $_SESSION = mysqli_fetch_array($result1, MYSQLI_ASSOC);
-            logs("login", $_SESSION['username'], $dbcon);  
+        
+        $user_row = (mysqli_num_rows($result1) == 1) ? mysqli_fetch_array($result1, MYSQLI_ASSOC) : false;
+        
+        if ($user_row) {
+            $hashed_pass = $user_row['pword'];
             
-            mysqli_free_result($result1);
-            mysqli_close($dbcon);
-            
-            header("location: dashboard1.php");
-            exit();
+            if (password_verify($password, $hashed_pass)) {
+                $_SESSION = $user_row;
+    
+                logs("login", $_SESSION['username'], $dbcon);  
+                
+                mysqli_free_result($result1);
+                mysqli_close($dbcon);
+                
+                header("location: dashboard1.php");
+                exit();
+            } else {
+                $display_errors['login']  = error_message("invalid-login");
+            }
+
         } else {
-            // display error
-            
-            $display_errors['login']  = "invalid username/email or password";
+            $display_errors['login'] = error_message("invalid-login");
         }
     } else {
-        $display_errors['login']  = "invalid username/email or password";
+        $display_errors['login']  = error_message("invalid-login");
     }
 }
 
 
+
+
+
+// error messages on server-side error handling 
+function error_message($error) {
+    switch ($error) {
+        case "user-1":
+            return " *please enter your username";
+            break;
+        case "user-2":
+            return " *username already taken";
+            break;
+        case "email-1":
+            return " *please enter your email";
+            break;
+        case "email-2":
+            return " *email not valid";
+            break;
+        case "email-3":
+            return " *email already taken";
+            break;
+        case "pass-1":
+            return " *please enter your password";
+            break;
+        case "pass-2":
+            return " *passwords do not match";
+            break;
+        case "invalid-login":
+            return "invalid username/email or password";
+            break;
+    }
+}
 ?>

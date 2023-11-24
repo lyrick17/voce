@@ -54,7 +54,7 @@ function logs($log_act, $user, $dbcon) {
         // Error Logs
             // Errors for TEXT TO TEXT
         case "error-tt-1":
-            $activity = "error text-text: language not selected";
+            $activity = "error text-text: language / model not selected";
             break;
         case "error-tt-2":
             $activity = "error text-text: no text input";

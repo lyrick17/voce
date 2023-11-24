@@ -21,7 +21,7 @@ curl_setopt_array($curl, [
 	CURLOPT_CUSTOMREQUEST => "GET",
 	CURLOPT_HTTPHEADER => [
 		"X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-		"X-RapidAPI-Key: dd79fde36amsh4a5e9db6ec28ec6p1577f9jsn41a1205a8919"
+		"X-RapidAPI-Key: 1404802bd3msh016a1d77bd4d159p13ca69jsnfcb6fc6df689"
 	],
 ]);
 
@@ -139,7 +139,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		CURLOPT_POSTFIELDS => "source_language=".$src_lang."&target_language=".$trg_lang."&text=".$transcript,
 		CURLOPT_HTTPHEADER => [
 			"X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-			"X-RapidAPI-Key: d5185f2565msh3cdba754dc69affp10ba69jsn87d2b93e11ba",
+			"X-RapidAPI-Key: 1404802bd3msh016a1d77bd4d159p13ca69jsnfcb6fc6df689",
 			"content-type: application/x-www-form-urlencoded"
 		],
 	]);
