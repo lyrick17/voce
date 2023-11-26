@@ -45,7 +45,7 @@ class Translator{
         move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(ErrorHandling::audioError2());
         
         # Extract vocals if checkbox is checked
-        if ($removeBGM == "on") {
+        if ($removeBGM === "on") {
             self::getVocals($newFile);
         }
         
@@ -88,7 +88,7 @@ class Translator{
         # $output = shell_exec("python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
         
         #   code for Python 3.11 system with py3.8 spleeter_env virtual env
-        $output = shell_exec("python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
+        $output = shell_exec("spleeter_env\\Scripts\\activate && python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
        
     }
 
