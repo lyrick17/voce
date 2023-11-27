@@ -7,7 +7,7 @@ $process = json_decode(file_get_contents('php://input'), true);
 
 
 
-if($_POST['step'] == 1) {
+if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['step'] == 1) {
     // required for uploading the file
     $path=$_FILES['user_file']['name']; // file
     $pathsize = $_FILES['user_file']['size']; // file size
@@ -42,6 +42,26 @@ if($_POST['step'] == 1) {
     ];
     
     exit(json_encode($user_data));
+}
+
+
+if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['step'] == 2) {
+    exit();
+}
+
+
+if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['step'] == 3) {
+    exit();
+}
+
+
+if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['step'] == 4) {
+    exit();
+}
+
+
+if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['step'] == 5) {
+    exit();
 }
 
 
