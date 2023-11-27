@@ -1,0 +1,30 @@
+.table-container{
+    max-width: 100%;
+    margin: auto;
+    overflow-x: scroll;
+    background: yellow;
+}
+
+.users-table{
+    margin: auto;
+    text-align: center;
+    width: 100%;
+    background: green;
+}
+
+th, td{
+    padding: 1em; 
+    border: 2px solid black;
+    border-spacing: 2em;
+}
+
+.create-btn{
+    border: none;
+    color: white;
+    background: black;
+    border-radius: 2em;
+    padding: 1em;
+}
+.create-cell{
+    border: none;
+}
