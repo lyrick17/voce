@@ -63,9 +63,10 @@ foreach($languages as $language){
 $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN audio_files a ON t.file_id = a.file_id WHERE t.user_id = $id AND a.user_id = $id AND t.from_audio_file = 1 ORDER BY translation_date DESC");
 
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
-
+$ror = false;
 // Translate text input
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+if($ror == true){
+//if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // required for uploading the file
     $path=$_FILES['user_file']['name']; // file
@@ -214,7 +215,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <p>Loading....</p>
                     </div>
                 </div>
-            <form enctype="multipart/form-data" action = "history_audio.php" method = "POST" onsubmit="showLoading()">
+            <form enctype="multipart/form-data" id="form" action = "history_audio.php" method = "POST" onsubmit="showLoading()">
             <label>  
 			Model Size:
 			<select name="modelSize" id="modelSize" class="form-control">
@@ -344,6 +345,38 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                 
     <script src="scripts/index.js"></script>
     <script src="scripts/delete.js"></script>
+    <!--<script src="scripts/translation_process.js"></script>-->
+    <script>
+        const form = document.getElementById("form");
+
+        form.addEventListener('submit', function(e) {
+            //prevent the page from reloading when form is submitted
+            // instead, use fetchapi to send the data
+
+            // duck loading must be stopped too
+            e.preventDefault();
+
+            const audio_info = new FormData(this);
+            //const fetchAudioData =  fetch('translation.php', { method: "POST", body: audio_info, });
+            console.log([...audio_info]);
+
+            fetch('translation.php', {
+                method: "POST", 
+                body: audio_info, 
+            })
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (text) {
+                    console.log(text);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        });
+
+    </script>
+
 </body>
 
 </html>
