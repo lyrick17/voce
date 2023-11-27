@@ -16,45 +16,7 @@ function dd($item){
 
 require "Translator_Functions.php";
 
-
-require "whisper_languages.php";            // consists of supported whisper languages
-$languages = Translator::getLangCodes();    // consists of supported api languages 
-
-
-
-// extract the language codes from both Whisper and API and combine them to find
-//  common languages of both sides using language codes
-$whisper_lang_codes = array_column($whisperlanguages, 'code');
-$api_lang_codes = array_column($languages, 'code');
-$api_lang_names = array_column($languages, 'name');
-
-$common_codes = array_intersect($whisper_lang_codes, $api_lang_codes);
-
-$common_languages = [];
-
-foreach($languages as $language) {
-    if (in_array($language['code'], $common_codes)) {
-        array_push($common_languages, array("code" => $language['code'], "name" => $language['name']));
-    }
-}
-
-// loop through the array of api language codes and check if code is present in common_languages
-//  once it's present, put it in another array to be displayed on the website
-$audio_src_lang_codes = [];
-$audio_trgt_lang_codes = [];
-foreach($languages as $language){
-    
-    if (in_array($language['code'], $common_codes)) {
-        $audio_src_lang_codes[$language["name"]] = $language["code"];
-    }
-
-    $audio_trgt_lang_codes[$language["name"]] = $language["code"];
-}
-
-// for debugging purposes only
-//debugging_show_lang($PUT_YOUR_ARRAY_HERE);
-
-
+require "languages.php";
 
   $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
@@ -63,42 +25,60 @@ foreach($languages as $language){
 $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN audio_files a ON t.file_id = a.file_id WHERE t.user_id = $id AND a.user_id = $id AND t.from_audio_file = 1 ORDER BY translation_date DESC");
 
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
-$ror = false;
-// Translate text input
-if($ror == true){
-//if($_SERVER["REQUEST_METHOD"] == "POST"){
+// Translate the input
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // required for uploading the file
     $path=$_FILES['user_file']['name']; // file
     $pathsize = $_FILES['user_file']['size']; // file size
     $userid = $_SESSION['user_id']; // user id needed to separate all files between each user by appending userid to filename
     
-    if ($_POST['src'] == 'auto') {
+
+	$src_lang = ($_POST['src'] == 'auto') ? "auto" : $audio_src_lang_codes[$_POST["src"]];
+	$trg_lang = $audio_trgt_lang_codes[$_POST["target"]] ?? ''; 
+
+    /*if ($_POST['src'] == 'auto') {
         $src_lang = "auto";
     } else {
         $src_lang =  $audio_src_lang_codes[$_POST["src"]] ?? '';    
-    }
-    $trg_lang = $audio_trgt_lang_codes[$_POST["target"]] ?? ''; 
+    } */
 
+    // Checks whether checkbox is checked or not
+    $removeBGM = ISSET($_POST["removeBGM"]) ?  "on" : "off";
     
+
+	
+
+	// step 1: loading
     // error handlings first before proceeding to the main process
         // will automatically halt the process once error caught
 	ErrorHandling::checkLanguageChosen();
 	ErrorHandling::validateFormat($path);
 	ErrorHandling::checkFolder();
 
+
     Translator::db_insertAudioFile($path, $userid, $pathsize);
+    $newFile = Translator::createNewFilename($path, $userid);
 
-    // Checks whether checkbox is checked or not
-    $removeBGM = ISSET($_POST["removeBGM"]) ?  "on" : "off";
+    // step 2: extracting vocals
+    # Extract vocals if checkbox is checked
+    if ($removeBGM === "on") {
+        Translator::getVocals($newFile);
+    }
 
-    # Arguments: path of the audio file, user id, on (if checkbox is checked)
-    # NOTE: $transcript SOON will be an assoc_array, with ['text'] && ['language']
-    # NOTE: as of Nov 20, 2023, it's still text
-    $transcript = Translator::uploadAndTranscribe($path, $userid, $removeBGM, $src_lang, $_POST['modelSize']);
+    // step 3: transcribing audio
+    //  $transcript contains the text and language
+    $transcript = Translator::uploadAndTranscribe($newFile, $removeBGM, $src_lang, $_POST['modelSize']);
 
+
+
+    // step 4: translating text
     $result = Translator::translate($transcript['text'], $transcript['language'], $trg_lang);
 
+
+
+    //  STEP 6
     // after translating, find the language name in the common language array
     $key = array_search($transcript['language'], array_column($common_languages, 'code'));    
     if ($_POST['src'] == 'auto') {
@@ -122,9 +102,18 @@ if($ror == true){
     mysqli_stmt_bind_param($query_insert1, 'iiissss', $row['file_id'], $id, $isFromAudio, $source_lang, $target_lang, $transcript['text'], $result);
     mysqli_stmt_execute($query_insert1);
 
+	$response = array(
+		"validatingInputs" => true, // Replace with actual validation status
+		"uploadingFile" => true, // Replace with actual upload status
+		"extractingVocals" => true, // Replace with actual extraction status
+		"transcribingAudio" => true, // Replace with actual transcription status
+		"translatingText" => true // Replace with actual translation status
+	);
+	
     logs("audio-to-text", $_SESSION['username'], $dbcon);
     header("Location: history_audio.php?translated=1");
 }
+
 
 ?>
 
@@ -215,7 +204,8 @@ if($ror == true){
                         <p>Loading....</p>
                     </div>
                 </div>
-            <form enctype="multipart/form-data" id="form" action = "history_audio.php" method = "POST" onsubmit="showLoading()">
+            <form enctype="multipart/form-data" id="form" method = "POST" onsubmit="showLoading()">
+
             <label>  
 			Model Size:
 			<select name="modelSize" id="modelSize" class="form-control">
@@ -329,7 +319,6 @@ if($ror == true){
                             </tr>
                         </thead>
                         <tbody class = "history-body">
-                            <!-- Example rows, replace with your actual file data -->
                         <!-- Displays audio to text history -->
                         <?php Translator::displayHistory($history, "audio2text")?>
                         </tbody>
@@ -352,28 +341,50 @@ if($ror == true){
         form.addEventListener('submit', function(e) {
             //prevent the page from reloading when form is submitted
             // instead, use fetchapi to send the data
-
-            // duck loading must be stopped too
             e.preventDefault();
 
+            // duck loading must be stopped too
+
             const audio_info = new FormData(this);
-            //const fetchAudioData =  fetch('translation.php', { method: "POST", body: audio_info, });
+            audio_info.append('step', 1);
             console.log([...audio_info]);
 
-            fetch('translation.php', {
-                method: "POST", 
-                body: audio_info, 
-            })
-                .then(function (response) {
-                    return response.text();
-                })
-                .then(function (text) {
-                    console.log(text);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+
+            // Steps
+            // 1. fetch translation.php which handles the 
+            //      defining of variables, error handling and inserting into database
+            // 2. after that, use getVocals
+            // 3. uploadAndTranscribe
+            // 4. translate the text
+            // 5. insert into database
+
+            translationProcess(audio_info);
         });
+
+        async function translationProcess(audio_info) {
+            // step 1
+            let data = await fetch('translation.php', {
+                                method: "POST",
+                                body: audio_info,
+                            })
+                            .then(response => response.json());
+                            
+
+            console.log(data);
+
+            // step 2 to 5
+            for (let i = 2; i <= 5; i++) {
+                console.log(audio_info.get('step'));
+                let data = await fetch('translation.php', {
+                                method: "POST",
+                                body: audio_info,
+                            })
+                            .then(response => response.json());
+                            
+
+                console.log(data);
+            }
+        }
 
     </script>
 

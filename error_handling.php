@@ -65,6 +65,13 @@ class ErrorHandling{
 			mkdir("audio_files", 0777, true);
 		}
 	}
+
+	static function checkCacheFolder() {
+		// make sure cache folder is created
+		if(!is_dir("cache")){
+			mkdir("cache", 0777, true);
+		}
+	}
 }
 
 ?>

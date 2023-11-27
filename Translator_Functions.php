@@ -20,34 +20,36 @@ class Translator{
     }
     
     
-
-    
-    static function uploadAndTranscribe($path, $userid, $removeBGM, $src_lang, $modelSize){
-
-        global $dbcon;      
-        
+    static function createNewFilename($path, $userid) {
+        global $dbcon;
         // create a new filename with format
-            $filename = pathinfo($path, PATHINFO_FILENAME);
-            $extension = pathinfo($path, PATHINFO_EXTENSION);
-    
-            // get the date of the file from db
-            $datequery = "SELECT DATE_FORMAT(upload_date, '%m%d%Y_%H%i%s') AS formatted_date 
-                            FROM audio_files WHERE user_id = '$userid' and file_name = '$path' ORDER BY file_id DESC LIMIT 1";
-            $dateresult = mysqli_query($dbcon, $datequery);
-            $row = mysqli_fetch_assoc($dateresult);
-    
+        $filename = pathinfo($path, PATHINFO_FILENAME);
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+        // get the date of the file from db
+        $datequery = "SELECT DATE_FORMAT(upload_date, '%m%d%Y_%H%i%s') AS formatted_date 
+                        FROM audio_files WHERE user_id = '$userid' and file_name = '$path' ORDER BY file_id DESC LIMIT 1";
+        $dateresult = mysqli_query($dbcon, $datequery);
+        $row = mysqli_fetch_assoc($dateresult);
+
         $newFilename = $userid . "_" . $filename . $row['formatted_date'];
         $newFile = $newFilename . "." . $extension;
         
         // audio files folder
         $pathto="audio_files/" . $newFile;
-    
+
         move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(ErrorHandling::audioError2());
         
-        # Extract vocals if checkbox is checked
-        if ($removeBGM === "on") {
-            self::getVocals($newFile);
-        }
+        return $newFile;
+    }
+
+    
+    static function uploadAndTranscribe($newFile, $removeBGM, $src_lang, $modelSize){
+
+        global $dbcon;      
+
+        $filename = pathinfo($newFile, PATHINFO_FILENAME);
+        $extension = pathinfo($newFile, PATHINFO_EXTENSION);
         
                 /* make sure to go to php.ini in xampp (config > php.ini) 
                 *  and set max_execution_time into 600 [10 minutes] or higher (write in seconds), for longer processing
@@ -56,7 +58,7 @@ class Translator{
         
         // will receive json containing text and language
         $outputString = shell_exec("python scripts\\translate.py " . 
-                                    escapeshellarg($newFilename) . " " . 
+                                    escapeshellarg($filename) . " " . 
                                     escapeshellarg($removeBGM) . " " . 
                                     escapeshellarg($extension) . " " .
                                     escapeshellarg($src_lang) . " " .
@@ -135,33 +137,47 @@ class Translator{
 
     
     static function getLangCodes(){
+
+        // create a cache file to store the languages from api instead of
+        //  calling the api over and over again, wasting api calls
+        ErrorHandling::checkCacheFolder();
+        $cache_file = "cache/lang-codes-cache.json";
+        $expiration = time() - 3600; // cache file will be expired in one hour 
         $lang_codes = [];
-
-        $curl = curl_init();
-        curl_setopt_array($curl, [
-            CURLOPT_URL => "https://text-translator2.p.rapidapi.com/getLanguages",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => [
-                "X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-                "X-RapidAPI-Key: 1404802bd3msh016a1d77bd4d159p13ca69jsnfcb6fc6df689"
-            ],
-        ]);
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-
-        if ($err) {
-            echo "cURL Error #:" . $err;
-        } else {
-            return json_decode($response, true)['data']['languages'];
+        
+        if (!file_exists($cache_file) || fileatime($cache_file) < $expiration || file_get_contents($cache_file) == '') {
+            // there is no cached file or file expires or file no content
             
+            $curl = curl_init();
+            curl_setopt_array($curl, [
+                CURLOPT_URL => "https://text-translator2.p.rapidapi.com/getLanguages",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_HTTPHEADER => [
+                    "X-RapidAPI-Host: text-translator2.p.rapidapi.com",
+                    "X-RapidAPI-Key: 5a4a854aecmsh5aefb5b52f1c29ap189bdfjsnebc4acefe413"
+                ],
+            ]);
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+            
+            curl_close($curl);
+            
+            if ($err) {
+                echo "cURL Error #:" . $err;
+            } else {
+                $lang_codes = json_decode($response, true)['data']['languages'];
+                file_put_contents($cache_file,  json_encode($lang_codes));
+            }
+        } else {
+            // there is cached file
+            $lang_codes = json_decode(file_get_contents($cache_file), true);
         }
+        return $lang_codes;
     }
 
 
@@ -185,7 +201,7 @@ class Translator{
             CURLOPT_POSTFIELDS => "source_language=".$src_lang."&target_language=".$trg_lang."&text=".$transcript,
             CURLOPT_HTTPHEADER => [
                 "X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-                "X-RapidAPI-Key: 1404802bd3msh016a1d77bd4d159p13ca69jsnfcb6fc6df689",
+                "X-RapidAPI-Key: 5a4a854aecmsh5aefb5b52f1c29ap189bdfjsnebc4acefe413",
                 "content-type: application/x-www-form-urlencoded"
             ],
         ]);
@@ -204,3 +220,4 @@ class Translator{
         }
     }
 }
+?>
