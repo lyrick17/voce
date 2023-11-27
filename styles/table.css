@@ -1,30 +1,43 @@
 .table-container{
-    max-width: 100%;
+    width: 100%;
     margin: auto;
     overflow-x: scroll;
-    background: yellow;
 }
 
 .users-table{
     margin: auto;
     text-align: center;
-    width: 100%;
-    background: green;
+    width: 1000px;
 }
 
 th, td{
     padding: 1em; 
     border: 2px solid black;
-    border-spacing: 2em;
 }
 
-.create-btn{
-    border: none;
+.table-btn{
     color: white;
+    border: none;
+    border-radius: 1em;
+    padding: .5em;
+    cursor: pointer;
+}
+.create-btn{
     background: black;
-    border-radius: 2em;
-    padding: 1em;
 }
 .create-cell{
     border: none;
+}
+
+.update-user{
+    background: blue;
+
+}
+
+.delete-user{
+    background: red;
+}
+
+.view-user{
+    background: rgb(235, 90, 114);
 }

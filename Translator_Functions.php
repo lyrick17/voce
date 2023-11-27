@@ -130,6 +130,24 @@ class Translator{
             }
         }
     }
+    
+    static function displayUsers($users){
+        // Displays text to text history  or audio2text
+            while($user = mysqli_fetch_assoc($users)){
+                echo   
+                "<tr>" .            
+                "<td>" . $user['user_id']. "</td>" .
+                "<td>" . $user['username']. "</td>" .
+                "<td>" . $user['email']. "</td>" .
+                "<td>" . $user['registration_date']. "</td>" .
+                "<td>" . $user['type'] . "</td>" .
+                "<td><button type = 'button' class = 'table-btn update-user'>Update</button></td>" .
+                "<td><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" .
+                "<td><button type = 'button' class = 'table-btn view-user'>View</button></td>" .
+
+                "</tr>";
+            }
+    }
 
 
 
@@ -147,7 +165,7 @@ class Translator{
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => [
                 "X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-                "X-RapidAPI-Key: 1404802bd3msh016a1d77bd4d159p13ca69jsnfcb6fc6df689"
+                "X-RapidAPI-Key: 5a4a854aecmsh5aefb5b52f1c29ap189bdfjsnebc4acefe413"
             ],
         ]);
 
@@ -185,7 +203,7 @@ class Translator{
             CURLOPT_POSTFIELDS => "source_language=".$src_lang."&target_language=".$trg_lang."&text=".$transcript,
             CURLOPT_HTTPHEADER => [
                 "X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-                "X-RapidAPI-Key: 1404802bd3msh016a1d77bd4d159p13ca69jsnfcb6fc6df689",
+                "X-RapidAPI-Key: 5a4a854aecmsh5aefb5b52f1c29ap189bdfjsnebc4acefe413",
                 "content-type: application/x-www-form-urlencoded"
             ],
         ]);

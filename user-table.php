@@ -19,8 +19,8 @@ function dd($item){
 
 require "Translator_Functions.php";
 
-$q = "SELECT user_id, username, email, registration_date, type FROM users ORDER BY registration_date";
-$result = mysqli_query()
+$q = "SELECT user_id, username, email, registration_date, type FROM users ORDER BY user_id ASC";
+$users = mysqli_query($dbcon, $q);
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +71,7 @@ $result = mysqli_query()
         <div class = "table-container">
                 <table class = "users-table">
                         <tr>
-                            <td class = "create-cell"><button class = "create-btn">Create User</button></td>
+                            <td class = "create-cell"><button class = "table-btn create-btn">Create User</button></td>
                         </tr>
                         <tr>
                             <th class = "data">User ID</th>
@@ -79,40 +79,10 @@ $result = mysqli_query()
                             <th>Email</th>
                             <th>Registration Date</th>
                             <th>Type</th>
-                            <th colspan = 3></th>
+                            <th colspan = 3>Actions</th>
                             
                         </tr>
-                        <tr class = "user-info">
-                            <td>1</td>
-                            <td>John Doe</td>
-                            <td>Johndoe@example.com</td>
-                            <td>27/11/2023</td>
-                            <td>Admin</td>
-                            <td><a href = "#">Update</a></td>
-                            <td><a href = "#">Delete</a></td>
-                            <td><a href = "#">View</a></td>
-                        </tr>
-                        <tr class = "user-info">
-                            <td>1</td>
-                            <td>John Doe</td>
-                            <td>Johndoe@example.com</td>
-                            <td>27/11/2023</td>
-                            <td>Admin</td>
-                            <td><a href = "#">Update</a></td>
-                            <td><a href = "#">Delete</a></td>
-                            <td><a href = "#">View</a></td>
-                        </tr>
-                        <tr class = "user-info">
-                            <td>1</td>
-                            <td>John Doe</td>
-                            <td>Johndoe@example.com</td>
-                            <td>27/11/2023</td>
-                            <td>Admin</td>
-                            <td><a href = "#">Update</a></td>
-                            <td><a href = "#">Delete</a></td>
-                            <td><a href = "#">View</a></td>
-                        </tr>
-
+                        <?php Translator::displayUsers($users) ?>
                 </table>
         </div>
         </main>
