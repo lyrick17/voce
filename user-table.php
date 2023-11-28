@@ -31,7 +31,7 @@ $users = mysqli_query($dbcon, $q);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="styles/style2.css">
-    <link rel = "stylesheet" href = "styles/table.css">
+    <link rel = "stylesheet" href = "styles/user-table.css">
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -49,6 +49,23 @@ $users = mysqli_query($dbcon, $q);
             <button class = "confirm-btn confirm-yes">Yes</button>
             <button class = "confirm-btn confirm-no">No</button>
         </div>
+    </div>
+</div>
+
+<!-- Confirm delete window -->
+<div class = "create-window">
+    <div class = "create-form-div">
+            <button type = "button" class = "closecreate-btn">X</button>
+            <h4 class = "create-div-header">Create A New User</h4>
+            <label for = "username">Username</label>
+            <input type="text" placeholder="Name" id="username" name="username" required maxlength="50">
+            <label for = "email">Email</label>
+            <input type="email" placeholder="Email" id="email" name="email" required maxlength="100">
+            <label for = "pword">Password</label>
+            <input type="password" placeholder="Password" id="pword" name="pword" required>
+            <label for = "pword2">Confirm Password</label>
+            <input type="password" placeholder="Confirm Password" id="pword2" name="pword2" required>
+            <input type="submit" id="submit-register" name="submit-register" value="Submit" disabled>
     </div>
 </div>
 
@@ -93,6 +110,8 @@ $users = mysqli_query($dbcon, $q);
 
     <script src="scripts/index.js"></script>
     <script type = "text/javascript" src ="scripts/user-table.js"></script>
+    <script type = "text/javascript" src ="scripts/create-user.js"></script>
+
 </body>
 
 </html>

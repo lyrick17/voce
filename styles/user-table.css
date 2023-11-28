@@ -63,3 +63,44 @@ th, td{
     cursor: pointer;
     background: #fe4c5a;
 }
+
+
+.create-window{
+    position: absolute;
+    width:100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    z-index: 2;
+    visibility: hidden;
+}
+.create-form-div{
+    width: 500px;
+    height: 500px;
+    background: #fccdcd;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    opacity: 100;
+    border-radius: 2em;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.closecreate-btn{
+    position: absolute;
+    right: 30px;
+    top: 2em;
+    background: red;
+    color: white;
+    width: 50px;
+    height: auto;
+    padding: 1em;
+    border: none;
+    font-weight: bold;
+    border-radius: 1em;
+    cursor: pointer;
+}
