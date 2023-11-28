@@ -52,6 +52,8 @@ $users = mysqli_query($dbcon, $q);
     </div>
 </div>
 
+<input type="hidden" id="<?= $_SESSION['user_id']?>" class="mysession">
+
 <body>
 
     <!-- Sidebar -->
@@ -79,8 +81,7 @@ $users = mysqli_query($dbcon, $q);
                             <th>Email</th>
                             <th>Registration Date</th>
                             <th>Type</th>
-                            <th colspan = 3>Actions</th>
-                            
+                            <th colspan = 3>Actions</th>   
                         </tr>
                         <?php Translator::displayUsers($users) ?>
                 </table>
@@ -90,7 +91,7 @@ $users = mysqli_query($dbcon, $q);
     </div>
 
     <script src="scripts/index.js"></script>
-
+    <script type = "text/javascript" src ="scripts/user-table.js"></script>
 </body>
 
 </html>

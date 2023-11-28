@@ -133,20 +133,20 @@ class Translator{
     
     static function displayUsers($users){
         // Displays text to text history  or audio2text
-            while($user = mysqli_fetch_assoc($users)){
-                echo   
-                "<tr>" .            
-                "<td>" . $user['user_id']. "</td>" .
-                "<td>" . $user['username']. "</td>" .
-                "<td>" . $user['email']. "</td>" .
-                "<td>" . $user['registration_date']. "</td>" .
-                "<td>" . $user['type'] . "</td>" .
-                "<td><button type = 'button' class = 'table-btn update-user'>Update</button></td>" .
-                "<td><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" .
-                "<td><button type = 'button' class = 'table-btn view-user'>View</button></td>" .
+        while($user = mysqli_fetch_assoc($users)){
+            echo   
+            "<tr id = '". $user['user_id'] . "'>" .            
+            "<td>" . $user['user_id']. "</td>" .
+            "<td>" . $user['username']. "</td>" .
+            "<td>" . $user['email']. "</td>" .
+            "<td>" . $user['registration_date']. "</td>" .
+            "<td>" . $user['type'] . "</td>" .
+            "<td><button type = 'button' class = 'table-btn update-user'>Update</button></td>" .
+            "<td><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" .
+            "<td><button type = 'button' class = 'table-btn view-user'>View</button></td>" .
 
-                "</tr>";
-            }
+            "</tr>";
+        }
     }
 
 

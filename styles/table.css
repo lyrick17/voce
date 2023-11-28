@@ -41,3 +41,25 @@ th, td{
 .view-user{
     background: rgb(235, 90, 114);
 }
+
+.delete-window{
+    position: absolute;
+    width:100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    z-index: 2;
+    visibility: hidden;
+}
+
+.delete-btn{
+    background : #ff3838;
+    color: white;
+    padding: 0.5em;
+    border: none;
+    border-radius: 0.5em;
+}
+
+.delete-btn:hover{
+    cursor: pointer;
+    background: #fe4c5a;
+}
