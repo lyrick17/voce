@@ -31,6 +31,8 @@ noBtn.addEventListener("click", () => {
 
 //Deletes row and updates user history
 yesBtn.addEventListener("click", () => {
+
+    //Deletes row if user id is not the current user's id
     if(sessionId != userId){
         let fd = new FormData();
         fd.append('userId', userId);

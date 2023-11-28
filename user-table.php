@@ -52,6 +52,7 @@ $users = mysqli_query($dbcon, $q);
     </div>
 </div>
 
+<!-- Stores current user id in hidden content -->
 <input type="hidden" id="<?= $_SESSION['user_id']?>" class="mysession">
 
 <body>
