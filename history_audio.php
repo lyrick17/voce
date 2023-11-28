@@ -27,6 +27,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
 // Translate the input
 
+/*
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // required for uploading the file
@@ -38,18 +39,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	$src_lang = ($_POST['src'] == 'auto') ? "auto" : $audio_src_lang_codes[$_POST["src"]];
 	$trg_lang = $audio_trgt_lang_codes[$_POST["target"]] ?? ''; 
 
-    /*if ($_POST['src'] == 'auto') {
-        $src_lang = "auto";
-    } else {
-        $src_lang =  $audio_src_lang_codes[$_POST["src"]] ?? '';    
-    } */
 
     // Checks whether checkbox is checked or not
     $removeBGM = ISSET($_POST["removeBGM"]) ?  "on" : "off";
     
 
 	
-
 	// step 1: loading
     // error handlings first before proceeding to the main process
         // will automatically halt the process once error caught
@@ -113,7 +108,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     logs("audio-to-text", $_SESSION['username'], $dbcon);
     header("Location: history_audio.php?translated=1");
 }
-
+*/
 
 ?>
 
@@ -201,7 +196,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <div id="loadingModal" class="modalloading">
                     <div class="modal-contentloading">
                         <img src="images/loading.gif" alt="Loading..." />
-                        <p>Loading....</p>
+                        <p id="loadingModalMessage">Loading....</p>
                     </div>
                 </div>
             <form enctype="multipart/form-data" id="form" method = "POST" onsubmit="showLoading()">
@@ -335,58 +330,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <script src="scripts/index.js"></script>
     <script src="scripts/delete.js"></script>
     <!--<script src="scripts/translation_process.js"></script>-->
-    <script>
-        const form = document.getElementById("form");
-
-        form.addEventListener('submit', function(e) {
-            //prevent the page from reloading when form is submitted
-            // instead, use fetchapi to send the data
-            e.preventDefault();
-
-            // duck loading must be stopped too
-
-            const audio_info = new FormData(this);
-            audio_info.append('step', 1);
-            console.log([...audio_info]);
-
-
-            // Steps
-            // 1. fetch translation.php which handles the 
-            //      defining of variables, error handling and inserting into database
-            // 2. after that, use getVocals
-            // 3. uploadAndTranscribe
-            // 4. translate the text
-            // 5. insert into database
-
-            translationProcess(audio_info);
-        });
-
-        async function translationProcess(audio_info) {
-            // step 1
-            let data = await fetch('translation.php', {
-                                method: "POST",
-                                body: audio_info,
-                            })
-                            .then(response => response.json());
-                            
-
-            console.log(data);
-
-            // step 2 to 5
-            for (let i = 2; i <= 5; i++) {
-                console.log(audio_info.get('step'));
-                let data = await fetch('translation.php', {
-                                method: "POST",
-                                body: audio_info,
-                            })
-                            .then(response => response.json());
-                            
-
-                console.log(data);
-            }
-        }
-
-    </script>
+    <script src="scripts/translation_process.js"></script>
 
 </body>
 
