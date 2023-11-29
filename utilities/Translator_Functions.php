@@ -90,7 +90,7 @@ class Translator{
         # then, deactivate virtual environment
         
         #   code for Python 3.8 system
-        # $output = shell_exec("python ../scripts/separate.py " . escapeshellarg($file) . " && deactivate");
+        # $output = shell_exec("cd .. && python scripts/separate.py " . escapeshellarg($file) . ");
         
         #   code for Python 3.11 system with py3.8 spleeter_env virtual env
         $output = shell_exec("cd .. && spleeter_env\\Scripts\\activate && python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
@@ -136,8 +136,23 @@ class Translator{
         }
     }
 
+    static function displayUsers($users){
+        // Displays text to text history  or audio2text
+        while($user = mysqli_fetch_assoc($users)){
+            echo   
+            "<tr id = '". $user['user_id'] . "'>" .            
+            "<td>" . $user['user_id']. "</td>" .
+            "<td>" . $user['username']. "</td>" .
+            "<td>" . $user['email']. "</td>" .
+            "<td>" . $user['registration_date']. "</td>" .
+            "<td>" . $user['type'] . "</td>" .
+            "<td><button type = 'button' class = 'table-btn update-user'>Update</button></td>" .
+            "<td><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" .
+            "<td><button type = 'button' class = 'table-btn view-user'>View</button></td>" .
 
-
+            "</tr>";
+        }
+    }
     
     static function getLangCodes(){
 
