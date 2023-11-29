@@ -85,9 +85,6 @@ th, td{
     opacity: 100;
     border-radius: 2em;
     padding: 2em;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
 }
 
 .closecreate-btn{
@@ -103,4 +100,8 @@ th, td{
     font-weight: bold;
     border-radius: 1em;
     cursor: pointer;
+}
+
+.req{
+    color: red;
 }

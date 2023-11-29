@@ -12,6 +12,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 <?php
 
+
 function dd($item){
     var_dump($item);
     exit();
@@ -19,8 +20,47 @@ function dd($item){
 
 require "Translator_Functions.php";
 
+if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
+    $q = "SELECT username, email FROM USERS";
+    $result = mysqli_query($dbcon, $q);
+    $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    exit(json_encode($users));
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['userType'])) {
+    // 1 get all the values input first and protection from sql injection, then
+    // 2 get username and email from database, to avoid same data
+    // 3 before validating it if its empty or user/email already taken or password matched
+
+    // 1
+    $username = mysqli_real_escape_string($dbcon, trim($_POST['username']));
+    $email = mysqli_real_escape_string($dbcon, trim($_POST['email']));
+    $password = mysqli_real_escape_string($dbcon, trim($_POST['pword']));
+    $usertype = mysqli_real_escape_string($dbcon, trim($_POST['userType']));
+    $hashedPass = password_hash($password, PASSWORD_BCRYPT);
+
+    // 2
+    $usernameCheck = "SELECT * FROM `users` WHERE username = '" . $username . "' ";
+    $usernameResult = mysqli_query($dbcon, $usernameCheck);
+    $emailCheck = "SELECT * FROM `users` WHERE email = '" . $email . "' ";
+    $emailResult = mysqli_query($dbcon, $emailCheck);
+
+
+    $query = mysqli_prepare($dbcon, "INSERT INTO users(username, email, pword, type, registration_date) 
+                                    VALUES (?, ?, ?, ?, NOW())");
+    mysqli_stmt_bind_param($query, "ssss", $username, $email, $hashedPass, $usertype);
+    $result = mysqli_stmt_execute($query);
+    
+
+    exit();
+}
+
+
+
+
 $q = "SELECT user_id, username, email, registration_date, type FROM users ORDER BY user_id ASC";
 $users = mysqli_query($dbcon, $q);
+
 ?>
 
 <!DOCTYPE html>
@@ -55,17 +95,41 @@ $users = mysqli_query($dbcon, $q);
 <!-- Confirm delete window -->
 <div class = "create-window">
     <div class = "create-form-div">
-            <button type = "button" class = "closecreate-btn">X</button>
-            <h4 class = "create-div-header">Create A New User</h4>
-            <label for = "username">Username</label>
-            <input type="text" placeholder="Name" id="username" name="username" required maxlength="50">
-            <label for = "email">Email</label>
-            <input type="email" placeholder="Email" id="email" name="email" required maxlength="100">
-            <label for = "pword">Password</label>
-            <input type="password" placeholder="Password" id="pword" name="pword" required>
-            <label for = "pword2">Confirm Password</label>
-            <input type="password" placeholder="Confirm Password" id="pword2" name="pword2" required>
-            <input type="submit" id="submit-register" name="submit-register" value="Submit" disabled>
+        <button type = "button" class = "closecreate-btn">X</button>
+        <h4 class = "create-div-header">Create A New User</h4>
+        <form id = "form">
+            <div class = "input-user-div">
+                <label for = "username">Username</label>
+                <input type="text" placeholder="Name" id="username" name="username" required maxlength="50" required>
+            </div>
+            <div class = "input-email-div">
+                <label for = "email">Email</label>
+                <input type="email" placeholder="Email" id="email" name="email" required maxlength="100" required>
+            </div>
+            <div class = "input-pword-div">
+                <label for = "pword">Password</label>
+                <input type="password" placeholder="Password" id="pword" name="pword" required>
+            </div>
+            <div class = "input-confirmpass-div">
+                <label for = "pword2">Confirm Password</label>
+                <input type="password" placeholder="Confirm Password" id="pword2" name="pword2" required>
+            </div>
+            <div class = "type-div">
+                <select name="userType" id="userType" class="form-control">
+                    <option value="">Type of User …</option>
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                </select>
+            </div>
+            <hr>
+            <div class = "acc-req">
+                <p class = "req unique-user">*Username must be unique and 6-30 characters long</p>
+                <p class = "req valid-user">*Username must only contain numbers, letters, dashes, and underscores</p>
+                <p class = "req valid-email">*Email must be unique and valid</p>
+                <p class = "req confirm-pass">*Passwords must match and atleast 8 characters long</p>
+            </div>
+            <input type="submit" id="create-user" name="submit-register" value="Create User" disabled>
+        </form>
     </div>
 </div>
 
