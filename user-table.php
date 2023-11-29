@@ -52,7 +52,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['userType'])) {
     $result = mysqli_stmt_execute($query);
     
 
-    exit();
+    $q = "SELECT user_id, username, email, registration_date, type FROM users ORDER BY user_id ASC";
+    $users = mysqli_query($dbcon, $q);
+    $result = mysqli_fetch_all($users, MYSQLI_ASSOC);
+    exit(json_encode($result));
 }
 
 
@@ -116,7 +119,7 @@ $users = mysqli_query($dbcon, $q);
             </div>
             <div class = "type-div">
                 <select name="userType" id="userType" class="form-control">
-                    <option value="">Type of User …</option>
+                    <option value="default">Type of User …</option>
                     <option value="admin">Admin</option>
                     <option value="user">User</option>
                 </select>
@@ -174,8 +177,6 @@ $users = mysqli_query($dbcon, $q);
 
     <script src="scripts/index.js"></script>
     <script type = "text/javascript" src ="scripts/user-table.js"></script>
-    <script type = "text/javascript" src ="scripts/create-user.js"></script>
-
 </body>
 
 </html>
