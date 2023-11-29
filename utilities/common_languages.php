@@ -1,8 +1,9 @@
 <?php 
 
+require("Translator_Functions.php");
+
 require "whisper_languages.php";            // consists of supported whisper languages
 $languages = Translator::getLangCodes();    // consists of supported api languages 
-
 
 // extract the language codes from both Whisper and API and combine them to find
 //  common languages of both sides using language codes

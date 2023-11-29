@@ -1,7 +1,7 @@
 <?php 
 require("../mysql/mysqli_session.php"); 
 
-require("Translator_Functions.php");
+require("common_languages.php"); // Translator_Functions and Error Habdling are alr required in this file
 
 // consider if javascript is turned off,
 

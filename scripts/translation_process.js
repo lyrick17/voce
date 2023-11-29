@@ -33,7 +33,7 @@ async function translationProcess(audio_info) {
                     .then(response => response.json())
                     .catch(error => { console.log("Here is the error: " + error); });
                     
-    let removeBGM = data.removeBGM ? data.removeBGM : '';
+    let removeBGM = data.removeBGM ? data.removeBGM : ' ';
 
     // step 2 to 5
     if (data.error == 0) {

@@ -1,15 +1,12 @@
 <?php require("mysql/mysqli_session.php"); 
-$current_page = basename($_SERVER['PHP_SELF']);
-?>
-
-<?php if (!isset($_SESSION['username'])) {
+    $current_page = basename($_SERVER['PHP_SELF']);
+    
+    if (!isset($_SESSION['username'])) {
         header("location: loginpage.php");
         exit();
-} ?>   
+    }
 
-<?php
-// Translator_Functions all got the Error Handling, Language Codes and Processes of Translation
-require("utilities/Translator_Functions.php");
+require("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
 
 // get session id
 $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];

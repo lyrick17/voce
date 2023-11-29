@@ -1,5 +1,4 @@
 <?php
-require("common_languages.php");
 class ErrorHandling{
 	static function audioError2() {
 		// error, user did not upload file
@@ -76,7 +75,7 @@ class ErrorHandling{
 			if ($_POST["src"] == "" || $_POST['target'] == "" ||  $_POST['modelSize'] == "") {
 				logs("error-at-1", $_SESSION['username'], $dbcon);
 				//header("Location: history_audio.php?error=1");
-				$exit = ['error' => 1];
+				$exit = ['removeBGM' => 'error', 'error' => 1];
 				exit(json_encode($exit));
 			} 
 
@@ -84,7 +83,7 @@ class ErrorHandling{
 			if ($_POST["src"] == $_POST['target']) {
 				logs("error-at-4", $_SESSION['username'], $dbcon);
 				//header("Location: history_audio.php?error=4");
-				$exit = ['error' => 4];
+				$exit = ['removeBGM' => 'error', 'error' => 4];
 				exit(json_encode($exit));
 			} 
 			
@@ -94,7 +93,7 @@ class ErrorHandling{
 				!in_array($_POST['modelSize'], $modelSizes)) {
 					logs("error-at-5", $_SESSION['username'], $dbcon);
 	
-					$exit = ['error' => 6];
+					$exit = ['removeBGM' => 'error', 'error' => 6];
 					exit(json_encode($exit));
 			}
 			
@@ -121,7 +120,7 @@ class ErrorHandling{
 			logs("error-at-3", $_SESSION['username'], $dbcon);
 			//header("Location: history_audio.php?error=3");
 			
-			$exit = ['error' => 3];
+			$exit = ['removeBGM' => 'error', 'error' => 3];
         	exit(json_encode($exit));
 		}
 	}

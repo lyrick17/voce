@@ -1,7 +1,7 @@
 <?php 
 require("../mysql/mysqli_session.php"); 
 
-require("Translator_Functions.php");
+require("common_languages.php"); // Translator_Functions are alr required in this file
 
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
 // Translate text input

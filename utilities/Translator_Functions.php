@@ -1,4 +1,5 @@
 <?php 
+
 require("error_handling.php");
 
 class Translator{
