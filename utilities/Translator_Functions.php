@@ -1,5 +1,6 @@
 <?php 
-require "error_handling.php";
+require("error_handling.php");
+
 class Translator{
 
     static function db_insertAudioFile($path, $userid,  $pathsize) {
@@ -8,7 +9,7 @@ class Translator{
         $file_name = $path;
         $file_size = round($pathsize / 1000000, 2);
             //$file_size = round(filesize('audio_files/' . $file_name)/1000000, 2);
-        $file_format =  pathinfo('audio_files/' . $file_name, PATHINFO_EXTENSION);
+        $file_format =  pathinfo('../audio_files/' . $file_name, PATHINFO_EXTENSION);
         
         // insert audio file into database
           $query_insert2 = mysqli_prepare($dbcon, "INSERT INTO audio_files(user_id, file_name, file_size, file_format,
@@ -36,7 +37,7 @@ class Translator{
         $newFile = $newFilename . "." . $extension;
         
         // audio files folder
-        $pathto="audio_files/" . $newFile;
+        $pathto="../audio_files/" . $newFile;
 
         move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(ErrorHandling::audioError2());
         
@@ -57,7 +58,7 @@ class Translator{
                 */
         
         // will receive json containing text and language
-        $outputString = shell_exec("python scripts\\translate.py " . 
+        $outputString = shell_exec("cd .. && python scripts/translate.py " . 
                                     escapeshellarg($filename) . " " . 
                                     escapeshellarg($removeBGM) . " " . 
                                     escapeshellarg($extension) . " " .
@@ -69,6 +70,8 @@ class Translator{
         
         $output = json_decode($outputString, true);
         
+        //if (!isset($output['text'])) { exit(json_encode(['error' => 'Text field not set in output'])); }
+
         if ($output["text"]) {
             return $output;
             // the array will be returned so both text and language can be accessed
@@ -87,10 +90,10 @@ class Translator{
         # then, deactivate virtual environment
         
         #   code for Python 3.8 system
-        # $output = shell_exec("python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
+        # $output = shell_exec("python ../scripts/separate.py " . escapeshellarg($file) . " && deactivate");
         
         #   code for Python 3.11 system with py3.8 spleeter_env virtual env
-        $output = shell_exec("spleeter_env\\Scripts\\activate && python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
+        $output = shell_exec("cd .. && spleeter_env\\Scripts\\activate && python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
        
     }
 
