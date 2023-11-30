@@ -153,17 +153,20 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
     <header>Transcribe Now</header>
     
     
-        <div class="upload-file">          
+        <div class="upload-file" id="drop-zone" 
+                ondrop="fileDropHandler(event);" 
+                ondragover="dragOverHandler(event);"
+                ondragenter="dragEnterHandler(event);"
+                ondragleave="dragLeaveHandler(event);">
       <center><i class="bx bx-upload"></i></center>
-      <p>Browse File to Upload</p>
+      <p>Drag and Drop File to Upload</p>
                 </div>
       <input class="file-input" type="file" name="user_file" id="fileInputLabel" for="fileInput">
 
 
       <input class = "removeBGM" type = "checkbox" name = "removeBGM">
       <label for = "removeBGM">Remove BGM <br> <span style = "font-style: italic; color: red;">PS: Remove BGM before translating audio with music.</span></label>
-      <!-- accepts only Supported formats: ['m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg'] -->
-  </div>
+    </div>
  
 
 
@@ -240,6 +243,42 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
     <script src="scripts/index.js"></script>
     <script src="scripts/delete.js"></script>
     <script src="scripts/translation_process.js"></script>
+    <script>
+        function fileDropHandler(event) { 
+            event.preventDefault();
+            event.currentTarget.classList.remove('drag-hover');
+            
+            const file = event.dataTransfer.files[0];
+            //console.log(file);
+            
+            let filelist = new File([file], file.name);
+            //console.log(file);
+            
+            let transferFile = new DataTransfer();
+
+            transferFile.items.add(filelist);
+            // Simulate a file drop event on the input element
+            document.getElementById('fileInputLabel').files =  transferFile.files;
+
+
+        }
+        function dragOverHandler(event) {
+            // Prevent default behavior (Prevent file from being opened)
+            event.preventDefault();
+        }
+        function dragEnterHandler(event) {
+            event.preventDefault();
+            event.currentTarget.classList.add('drag-hover');
+        }
+        function dragLeaveHandler(event) {
+            event.preventDefault();
+            
+            if (!event.currentTarget.contains(event.relatedTarget)) {
+                event.currentTarget.classList.remove('drag-hover');
+            }
+        }
+
+    </script>
 
 </body>
 

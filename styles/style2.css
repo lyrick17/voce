@@ -794,6 +794,8 @@ body{
     flex-direction: column;
     border-radius: 5px;
     border: 2px dashed #6990F2;
+
+    transition: .5s ease;
   }
 
   .wrapper form{
@@ -1048,10 +1050,14 @@ select::after {
             grid-column: unset;
         }
         }
-    
 
 
 
+
+
+.drag-hover  {
+    background-color: #fccdcd;
+}
 
 
   
