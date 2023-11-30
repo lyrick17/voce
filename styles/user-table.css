@@ -87,7 +87,7 @@ th, td{
     padding: 2em;
 }
 
-.closecreate-btn{
+.close-btn{
     position: absolute;
     right: 30px;
     top: 2em;
@@ -105,3 +105,27 @@ th, td{
 .req{
     color: red;
 }
+
+.update-window{
+    position: absolute;
+    width:100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    z-index: 2;
+    visibility: hidden;
+}
+.update-form-div{
+    width: 500px;
+    height: 500px;
+    background: #fccdcd;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    opacity: 100;
+    border-radius: 2em;
+    padding: 2em;
+}
+
+

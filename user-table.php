@@ -58,6 +58,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['userType'])) {
     exit(json_encode($result));
 }
 
+else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new-username'])) {
+    // 1 get all the values input first and protection from sql injection, then
+    // 2 get username and email from database, to avoid same data
+    // 3 before validating it if its empty or user/email already taken or password matched
+
+    // 1
+    $username = mysqli_real_escape_string($dbcon, trim($_POST['new-username']));
+    $email = mysqli_real_escape_string($dbcon, trim($_POST['new-email']));
+    $password = mysqli_real_escape_string($dbcon, trim($_POST['new-pword']));
+    $password = mysqli_real_escape_string($dbcon, trim($_POST['new-pword']));
+    $userId = (int)$_POST['userId'];
+    $hashedPass = password_hash($password, PASSWORD_BCRYPT);
+
+    // 2
+    $usernameCheck = "SELECT * FROM `users` WHERE username = '" . $username . "' ";
+    $usernameResult = mysqli_query($dbcon, $usernameCheck);
+    $emailCheck = "SELECT * FROM `users` WHERE email = '" . $email . "' ";
+    $emailResult = mysqli_query($dbcon, $emailCheck);
+
+
+    $query = mysqli_prepare($dbcon, "UPDATE users SET username = ?, email = ?, pword = ?
+    WHERE user_id = ?");
+    mysqli_stmt_bind_param($query, "sssi", $username, $email, $hashedPass, $userId);
+    $result = mysqli_stmt_execute($query);
+    
+
+    $q = "SELECT user_id, username, email, registration_date, type FROM users ORDER BY user_id ASC";
+    $users = mysqli_query($dbcon, $q);
+    $result = mysqli_fetch_all($users, MYSQLI_ASSOC);
+    exit(json_encode($result));
+}
+
 
 
 
@@ -95,10 +127,10 @@ $users = mysqli_query($dbcon, $q);
     </div>
 </div>
 
-<!-- Confirm delete window -->
+<!-- Create window -->
 <div class = "create-window">
     <div class = "create-form-div">
-        <button type = "button" class = "closecreate-btn">X</button>
+        <button type = "button" class = "close-btn closecreate-btn">X</button>
         <h4 class = "create-div-header">Create A New User</h4>
         <form id = "form">
             <div class = "input-user-div">
@@ -135,6 +167,42 @@ $users = mysqli_query($dbcon, $q);
         </form>
     </div>
 </div>
+
+<!-- Update window -->
+<div class = "update-window">
+    <div class = "update-form-div">
+        <button type = "button" class = "close-btn closeupdate-btn">X</button>
+        <h4 class = "update-div-header">Update this user</h4>
+        <form id = "update-form">
+            <div class = "input-user-div">
+                <label for = "username">Username</label>
+                <input type="text" placeholder="Name" id="new-username" name="new-username" required maxlength="50" required>
+            </div>
+            <div class = "input-email-div">
+                <label for = "email">Email</label>
+                <input type="email" placeholder="Email" id="new-email" name="new-email" required maxlength="100" required>
+            </div>
+            <div class = "input-pword-div">
+                <label for = "pword">Password</label>
+                <input type="password" placeholder="Password" id="new-pword" name="new-pword" required>
+            </div>
+            <div class = "input-confirmpass-div">
+                <label for = "pword2">Confirm Password</label>
+                <input type="password" placeholder="Confirm Password" id="new-pword2" name="new-pword2" required>
+            </div>
+            <hr>
+            <div class = "acc-req">
+                <p class = "req unique-user2">*Username must be unique and 6-30 characters long</p>
+                <p class = "req valid-user2">*Username must only contain numbers, letters, dashes, and underscores</p>
+                <p class = "req valid-email2">*Email must be unique and valid</p>
+                <p class = "req confirm-pass2">*Passwords must match and atleast 8 characters long</p>
+            </div>
+            <input type="submit" id="submitUpdate" name="submitUpdate" value="Update User" disabled>
+        </form>
+    </div>
+</div>
+
+
 
 <!-- Stores current user id in hidden content -->
 <input type="hidden" id="<?= $_SESSION['user_id']?>" class="mysession">
