@@ -66,12 +66,14 @@ class Translator{
                                     escapeshellarg($src_lang) . " " .
                                     escapeshellarg($modelSize));
 
-        // to be revised
-        $outputString = str_replace("'", "\"", $outputString);
-        
+
+        // replace single quotes around language codes and fields with double quotes
+        $outputString = preg_replace('/(?<!\w)\'(.*?)\'/', '"$1"', $outputString);
+
+        //$outputString = preg_replace('/\'(.*?)\'/', '"$1"', $outputString);
         $output = json_decode($outputString, true);
         
-        //if (!isset($output['text'])) { exit(json_encode(['error' => 'Text field not set in output'])); }
+        if (!isset($output['text'])) { exit(json_encode(['error' => var_dump($outputString)])); }
 
         if ($output["text"]) {
             return $output;
