@@ -1,0 +1,131 @@
+.table-container{
+    width: 100%;
+    margin: auto;
+    overflow-x: scroll;
+}
+
+.users-table{
+    margin: auto;
+    text-align: center;
+    width: 1000px;
+}
+
+th, td{
+    padding: 1em; 
+    border: 2px solid black;
+}
+
+.table-btn{
+    color: white;
+    border: none;
+    border-radius: 1em;
+    padding: .5em;
+    cursor: pointer;
+}
+.create-btn{
+    background: black;
+}
+.create-cell{
+    border: none;
+}
+
+.update-user{
+    background: blue;
+
+}
+
+.delete-user{
+    background: red;
+}
+
+.view-user{
+    background: rgb(235, 90, 114);
+}
+
+.delete-window{
+    position: absolute;
+    width:100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    z-index: 2;
+    visibility: hidden;
+}
+
+.delete-btn{
+    background : #ff3838;
+    color: white;
+    padding: 0.5em;
+    border: none;
+    border-radius: 0.5em;
+}
+
+.delete-btn:hover{
+    cursor: pointer;
+    background: #fe4c5a;
+}
+
+
+.create-window{
+    position: absolute;
+    width:100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    z-index: 2;
+    visibility: hidden;
+}
+.create-form-div{
+    width: 500px;
+    height: 500px;
+    background: #fccdcd;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    opacity: 100;
+    border-radius: 2em;
+    padding: 2em;
+}
+
+.close-btn{
+    position: absolute;
+    right: 30px;
+    top: 2em;
+    background: red;
+    color: white;
+    width: 50px;
+    height: auto;
+    padding: 1em;
+    border: none;
+    font-weight: bold;
+    border-radius: 1em;
+    cursor: pointer;
+}
+
+.req{
+    color: red;
+}
+
+.update-window{
+    position: absolute;
+    width:100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    z-index: 2;
+    visibility: hidden;
+}
+.update-form-div{
+    width: 500px;
+    height: 500px;
+    background: #fccdcd;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    opacity: 100;
+    border-radius: 2em;
+    padding: 2em;
+}
+
+
