@@ -1,5 +1,5 @@
 <?php // based on PHP manual about session_destroy();
-include("mysql/mysqli_registration.php");
+include("../mysql/mysqli_registration.php");
 
 session_start();
 echo $_SESSION['username'];
@@ -18,7 +18,7 @@ if(ini_get("session.use_cookies"))  {
 
 
 session_destroy();
-header("location: index.php");
+header("location: ../index.php");
 exit();
 
 ?>

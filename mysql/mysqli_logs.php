@@ -63,6 +63,9 @@ function logs($log_act, $user, $dbcon) {
             $activity = "error text-text: same language selected";
             break;
         case "error-tt-4":
+            $activity = "error text-text: user chose unprovided language";
+            break;
+        case "error-tt-5":
             $activity = "error text-text: system error";
             break;
 
@@ -80,6 +83,9 @@ function logs($log_act, $user, $dbcon) {
             $activity = "error audio-text: same language selected";
             break;
         case "error-at-5":
+            $activity = "error audio-text: user chose unprovided language";
+            break;
+        case "error-at-6":
             $activity = "error audio-text: system error";
             break;
         // -----------------------------

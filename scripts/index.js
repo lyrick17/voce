@@ -123,5 +123,39 @@ window.addEventListener('resize', () => {
         document.getElementById('loadingModal').style.display = 'flex';
     }
     
+// for drag and drop audio file
+function fileDropHandler(event) { 
+    event.preventDefault();
+    event.currentTarget.classList.remove('drag-hover');
     
+    const file = event.dataTransfer.files[0];
+    //console.log(file);
+    
+    let filelist = new File([file], file.name);
+    
+    
+    let transferFile = new DataTransfer();
+
+    transferFile.items.add(filelist);
+    // Simulate a file drop event on the input element
+    document.getElementById('fileInputLabel').files =  transferFile.files;
+
+
+}
+
+function dragOverHandler(event) {
+    // Prevent default behavior (Prevent file from being opened)
+    event.preventDefault();
+}
+function dragEnterHandler(event) {
+    event.preventDefault();
+    event.currentTarget.classList.add('drag-hover');
+}
+function dragLeaveHandler(event) {
+    event.preventDefault();
+    
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+        event.currentTarget.classList.remove('drag-hover');
+    }
+}
     
