@@ -133,29 +133,23 @@ $users = mysqli_query($dbcon, $q);
         <button type = "button" class = "close-btn closecreate-btn">X</button>
         <h4 class = "create-div-header">Create A New User</h4>
         <form id = "form">
-            <div class = "input-user-div">
-                <label for = "username">Username</label>
-                <input type="text" placeholder="Name" id="username" name="username" required maxlength="50" required>
-            </div>
-            <div class = "input-email-div">
-                <label for = "email">Email</label>
-                <input type="email" placeholder="Email" id="email" name="email" required maxlength="100" required>
-            </div>
-            <div class = "input-pword-div">
-                <label for = "pword">Password</label>
-                <input type="password" placeholder="Password" id="pword" name="pword" required>
-            </div>
-            <div class = "input-confirmpass-div">
-                <label for = "pword2">Confirm Password</label>
-                <input type="password" placeholder="Confirm Password" id="pword2" name="pword2" required>
-            </div>
-            <div class = "type-div">
-                <select name="userType" id="userType" class="form-control">
+            <div class = "input-div">
+                <div><label for = "username">Username</label></div>
+                <input type="text" placeholder="Name" id="username" class = "admin-input" name="username" required maxlength="50" required>
+                <div><label for = "email">Email</label></div>
+                <input type="email" placeholder="Email" id="email" class = "admin-input" name="email" required maxlength="100" required>
+                <div><label for = "pword">Password</label></div>
+                <input type="password" placeholder="Password" class = "admin-input" id="pword" name="pword" required>
+                <div><label for = "pword2">Confirm Password</label></div>
+                <input type="password" placeholder="Confirm Password" class = "admin-input" id="pword2" name="pword2" required>
+                <span for = "userType" class = "typeLabel">Type of user</span>
+                <select name="userType" id="userType" class="form-control select-type">
                     <option value="default">Type of User …</option>
                     <option value="admin">Admin</option>
                     <option value="user">User</option>
                 </select>
             </div>
+
             <hr>
             <div class = "acc-req">
                 <p class = "req unique-user">*Username must be unique and 6-30 characters long</p>
@@ -163,7 +157,7 @@ $users = mysqli_query($dbcon, $q);
                 <p class = "req valid-email">*Email must be unique and valid</p>
                 <p class = "req confirm-pass">*Passwords must match and atleast 8 characters long</p>
             </div>
-            <input type="submit" id="create-user" name="submit-register" value="Create User" disabled>
+            <input type="submit" class= "admin-submit" id="create-user" name="submit-register" value="Create User" disabled>
         </form>
     </div>
 </div>
@@ -174,21 +168,15 @@ $users = mysqli_query($dbcon, $q);
         <button type = "button" class = "close-btn closeupdate-btn">X</button>
         <h4 class = "update-div-header">Update this user</h4>
         <form id = "update-form">
-            <div class = "input-user-div">
+            <div class = "input-div">
                 <label for = "username">Username</label>
-                <input type="text" placeholder="Name" id="new-username" name="new-username" required maxlength="50" required>
-            </div>
-            <div class = "input-email-div">
+                <input type="text" placeholder="Name" class = "admin-input" id="new-username" name="new-username" required maxlength="50" required>
                 <label for = "email">Email</label>
-                <input type="email" placeholder="Email" id="new-email" name="new-email" required maxlength="100" required>
-            </div>
-            <div class = "input-pword-div">
+                <input type="email" placeholder="Email" class = "admin-input" id="new-email" name="new-email" required maxlength="100" required>
                 <label for = "pword">Password</label>
-                <input type="password" placeholder="Password" id="new-pword" name="new-pword" required>
-            </div>
-            <div class = "input-confirmpass-div">
+                <input type="password" placeholder="Password" class = "admin-input" id="new-pword" name="new-pword" required>
                 <label for = "pword2">Confirm Password</label>
-                <input type="password" placeholder="Confirm Password" id="new-pword2" name="new-pword2" required>
+                <input type="password" placeholder="Confirm Password" class = "admin-input" id="new-pword2" name="new-pword2" required>
             </div>
             <hr>
             <div class = "acc-req">
@@ -197,7 +185,7 @@ $users = mysqli_query($dbcon, $q);
                 <p class = "req valid-email2">*Email must be unique and valid</p>
                 <p class = "req confirm-pass2">*Passwords must match and atleast 8 characters long</p>
             </div>
-            <input type="submit" id="submitUpdate" name="submitUpdate" value="Update User" disabled>
+            <input type="submit" class= "admin-submit" id="submitUpdate" name="submitUpdate" value="Update User" disabled>
         </form>
     </div>
 </div>
@@ -226,7 +214,7 @@ $users = mysqli_query($dbcon, $q);
         <div class = "table-container">
                 <table class = "users-table">
                         <tr>
-                            <td class = "create-cell"><button class = "table-btn create-btn">Create User</button></td>
+                            <td class = "create-cell" colspan = 2><button class = "table-btn create-btn">Create User</button></td>
                         </tr>
                         <tr>
                             <th class = "data">User ID</th>

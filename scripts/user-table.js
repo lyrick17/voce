@@ -52,6 +52,8 @@ let sessionId = mysession.getAttribute('id');
 //initialize form data content
 let userId = 0;
 
+let validColor = "green";
+
 
 
 
@@ -60,13 +62,11 @@ let userId = 0;
 for(let i = 0; i <deleteBtn.length;i++){
     updateBtns[i].addEventListener("click", (e) => {
         userId = e.target.parentNode.parentNode.id;
-        updateDivHeader.innerHTML = "Update user " + userId + "?";
-        alert(userId);
+        updateDivHeader.innerHTML = "Update User " + userId + "?";
         displayWindow(updateWindow);
     });
     deleteBtn[i].addEventListener("click", (e) => {
         userId = e.target.parentNode.parentNode.id;
-        alert(userId);
         confirmText.innerHTML = "Are you sure you want to delete this user?";
         //Sets the user to be deleted.
         displayWindow(deleteWindow);
@@ -88,7 +88,7 @@ form.addEventListener("submit", function(e){
     .then((res) => res.json()) // Converts response to JSON
     .then(response => {
         console.log(response);
-        let updatedUsers ='<tr><td class = "create-cell"><button class = "table-btn create-btn">Create User</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
+        let updatedUsers ='<tr><td class = "create-cell" colspan = 2><button class = "table-btn create-btn">Create User</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
 
         //add rows to new users table
         for(let i = 0; i < response.length; i++){
@@ -133,13 +133,11 @@ form.addEventListener("submit", function(e){
         for(let i = 0; i <deleteBtn.length;i++){
             updateBtns[i].addEventListener("click", (e) => {
                 userId = e.target.parentNode.parentNode.id;
-                updateDivHeader.innerHTML = "Update user " + userId + "?";
-                alert(userId);
+                updateDivHeader.innerHTML = "Update User " + userId + "?";
                 displayWindow(updateWindow);
             });
             deleteBtn[i].addEventListener("click", (e) => {
                 userId = e.target.parentNode.parentNode.id;
-                alert(userId);
                 confirmText.innerHTML = "Are you sure you want to delete this user?";
                 //Sets the user to be deleted.
                 displayWindow(deleteWindow);
@@ -223,7 +221,7 @@ yesBtn.addEventListener("click", () => {
             .then((res) => res.json()) // Converts response to JSON
             .then(response => {
                 fetchUsers();
-                let updatedUsers ='<tr><td class = "create-cell"><button class = "table-btn create-btn">Create User</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
+                let updatedUsers ='<tr><td class = "create-cell" colspan = 2><button class = "table-btn create-btn">Create User</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
 
                 //add rows to new users table
                 for(let i = 0; i < response.length; i++){
@@ -270,13 +268,11 @@ yesBtn.addEventListener("click", () => {
                 for(let i = 0; i <deleteBtn.length;i++){
                     updateBtns[i].addEventListener("click", (e) => {
                         userId = e.target.parentNode.parentNode.id;
-                        updateDivHeader.innerHTML = "Update user " + userId + "?";
-                        alert(userId);
+                        updateDivHeader.innerHTML = "Update User " + userId + "?";
                         displayWindow(updateWindow);
                     });
                     deleteBtn[i].addEventListener("click", (e) => {
                         userId = e.target.parentNode.parentNode.id;
-                        alert(userId);
                         confirmText.innerHTML = "Are you sure you want to delete this user?";
                         //Sets the user to be deleted.
                         displayWindow(deleteWindow);
@@ -311,7 +307,7 @@ yesBtn.addEventListener("click", () => {
         .then(response => {
             console.log(response);
             fetchUsers();
-            let updatedUsers ='<tr><td class = "create-cell"><button class = "table-btn create-btn">Create User</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
+            let updatedUsers ='<tr><td class = "create-cell" colspan = 2><button class = "table-btn create-btn">Create User</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
 
             //add rows to new users table
             for(let i = 0; i < response.length; i++){
@@ -365,13 +361,11 @@ yesBtn.addEventListener("click", () => {
             for(let i = 0; i <deleteBtn.length;i++){
                 updateBtns[i].addEventListener("click", (e) => {
                     userId = e.target.parentNode.parentNode.id;
-                    updateDivHeader.innerHTML = "Update user " + userId + "?";
-                    alert(userId);
+                    updateDivHeader.innerHTML = "Update User " + userId + "?";
                     displayWindow(updateWindow);
                 });
                 deleteBtn[i].addEventListener("click", (e) => {
                     userId = e.target.parentNode.parentNode.id;
-                    alert(userId);
                     confirmText.innerHTML = "Are you sure you want to delete this user?";
                     //Sets the user to be deleted.
                     displayWindow(deleteWindow);
@@ -433,7 +427,6 @@ function setNewRow(objData){
     "<td>" + objData['type'] + "</td>" +
     "<td><button type = 'button' class = 'table-btn update-user'>Update</button></td>" +
     "<td><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" +
-    "<td><button type = 'button' class = 'table-btn view-user'>View</button></td>" +
     "</tr>";
 
 }
@@ -444,10 +437,10 @@ function displayWindow(window){
 
 function readyToSubmit(func){
     if(func == "create"){
-        if(uniqueUserTxt.style.color == "white" &&
-        validUserTxt.style.color == "white" &&
-        validEmailTxt.style.color == "white" &&
-        confirmPassTxt.style.color == "white" &&
+        if(uniqueUserTxt.style.color == validColor &&
+        validUserTxt.style.color == validColor &&
+        validEmailTxt.style.color == validColor &&
+        confirmPassTxt.style.color == validColor &&
         (userType.options[userType.selectedIndex].text == "Admin" ||
         userType.options[userType.selectedIndex].text == "User")){
             submitBtn.disabled = false;
@@ -457,10 +450,10 @@ function readyToSubmit(func){
         }
     }
     else if (func == "update"){
-        if(uniqueUserTxt2.style.color == "white" &&
-        validUserTxt2.style.color == "white" &&
-        validEmailTxt2.style.color == "white" &&
-        confirmPassTxt2.style.color == "white"){
+        if(uniqueUserTxt2.style.color == validColor &&
+        validUserTxt2.style.color == validColor &&
+        validEmailTxt2.style.color == validColor &&
+        confirmPassTxt2.style.color == validColor){
             submitUpdate.disabled = false;
         }
         else{
@@ -473,7 +466,7 @@ function readyToSubmit(func){
 function validateUser(username, func){
     if(func == "create"){
         if(username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase()))
-            uniqueUserTxt.style.color = "white";
+            uniqueUserTxt.style.color = validColor;
         else{
             uniqueUserTxt.style.color = "red";
         }
@@ -481,7 +474,7 @@ function validateUser(username, func){
         const userPattern = /^[\w\-]+$/;
 
         if(userPattern.test(username)){
-            validUserTxt.style.color = "white";
+            validUserTxt.style.color = validColor;
         }
         else{
             validUserTxt.style.color = "red";
@@ -489,7 +482,7 @@ function validateUser(username, func){
     }
     else if(func == "update"){
         if(username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase()))
-            uniqueUserTxt2.style.color = "white";
+            uniqueUserTxt2.style.color = validColor;
         else{
             uniqueUserTxt2.style.color = "red";
         }
@@ -497,7 +490,7 @@ function validateUser(username, func){
         const userPattern = /^[\w\-]+$/;
 
         if(userPattern.test(username)){
-            validUserTxt2.style.color = "white";
+            validUserTxt2.style.color = validColor;
         }
         else{
             validUserTxt2.style.color = "red";
@@ -511,9 +504,9 @@ function validateEmail(email, func){
     const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if(emailPattern.test(email) && !emails.includes(email)){
         if(func == "create")
-            validEmailTxt.style.color = "white";    
+            validEmailTxt.style.color = validColor;    
         else if(func == "update")
-        validEmailTxt2.style.color = "white";    
+        validEmailTxt2.style.color = validColor;    
     }
     else{
         if(func == "create")
@@ -527,14 +520,14 @@ function validateEmail(email, func){
 function validatePassword(password, password2, func){
     if(password.length >= 8 && password === password2 && password != "")
         if(func == "create")
-        confirmPassTxt.style.color = "white";    
+        confirmPassTxt.style.color = validColor;    
         else if(func == "update")
-        confirmPassTxt2.style.color = "white";    
+        confirmPassTxt2.style.color = validColor;    
     else{
         if(func == "create")
-            confirmPassTxt.style.color = "white";    
+            confirmPassTxt.style.color = validColor;    
         else if(func == "update")
-            confirmPassTxt2.style.color = "white";    
+            confirmPassTxt2.style.color = validColor;    
     }
     readyToSubmit(func);
 }

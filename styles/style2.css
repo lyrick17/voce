@@ -512,7 +512,7 @@ body{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1; /* Put the image below the content */
+    z-index: 0; /* Put the image below the content */
     max-width: 100%;
     max-height: 100%;
 }
@@ -965,6 +965,7 @@ select::after {
         background-color: rgba(0, 0, 0, 0.5); /* Make the entire modal transparent */
         justify-content: center;
         align-items: center;
+        z-index:2;
         border: none; /* Remove border for the modal */
     }
 
