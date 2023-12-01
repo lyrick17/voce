@@ -18,7 +18,7 @@ function dd($item){
     exit();
 }
 
-require "Translator_Functions.php";
+require "utilities/Translator_Functions.php";
 
 if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
     $q = "SELECT username, email FROM USERS";
