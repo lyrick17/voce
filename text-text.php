@@ -1,80 +1,18 @@
 <?php require("mysql/mysqli_session.php"); 
-$current_page = basename($_SERVER['PHP_SELF']);
-?>
-
-<?php if (!isset($_SESSION['username'])) {
+    $current_page = basename($_SERVER['PHP_SELF']);
+    
+    if (!isset($_SESSION['username'])) {
         header("location: loginpage.php");
         exit();
-} ?>   
+    }
 
-<?php
-require "Translator_Functions.php";
-//  Get language codes for each language
-$languages = Translator::getLangCodes();
-$lang_codes = [];
+require("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
 
 // get session id
 $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
 // Translation history for text to text 
 $history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 0 ORDER BY translation_date DESC");
-
-foreach($languages as $language){
-  $lang_codes[$language["name"]] = $language["code"];
-}
-// Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
-
-// Translate text input
-if($_SERVER["REQUEST_METHOD"] == "POST"){ 
-
-    // Error Handling first before translation 
-    if ($_POST["src"] == "" || $_POST['target'] == "") {
-        // error, user did not choose language
-        logs("error-tt-1", $_SESSION['username'], $dbcon);
-        header("Location: text-text.php?error=1");
-        exit();
-        
-    } 
-    if (empty(trim($_POST['text']))) {
-        // error, user did not type anything
-        logs("error-tt-2", $_SESSION['username'], $dbcon);
-        header("Location: text-text.php?error=2");
-        exit();
-    }
-    if ($_POST["src"] == $_POST['target']) {
-        // error, user picked same language, useless
-        logs("error-tt-3", $_SESSION['username'], $dbcon);
-        header("Location: text-text.php?error=3");
-        exit();
-    }
-    
-  // translates text, get output
-  $translation = Translator::translate($_POST["text"], 
-      $lang_codes[$_POST["src"]], 
-      $lang_codes[$_POST["target"]]
-  );
-
-  // insert into database
-  $source_lang = $_POST['src'];
-  $target_lang = $_POST['target'];
-  $orig_text = $_POST["text"];
-  $isFromAudio = False;
-  
-  // db query
-  $query_insert = mysqli_prepare($dbcon, "INSERT INTO text_translations(user_id, from_audio_file, original_language, translated_language,
-  translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, NOW())");
-  mysqli_stmt_bind_param($query_insert, 'iissss', $id, $isFromAudio, $source_lang, $target_lang, $orig_text, $translation);
-  mysqli_stmt_execute($query_insert);
-
-  logs("text-to-text", $_SESSION['username'], $dbcon);
-
-  
-  header("Location: text-text.php?translated=1");
-  exit();
-}
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -139,12 +77,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     echo "Please select a source/translated language.";
                                     break;
                                 case 2: // user did not enter text
-                                    echo "Please type text to be translated.";
-                                    break;
-                                case 3: // user chose two same language
                                     echo "Please choose two different language.";
                                     break;
-                                default;
+                                case 3: // user chose two same language
+                                    echo "Please type text to be translated.";
+                                    break;
+                                case 4: // user added unprovided choices
+                                    echo "Please choose only on the provided models/languages.";
                                     break;
                             }
                         }
@@ -183,7 +122,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 </div>
 
                     <!-- START OF FORM, COVERS TWO SELECT AND ONE TEXT AREA -->
-                    <form id="myForm" action="text-text.php" method="POST" onsubmit="showLoading()">   
+                    <form id="myForm" action="utilities/text_translation.php" method="POST" onsubmit="showLoading()">   
                         <!-- SELECT LANGUAGE -->     
                         <select name="src" id="sourceLanguage">
                         <option value="">Select One …</option>

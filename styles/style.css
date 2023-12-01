@@ -222,15 +222,13 @@ body{
     cursor: pointer;
 }
 
-/* Add hover styles for the "Submit" button in the sign-up form */
-.container .sign-up input[type="submit"]:hover {
+/* Add hover styles for the "Submit" button in the sign-up form
+    on form-validation.js */
+.submit-register-allow:hover {
     background-color: #a82d98; /* Change the background color on hover */
     color: #fff; /* Change the text color on hover */
     border: 1px solid #fff; /* Change the border on hover */
     cursor: pointer;
 }
 
-#submit-register{
-    cursor: pointer;
-}
 

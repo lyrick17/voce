@@ -16,12 +16,21 @@ let errorElement = "";
 
 // function checks if all fields are ok to be passed to server and would allow the Register button to be clickable
 function allowRegister() {
-
+    let submitButton = document.getElementById('submit-register');
+    // user passed validation
     if (regUsernameFilled && regEmailFilled && regPasswordFilledMatched) {
-        document.getElementById('submit-register').disabled = false;
+        submitButton.disabled = false;
+        submitButton.classList.add("submit-register-allow");
+        submitButton.style.cursor = "pointer";
         return;
     }
-    document.getElementById('submit-register').disabled = true;
+    
+    
+    // user failed validation
+    submitButton.disabled = true;
+    
+    submitButton.classList.remove("submit-register-allow");
+    submitButton.style.cursor = "";
 }
 
 function checkRegisterUser() {
@@ -30,14 +39,22 @@ function checkRegisterUser() {
     let username = document.getElementById('username').value;
     let errorElement = document.getElementById('usererror');
 
-    regUsernameFilled = (username) ? true : false;
-    errorElement.innerHTML = (regUsernameFilled) ? "" : "*please enter your username";
+    if (!username) {
+        regUsernameFilled = false;
+        errorElement.innerHTML = "*please enter your username";
+    } else if (!/^[\w\-]+$/.test(username)) {
+        regUsernameFilled = false;
+        errorElement.innerHTML = "*username must only be letters, digits, - and _";
+    } else {
+        regUsernameFilled = true;
+        errorElement.innerHTML = " ";
+    }
     
     allowRegister();
 }
 
 function checkRegisterEmail() {
-    // check if email is empty and if valid
+    // check if email is empty
 
     let email = document.getElementById('email').value;
     let errorElement = document.getElementById('emailerror');
