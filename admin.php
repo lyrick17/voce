@@ -14,7 +14,7 @@ function dd($item){
     exit();
 }
 
-require "Translator_Functions.php";
+require "utilities/Translator_Functions.php";
 $languages = Translator::getLangCodes();
 $lang_codes = [];
 foreach($languages as $language){

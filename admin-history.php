@@ -8,7 +8,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 } ?>   
 
 <?php
-require "Translator_Functions.php";
+require "utilities/Translator_Functions.php";
 
 //  Get language codes for each language
 $languages = Translator::getLangCodes();
