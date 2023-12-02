@@ -151,8 +151,6 @@ class Translator{
             "<td>" . $user['type'] . "</td>" .
             "<td><button type = 'button' class = 'table-btn update-user'>Update</button></td>" .
             "<td><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" .
-            "<td><button type = 'button' class = 'table-btn view-user'>View</button></td>" .
-
             "</tr>";
         }
     }
