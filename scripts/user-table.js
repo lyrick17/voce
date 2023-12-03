@@ -518,16 +518,17 @@ function validateEmail(email, func){
 }
 
 function validatePassword(password, password2, func){
-    if(password.length >= 8 && password === password2 && password != "")
+    if(password.length >= 8 && password === password2 && password != ""){
         if(func == "create")
         confirmPassTxt.style.color = validColor;    
         else if(func == "update")
         confirmPassTxt2.style.color = validColor;    
+    }
     else{
         if(func == "create")
-            confirmPassTxt.style.color = validColor;    
+            confirmPassTxt.style.color = "red";    
         else if(func == "update")
-            confirmPassTxt2.style.color = validColor;    
+            confirmPassTxt2.style.color = "red";    
     }
     readyToSubmit(func);
 }
