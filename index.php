@@ -1,3 +1,9 @@
+<?php include("mysql/mysqli_registration.php"); 
+    if (isset($_SESSION['username'])) {
+    	header("location: dashboard1.php");
+        exit();
+    }
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -112,7 +118,7 @@
         </div>
         <div class="col-lg-4 col-md-6" data-wow-delay="0.2s">
           <div class="icon-box">
-            <div class="icon"><img src="images/lowstorage1.png" width="50" height="50" style="margin-left: 20px;"></i></div>
+            <div class="icon"><img src="images/lowstorage.png" width="50" height="50" style="margin-left: 20px;"></i></div>
             <h4 class="title"><a href="">Low Storage</a></h4>
             <p class="description">Efficient and space-friendly. Our application optimizes storage usage, ensuring a low footprint on your device while providing powerful language capabilities.</p>
           </div>

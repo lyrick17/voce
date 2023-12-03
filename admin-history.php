@@ -86,7 +86,50 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
 </head>
-
+<style> 
+.pagination{
+    text-align: center;
+    margin-left: 600px;
+    margin-top: -75px;
+    display: flex;
+    color: #383838;
+    border-radius: 6px;
+}
+.pagination-list{
+    margin: 20px 30px;
+}
+.pagination-list li{
+    display: inline-block;
+    margin: 0 10px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 45px;
+    cursor: pointer;
+    background-position: 0 -45px;
+    transition: background-position 0.5s;
+}
+.pagination-list li.active{
+    color: #fff;
+    background-image: linear-gradient(#ff4568,#ff4568);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+.btn1, .btn2{
+    display: inline-flex;
+    align-items: center;
+    font-size: 22px;
+    font-weight: 500;
+    color: #383838;
+    background: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+</style>
 <body>
 
     <!-- Sidebar -->
@@ -116,6 +159,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </li>
         </ul>
     </div>
+    
     <!-- End of Sidebar -->
 
     <!-- Main Content -->
@@ -201,20 +245,82 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             </tr>
                         <?php endwhile ?>
                         </tbody>
-                    </table>
-                </div>
-          
-                
-
                 <!-- End of Reminders-->
 
             </div>
+                </table>
+                </div>
+            
 
         </main>
-
+        <div class="pagination">
+        <button class="btn1" onclick="backBtn()">prev</button>
+            <ul class="pagination-list">
+                <li class="link active" value="1" onclick="activeLink()">1</li>
+                <li class="link" value="2" onclick="activeLink()">2</li>
+                <li class="link" value="3" onclick="activeLink()">3</li>
+                <li class="link" value="4" onclick="activeLink()">4</li>
+                <li class="link" value="5" onclick="activeLink()">5</li>
+                <li class="link" value="6" onclick="activeLink()">...</li>
+            </ul>
+        <button class="btn1" onclick="nextBtn()">next</button>
+    </div>
     </div>
 
-    <script src="scripts/index.js"></script>
+<script src="scripts/index.js"></script>
+<script>
+    let links = document.getElementsByClassName("link");
+    let currentValue = 1;
+    let maxRows = 10;
+    
+    function activeLink() {
+        for (let l of links) {
+            l.classList.remove("active");
+        }
+
+        event.target.classList.add("active");
+        currentValue = event.target.value;
+        showRows();
+    }
+
+    function backBtn() {
+        if (currentValue > 1) {
+            for (let l of links) {
+                l.classList.remove("active");
+            }
+            currentValue--;
+            links[currentValue - 1].classList.add("active");
+            showRows();
+        }
+    }
+
+    function nextBtn() {
+        if (currentValue < 6) {
+            for (let l of links) {
+                l.classList.remove("active");
+            }
+            currentValue++;
+            links[currentValue - 1].classList.add("active");
+            showRows();
+        }
+    }
+
+    function showRows() {
+        let start = (currentValue - 1) * maxRows;
+        let end = start + maxRows;
+
+        for (let i = 0; i < rows.length; i++) {
+            if (i >= start && i < end) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    }
+
+    // Initialize the table on page load
+    showRows();
+</script>
 </body>
 
 </html>
