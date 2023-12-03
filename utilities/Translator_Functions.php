@@ -61,11 +61,11 @@ class Translator{
         $filename = pathinfo($inputFile, PATHINFO_FILENAME);
 
         if ($removeBGM == "on") { // we will use vocals.wav to remove silence instead
-            $output = shell_exec("cd .. && ffmpeg -y -i -vn " . escapeshellarg("audio_files/" . $filename . "/vocals.wav") . 
+            $output = shell_exec("cd .. && ffmpeg -y -i " . escapeshellarg("audio_files/" . $filename . "/vocals.wav") . 
             " -af  silenceremove=stop_periods=-1:stop_duration=1:stop_threshold=-30dB " . escapeshellarg("audio_files/" . $filename . "/audio_processed.mp3"));
         
         } else {                    // we will use the original file since spleeter isn't used
-            $output = shell_exec("cd .. && ffmpeg -y -i -vn " . escapeshellarg("audio_files/". $inputFile) . 
+            $output = shell_exec("cd .. && ffmpeg -y -i " . escapeshellarg("audio_files/". $inputFile) . 
             " -af  silenceremove=stop_periods=-1:stop_duration=1:stop_threshold=-30dB " . escapeshellarg("audio_files/" . $filename . "/audio_processed.mp3"));
 
         }
