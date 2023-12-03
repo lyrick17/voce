@@ -30,14 +30,14 @@ async function translationProcess(audio_info) {
                         method: "POST",
                         body: audio_info,
                     })
-                    .then(response => response.json())
-                    .catch(error => { console.log("Here is the error: " + error); });
+                    .then(response => response.json());
+                   
                     
     let removeBGM = data.removeBGM ? data.removeBGM : ' ';
 
     // step 2 to 5
     if (data.error == 0) {
-        for (let i = 2; i <= 5; i++) {
+        for (let i = 2; i <= 6; i++) {
             audio_info.set('step', i);
     
             if (data.error != 0) { break; }                 // if there is an error, stop the loop
@@ -71,21 +71,23 @@ function finishProcess(errornumber) {
 function displayLoadingMessage(step) {
     let message = document.getElementById("loadingModalMessage");
     switch (step) {
-        case 1:
+        case 1: // error handling
             message.innerHTML = "Loading...";
             break;
-        case 2:
-            message.innerHTML = "Extracting Vocals... (2/5)";
+        case 2: // spleeter_env
+            message.innerHTML = "Extracting Vocals... (2/6)";
             break;
-        case 3:
-            message.innerHTML = "Transcribing Audio File... (3/5)";
+        case 3: // silence remover
+            message.innerHTML = "Cleaning Up Audio... (3/6)";
             break;
-        case 4:
-            message.innerHTML = "Translating Text... (4/5)";
+        case 4: // whisper transcription
+            message.innerHTML = "Transcribing Audio File... (4/6)";
             break;
-        case 5:
-            message.innerHTML = "Recording the Data... (5/5)";
+        case 5: // api translation
+            message.innerHTML = "Translating Text... (5/6)";
             break;
+        case 6: // saving onto database
+            message.innerHTML = "Recording the Data... (6/6)";
     }
         
 }

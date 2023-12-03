@@ -45,7 +45,32 @@ class Translator{
         return $newFile;
     }
 
-    
+    static function createNewFolder($filename) {
+        // if audio file will not be processed in extracting vocals
+        //  create a folder to place the new file with removed audio
+
+        $filename = pathinfo($filename, PATHINFO_FILENAME);
+        $directory = "../audio_files/" . $filename . "/";
+        if(!is_dir($directory)){
+			mkdir($directory, 0777, true);
+		}
+    }
+
+    static function removeSilence($inputFile, $removeBGM) {
+        // if removeBGM is on, do not make a folder, else, create a new folder
+        $filename = pathinfo($inputFile, PATHINFO_FILENAME);
+
+        if ($removeBGM == "on") { // we will use vocals.wav to remove silence instead
+            $output = shell_exec("cd .. && ffmpeg -y -i -vn " . escapeshellarg("audio_files/" . $filename . "/vocals.wav") . 
+            " -af  silenceremove=stop_periods=-1:stop_duration=1:stop_threshold=-30dB " . escapeshellarg("audio_files/" . $filename . "/audio_processed.mp3"));
+        
+        } else {                    // we will use the original file since spleeter isn't used
+            $output = shell_exec("cd .. && ffmpeg -y -i -vn " . escapeshellarg("audio_files/". $inputFile) . 
+            " -af  silenceremove=stop_periods=-1:stop_duration=1:stop_threshold=-30dB " . escapeshellarg("audio_files/" . $filename . "/audio_processed.mp3"));
+
+        }
+    }
+
     static function uploadAndTranscribe($newFile, $removeBGM, $src_lang, $modelSize){
 
         global $dbcon;      

@@ -23,7 +23,8 @@ if __name__ == '__main__':
     # this allows auto detect language
     output = {}
 
-    filePath = "audio_files/" + filename + ("." + extension if removeBGM == "off" else "/vocals.wav")
+    filePath = "audio_files/" + filename + "/audio_processed.mp3"
+    #filePath = "audio_files/" + filename + ("." + extension if removeBGM == "off" else "/vocals.wav")
 
     if srcLanguage == "auto":
         result = model.transcribe(filePath)
