@@ -88,13 +88,15 @@ class ErrorHandling{
 			} 
 			
 			// (3) Note: Source Language would be compared on common_languages of API and Whisper
-			if (array_search($_POST['src'], array_column($common_lang, 'name')) === false ||
-				array_search($_POST['target'], array_column($api_lang, 'name')) === false ||
-				!in_array($_POST['modelSize'], $modelSizes)) {
-					logs("error-at-5", $_SESSION['username'], $dbcon);
-	
-					$exit = ['removeBGM' => 'error', 'error' => 6];
-					exit(json_encode($exit));
+			if ($_POST['src'] != "auto") {
+				if (array_search($_POST['src'], array_column($common_lang, 'name')) === false ||
+					array_search($_POST['target'], array_column($api_lang, 'name')) === false ||
+					!in_array($_POST['modelSize'], $modelSizes)) {
+						logs("error-at-5", $_SESSION['username'], $dbcon);
+		
+						$exit = ['removeBGM' => 'error', 'error' => 6];
+						exit(json_encode($exit));
+				}
 			}
 			
 		}
