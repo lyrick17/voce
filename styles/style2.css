@@ -1060,5 +1060,98 @@ select::after {
     background-color: #fccdcd;
 }
 
+/* Update the CSS for mobile responsiveness */
+@media screen and (max-width: 576px) {
+    .bottom-data .orders table {
+        width: 100%;
+    }
 
-  
+    .bottom-data .orders table thead {
+        display: none;
+    }
+
+    .bottom-data .orders table, .bottom-data .orders table tbody, .bottom-data .orders table tr, .bottom-data .orders table td {
+        display: block;
+        width: 100%;
+    }
+
+    .bottom-data .orders table tr {
+        margin-bottom: 15px;
+    }
+
+    .bottom-data .orders table td {
+        text-align: left;
+        padding-left: 10px;
+        position: relative;
+    }
+
+    /* Hide labels for columns other than "Translated Text" */
+    .bottom-data .orders table td:before {
+        display: none;
+    }
+
+    /* Show data for "Translated Text" column */
+    .bottom-data .orders table td:nth-child(3) {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .hidden-mobile {
+        display: none;
+    }
+    .sidebar {
+        width: 60px;
+    }
+
+    .content {
+        width: calc(100% - 60px);
+        left: 60px;
+    }
+
+    .content main .insights li {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .content main .bottom-data .header {
+        min-width: auto;
+    }
+
+    .content main .bottom-data .orders table,
+    .content main .bottom-data .reminders .task-list {
+        min-width: auto;
+    }
+
+    .custom-textfield {
+        width: 100%;
+    }
+
+    select {
+        width: 100%;
+    }
+    .container {
+        display: block;
+        margin-left: 0;
+    }
+
+    .wrapper {
+        width: 100%;
+        margin: 0;
+    }
+    .text-section {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+    }
+
+    .customtextfield {
+        width: 100%;
+        max-width: 100%;
+    }
+    .center-image {
+        margin-top: 180px;
+        
+
+    }
+}
