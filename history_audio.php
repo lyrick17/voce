@@ -73,7 +73,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
                     <h1>Audio Transcriber</h1>
                   
                     <!-- Error Message: Pabago nalang if may naiisip kang ibang design -->
-                    <p style="color: red;"><i>
+                    <p style="color: red;" id="error-message"><i>
                     <?php
                         if (isset($_GET['error'])) {
                             switch ($_GET['error']) {
@@ -95,6 +95,8 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
                                 case 6: // user added unprovided choices
                                     echo "Please choose only on the provided models/languages.";
                                     break;
+                              //case 7: // user uploaded file more than 60mb
+                                    // will be handled by javascript
                             }
                         }
                     ?> 

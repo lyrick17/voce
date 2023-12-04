@@ -122,6 +122,9 @@ window.addEventListener('resize', () => {
     function showLoading() {
         document.getElementById('loadingModal').style.display = 'flex';
     }
+    function removeLoading() {
+        document.getElementById('loadingModal').style.display = 'none';
+    }
     
 // for drag and drop audio file
 function fileDropHandler(event) { 
@@ -140,7 +143,7 @@ function fileDropHandler(event) {
     // Simulate a file drop event on the input element
     document.getElementById('fileInputLabel').files =  transferFile.files;
 
-
+    checkFileSize(document.getElementById('fileInputLabel'));
 }
 
 function dragOverHandler(event) {

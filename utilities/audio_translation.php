@@ -29,6 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['step'] == 1) { #!!! error handling and insertion of audio file to database
         
         ErrorHandling::checkLanguageChosen("audio", $languages, $common_languages);
+        ErrorHandling::checkFileUpload($_FILES["user_file"]);
         ErrorHandling::validateFormat($path);
         ErrorHandling::checkFolder();
         
