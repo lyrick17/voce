@@ -39,21 +39,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType'])) {
     // 3
     if (empty($_POST['username'])) {
         $display_errors['user'] = error_message("user-1"); $error++;
-    } else if (mysqli_num_rows($usernameResult) >= 1) {
+    } elseif (strlen($_POST['username']) < 6 || strlen($_POST['username']) > 30) {
         $display_errors['user'] = error_message("user-2"); $error++;
+    } elseif (mysqli_num_rows($usernameResult) >= 1) {
+        $display_errors['user'] = error_message("user-3"); $error++;
     }
 
     if (empty($_POST['email'])) {
         $display_errors['email'] = error_message("email-1"); $error++;
-    } else if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+    } elseif (strlen($_POST['email']) > 100) {
         $display_errors['email'] = error_message("email-2"); $error++;
-    } else if (mysqli_num_rows($emailResult) >= 1) {
+    } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $display_errors['email'] = error_message("email-3"); $error++;
+    } elseif (mysqli_num_rows($emailResult) >= 1) {
+        $display_errors['email'] = error_message("email-4"); $error++;
     }
 
     if (empty($_POST['pword'])) {
         $display_errors['pass'] = error_message("pass-1"); $error++;
-    } else if ($_POST['pword'] != $_POST['pword2']) {
+    } elseif ($_POST['pword'] != $_POST['pword2']) {
         $display_errors['pass'] = error_message("pass-2"); $error++;
     }
 
@@ -152,15 +156,21 @@ function error_message($error) {
             return " *please enter your username";
             break;
         case "user-2":
+            return " *username must be 6-30 characters only";
+            break;
+        case "user-3":
             return " *username already taken";
             break;
         case "email-1":
             return " *please enter your email";
             break;
         case "email-2":
-            return " *email not valid";
+            return " *email maximum only 100 characters";
             break;
         case "email-3":
+            return " *email not valid";
+            break;
+        case "email-4":
             return " *email already taken";
             break;
         case "pass-1":
