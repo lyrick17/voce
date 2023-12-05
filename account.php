@@ -21,6 +21,13 @@ $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 $sess_hashedPass = $_SESSION['pword'];
 
+if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
+    $q = "SELECT username, email FROM USERS where user_id = $sess_id";
+    $result = mysqli_query($dbcon, $q);
+    $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    exit(json_encode($users));
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -78,10 +85,10 @@ $sess_hashedPass = $_SESSION['pword'];
                                 mysqli_stmt_fetch($query);
 
                                 if($username == $newUsername){
-                                    echo "<style>#edit-username-div{display:block;}</style><p style = 'color:red'>You are already using this username.</p>";
+                                    echo "<style>#edit-username-btn{visibility:hidden}#edit-username-div{display:block;}</style><p style = 'color:red'>You are already using this username.</p>";
                                 }
                                 elseif($result > 0){
-                                    echo "<style>#edit-username-div{display:block;}</style><p style = 'color:red'>This username already exists.</p>";
+                                    echo "<style>#edit-username-btn{visibility:hidden}#edit-username-div{display:block;}</style><p style = 'color:red'>This username already exists.</p>";
                                 }
                                 else{
                                 $query = mysqli_prepare($dbcon, "UPDATE users SET username = ?
@@ -91,7 +98,6 @@ $sess_hashedPass = $_SESSION['pword'];
 
                                 $_SESSION['username'] = $newUsername;
                                 unset($_POST);
-                                header("Refresh:0");
                                 }
 
                             }
@@ -121,10 +127,10 @@ $sess_hashedPass = $_SESSION['pword'];
                                 mysqli_stmt_fetch($query);
                             
                                 if($email == $newEmail){
-                                    echo "<style>#edit-email-div{display:block;}</style><p style = 'color:red'>You are already using this email.</p>";
+                                    echo "<style>#edit-email-btn{visibility:hidden}#edit-email-div{display:block;}</style><p style = 'color:red'>You are already using this email.</p>";
                                 }
                                 elseif ($result > 0) {
-                                    echo "<style>#edit-email-div{display:block;}</style><p style = 'color:red'>This email is not available.</p>";
+                                    echo "<style>#edit-email-btn{visibility:hidden}#edit-email-div{display:block;}</style><p style = 'color:red'>This email is not available.</p>";
                                 }
                                 else{
                                 $query = mysqli_prepare($dbcon, "UPDATE users SET email = ?
@@ -134,7 +140,6 @@ $sess_hashedPass = $_SESSION['pword'];
                             
                                 $_SESSION['email'] = $newEmail;
                                 unset($_POST);
-                                header("Refresh:0");
                                 }
                             }
                         ?>
@@ -158,7 +163,7 @@ $sess_hashedPass = $_SESSION['pword'];
                                 $hashedPass = password_hash($newPass, PASSWORD_BCRYPT);
                             
                                 if($oldPass == $newPass){
-                                    echo "<style>#edit-psword-div{display:block;}</style><p style = 'color:red'>Your password must be different from your old password</p>";
+                                    echo "<style>#edit-psword-btn{visibility:hidden}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your password must be different from your old password</p>";
                                 }
                                 elseif(password_verify($oldPass, $sess_hashedPass)){
                                     $query = mysqli_prepare($dbcon, "UPDATE users SET pword = ?
@@ -168,10 +173,9 @@ $sess_hashedPass = $_SESSION['pword'];
                             
                                     $_SESSION['pword'] = $hashedPass;
                                     unset($_POST);
-                                    header("Refresh:0");
                                 }
                                 else{
-                                    echo "<style>#edit-psword-div{display:block;}</style><p style = 'color:red'>Your old password is not correct.</p>";
+                                    echo "<style>#edit-psword-btn{visibility:hidden}#edit-psword-div{display:block;}</style><p style = 'color:red'>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaYour old password is not correct.</p>";
                                 }
                             }
                         ?>

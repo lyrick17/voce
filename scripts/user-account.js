@@ -1,5 +1,8 @@
-//timer 
-let searchTimeout;
+const userText = document.getElementById("user-username");
+const emailText = document.getElementById("user-email");
+fetchUser();
+
+// display user and email
 
 //edit and cancel buttons
 const editUsernameBtn = document.getElementById("edit-username-btn");
@@ -81,14 +84,33 @@ cancelEmailBtn.addEventListener("click", () => hideEditWindow(editEmailDiv, edit
 editPassBtn.addEventListener("click", () => showEditWindow(editPassDiv, editPassBtn));
 cancelPassBtn.addEventListener("click", () => hideEditWindow(editPassDiv, editPassBtn));
 
+
+
 function showEditWindow(editDiv, editBtn){
     editDiv.style.display = "block";
-    editBtn.disabled = true;
+    editBtn.style.visibility = "hidden";
 }
 
 function hideEditWindow(editDiv, editBtn){
     editDiv.style.display = "none";
-    editBtn.disabled = false;
+    editBtn.style.visibility = "visible";
 }
 
+function fetchUser(){
+    //resets usernames and emails 
+    fetch('account.php', {
+    headers: {
+      'credentials': 'same-origin',
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': 'application/json'
+       // or 'Content-Type': 'application/x-www-form-urlencoded'
+    }, method: 'POST'})
+  .then((res) => res.json())
+  .then((response) => {
+    console.log(response);
 
+    userText.innerHTML = response[0]['username'];
+    emailText.innerHTML = response[0]['email'];
+
+  })
+}
