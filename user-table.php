@@ -63,13 +63,28 @@ else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new-username'])) 
     // 2 get username and email from database, to avoid same data
     // 3 before validating it if its empty or user/email already taken or password matched
 
+
+
     // 1
     $username = mysqli_real_escape_string($dbcon, trim($_POST['new-username']));
     $email = mysqli_real_escape_string($dbcon, trim($_POST['new-email']));
     $password = mysqli_real_escape_string($dbcon, trim($_POST['new-pword']));
     $password = mysqli_real_escape_string($dbcon, trim($_POST['new-pword']));
-    $userId = (int)$_POST['userId'];
     $hashedPass = password_hash($password, PASSWORD_BCRYPT);
+
+    //updates session variable if current user info is updated
+    if($_POST['userId'] == $_SESSION['user_id']){
+        $_SESSION['username'] = $username;
+        $_SESSION['email'] = $email;
+        $_SESSION['pword'] = $hashedPass;
+    }
+
+    $userId = (int)$_POST['userId'];
+
+
+    // updates session variables
+
+
 
     // 2
     $usernameCheck = "SELECT * FROM `users` WHERE username = '" . $username . "' ";
