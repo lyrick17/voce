@@ -14,13 +14,7 @@ function dd($item){
     exit();
 }
 
-require "utilities/Translator_Functions.php";
-$languages = Translator::getLangCodes();
-$lang_codes = [];
-foreach($languages as $language){
-    $lang_codes[$language["name"]] = $language["code"];
-  }
-
+require "utilities/common_languages.php"; // Translator_Functions and Error Handling are alr required in this file
 
   $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
