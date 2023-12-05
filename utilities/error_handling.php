@@ -1,5 +1,10 @@
 <?php
 class ErrorHandling{
+
+	// make sure that in php.ini
+	//	upload_max_filesize=80M
+	//	post_max_size=60M
+
 	static function audioError2() {
 		// error, user did not upload file
 		global $dbcon;
@@ -19,7 +24,7 @@ class ErrorHandling{
 		$exit = ['error' => 5];
         exit(json_encode($exit));
 	}
-
+	
 
 	static function checkTextInput() {
 		global $dbcon;
@@ -103,7 +108,13 @@ class ErrorHandling{
 
 	
 	}
-	
+
+	static function checkFileUpload($fileupload) {
+		// either file is empty or no file uploaded
+		if($fileupload['size'] == 0 || $fileupload['error'] == 4) {
+			self::audioError2();
+		}
+	}
 	static function validateFormat($filePath) {
 		// error, user no upload file
 		if (!$filePath) {

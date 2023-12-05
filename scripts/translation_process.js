@@ -3,6 +3,12 @@
 
 // get the form of audio to text translation and once submitted
 
+const uploadField = document.getElementById("fileInputLabel");
+
+
+uploadField.addEventListener("change", function() {
+    checkFileSize(this);
+});
 
 
 const form = document.getElementById("form");
@@ -18,7 +24,11 @@ form.addEventListener('submit', function(e) {
     //  what current step to take
     audio_info.append('step', 1); 
 
-    translationProcess(audio_info);
+    if (checkFileSize(uploadField)) {
+        translationProcess(audio_info);
+    } else {
+        removeLoading(); 
+    }
 });
 
 
@@ -31,25 +41,27 @@ async function translationProcess(audio_info) {
                         body: audio_info,
                     })
                     .then(response => response.json())
-                    .catch(error => { console.log("Here is the error: " + error); });
+                    .catch(error => console.log(error));
+                    
                     
     let removeBGM = data.removeBGM ? data.removeBGM : ' ';
 
     // step 2 to 5
     if (data.error == 0) {
-        for (let i = 2; i <= 5; i++) {
+        for (let i = 2; i <= 6; i++) {
             audio_info.set('step', i);
     
             if (data.error != 0) { break; }                 // if there is an error, stop the loop
             if (i == 2 && removeBGM == 'off') { continue; } // skip step 2 if not remove BGM 
-    
+            
             displayLoadingMessage(i);
             
             data = await fetch('utilities/audio_translation.php', {
                             method: "POST",
                             body: audio_info,
                         })
-                        .then(response => response.json());
+                        .then(response => response.json())
+                        .catch(error => finishProcess(error));
                         
     
             // console.log(data);
@@ -59,6 +71,27 @@ async function translationProcess(audio_info) {
     finishProcess(data.error);
 
 }
+
+
+function checkFileSize(uploadField) {
+    // validation if user upload is less than 60mb
+
+    let errormessage = document.getElementById('error-message');
+    if (uploadField.files.length > 0) {
+        const filesize = uploadField.files[0].size;
+        const fileMB = filesize / 1024 / 1024;
+        //console.log(fileMB);
+        if (fileMB > 60) {
+            errormessage.innerHTML = "File Size limit is only on 60MB.";
+            uploadField.value = "";
+            return false;
+        } else if (errormessage.innerHTML == "File Size limit is only on 60MB.") {
+            errormessage.innerHTML = "";
+        }
+        return true;
+    }
+}
+
 
 function finishProcess(errornumber) {
     if (errornumber == 0) {
@@ -71,21 +104,23 @@ function finishProcess(errornumber) {
 function displayLoadingMessage(step) {
     let message = document.getElementById("loadingModalMessage");
     switch (step) {
-        case 1:
+        case 1: // error handling
             message.innerHTML = "Loading...";
             break;
-        case 2:
-            message.innerHTML = "Extracting Vocals... (2/5)";
+        case 2: // spleeter_env
+            message.innerHTML = "Extracting Vocals... (2/6)";
             break;
-        case 3:
-            message.innerHTML = "Transcribing Audio File... (3/5)";
+        case 3: // silence remover
+            message.innerHTML = "Cleaning Up Audio... (3/6)";
             break;
-        case 4:
-            message.innerHTML = "Translating Text... (4/5)";
+        case 4: // whisper transcription
+            message.innerHTML = "Transcribing Audio File... (4/6)";
             break;
-        case 5:
-            message.innerHTML = "Recording the Data... (5/5)";
+        case 5: // api translation
+            message.innerHTML = "Translating Text... (5/6)";
             break;
+        case 6: // saving onto database
+            message.innerHTML = "Recording the Data... (6/6)";
     }
         
 }

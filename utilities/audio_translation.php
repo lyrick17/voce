@@ -29,11 +29,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['step'] == 1) { #!!! error handling and insertion of audio file to database
         
         ErrorHandling::checkLanguageChosen("audio", $languages, $common_languages);
+        ErrorHandling::checkFileUpload($_FILES["user_file"]);
         ErrorHandling::validateFormat($path);
         ErrorHandling::checkFolder();
         
         Translator::db_insertAudioFile($path, $userid, $pathsize);
         $newFile = Translator::createNewFilename($path, $userid);
+        if ($removeBGM == "off") {
+            $output = Translator::createNewFolder($newFile);
+        }
         
         // if error is 0, there is no error
         $success = [
@@ -46,7 +50,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     if ($_POST['step'] == 2) { #!!! extracting vocals using spleeter
-        if ($removeBGM === "on") {
+        if ($removeBGM == "on") {
             Translator::getVocals($_SESSION['a_info']['newfile']);
         }
 
@@ -54,8 +58,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit(json_encode($success));
     }
 
+    if ($_POST['step'] == 3) { #!!! removing silence in the file
+        
+        Translator::removeSilence($_SESSION['a_info']['newfile'], $removeBGM);
+        
+        $success = ['error' => 0];
+        exit(json_encode($success));
+    }
 
-    if ($_POST['step'] == 3) { #!!! transcribing the vocals/audio file using whisper
+    if ($_POST['step'] == 4) { #!!! transcribing the vocals/audio file using whisper
         $transcript = Translator::uploadAndTranscribe($_SESSION['a_info']['newfile'], $removeBGM, $src_lang, $_POST['modelSize']);
         $_SESSION['a_info']['text'] = $transcript['text']; 
         $_SESSION['a_info']['lang'] = $transcript['language']; 
@@ -65,7 +76,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
 
-    if ($_POST['step'] == 4) { #!!! using the text transcribed, call api to translate text
+    if ($_POST['step'] == 5) { #!!! using the text transcribed, call api to translate text
         $result = Translator::translate($_SESSION['a_info']['text'], $_SESSION['a_info']['lang'], $trg_lang);
         
         $_SESSION['a_info']['output'] = $result;
@@ -74,7 +85,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
 
-    if ($_POST['step'] == 5) { #!!! record the text output on database
+    if ($_POST['step'] == 6) { #!!! record the text output on database
 
         if ($_POST['src'] == 'auto') {
             $key = array_search($_SESSION['a_info']['lang'], array_column($common_languages, 'code'));    
