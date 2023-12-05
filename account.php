@@ -39,7 +39,8 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="styles/style2.css">
     <link rel="stylesheet" href="styles/user-account.css">
-    <title>Dashboard</title>
+    <title>My Account</title>
+    <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
@@ -175,7 +176,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
                                     unset($_POST);
                                 }
                                 else{
-                                    echo "<style>#edit-psword-btn{visibility:hidden}#edit-psword-div{display:block;}</style><p style = 'color:red'>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaYour old password is not correct.</p>";
+                                    echo "<style>#edit-psword-btn{visibility:hidden}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your old password is not correct.</p>";
                                 }
                             }
                         ?>

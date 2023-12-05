@@ -42,6 +42,9 @@ function checkRegisterUser() {
     if (!username) {
         regUsernameFilled = false;
         errorElement.innerHTML = "*please enter your username";
+    } else if (username.length < 6 || username.length > 30) {
+        regUsernameFilled = false;
+        errorElement.innerHTML = "*username must have 6-30 characters only";
     } else if (!/^[\w\-]+$/.test(username)) {
         regUsernameFilled = false;
         errorElement.innerHTML = "*username must only be letters, digits, - and _";

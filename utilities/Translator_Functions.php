@@ -188,7 +188,7 @@ class Translator{
         //  calling the api over and over again, wasting api calls
         ErrorHandling::checkCacheFolder();
         $cache_file = "cache/lang-codes-cache.json";
-        $expiration = time() - 3600; // cache file will be expired in one hour 
+        $expiration = time() - ((60 * 60) * 12); // cache file will be expired in twelve hours 
         $lang_codes = [];
         
         if (!file_exists($cache_file) || fileatime($cache_file) < $expiration || file_get_contents($cache_file) == '') {

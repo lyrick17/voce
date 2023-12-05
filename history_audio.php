@@ -30,12 +30,9 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="styles/style2.css">
     
-    <title>Dashboard</title>
+    <title>Audio to Text Translation</title>
+    <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
-
-
 
 </head>
 
@@ -51,8 +48,6 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
 </div>
 
 <body>
-
-
     <!-- Sidebar -->
     <?php require "sidebar.php"?>
 
@@ -64,10 +59,8 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
         </nav>
 
         <!-- End of Navbar -->
-
         <main>
 
-    
             <div class="header">
                 <div class="left">
                     <h1>Audio Transcriber</h1>
@@ -95,8 +88,6 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
                                 case 6: // user added unprovided choices
                                     echo "Please choose only on the provided models/languages.";
                                     break;
-                              //case 7: // user uploaded file more than 60mb
-                                    // will be handled by javascript
                             }
                         }
                     ?> 
@@ -117,9 +108,10 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
 			Model Size:
 			<select name="modelSize" id="modelSize" class="form-control">
 				<option value="">Select One …</option>
-				<option value="base">Base</option>
-				<option value="medium">Medium</option>
-				<option value="large">Large</option>
+				<option value="base">Base (For Quick Process)</option>
+				<option value="small">Small (Balance of Quick and Accurate Transcription)</option>
+				<option value="medium">Medium (Most Recommended Model Size)</option>
+				<option value="large">Large (Most Accurate, but Slowest Transcription)</option>
 
 			</select>
 			</label>
