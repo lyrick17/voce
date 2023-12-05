@@ -1,0 +1,42 @@
+.acc-info-div{
+    background: #fccdcd;
+    width: 95%;
+    max-width: 1200px;
+    min-width: 400px;
+    margin: auto;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+h4{
+    font-weight: bold;
+    display: inline-block;
+}
+
+#user-info{
+    display: inline-block;
+}
+
+.edit-btn{
+    padding: .3em;
+    width: 70px;
+}
+
+.edit-info-div{
+    margin-top: 1em;
+    display: none;
+}
+
+.user-input{
+    padding: .5em;
+    width: 400px;
+    height: 40px;
+    border: none;
+    border-radius: 0.5em;
+    display: inline;
+}
+
+.status{
+    display: inline;
+    color: red;
+}
