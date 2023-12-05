@@ -111,7 +111,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
 				<option value="base">Base (For Quick Process)</option>
 				<option value="small">Small (Balance of Quick and Accurate Transcription)</option>
 				<option value="medium">Medium (Most Recommended Model Size)</option>
-				<option value="Large">Large (Most Accurate, but Slowest Transcription)</option>
+				<option value="large">Large (Most Accurate, but Slowest Transcription)</option>
 
 			</select>
 			</label>
