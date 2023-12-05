@@ -19,10 +19,7 @@
             <a href="history_audio.php"><img src="images/sidebaraudio.png" alt="scroll icon" width="25" height="25" style="margin-left: 5px;">
             &nbsp Audio to Text</a></li>
             
-
-
-            <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
-
+            <li class="<?php echo ($current_page === 'account.php') ? 'active' : ''; ?>"><a href="account.php"><i class='bx bx-cog'></i>My Account</a></li> 
 
 
         </ul>
