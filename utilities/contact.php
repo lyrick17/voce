@@ -1,42 +1,23 @@
 <?php 
 
-
+$contact_error = '';
 // user sends out a feedback
 if($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    // bukas ko na ituloy
-   
+    // 
     // 1
-    $username = $_POST['contact_name'];
-    $email = $_POST['contact_email'];
-    $password = $_POST['contact_subject'];
-    $password = $_POST['contact_message'];
 
+    $error = 0;
 
-    // 2
-    $usernameCheck = "SELECT * FROM `users` WHERE username = '" . $username . "'";
-    $usernameResult = mysqli_query($dbcon, $usernameCheck);
-    if ($usernameResult) {
+    $c_name = (!empty($_POST['contact_name'])) ? $_POST['contact_name'] : $error++;
+    $c_email = (!empty($_POST['contact_email'])) ? $_POST['contact_email'] : $error++;
+    $c_subject = (!empty($_POST['contact_email'])) ? $_POST['contact_subject'] : $error++;
+    $c_message = (!empty($_POST['contact_email'])) ? $_POST['contact_message'] : $error++;
 
-    }
+    if (!filter_var($_POST['contact_email'], FILTER_VALIDATE_EMAIL)) { $error++; }
 
-    // 3
-    if (empty($_POST['username'])) {
-        $display_errors['user'] = error_message("user-1"); $error++;
-    } elseif (strlen($_POST['username']) < 6 || strlen($_POST['username']) > 30) {
-        $display_errors['user'] = error_message("user-2"); $error++;
-    } elseif (mysqli_num_rows($usernameResult) >= 1) {
-        $display_errors['user'] = error_message("user-3"); $error++;
-    }
-
-    if (empty($_POST['email'])) {
-        $display_errors['email'] = error_message("email-1"); $error++;
-    } elseif (strlen($_POST['email']) > 100) {
-        $display_errors['email'] = error_message("email-2"); $error++;
-    } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-        $display_errors['email'] = error_message("email-3"); $error++;
-    } elseif (mysqli_num_rows($emailResult) >= 1) {
-        $display_errors['email'] = error_message("email-4"); $error++;
+    if ($error > 0) {
+        $contact_error = "Please fill out all the fields. Thank you";
     }
 }
 

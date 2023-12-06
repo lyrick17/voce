@@ -3,6 +3,9 @@
     	header("location: dashboard1.php");
         exit();
     }
+
+    require("utilities/contact.php");
+
 ?>
 
 <!DOCTYPE html>
@@ -312,12 +315,12 @@
           </div>
 
           <div class="col-lg-8 mt-5 mt-lg-0">
-
-            <form method="post" action="utilities/contact.php">
+            <form method="post" action="index.php">
+              <h5 id="contact-error"><?php echo $contact_error ?? ''; ?><h5>
             
               <div class="row">
                 <div class="col-md-6 form-group">
-                  <input type="text" name="contact_name" class="form-control" id="name" placeholder="Your Name" required>
+                  <input type="text" name="contact_name" class="form-control" id="name" placeholder="Your Name">
                 </div>
                 <div class="col-md-6 form-group mt-3 mt-md-0">
                   <input type="email" class="form-control" name="contact_email" id="email" placeholder="Your Email" required>
@@ -352,6 +355,16 @@
     crossorigin="anonymous"></script>
 
   <script src="scripts/landingpage.js"></script>
+  <script>
+       // Scroll down to the contact form section
+       let errormessage = document.getElementById('contact-error').innerHTML;
+       console.log(errormessage);
+       if (errormessage == "Please fill out all the fields. Thank you") {
+         window.onload = function() {
+             document.getElementById('contact').scrollIntoView();
+         };
+       }
+   </script>
 </body>
 
 </html>
