@@ -15,19 +15,23 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
     $c_message = (!empty($_POST['contact_message'])) ? $_POST['contact_message'] : $error++;
 
     if ($error > 0) {
-        $contact_message = $message[0];
+        $contact_message = $message[1];
     } else {
         // provide the content to be sent out onto our email
-        $to_email = 'example@example.com'; // our email, the recipient
+        $to_email = 'lyrickjonson@gmail.com'; // our email, the recipient
         $email_subject = $c_subject;
-        $headers = ['From' => $email, 'Reply-To' => $email, 'Content-type' => 'text/html; charset=utf-8'];
+        $headers = ['From' => $c_email, 'Reply-To' => $c_email, 'Content-type' => 'text/html; charset=utf-8'];
         $body_content = ["Name: {$c_name}", "Email: {$c_email}", "Message:", $c_message];
-        $body = join(PHP_EOL, $bodyContent);
+        $body = join(PHP_EOL, $body_content);
 
-        if (mail($to_email, $email_subject, $body, $headers) {
-            $contact_message = $message[1];
-        } else {
+        ini_set('SMTP', 'smtp.gmail.com');
+        ini_set('smtp_port', '587');
+        ini_set('sendmail_from', 'your_email@gmail.com');
+        
+        if (mail($to_email, $email_subject, $body, $headers)) {
             $contact_message = $message[0];
+        } else {
+            $contact_message = $message[1];
         }
     }
 
