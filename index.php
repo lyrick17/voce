@@ -355,18 +355,6 @@
     crossorigin="anonymous"></script>
 
   <script src="scripts/landingpage.js"></script>
-  <script>
-       // Scroll down to the contact form section
-       let errormessage = document.getElementById('contact-error').innerHTML;
-       let message = ["Thank you for your Feedback!", 
-                      "Please do not fill out the fields. Thank you.", 
-                      "Message could not be sent. Please Try Again"];
-       if (errormessage == message[0] || errormessage == message[1] || errormessage == message[2]) {
-         window.onload = function() {
-             document.getElementById('contact').scrollIntoView();
-         };
-       }
-   </script>
 </body>
 
 </html>
