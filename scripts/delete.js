@@ -2,6 +2,8 @@
 let deleteWindow = document.querySelector(".delete-window");
 let deleteBtn = document.querySelectorAll(".delete-btn");
 let deleteAllBtn = document.querySelector(".deleteAll-btn");
+let deleteRowsBtn = document.querySelector(".deleteRows-btn");
+let deleteSelectedBtn = document.querySelector(".deleteSelectedRows");
 let noBtn = document.querySelector(".confirm-no");
 let yesBtn = document.querySelector(".confirm-yes");
 let history = document.querySelector(".history-body");
@@ -10,10 +12,37 @@ let confirmText = document.querySelector(".confirm-text");
 
 //initialize form data content
 let deleteId = 0;
-let userId = 0;
+let userId = document.getElementsByTagName("body")[0].id;
+console.log(userId);
 let fromAudio = 0;
 let clearAll = false;
 let fileId = null;
+let deleteRows = false;
+
+
+//
+let checkboxes = document.querySelectorAll(".delete-checkbox");
+let rowsToDelete = [];
+
+for(let i = 0; i < checkboxes.length; i++){
+    checkboxes[i].addEventListener("change", (e) => {
+        if(checkboxes[i].checked){
+            addToDeleteRows(checkboxes[i]);
+        }
+        else{removeToDeleteRows(checkboxes[i]);
+        }
+    });
+}
+
+deleteSelectedBtn.addEventListener("click", (e) => {
+    confirmText.innerHTML = "Are you sure you want to delete all rows you selected?";
+    fromAudio = (e.target.id == "a2t") ? 1 : 0;
+    console.log(fromAudio);
+    console.log(rowsToDelete);
+    console.log(deleteRows);
+    clearAll = true;
+    displayConfirmWindow(deleteWindow);
+});
 
 //Click event for delete all
 deleteAllBtn.addEventListener("click", (e) =>{
@@ -26,12 +55,21 @@ deleteAllBtn.addEventListener("click", (e) =>{
     */
     fromAudio = (e.target.id == "a2t") ? 1 : 0;
     clearAll = true;
-    userId = 1;
     displayConfirmWindow(deleteWindow);
+});
+
+deleteRowsBtn.addEventListener("click", (e) => {
+    if(!deleteRows)
+        displayCheckboxes();
+    else
+        hideCheckboxes();
+
+    console.log(deleteRows);
 });
 
 for(let i = 0; i <deleteBtn.length;i++){
     deleteBtn[i].addEventListener("click", (e) => {
+    deleteRows = false;
     confirmText.innerHTML = "Are you sure you want to delete this row?";
     //updates form data content with user data
     deleteId = e.target.parentNode.parentNode.id;
@@ -58,6 +96,10 @@ yesBtn.addEventListener("click", () => {
     fd.append('fromAudio', fromAudio);
     fd.append('clearAll', clearAll);
     fd.append('fileId', fileId);
+    fd.append('deleteRows', deleteRows);
+
+    fd.append('rowsToDelete', JSON.stringify(rowsToDelete));
+
 
     fetch('delete_query.php',{
         method : 'post', 
@@ -85,14 +127,17 @@ yesBtn.addEventListener("click", () => {
             deleteWindow = document.querySelector(".delete-window");
             deleteBtn = document.querySelectorAll(".delete-btn");
              deleteId = 0;
-             userId = 0;
+             userId = document.getElementsByTagName("body")[0].id;
              fromAudio = 0;
              clearAll = false;
              fileId = null;
+             checkboxes = document.querySelectorAll(".delete-checkbox");
+            rowsToDelete = [];
 
             //re-adds eventlisteners to new delete buttons.
             for(let i = 0; i <deleteBtn.length;i++){
                deleteBtn[i].addEventListener("click", (e) => {
+                    deleteRows = false;
                    deleteId = e.target.parentNode.parentNode.id;
                    userId = e.target.parentNode.parentNode.classList[0];
                    fromAudio = (e.target.parentNode.parentNode.classList[1] == "a2t") ? 1 : 0;
@@ -100,7 +145,32 @@ yesBtn.addEventListener("click", () => {
                    displayConfirmWindow(deleteWindow);
                });
            }
+           
+
+           for(let i = 0; i < checkboxes.length; i++){
+            checkboxes[i].addEventListener("change", (e) => {
+                if(checkboxes[i].checked){
+                    addToDeleteRows(checkboxes[i]);
+                }
+                else{removeToDeleteRows(checkboxes[i]);
+                }
+                });
+            }
+
+            
+            
+        deleteSelectedBtn.addEventListener("click", (e) => {
+            confirmText.innerHTML = "Are you sure you want to delete all rows you selected?";
+            fromAudio = (e.target.id == "a2t") ? 1 : 0;
+            console.log(fromAudio);
+            console.log(rowsToDelete);
+            console.log(deleteRows);
+            clearAll = true;
+            displayConfirmWindow(deleteWindow);
+        });
+
             hideConfirmWindow(deleteWindow);
+            hideCheckboxes();
         });
 });
 
@@ -116,6 +186,24 @@ function hideConfirmWindow(window){
     window.style.visibility = "hidden";
 }
 
+function displayCheckboxes(){
+    deleteRows = true;
+    deleteSelectedBtn.style.visibility = "visible";
+    for(let i = 0; i< checkboxes.length; i++)
+        checkboxes[i].style.display = "block";
+    deleteRowsBtn.textContent = "Cancel Delete Rows";
+    
+}
+
+function hideCheckboxes(){
+    deleteRows = false;
+    deleteSelectedBtn.style.visibility = "hidden";
+    for(let i = 0; i< checkboxes.length; i++)
+        checkboxes[i].style.display = "none";
+
+    deleteRowsBtn.textContent = " Delete Rows";
+}
+
 function setNewRow(objData){
 
     //Sets new rows for audio to text history
@@ -126,7 +214,8 @@ function setNewRow(objData){
     "<td class = '" + objData['user_id']+  " truncate-text'>" + objData['translate_to'] + "</td>" + 
         "<td class = " + objData['user_id']+ ">"+ objData['translated_language'] + "</td>" + 
         "<td class = " + objData['user_id']+ ">"+ objData['translation_date'] + "</td>" +
-        "<td class = " + objData['user_id']+ ">"+ "<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
+        "<td class = " + objData['user_id']+ ">"+ "<button type = 'button' class = 'delete-btn'>Delete</button></td>" +
+        "<td class = " + objData['user_id'] + ">" + "<input type = 'checkbox' class = 'delete-checkbox' id = " + objData['text_id'] +"></td>"     
         + "</tr>";
     }
 
@@ -141,9 +230,20 @@ function setNewRow(objData){
         "<td class = '" + objData['user_id'] +  " truncate-text'>" + objData['translate_to'] +  "</td>" +
         "<td class = " + objData['user_id'] + ">"  + objData['translated_language'] + "</td>" +
         "<td class = " + objData['user_id'] + ">"  + objData['translation_date'] + "</td>" +
-        "<td class = " + objData['user_id'] + ">"  +  "<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
+        "<td class = " + objData['user_id'] + ">"  +  "<button type = 'button' class = 'delete-btn'>Delete</button></td>" +
+        "<td class = " + objData['user_id'] + ">" + "<input type = 'checkbox' class = 'delete-checkbox' id = " + objData['text_id'] +"></td>"     
         + "</tr>";
     }
+}
+
+function addToDeleteRows(checkbox){
+    rowsToDelete.push(checkbox.id);
+    console.log(rowsToDelete);
+}
+
+function removeToDeleteRows(checkbox){
+    rowsToDelete.splice(rowsToDelete.indexOf(checkbox.id), 1);
+    console.log(rowsToDelete);
 }
 
 // Truncates text that have characters greater than 150

@@ -1,8 +1,16 @@
 <?php
  require("mysql/mysqli_connect.php"); 
 
+ if($_POST['deleteRows'] == 'true'){
 
- if($_POST['clearAll'] == 'true'){
+    foreach(json_decode($_POST['rowsToDelete']) as $rowNum){
+        $deleteQuery = "DELETE FROM text_translations WHERE text_id = " . $rowNum;
+        mysqli_query($dbcon, $deleteQuery);
+    }
+    
+ }
+
+elseif($_POST['clearAll'] == 'true'){
     // Deletes all rows corresponding to user from audio_files table if it's an audio to text translation
     if($_POST['fromAudio'] == 1){
         $deleteQuery = "DELETE FROM text_translations WHERE user_id = " . $_POST['userId']  . " AND from_audio_file = 1";

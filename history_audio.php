@@ -47,7 +47,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
     </div>
 </div>
 
-<body>
+<body id = "<?= $_SESSION['user_id']?>">
     <!-- Sidebar -->
     <?php require "sidebar.php"?>
 

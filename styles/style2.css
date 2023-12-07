@@ -875,11 +875,45 @@ select::after {
     border-radius: 0.5em;
 }
 
+.deleteRows-btn{
+    background : #ff3838;
+    color: white;
+    padding: 0.5em;
+    border: none;
+    border-radius: 0.5em;
+}
+
+.delete-checkbox{
+    width: 40px;
+    display: none;
+    transform: scale(1.2);
+}
+
+.deleteRows-btn:hover{
+    cursor: pointer;
+    background: #fe4c5a;
+}
+
+.deleteSelectedRows{
+    background : #ff3838;
+    color: white;
+    padding: 0.5em;
+    border: none;
+    border-radius: 0.5em;
+    visibility: hidden;
+}
+
+
 .deleteAllClass{
     text-align:right;
 }
 
 .deleteAll-btn:hover{
+    cursor: pointer;
+    background: #fe4c5a;
+}
+
+.deleteSelectedRows:hover{
     cursor: pointer;
     background: #fe4c5a;
 }
@@ -1038,7 +1072,8 @@ select::after {
     .line-btn{
         background: gray;
     }
-    
+
+
 
 
     @media (max-width: 900px){
@@ -1152,6 +1187,6 @@ select::after {
     .center-image {
         margin-top: 180px;
         
-
     }
 }
+

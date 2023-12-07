@@ -9,6 +9,7 @@
 require("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
 
 // get session id
+
 $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
 // Translation history for text to text 
@@ -42,7 +43,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id =
     </div>
 </div>
 
-<body>
+<body id = "<?= $_SESSION['user_id']?>">
 
 
     <!-- Sidebar -->
@@ -187,6 +188,8 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id =
 
                 <div class="orders">
                 <div class = "deleteAllClass">
+                    <button type = 'button' class = "deleteSelectedRows" id = "t2t">Delete Selected Rows</button>
+                    <button type = 'button' class = "deleteRows-btn" id = "t2t">Delete Rows</button>
                     <button type = 'button' class = "deleteAll-btn" id = "t2t">Delete All</button>
                 </div>
                     <div class="header">

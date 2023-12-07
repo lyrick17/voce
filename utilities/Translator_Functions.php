@@ -141,7 +141,8 @@ class Translator{
                 "<td class = '" .$row['user_id']. " truncate-text'>" .$row['translate_to'] . "</td>" .
                 "<td class = " .$row['user_id']. ">" .$row['translated_language'] . "</td>" . 
                 "<td class = " .$row['user_id']. ">" .$row['translation_date'] . "</td>" .  
-                "<td class = " .$row['user_id']. ">"."<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
+                "<td class = " .$row['user_id']. ">"."<button type = 'button' class = 'delete-btn'>Delete</button></td>" .  
+                "<td class = " .$row['user_id']. ">" . "<input type = 'checkbox' class = 'delete-checkbox' id = ". $row['text_id'] ."></td>"   
                 . "</tr>";
             }
         }
@@ -159,7 +160,8 @@ class Translator{
                 "<td class = '" .$row['user_id']. " truncate-text'>" .$row['translate_to'] . "</td>" .
                 "<td class = " .$row['user_id']. ">" .$row['translated_language'] . "</td>" .
                 "<td class = " .$row['user_id']. ">" .$row['translation_date'] . "</td>" . 
-                "<td class = " .$row['user_id']. ">" . "<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
+                "<td class = " .$row['user_id']. ">" . "<button type = 'button' class = 'delete-btn'>Delete</button></td>" .
+                "<td class = " .$row['user_id']. ">" . "<input type = 'checkbox' class = 'delete-checkbox' id = ". $row['text_id'] ."></td>"   
                 . "</tr>";
 
             }
