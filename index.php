@@ -316,21 +316,21 @@
 
           <div class="col-lg-8 mt-5 mt-lg-0">
             <form method="post" action="index.php">
-              <h5 id="contact-error" style="color: red;"><?php echo $contact_message ?? ''; ?><h5>
+              <h5 id="contact-error" style="<?php echo "color: " . $contact_color . ";" ?? ''; ?>"><?php echo htmlspecialchars($contact_message) ?? ''; ?><h5>
             
               <div class="row">
                 <div class="col-md-6 form-group">
-                  <input type="text" name="contact_name" class="form-control" id="name" placeholder="Your Name" required>
+                  <input type="text" name="contact_name" class="form-control" id="name" placeholder="Your Name">
                 </div>
                 <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <input type="email" class="form-control" name="contact_email" id="email" placeholder="Your Email" required>
+                  <input type="email" class="form-control" name="contact_email" id="email" placeholder="Your Email">
                 </div>
               </div>
               <div class="form-group mt-3">
-                <input type="text" class="form-control" name="contact_subject" id="subject" placeholder="Subject" required>
+                <input type="text" class="form-control" name="contact_subject" id="subject" placeholder="Subject">
               </div>
               <div class="form-group mt-3">
-                <textarea class="form-control" name="contact_message" rows="5" placeholder="Message" required></textarea>
+                <textarea class="form-control" name="contact_message" rows="5" placeholder="Message"></textarea>
               </div>
               <br />
               <div class="text-center"><button type="submit" class="rounded-pill py-1" name="contact_submit">Send Message</button></div>
@@ -358,10 +358,10 @@
   <script>
        // Scroll down to the contact form section
        let errormessage = document.getElementById('contact-error').innerHTML;
-       let message = ["Thank you for your Feedback!", "Error. Please try again. Thank you."];
-       console.log("Error is: " + errormessage);
-       console.log("Error is: " + message[1]);
-       if (errormessage == message[0] || errormessage == message[1]) {
+       let message = ["Thank you for your Feedback!", 
+                      "Please do not fill out the fields. Thank you.", 
+                      "Message could not be sent. Please Try Again"];
+       if (errormessage == message[0] || errormessage == message[1] || errormessage == message[2]) {
          window.onload = function() {
              document.getElementById('contact').scrollIntoView();
          };

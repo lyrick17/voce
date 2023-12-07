@@ -77,7 +77,7 @@ function logs($log_act, $user, $dbcon) {
             $activity = "error audio-text: no file uploaded";
             break;
         case "error-at-3":
-            $activity = "error audio-text: invalid file uploaded";
+            $activity = "error audio-text: file format not supported";
             break;
         case "error-at-4":
             $activity = "error audio-text: same language selected";
