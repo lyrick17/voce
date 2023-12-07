@@ -7,6 +7,8 @@ require "phpmailer/src/Exception.php";
 require "phpmailer/src/PHPMailer.php";
 require "phpmailer/src/SMTP.php";
 
+require "smtp.php";
+
 $contact_message = '';
 $message = array("Thank you for your Feedback!", 
                 "Please do not fill out the fields. Thank you.", 
@@ -46,8 +48,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'voceteam.contact@gmail.com'; // gmail account
-            $mail->Password = 'pxkn whdh auhf ahnv';        // gmail app password
+            $mail->Username = $smtpuser; // gmail account
+            $mail->Password = $smtppass; // gmail app password
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
     
