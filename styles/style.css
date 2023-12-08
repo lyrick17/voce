@@ -22,16 +22,19 @@ body{
 	background-repeat: no-repeat;
 }
 
-.container{
+.container {
     background-color: #fff;
     border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     position: relative;
     overflow: hidden;
-    width: 768px;
-    max-width: 100%;
-    min-height: 480px;
+    width: 90%; /* Adjust the width as needed, for example, 90% of the viewport width */
+    max-width: 1200px; /* Set a maximum width if needed */
+    min-height: 600px; /* Adjust the height as needed */
+    margin: 20px auto; /* Center the container horizontally */
 }
+
+
 
 .container p{
     font-size: 14px;

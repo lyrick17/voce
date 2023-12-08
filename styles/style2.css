@@ -349,6 +349,13 @@ body{
     color: var(--dark);
 }
 
+.content main .header .left h2{
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--dark);
+}
+
 .content main .header .left .breadcrumb{
     display: flex;
     align-items: center;
@@ -466,7 +473,16 @@ body{
     padding: 10px; /* Spacing around the text */
 
 }
+@media screen and (max-width: 768px){
 
+    
+.content main .insights {
+    display: none;
+}
+.content main .header .left h2{
+    display: none;
+}
+}
 
 .content main .bottom-data{
     display: flex;
@@ -629,123 +645,7 @@ body{
     font-weight: 700;
 }
 
-/*.content main .bottom-data .orders table tr td .status.completed{
-    background: var(--success);
-}
 
-.content main .bottom-data .orders table tr td .status.process{
-    background: var(--primary);
-}
-
-.content main .bottom-data .orders table tr td .status.pending{
-    background: var(--warning);
-}*/
-
-.content main .bottom-data .reminders{
-    flex-grow: 1;
-    flex-basis: 300px;
-}
-
-.content main .bottom-data .reminders .task-list{
-    width: 100%;
-}
-
-.content main .bottom-data .reminders .task-list li{
-    width: 100%;
-    margin-bottom: 16px;
-    background: var(--grey);
-    padding: 14px 10px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.content main .bottom-data .reminders .task-list li .task-title{
-    display: flex;
-    align-items: center;
-}
-
-.content main .bottom-data .reminders .task-list li .task-title p{
-    margin-left: 6px;
-}
-
-.content main .bottom-data .reminders .task-list li .bx{
-  cursor: pointer;  
-}
-
-.content main .bottom-data .reminders .task-list li.completed{
-    border-left: 10px solid var(--success);
-}
-
-.content main .bottom-data .reminders .task-list li.not-completed{
-    border-left: 10px solid var(--danger);
-}
-
-.content main .bottom-data .reminders .task-list li:last-child{
-   margin-bottom: 0;
-}
-
-@media screen and (max-width: 768px) {
-    .sidebar{
-        width: 200px;
-    }
-
-    .content{
-        width: calc(100% - 60px);
-        left: 200px;
-    }
-
-}
-
-@media screen and (max-width: 576px) {
-    
-    .content nav form .form-input input{
-        display: none;
-    }
-
-    .content nav form .form-input button{
-        width: auto;
-        height: auto;
-        background: transparent;
-        color: var(--dark);
-        border-radius: none;
-    }
-
-    .content nav form.show .form-input input{
-        display: block;
-        width: 100%;
-    }
-
-    .content nav form.show .form-input button{
-        width: 36px;
-        height: 100%;
-        color: var(--light);
-        background: var(--danger);
-        border-radius: 0 36px 36px 0;
-    }
-
-    .content nav form.show~.notif, .content nav form.show~.profile{
-        display: none;
-    }
-
-    .content main .insights {
-        grid-template-columns: 1fr;
-    }
-
-    .content main .bottom-data .header{
-        min-width: 340px;
-    }
-
-    .content main .bottom-data .orders table{
-        min-width: 340px;
-    }
-
-    .content main .bottom-data .reminders .task-list{
-        min-width: 340px;
-    }
-
-}
 
 ::selection{
     color: var(--secondary);
@@ -956,6 +856,7 @@ select::after {
 .ellipsis:hover {
     background: var(--grey);
 }
+
 /* Add this CSS for the modal styling with rounded corners */
 .modal {
     display: none;
@@ -1093,14 +994,13 @@ select::after {
 
 
 
-
+        
 
 .drag-hover  {
     background-color: #fccdcd;
 }
 
-/* Update the CSS for mobile responsiveness */
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 1024px) {
     .bottom-data .orders table {
         width: 100%;
     }
@@ -1109,32 +1009,57 @@ select::after {
         display: none;
     }
 
-    .bottom-data .orders table, .bottom-data .orders table tbody, .bottom-data .orders table tr, .bottom-data .orders table td {
+    .bottom-data .orders table,
+    .bottom-data .orders table tbody,
+    .bottom-data .orders table tr,
+    .bottom-data .orders table td {
         display: block;
         width: 100%;
     }
 
     .bottom-data .orders table tr {
         margin-bottom: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
     }
 
     .bottom-data .orders table td {
         text-align: left;
         padding-left: 10px;
         position: relative;
+        width: calc(50% - 10px); /* Adjust the width as needed */
+        box-sizing: border-box;
     }
 
-    /* Hide labels for columns other than "Translated Text" */
     .bottom-data .orders table td:before {
         display: none;
     }
-
-    /* Show data for "Translated Text" column */
-    .bottom-data .orders table td:nth-child(3) {
-        display: block;
-    }
 }
 
+@media screen and (max-width: 768px) {
+    .bottom-data .orders table {
+        width: 100%;
+    }
+
+    .bottom-data .orders table thead {
+        display: none;
+    }
+
+    .bottom-data .orders table tbody tr {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 15px;
+    }
+
+    .bottom-data .orders table tbody td {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: left;
+        padding-left: 10px;
+    }
+}
 @media screen and (max-width: 1024px) {
     .hidden-mobile {
         display: none;
@@ -1151,15 +1076,6 @@ select::after {
     .content main .insights li {
         margin-left: 0;
         width: 100%;
-    }
-
-    .content main .bottom-data .header {
-        min-width: auto;
-    }
-
-    .content main .bottom-data .orders table,
-    .content main .bottom-data .reminders .task-list {
-        min-width: auto;
     }
 
     .custom-textfield {
