@@ -18,7 +18,7 @@ class ErrorHandling{
 	static function audioError3() {
 		// error, for some reason, there is no output
 		global $dbcon;
-		logs("audio-to-text-fail", $_SESSION['username'], $dbcon);
+		logs("error-at-5", $_SESSION['username'], $dbcon);
 		//header("Location: history_audio.php?error=5");
 		
 		$exit = ['error' => 5];
@@ -97,7 +97,7 @@ class ErrorHandling{
 				if (array_search($_POST['src'], array_column($common_lang, 'name')) === false ||
 					array_search($_POST['target'], array_column($api_lang, 'name')) === false ||
 					!in_array($_POST['modelSize'], $modelSizes)) {
-						logs("error-at-5", $_SESSION['username'], $dbcon);
+						logs("error-at-6", $_SESSION['username'], $dbcon);
 		
 						$exit = ['removeBGM' => 'error', 'error' => 6];
 						exit(json_encode($exit));
