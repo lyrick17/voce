@@ -57,11 +57,9 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
-          <h1>Voice Transcriber</h1>
+          <h1>Audio Translator</h1>
              
-          <h2>Unlock the
-            power of your audio content by effortlessly
-            converting it into text</h2>
+          <h2>Unlock the power of your audio content by effortlessly translating it into another language</h2>
           <div><a href="loginpage.php" class="btn-get-started rounded-pill scrollto">Get Started</a></div>
         </div>
       </div>
@@ -151,19 +149,20 @@
           <div class="icon-box">
             <div class="icon"><img src="images/indexlogin.png" width="40" height="50" style="margin-left: 5px;"></i></div>
             <h4 class="title">Login</h4>
-            <p class="description">To begin, select either the "Login" or "Try It Free" buttons.</p>
+            <p class="description">To begin, click "Get Started" and login or create a new account.</p>
           </div>
   
           <div class="icon-box">
             <div class="icon"><img src="images/indexupload.png" width="40" height="50" style="margin-left: 5px;"></i></div>
             <h4 class="title">Upload</h4>
-            <p class="description">Select the "Upload" button to navigate to your dashboard, where you can either drag and drop your file onto the designated area.</p>
+            <p class="description">Go to Audio to Text, and select source and target language. 
+                              Select the "Choose File" button to navigate to your file or you can drag and drop your file onto the designated area.</p>
           </div>
   
           <div class="icon-box">
             <div class="icon"><img src="images/indextranslate.png" width="40" height="50" style="margin-left: 5px;"></i></div>
             <h4 class="title">Translate</h4>
-            <p class="description">After uploading your file, our application seamlessly translates it into your preferred language, delivering a transformed and accessible document in moments.</p>
+            <p class="description">After uploading your file, click the "Translate" button. Our application seamlessly translates it into your preferred language, delivering a transformed and accessible result in moments.</p>
           </div>
   
         </div>
@@ -301,7 +300,7 @@
               <div class="email">
                 <i class="bi bi-envelope"></i>
                 <h4>Email:</h4>
-                <p>service_desk@voce.com</p>
+                <p>voceteam.contact@gmail.com</p>
               </div>
 
               <div class="phone">
