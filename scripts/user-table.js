@@ -3,6 +3,8 @@ let usernames = [];
 let emails = []
 fetchUsers();
 
+//initial pagination
+paginateRows();
 
 //Create function DOMs
 let closeBtn = document.querySelector('.closecreate-btn');
@@ -37,7 +39,6 @@ const validEmailTxt2 = document.querySelector(".valid-email2");
 const confirmPassTxt2 = document.querySelector(".confirm-pass2");
 
 //Delete function DOMs
-
 let deleteWindow = document.querySelector(".delete-window");
 let deleteBtn = document.querySelectorAll(".delete-user");
 let noBtn = document.querySelector(".confirm-no");
@@ -54,6 +55,65 @@ let userId = 0;
 
 let validColor = "green";
 
+//initialize vars for selecting users to be deleted
+let deleteSelectedUsers = false;
+let checkboxes = document.querySelectorAll(".delete-checkbox");
+let usersToDelete = [];
+let selectDeleteBtn = document.querySelector(".deleteSelectedUsers");
+let deleteRowsBtn = document.querySelector(".deleteRows-btn");
+
+//event listener for each checkbox; adds user id to usersToDelete array if checkbox is checked
+for(let i = 0; i < checkboxes.length; i++){
+    checkboxes[i].addEventListener("change", (e) => {
+        if(checkboxes[i].checked){
+            addToDeleteUsers(checkboxes[i]);
+        }
+        else{removeToDeleteUsers(checkboxes[i]);
+        }
+    });
+}
+
+deleteRowsBtn.addEventListener("click", (e) => {
+    if(!deleteSelectedUsers){
+        deleteSelectedUsers = true;
+        selectDeleteBtn.style.display = "inline";
+        deleteRowsBtn.textContent = "Cancel Delete Rows";
+        for(let i = 0; i< checkboxes.length; i++)
+            {
+            checkboxes[i].style.display = "block";
+            checkboxes[i].parentElement.style.display = "table-cell";    
+        }    
+    }
+    else{
+        deleteSelectedUsers = false;
+        selectDeleteBtn.style.display = "none";
+        deleteRowsBtn.textContent = "Delete Rows";
+        for(let i = 0; i< checkboxes.length; i++){
+            checkboxes[i].style.display = "none";
+            checkboxes[i].parentElement.style.display = "none";        
+        }
+    }
+});
+
+
+selectDeleteBtn.addEventListener("click", () => {
+    confirmText.innerHTML = "Are you sure you want to delete all users you selected?";
+    userId = 0;
+    console.log("user id: " + userId);
+    displayWindow(deleteWindow);
+});
+
+function addToDeleteUsers(checkbox){
+    usersToDelete.push(checkbox.id);
+    console.log("users to delete: " + usersToDelete);
+    console.log(usersToDelete.includes(sessionId));
+}
+
+function removeToDeleteUsers(checkbox){
+    usersToDelete.splice(usersToDelete.indexOf(checkbox.id), 1);
+    console.log("users To Delete (after remove of cb): " + usersToDelete);
+    console.log(usersToDelete.includes(sessionId));
+}
 
 
 
@@ -67,6 +127,7 @@ for(let i = 0; i <deleteBtn.length;i++){
     });
     deleteBtn[i].addEventListener("click", (e) => {
         userId = e.target.parentNode.parentNode.id;
+        console.log("user id: " + userId);
         confirmText.innerHTML = "Are you sure you want to delete this user?";
         //Sets the user to be deleted.
         displayWindow(deleteWindow);
@@ -88,7 +149,7 @@ form.addEventListener("submit", function(e){
     .then((res) => res.json()) // Converts response to JSON
     .then(response => {
         console.log(response);
-        let updatedUsers ='<tr><td class = "create-cell" colspan = 2><button class = "table-btn create-btn">Create User</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
+        let updatedUsers ='<tr><td class = "create-cell" colspan = 2><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
 
         //add rows to new users table
         for(let i = 0; i < response.length; i++){
@@ -100,6 +161,8 @@ form.addEventListener("submit", function(e){
 
         //updates history content.
         usersTable.innerHTML = updatedUsers;
+        paginateRows();
+
 
         //re-initializes update variables after updating the history.
         updateBtns = document.querySelectorAll('.update-user');
@@ -128,7 +191,57 @@ form.addEventListener("submit", function(e){
         resetUserType();
         submitBtn.disabled = true;
 
+
+        //re-initializes variables and event listeners for selection delete of users         
+        deleteSelectedUsers = false;
+        checkboxes = document.querySelectorAll(".delete-checkbox");
+        usersToDelete = [];
+        selectDeleteBtn = document.querySelector(".deleteSelectedUsers");
+        deleteRowsBtn = document.querySelector(".deleteRows-btn");
+
+
+        for(let i = 0; i < checkboxes.length; i++){
+            checkboxes[i].addEventListener("change", (e) => {
+                if(checkboxes[i].checked){
+                    addToDeleteUsers(checkboxes[i]);
+                }
+                else{
+                    removeToDeleteUsers(checkboxes[i]);
+                }
+            });
+        }
+        
+
         //re-adds eventlisteners to new delete buttons.
+        deleteRowsBtn.addEventListener("click", (e) => {
+            if(!deleteSelectedUsers){
+                deleteSelectedUsers = true;
+                selectDeleteBtn.style.display = "inline";
+                deleteRowsBtn.textContent = "Cancel Delete Rows";
+                for(let i = 0; i< checkboxes.length; i++)
+                    {
+                    checkboxes[i].style.display = "block";
+                    checkboxes[i].parentElement.style.display = "table-cell";    
+                }    
+            }
+            else{
+                deleteSelectedUsers = false;
+                selectDeleteBtn.style.display = "none";
+                deleteRowsBtn.textContent = "Delete Rows";
+                for(let i = 0; i< checkboxes.length; i++){
+                    checkboxes[i].style.display = "none";
+                    checkboxes[i].parentElement.style.display = "none";        
+                }
+            }
+        });
+        
+        
+        selectDeleteBtn.addEventListener("click", () => {
+            confirmText.innerHTML = "Are you sure you want to delete all users you selected?";
+            userId = 0;
+            console.log("user id: " + userId);
+            displayWindow(deleteWindow);
+        });
 
         for(let i = 0; i <deleteBtn.length;i++){
             updateBtns[i].addEventListener("click", (e) => {
@@ -138,7 +251,9 @@ form.addEventListener("submit", function(e){
             });
             deleteBtn[i].addEventListener("click", (e) => {
                 userId = e.target.parentNode.parentNode.id;
+                conso
                 confirmText.innerHTML = "Are you sure you want to delete this user?";
+                console.log("user id: " + userId);
                 //Sets the user to be deleted.
                 displayWindow(deleteWindow);
             });
@@ -150,8 +265,6 @@ form.addEventListener("submit", function(e){
                 displayWindow(createWindow);
             });
         }
-
-
 
     hideWindow(createWindow);  
     fetchUsers();  
@@ -211,17 +324,20 @@ noBtn.addEventListener("click", () => {
 //Deletes row and updates user history
 yesBtn.addEventListener("click", () => {
 
+    //|| (deleteSelectedUsers && (!usersToDelete.includes(sessionId) && sessionId != userId))
     //Deletes row if user id is not the current user's id
-    if(sessionId != userId){
+    if(sessionId != userId && !usersToDelete.includes(sessionId)){
         let fd = new FormData();
         fd.append('userId', userId);
+        fd.append('usersToDelete', JSON.stringify(usersToDelete));
+        fd.append('deleteSelectedUsers', deleteSelectedUsers);
         fetch('delete_user.php',{
             method : 'post', 
             body: fd})
             .then((res) => res.json()) // Converts response to JSON
             .then(response => {
                 fetchUsers();
-                let updatedUsers ='<tr><td class = "create-cell" colspan = 2><button class = "table-btn create-btn">Create User</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
+                let updatedUsers ='<tr><td class = "create-cell" colspan = 2><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
 
                 //add rows to new users table
                 for(let i = 0; i < response.length; i++){
@@ -229,10 +345,13 @@ yesBtn.addEventListener("click", () => {
                     updatedUsers += setNewRow(obj);
                 }
 
+                
+
 
 
                 //updates history content.
                 usersTable.innerHTML = updatedUsers;
+                paginateRows();
 
                 //re-initializes update variables after updating the history.
                 updateBtns = document.querySelectorAll('.update-user');
@@ -262,7 +381,56 @@ yesBtn.addEventListener("click", () => {
                 validEmailTxt.style.color = "red";
                 confirmPassTxt.style.color = "red";
                 resetUserType();
+
                 submitBtn.disabled = true;
+            
+                //re-adds eventlisteners to new delete buttons.
+                deleteSelectedUsers = false;
+                checkboxes = document.querySelectorAll(".delete-checkbox");
+                usersToDelete = [];
+                selectDeleteBtn = document.querySelector(".deleteSelectedUsers");
+                deleteRowsBtn = document.querySelector(".deleteRows-btn");
+
+
+                for(let i = 0; i < checkboxes.length; i++){
+                    checkboxes[i].addEventListener("change", (e) => {
+                        if(checkboxes[i].checked){
+                            addToDeleteUsers(checkboxes[i]);
+                        }
+                        else{removeToDeleteUsers(checkboxes[i]);
+                        }
+                    });
+                }
+                
+                deleteRowsBtn.addEventListener("click", (e) => {
+                    if(!deleteSelectedUsers){
+                        deleteSelectedUsers = true;
+                        selectDeleteBtn.style.display = "inline";
+                        deleteRowsBtn.textContent = "Cancel Delete Rows";
+                        for(let i = 0; i< checkboxes.length; i++)
+                            {
+                            checkboxes[i].style.display = "block";
+                            checkboxes[i].parentElement.style.display = "table-cell";    
+                        }    
+                    }
+                    else{
+                        deleteSelectedUsers = false;
+                        selectDeleteBtn.style.display = "none";
+                        deleteRowsBtn.textContent = "Delete Rows";
+                        for(let i = 0; i< checkboxes.length; i++){
+                            checkboxes[i].style.display = "none";
+                            checkboxes[i].parentElement.style.display = "none";        
+                        }
+                    }
+                });
+                
+                
+                selectDeleteBtn.addEventListener("click", () => {
+                    confirmText.innerHTML = "Are you sure you want to delete all users you selected?";
+                    userId = 0;
+                    console.log("user id: " + userId);
+                    displayWindow(deleteWindow);
+                });
 
                 //re-adds eventlisteners to new delete buttons.
                 for(let i = 0; i <deleteBtn.length;i++){
@@ -307,7 +475,7 @@ yesBtn.addEventListener("click", () => {
         .then(response => {
             console.log(response);
             fetchUsers();
-            let updatedUsers ='<tr><td class = "create-cell" colspan = 2><button class = "table-btn create-btn">Create User</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
+            let updatedUsers ='<tr><td class = "create-cell" colspan = 2><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
 
             //add rows to new users table
             for(let i = 0; i < response.length; i++){
@@ -317,6 +485,7 @@ yesBtn.addEventListener("click", () => {
 
             //updates history content.
             usersTable.innerHTML = updatedUsers;
+            paginateRows();
 
             //re-initializes update variables after updating the history.
             updateBtns = document.querySelectorAll('.update-user');
@@ -356,6 +525,54 @@ yesBtn.addEventListener("click", () => {
             confirmPassTxt.style.color = "red";
             resetUserType();
             submitBtn.disabled = true;
+
+            //re-initializes variables and event listeners for selection delete of users
+            deleteSelectedUsers = false;
+            checkboxes = document.querySelectorAll(".delete-checkbox");
+            usersToDelete = [];
+            selectDeleteBtn = document.querySelector(".deleteSelectedUsers");
+            deleteRowsBtn = document.querySelector(".deleteRows-btn");
+
+
+            for(let i = 0; i < checkboxes.length; i++){
+                checkboxes[i].addEventListener("change", (e) => {
+                    if(checkboxes[i].checked){
+                        addToDeleteUsers(checkboxes[i]);
+                    }
+                    else{removeToDeleteUsers(checkboxes[i]);
+                    }
+                });
+            }
+            
+            deleteRowsBtn.addEventListener("click", (e) => {
+                if(!deleteSelectedUsers){
+                    deleteSelectedUsers = true;
+                    selectDeleteBtn.style.display = "inline";
+                    deleteRowsBtn.textContent = "Cancel Delete Rows";
+                    for(let i = 0; i< checkboxes.length; i++)
+                        {
+                        checkboxes[i].style.display = "block";
+                        checkboxes[i].parentElement.style.display = "table-cell";    
+                    }    
+                }
+                else{
+                    deleteSelectedUsers = false;
+                    selectDeleteBtn.style.display = "none";
+                    deleteRowsBtn.textContent = "Delete Rows";
+                    for(let i = 0; i< checkboxes.length; i++){
+                        checkboxes[i].style.display = "none";
+                        checkboxes[i].parentElement.style.display = "none";        
+                    }
+                }
+            });
+            
+            
+            selectDeleteBtn.addEventListener("click", () => {
+                confirmText.innerHTML = "Are you sure you want to delete all users you selected?";
+                userId = 0;
+                console.log("user id: " + userId);
+                displayWindow(deleteWindow);
+            });
 
             //re-adds eventlisteners to new delete buttons.
             for(let i = 0; i <deleteBtn.length;i++){
@@ -419,7 +636,7 @@ function hideWindow(window){
 }
 
 function setNewRow(objData){
-    return "<tr id = '"+ objData['user_id'] + "'>" +            
+    return "<tr class = 'paginate' id = '"+ objData['user_id'] + "'>" +            
     "<td>" + objData['user_id']+ "</td>" +
     "<td>" + objData['username']+ "</td>" +
     "<td>" + objData['email']+ "</td>" +
@@ -427,6 +644,8 @@ function setNewRow(objData){
     "<td>" + objData['type'] + "</td>" +
     "<td><button type = 'button' class = 'table-btn update-user'>Update</button></td>" +
     "<td><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" +
+    "<td style = 'display: none;' class = " + objData['user_id'] + ">" + "<input type = 'checkbox' class = 'delete-checkbox' id = " + objData['user_id'] +"></td>" +  
+
     "</tr>";
 
 }
@@ -557,4 +776,41 @@ function fetchUsers(){
 
 function resetUserType(){
     userType.value = "default";
+}
+
+//function for adding pagination for every 5 rows
+function paginateRows(){
+    jQuery(function($) {
+        // Grab whatever we need to paginate
+        var pageParts = $(".paginate");
+    
+        // How many parts do we have?
+        var numPages = pageParts.length;
+        // How many parts do we want per page?
+        var perPage = 5;
+    
+        // When the document loads we're on page 1
+        // So to start with... hide everything else
+        pageParts.slice(perPage).hide();
+        // Apply simplePagination to our placeholder
+        $("#page-nav").pagination({
+            items: numPages,
+            itemsOnPage: perPage,
+            cssStyle: "light-theme",
+            // We implement the actual pagination
+            //   in this next function. It runs on
+            //   the event that a user changes page
+            onPageClick: function(pageNum) {
+                // Which page parts do we show?
+                var start = perPage * (pageNum - 1);
+                var end = start + perPage;
+    
+                // First hide all page parts
+                // Then show those just for our page
+                pageParts.hide()
+                         .slice(start, end).show();
+            }
+        });
+    });
+
 }

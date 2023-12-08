@@ -1,16 +1,9 @@
 <?php
  require("mysql/mysqli_connect.php"); 
 
- if($_POST['deleteRows'] == 'true'){
 
-    foreach(json_decode($_POST['rowsToDelete']) as $rowNum){
-        $deleteQuery = "DELETE FROM text_translations WHERE text_id = " . $rowNum;
-        mysqli_query($dbcon, $deleteQuery);
-    }
-    
- }
-
-elseif($_POST['clearAll'] == 'true'){
+ 
+if($_POST['clearAll'] == 'true'){
     // Deletes all rows corresponding to user from audio_files table if it's an audio to text translation
     if($_POST['fromAudio'] == 1){
         $deleteQuery = "DELETE FROM text_translations WHERE user_id = " . $_POST['userId']  . " AND from_audio_file = 1";
@@ -23,6 +16,27 @@ elseif($_POST['clearAll'] == 'true'){
         $deleteQuery = "DELETE FROM text_translations WHERE user_id = " . $_POST['userId']  . " AND from_audio_file = 0";
         mysqli_query($dbcon, $deleteQuery);
     }
+ }
+
+ elseif($_POST['deleteRows'] == 'true'){
+    if($_POST['fromAudio'] == 1){
+        $rowsToDelete = json_decode($_POST['rowsToDelete']);
+        $filesToDelete = json_decode($_POST['filesToDelete']);
+        for($i = 0; $i < count($rowsToDelete); $i++){
+                $deleteQuery = "DELETE FROM text_translations WHERE text_id = " . $rowsToDelete[$i];
+                mysqli_query($dbcon, $deleteQuery);
+                $deleteQuery = "DELETE FROM audio_files WHERE file_id = " .  $filesToDelete[$i];
+                mysqli_query($dbcon, $deleteQuery);
+            }
+    }
+
+    else{
+        foreach(json_decode($_POST['rowsToDelete']) as $rowNum){
+            $deleteQuery = "DELETE FROM text_translations WHERE text_id = " . $rowNum;
+          mysqli_query($dbcon, $deleteQuery);
+        }
+    }
+    
  }
 
  else{

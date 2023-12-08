@@ -903,6 +903,10 @@ select::after {
     visibility: hidden;
 }
 
+.deleteSelectedRows:hover{
+    cursor: pointer;
+    background: #fe4c5a;
+}
 
 .deleteAllClass{
     text-align:right;
@@ -913,9 +917,9 @@ select::after {
     background: #fe4c5a;
 }
 
-.deleteSelectedRows:hover{
-    cursor: pointer;
-    background: #fe4c5a;
+#page-nav{
+    margin: auto; 
+    width: 300px;
 }
 
 .confirm-div{

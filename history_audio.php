@@ -29,7 +29,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="styles/style2.css">
-    
+    <link rel="stylesheet" href="styles/simplePagination.css">
     <title>Audio to Text Translation</title>
     <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -199,6 +199,8 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
             <div class="bottom-data">
                 <div class="orders">
                 <div class = "deleteAllClass">
+                    <button type = 'button' class = "deleteSelectedRows" id = "a2t">Delete Selected Rows</button>
+                    <button type = 'button' class = "deleteRows-btn" id = "a2t">Delete Rows</button>
                     <button type = 'button' class = "deleteAll-btn" id = "a2t">Delete All</button>
                 </div>
                     <div class="header">
@@ -225,7 +227,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
                         <?php Translator::displayHistory($history, "audio2text")?>
                         </tbody>
                     </table>
-
+                    <div id="page-nav"></div>
                 </div>
 
             </div>
@@ -233,7 +235,9 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
         </main>
 
     </div>
-                                
+    <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js" integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="scripts/index.js"></script>
     <script src="scripts/delete.js"></script>
     <script src="scripts/translation_process.js"></script>

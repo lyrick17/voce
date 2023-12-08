@@ -122,6 +122,7 @@ $users = mysqli_query($dbcon, $q);
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="styles/style2.css">
     <link rel = "stylesheet" href = "styles/user-table.css">
+    <link rel="stylesheet" href="styles/simplePagination.css">
     <title>Admin - Users</title>
     <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -230,7 +231,9 @@ $users = mysqli_query($dbcon, $q);
         <div class = "table-container">
                 <table class = "users-table">
                         <tr>
-                            <td class = "create-cell" colspan = 2><button class = "table-btn create-btn">Create User</button></td>
+                            <td class = "create-cell" colspan = 1><button class = "table-btn create-btn">Create User</button></td>
+                            <td class = "select-cell" colspan = 2><button type = 'button' class = "deleteSelectedUsers">Delete Selected Rows</button><button type = 'button' class = "deleteRows-btn">Delete Rows</button></td>
+
                         </tr>
                         <tr>
                             <th class = "data">User ID</th>
@@ -242,11 +245,15 @@ $users = mysqli_query($dbcon, $q);
                         </tr>
                         <?php Translator::displayUsers($users) ?>
                 </table>
+                <div id="page-nav"></div>
         </div>
         </main>
 
     </div>
 
+    <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js" integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="scripts/index.js"></script>
     <script type = "text/javascript" src ="scripts/user-table.js"></script>
 </body>
