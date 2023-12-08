@@ -178,7 +178,7 @@
         <div class="section-title-team">
           <h2>Team</h2>
           <div class="underline"></div>
-          <p>Young Entrepreneurs that are hoping to revolutionize the digital world</p>
+          <p>Young Entrepreneurs of LPU-C that are hoping to bring something new in the digital world</p>
         </div>
 
         <div class="row">
@@ -188,7 +188,7 @@
               <div class="member-info">
                 <h4>Lean</h4>
                 <span>Project Manager</span>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati, ducimus.</p>
+                <p>Oversees the whole development as well as making sure the team delivers the best service possible.</p>
                 <div class="social">
                   <a href=""><i class="bi bi-facebook"></i></a>
                   <a href=""><i class="bi bi-instagram"></i></a>
@@ -205,8 +205,7 @@
               <div class="member-info">
                 <h4>Lyrick</h4>
                 <span>Backend Developer</span>
-                
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati, ducimus.</p>
+                <p>Ensures the security and functionality of all the features to deliver satisfaction.</p>
                 <div class="social">
                   <a href=""><i class="bi bi-facebook"></i></a>
                   <a href=""><i class="bi bi-instagram"></i></a>
@@ -223,7 +222,7 @@
               <div class="member-info">
                 <h4>John</h4>
                 <span>Backend Developer</span>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati, ducimus.</p>
+                <p>Guarantees full functioning translation and transcription of our features.</p>
                 <div class="social">
                   <a href=""><i class="bi bi-facebook"></i></a>
                   <a href=""><i class="bi bi-instagram"></i></a>
@@ -240,7 +239,7 @@
               <div class="member-info">
                 <h4>Tyrone</h4>
                 <span>Frontend Developer</span>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati, ducimus.</p>
+                <p>Responsible for providing a user-friendly and visual appealing look of website.</p>
                 <div class="social">
                   <a href=""><i class="bi bi-facebook"></i></a>
                   <a href=""><i class="bi bi-instagram"></i></a>
@@ -257,7 +256,7 @@
               <div class="member-info">
                 <h4>Sywin</h4>
                 <span>Documentation Specialist</span>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati, ducimus.</p>
+                <p>Gathers all the information together to keep the quality of the service given to you.</p>
                 <div class="social">
                   <a href=""><i class="bi bi-facebook"></i></a>
                   <a href=""><i class="bi bi-instagram"></i></a>
