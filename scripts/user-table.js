@@ -691,36 +691,20 @@ function readyToSubmit(func){
 
 // not yet finished, need to check if username is unique
 function validateUser(username, func){
+    const userPattern = /^[\w\-]+$/;
     if(func == "create"){
-        if(username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase()))
+        if(userPattern.test(username) && username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase()))
             uniqueUserTxt.style.color = validColor;
         else{
             uniqueUserTxt.style.color = "red";
         }
 
-        const userPattern = /^[\w\-]+$/;
-
-        if(userPattern.test(username)){
-            validUserTxt.style.color = validColor;
-        }
-        else{
-            validUserTxt.style.color = "red";
-        }
     }
     else if(func == "update"){
-        if(username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase()))
+        if(userPattern.test(username) && username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase()))
             uniqueUserTxt2.style.color = validColor;
         else{
             uniqueUserTxt2.style.color = "red";
-        }
-
-        const userPattern = /^[\w\-]+$/;
-
-        if(userPattern.test(username)){
-            validUserTxt2.style.color = validColor;
-        }
-        else{
-            validUserTxt2.style.color = "red";
         }
     }
     readyToSubmit(func);
