@@ -55,7 +55,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
     <div class="content">
         <!-- Navbar -->
         <nav>
-            <i class='bx bx-menu'></i>
+            <i class='bx bx-menu'></i><?= $_SESSION['username']; ?>
         </nav>
 
         <!-- End of Navbar -->
@@ -77,7 +77,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
                                     echo "No File Upload. Please try again.";
                                     break;
                                 case 3: // user upload wrong file type
-                                    echo "Invalid File Format. Please try again.";
+                                    echo "File Format Not Supported. Please try again.";
                                     break;
                                 case 4: // user choose two same language
                                     echo "Please choose two different language.";

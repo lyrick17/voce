@@ -3,6 +3,9 @@
     	header("location: dashboard1.php");
         exit();
     }
+
+    require("utilities/contact.php");
+
 ?>
 
 <!DOCTYPE html>
@@ -54,11 +57,9 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
-          <h1>Voice Transcriber</h1>
+          <h1>Audio Translator</h1>
              
-          <h2>Unlock the
-            power of your audio content by effortlessly
-            converting it into text</h2>
+          <h2>Unlock the power of your audio content by effortlessly translating it into another language</h2>
           <div><a href="loginpage.php" class="btn-get-started rounded-pill scrollto">Get Started</a></div>
         </div>
       </div>
@@ -148,19 +149,20 @@
           <div class="icon-box">
             <div class="icon"><img src="images/indexlogin.png" width="40" height="50" style="margin-left: 5px;"></i></div>
             <h4 class="title">Login</h4>
-            <p class="description">To begin, select either the "Login" or "Try It Free" buttons.</p>
+            <p class="description">To begin, click "Get Started" and login or create a new account.</p>
           </div>
   
           <div class="icon-box">
             <div class="icon"><img src="images/indexupload.png" width="40" height="50" style="margin-left: 5px;"></i></div>
             <h4 class="title">Upload</h4>
-            <p class="description">Select the "Upload" button to navigate to your dashboard, where you can either drag and drop your file onto the designated area.</p>
+            <p class="description">Go to Audio to Text, and select source and target language. 
+                              Select the "Choose File" button to navigate to your file or you can drag and drop your file onto the designated area.</p>
           </div>
   
           <div class="icon-box">
             <div class="icon"><img src="images/indextranslate.png" width="40" height="50" style="margin-left: 5px;"></i></div>
             <h4 class="title">Translate</h4>
-            <p class="description">After uploading your file, our application seamlessly translates it into your preferred language, delivering a transformed and accessible document in moments.</p>
+            <p class="description">After uploading your file, click the "Translate" button. Our application seamlessly translates it into your preferred language, delivering a transformed and accessible result in moments.</p>
           </div>
   
         </div>
@@ -176,7 +178,7 @@
         <div class="section-title-team">
           <h2>Team</h2>
           <div class="underline"></div>
-          <p>Young Entrepreneurs that are hoping to revolutionize the digital world</p>
+          <p>Young Entrepreneurs of LPU-C that are hoping to bring something new in the digital world</p>
         </div>
 
         <div class="row">
@@ -186,7 +188,7 @@
               <div class="member-info">
                 <h4>Lean</h4>
                 <span>Project Manager</span>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati, ducimus.</p>
+                <p>Oversees the whole development as well as making sure the team delivers the best service possible.</p>
                 <div class="social">
                   <a href=""><i class="bi bi-facebook"></i></a>
                   <a href=""><i class="bi bi-instagram"></i></a>
@@ -203,8 +205,7 @@
               <div class="member-info">
                 <h4>Lyrick</h4>
                 <span>Backend Developer</span>
-                
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati, ducimus.</p>
+                <p>Ensures the security and functionality of all the features to deliver satisfaction.</p>
                 <div class="social">
                   <a href=""><i class="bi bi-facebook"></i></a>
                   <a href=""><i class="bi bi-instagram"></i></a>
@@ -221,7 +222,7 @@
               <div class="member-info">
                 <h4>John</h4>
                 <span>Backend Developer</span>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati, ducimus.</p>
+                <p>Guarantees full functioning translation and transcription of our features.</p>
                 <div class="social">
                   <a href=""><i class="bi bi-facebook"></i></a>
                   <a href=""><i class="bi bi-instagram"></i></a>
@@ -238,7 +239,7 @@
               <div class="member-info">
                 <h4>Tyrone</h4>
                 <span>Frontend Developer</span>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati, ducimus.</p>
+                <p>Responsible for providing a user-friendly and visual appealing look of website.</p>
                 <div class="social">
                   <a href=""><i class="bi bi-facebook"></i></a>
                   <a href=""><i class="bi bi-instagram"></i></a>
@@ -255,7 +256,7 @@
               <div class="member-info">
                 <h4>Sywin</h4>
                 <span>Documentation Specialist</span>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati, ducimus.</p>
+                <p>Gathers all the information together to keep the quality of the service given to you.</p>
                 <div class="social">
                   <a href=""><i class="bi bi-facebook"></i></a>
                   <a href=""><i class="bi bi-instagram"></i></a>
@@ -292,19 +293,19 @@
               <div class="address">
                 <i class="bi bi-geo-alt"></i>
                 <h4>Location:</h4>
-                <p>Lyceum Cavite</p>
+                <p>Lyceum of the Philippines University Cavite</p>
               </div>
 
               <div class="email">
                 <i class="bi bi-envelope"></i>
                 <h4>Email:</h4>
-                <p>info@example.com</p>
+                <p>voceteam.contact@gmail.com</p>
               </div>
 
               <div class="phone">
                 <i class="bi bi-phone"></i>
                 <h4>Call:</h4>
-                <p>+1 5589 55488 55s</p>
+                <p>+63 909 491 1169</p>
               </div>
 
             </div>
@@ -312,25 +313,27 @@
           </div>
 
           <div class="col-lg-8 mt-5 mt-lg-0">
-
+            <form method="post" action="index.php">
+              <h5 id="contact-error" style="<?php echo "color: " . $contact_color . ";" ?? ''; ?>"><?php echo htmlspecialchars($contact_message) ?? ''; ?><h5>
             
               <div class="row">
                 <div class="col-md-6 form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                  <input type="text" name="contact_name" class="form-control" id="name" placeholder="Your Name">
                 </div>
                 <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                  <input type="email" class="form-control" name="contact_email" id="email" placeholder="Your Email">
                 </div>
               </div>
               <div class="form-group mt-3">
-                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                <input type="text" class="form-control" name="contact_subject" id="subject" placeholder="Subject">
               </div>
               <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+                <textarea class="form-control" name="contact_message" rows="5" placeholder="Message"></textarea>
               </div>
-              <div class="text-center"><button type="submit" class="rounded-pill py-1">Send Message</button></div>
+              <br />
+              <div class="text-center"><button type="submit" class="rounded-pill py-1" name="contact_submit">Send Message</button></div>
             
-
+            </form>
           </div>
 
         </div>

@@ -33,7 +33,7 @@
     <div class="content">
         <!-- Navbar -->
         <nav>
-            <i class='bx bx-menu' ></i>
+            <i class='bx bx-menu'></i><?= $_SESSION['username']; ?>
         </nav>
 
         <!-- End of Navbar -->
@@ -42,7 +42,7 @@
             <div class="header">
                 <div class="left">
                     <h1>
-                        Hello, <?= $_SESSION['username']; ?>
+                        <?= $_SESSION['username']; ?>'s Dashboard
                     </h1>
                 </div>
             </div>
@@ -87,7 +87,7 @@
                             <img src="images/translateicon.png" width="120px" height="100px">
                             <h3>Text to Text Translation</h3>      
                             <p class="description">
-                                Revolutionize your communication and content adaptation with this advanced language transformation technology
+                                Comminucate effortlessly by translating your content into another language using our technology.
                             </p>
                             <button class="button"><a href="text-text.php" class="logo">START TRANSLATING TEXT
                                 <i class="fa fa-arrow-circle-o-right"></i></button></a>
@@ -100,7 +100,7 @@
                     <img src="images/languageicon.png" width="120px" height="100px">
                             <h3>Audio to Text Translation</h3>      
                             <p class="description">
-                            Audio-to-text translation is the process of converting spoken language or audio content into written text
+                            Upload your audio file to smoothly translate it into another language, breaking the language barrier.
                             </p>
                             <button class="button"><a href="history_audio.php" class="logo">START TRANSCRIBING AUDIO
                                 <i class="fa fa-arrow-circle-o-right"></i></button></a>
