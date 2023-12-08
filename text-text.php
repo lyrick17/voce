@@ -54,7 +54,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id =
     <div class="content">
         <!-- Navbar -->
         <nav>
-            <i class='bx bx-menu'></i>
+            <i class='bx bx-menu'></i><?= $_SESSION['username']; ?>
         </nav>
 
         <!-- End of Navbar -->

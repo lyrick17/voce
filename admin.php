@@ -85,7 +85,7 @@ $num_of_a2t = mysqli_fetch_assoc($result);
     <div class="content">
         <!-- Navbar -->
         <nav>
-            <i class='bx bx-menu'></i>
+            <i class='bx bx-menu'></i><?= $_SESSION['username']; ?>
         </nav>
 
         <!-- End of Navbar -->

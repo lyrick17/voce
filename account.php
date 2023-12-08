@@ -60,7 +60,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
     <div class="content">
         <!-- Navbar -->
         <nav>
-            <i class='bx bx-menu'></i>
+            <i class='bx bx-menu'></i><?= $_SESSION['username']; ?>
         </nav>
 
         <!-- End of Navbar -->
