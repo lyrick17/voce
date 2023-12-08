@@ -1,7 +1,11 @@
 //stores list of all delete 
+paginateRows();
+
 let deleteWindow = document.querySelector(".delete-window");
 let deleteBtn = document.querySelectorAll(".delete-btn");
 let deleteAllBtn = document.querySelector(".deleteAll-btn");
+let deleteRowsBtn = document.querySelector(".deleteRows-btn");
+let deleteSelectedBtn = document.querySelector(".deleteSelectedRows");
 let noBtn = document.querySelector(".confirm-no");
 let yesBtn = document.querySelector(".confirm-yes");
 let history = document.querySelector(".history-body");
@@ -10,10 +14,37 @@ let confirmText = document.querySelector(".confirm-text");
 
 //initialize form data content
 let deleteId = 0;
-let userId = 0;
+let userId = document.getElementsByTagName("body")[0].id;
+console.log(userId);
 let fromAudio = 0;
 let clearAll = false;
 let fileId = null;
+let deleteRows = false;
+
+//initialized variables for selection delete of rows
+let checkboxes = document.querySelectorAll(".delete-checkbox");
+let rowsToDelete = [];
+let filesToDelete = [];
+
+//event listener for checkboxes; adds fileid and textid to rowsToDelete & filesToDelete array respectively
+for(let i = 0; i < checkboxes.length; i++){
+    checkboxes[i].addEventListener("change", (e) => {
+        if(checkboxes[i].checked){
+            addToDeleteRows(checkboxes[i]);
+        }
+        else{removeToDeleteRows(checkboxes[i]);
+        }
+    });
+}
+
+deleteSelectedBtn.addEventListener("click", (e) => {
+    confirmText.innerHTML = "Are you sure you want to delete all rows you selected?";
+    fromAudio = (e.target.id == "a2t") ? 1 : 0;
+    // console.log(fromAudio);
+    // console.log(rowsToDelete);
+    // console.log(deleteRows);
+    displayConfirmWindow(deleteWindow);
+});
 
 //Click event for delete all
 deleteAllBtn.addEventListener("click", (e) =>{
@@ -26,12 +57,23 @@ deleteAllBtn.addEventListener("click", (e) =>{
     */
     fromAudio = (e.target.id == "a2t") ? 1 : 0;
     clearAll = true;
-    userId = 1;
     displayConfirmWindow(deleteWindow);
+});
+
+deleteRowsBtn.addEventListener("click", (e) => {
+    fromAudio = (e.target.id == "a2t") ? 1 : 0;
+    console.log(fromAudio);
+    if(!deleteRows)
+        displayCheckboxes();
+    else
+        hideCheckboxes();
+
+    console.log(deleteRows);
 });
 
 for(let i = 0; i <deleteBtn.length;i++){
     deleteBtn[i].addEventListener("click", (e) => {
+    deleteRows = false;
     confirmText.innerHTML = "Are you sure you want to delete this row?";
     //updates form data content with user data
     deleteId = e.target.parentNode.parentNode.id;
@@ -58,6 +100,10 @@ yesBtn.addEventListener("click", () => {
     fd.append('fromAudio', fromAudio);
     fd.append('clearAll', clearAll);
     fd.append('fileId', fileId);
+    fd.append('deleteRows', deleteRows);
+    fd.append('filesToDelete', JSON.stringify(filesToDelete));
+    fd.append('rowsToDelete', JSON.stringify(rowsToDelete));
+
 
     fetch('delete_query.php',{
         method : 'post', 
@@ -85,14 +131,18 @@ yesBtn.addEventListener("click", () => {
             deleteWindow = document.querySelector(".delete-window");
             deleteBtn = document.querySelectorAll(".delete-btn");
              deleteId = 0;
-             userId = 0;
+             userId = document.getElementsByTagName("body")[0].id;
              fromAudio = 0;
              clearAll = false;
              fileId = null;
+             checkboxes = document.querySelectorAll(".delete-checkbox");
+            rowsToDelete = [];
+            filesToDelete = [];
 
             //re-adds eventlisteners to new delete buttons.
             for(let i = 0; i <deleteBtn.length;i++){
                deleteBtn[i].addEventListener("click", (e) => {
+                    deleteRows = false;
                    deleteId = e.target.parentNode.parentNode.id;
                    userId = e.target.parentNode.parentNode.classList[0];
                    fromAudio = (e.target.parentNode.parentNode.classList[1] == "a2t") ? 1 : 0;
@@ -100,7 +150,32 @@ yesBtn.addEventListener("click", () => {
                    displayConfirmWindow(deleteWindow);
                });
            }
+           
+
+           for(let i = 0; i < checkboxes.length; i++){
+            checkboxes[i].addEventListener("change", (e) => {
+                if(checkboxes[i].checked){
+                    addToDeleteRows(checkboxes[i]);
+                }
+                else{removeToDeleteRows(checkboxes[i]);
+                }
+                });
+            }
+
+            
+            
+        deleteSelectedBtn.addEventListener("click", (e) => {
+            confirmText.innerHTML = "Are you sure you want to delete all rows you selected?";
+            fromAudio = (e.target.id == "a2t") ? 1 : 0;
+            console.log(fromAudio);
+            console.log(rowsToDelete);
+            console.log(deleteRows);
+            displayConfirmWindow(deleteWindow);
+        });
+
+        paginateRows();
             hideConfirmWindow(deleteWindow);
+            hideCheckboxes();
         });
 });
 
@@ -116,23 +191,46 @@ function hideConfirmWindow(window){
     window.style.visibility = "hidden";
 }
 
+function displayCheckboxes(){
+    deleteRows = true;
+    deleteSelectedBtn.style.visibility = "visible";
+    for(let i = 0; i< checkboxes.length; i++)
+        checkboxes[i].style.display = "block";
+    deleteRowsBtn.textContent = "Cancel Delete Rows";
+    
+}
+
+function hideCheckboxes(){
+    deleteRows = false;
+    deleteSelectedBtn.style.visibility = "hidden";
+    deleteRowsBtn.textContent = "Delete Rows";
+    for(let i = 0; i< checkboxes.length; i++){
+        checkboxes[i].style.display = "none";
+        checkboxes[i].checked = false;
+    }
+
+    rowsToDelete = [];
+    filesToDelete = [];
+}
+
 function setNewRow(objData){
 
     //Sets new rows for audio to text history
     if(fromAudio == 0)
-    {    return "<tr id = " + objData['text_id'] + " class = '" + objData['user_id'] + " " + "t2t" + "'>" +
+    {    return "<tr id = " + objData['text_id'] + " class = '" + objData['user_id'] + " " + "t2t" + " paginate" + "'>" +
     "<td class = '" + objData['user_id']+  " truncate-text'>" + objData['translate_from'] + "</td>" + 
     "<td class = " + objData['user_id']+ ">"+ objData['original_language'] + "</td>" +
     "<td class = '" + objData['user_id']+  " truncate-text'>" + objData['translate_to'] + "</td>" + 
         "<td class = " + objData['user_id']+ ">"+ objData['translated_language'] + "</td>" + 
         "<td class = " + objData['user_id']+ ">"+ objData['translation_date'] + "</td>" +
-        "<td class = " + objData['user_id']+ ">"+ "<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
+        "<td class = " + objData['user_id']+ ">"+ "<button type = 'button' class = 'delete-btn'>Delete</button></td>" +
+        "<td class = " + objData['user_id'] + ">" + "<input type = 'checkbox' class = 'delete-checkbox' id = " + objData['text_id'] +"></td>"     
         + "</tr>";
     }
 
     //Sets new rows for audio to text history
     else{
-        return "<tr id = " + objData['text_id'] + " class = '" + objData['user_id'] + " " + "a2t" + " " + objData['file_id'] + "'>" +
+        return "<tr id = " + objData['text_id'] + " class = '" + objData['user_id'] + " " + "a2t" + " " + objData['file_id']  + " paginate" + "'>" +
         "<td class = " + objData['user_id'] + ">"  + objData['file_name'] + "</td>" + 
         "<td class = " + objData['user_id'] + ">"  + objData['file_format'] + "</td>" +
         "<td class = " + objData['user_id'] + ">"  + objData['file_size'] + "</td>" +
@@ -141,9 +239,30 @@ function setNewRow(objData){
         "<td class = '" + objData['user_id'] +  " truncate-text'>" + objData['translate_to'] +  "</td>" +
         "<td class = " + objData['user_id'] + ">"  + objData['translated_language'] + "</td>" +
         "<td class = " + objData['user_id'] + ">"  + objData['translation_date'] + "</td>" +
-        "<td class = " + objData['user_id'] + ">"  +  "<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
+        "<td class = " + objData['user_id'] + ">"  +  "<button type = 'button' class = 'delete-btn'>Delete</button></td>" +
+        "<td class = " + objData['user_id'] + ">" + "<input type = 'checkbox' class = 'delete-checkbox' id = " + objData['text_id'] +"></td>"     
         + "</tr>";
     }
+}
+
+function addToDeleteRows(checkbox){
+    rowsToDelete.push(checkbox.id);
+    console.log("Rows to delete: " + rowsToDelete);
+    if(fromAudio == 1){
+        filesToDelete.push(checkbox.parentNode.parentNode.classList[2]);
+        console.log("Files to delete: " + filesToDelete);
+    }
+    console.log(fromAudio);
+}
+
+function removeToDeleteRows(checkbox){
+    rowsToDelete.splice(rowsToDelete.indexOf(checkbox.id), 1);
+    if(fromAudio == 1){
+        let fileIdToRemove = checkbox.parentNode.parentNode.classList[2];
+        filesToDelete.splice(filesToDelete.indexOf(fileIdToRemove), 1);
+        console.log("Files to delete (changed): " + filesToDelete);
+    }
+    console.log("Rows To Delete (changed)" + rowsToDelete);
 }
 
 // Truncates text that have characters greater than 150
@@ -195,4 +314,41 @@ function truncateText() {
             modal.style.display = 'none';
         }
     });
+}
+
+//function for adding pagination for every 5 rows
+function paginateRows(){
+    jQuery(function($) {
+        // Grab whatever we need to paginate
+        var pageParts = $(".paginate");
+    
+        // How many parts do we have?
+        var numPages = pageParts.length;
+        // How many parts do we want per page?
+        var perPage = 5;
+    
+        // When the document loads we're on page 1
+        // So to start with... hide everything else
+        pageParts.slice(perPage).hide();
+        // Apply simplePagination to our placeholder
+        $("#page-nav").pagination({
+            items: numPages,
+            itemsOnPage: perPage,
+            cssStyle: "light-theme",
+            // We implement the actual pagination
+            //   in this next function. It runs on
+            //   the event that a user changes page
+            onPageClick: function(pageNum) {
+                // Which page parts do we show?
+                var start = perPage * (pageNum - 1);
+                var end = start + perPage;
+    
+                // First hide all page parts
+                // Then show those just for our page
+                pageParts.hide()
+                         .slice(start, end).show();
+            }
+        });
+    });
+
 }

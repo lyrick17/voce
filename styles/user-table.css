@@ -24,13 +24,18 @@ th, td{
     cursor: pointer;
 }
 .create-btn{
-    width: 50%;
+    width: 100px;
     padding: .7em;
     background: black;
-}
-.create-cell{
+} 
+.create-cell, .select-cell{
     border: none;
     text-align:left;
+    padding-right: 0;
+}
+
+.select-cell{
+    padding-left: .3em;
 }
 
 .update-user{
@@ -187,6 +192,41 @@ th, td{
 
 .update-div-header{
     font-size: 2em;
+}
+
+.delete-checkbox{
+    display: inline;
+    width: 40px;
+    transform: scale(1.2);
+    display: none;
+}
+
+.deleteSelectedUsers{
+    background : #ff3838;
+    color: white;
+    padding: 0.5em;
+    border: none;
+    border-radius: 0.5em;
+    display: none;
+}
+
+.deleteSelectedUsers:hover{
+    cursor: pointer;
+    background: #fe4c5a;
+}
+
+.deleteRows-btn{
+    background : #ff3838;
+    color: white;
+    padding: 0.5em;
+    border: none;
+    border-radius: 0.5em;
+    margin-left: 1em;
+}
+
+.deleteRows-btn:hover{
+    cursor: pointer;
+    background: #fe4c5a;
 }
 
 

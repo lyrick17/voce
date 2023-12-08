@@ -135,13 +135,14 @@ class Translator{
         if($translation_format == "text2text"){
             while($row = mysqli_fetch_assoc($history)){
                 echo               
-                "<tr id = ". $row['text_id'] ." class = '". $row['user_id']. " " . "t2t" . "'>" .
+                "<tr id = ". $row['text_id'] ." class = '". $row['user_id']. " " . "t2t" . " paginate" . "'>" .
                 "<td class = '" .$row['user_id']. " truncate-text'>" .$row['translate_from'] . "</td>" . 
                 "<td class = " .$row['user_id']. ">" .$row['original_language'] . "</td>" .
                 "<td class = '" .$row['user_id']. " truncate-text'>" .$row['translate_to'] . "</td>" .
                 "<td class = " .$row['user_id']. ">" .$row['translated_language'] . "</td>" . 
                 "<td class = " .$row['user_id']. ">" .$row['translation_date'] . "</td>" .  
-                "<td class = " .$row['user_id']. ">"."<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
+                "<td class = " .$row['user_id']. ">"."<button type = 'button' class = 'delete-btn'>Delete</button></td>" .  
+                "<td class = " .$row['user_id']. ">" . "<input type = 'checkbox' class = 'delete-checkbox' id = ". $row['text_id'] ."></td>"   
                 . "</tr>";
             }
         }
@@ -149,8 +150,7 @@ class Translator{
         elseif($translation_format == "audio2text"){
             while($row = mysqli_fetch_assoc($history)){
                 echo               
-                "<tr id = ". $row['text_id'] ." class = '". $row['user_id']. " " . "a2t". " " . $row['file_id'] . "'>" .
-
+                "<tr id = ". $row['text_id'] ." class = '". $row['user_id']. " " . "a2t". " " . $row['file_id'] .  " paginate" . "'>" .
                 "<td class = " .$row['user_id']. ">" .$row['file_name'] . "</td>" . 
                 "<td class = " .$row['user_id']. ">" .$row['file_format'] . "</td>" .
                 "<td class = " .$row['user_id']. ">" .$row['file_size'] . "</td>" .
@@ -159,7 +159,8 @@ class Translator{
                 "<td class = '" .$row['user_id']. " truncate-text'>" .$row['translate_to'] . "</td>" .
                 "<td class = " .$row['user_id']. ">" .$row['translated_language'] . "</td>" .
                 "<td class = " .$row['user_id']. ">" .$row['translation_date'] . "</td>" . 
-                "<td class = " .$row['user_id']. ">" . "<button type = 'button' class = 'delete-btn'>Delete</button></td>"   
+                "<td class = " .$row['user_id']. ">" . "<button type = 'button' class = 'delete-btn'>Delete</button></td>" .
+                "<td class = " .$row['user_id']. ">" . "<input type = 'checkbox' class = 'delete-checkbox' id = ". $row['text_id'] ."></td>"   
                 . "</tr>";
 
             }
@@ -170,7 +171,7 @@ class Translator{
         // Displays text to text history  or audio2text
         while($user = mysqli_fetch_assoc($users)){
             echo   
-            "<tr id = '". $user['user_id'] . "'>" .            
+            "<tr class = 'paginate' id = '". $user['user_id'] . "'>" .            
             "<td>" . $user['user_id']. "</td>" .
             "<td>" . $user['username']. "</td>" .
             "<td>" . $user['email']. "</td>" .
@@ -178,6 +179,7 @@ class Translator{
             "<td>" . $user['type'] . "</td>" .
             "<td><button type = 'button' class = 'table-btn update-user'>Update</button></td>" .
             "<td><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" .
+            "<td style = 'display: none;' class = " .$user['user_id']. ">" . "<input type = 'checkbox' class = 'delete-checkbox' id = ". $user['user_id'] ."></td>" .   
             "</tr>";
         }
     }
