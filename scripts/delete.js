@@ -203,10 +203,14 @@ function displayCheckboxes(){
 function hideCheckboxes(){
     deleteRows = false;
     deleteSelectedBtn.style.visibility = "hidden";
-    for(let i = 0; i< checkboxes.length; i++)
+    deleteRowsBtn.textContent = "Delete Rows";
+    for(let i = 0; i< checkboxes.length; i++){
         checkboxes[i].style.display = "none";
+        checkboxes[i].checked = false;
+    }
 
-    deleteRowsBtn.textContent = " Delete Rows";
+    rowsToDelete = [];
+    filesToDelete = [];
 }
 
 function setNewRow(objData){

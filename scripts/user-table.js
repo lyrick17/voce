@@ -90,6 +90,8 @@ deleteRowsBtn.addEventListener("click", (e) => {
         deleteRowsBtn.textContent = "Delete Rows";
         for(let i = 0; i< checkboxes.length; i++){
             checkboxes[i].style.display = "none";
+            checkboxes[i].checked = false;
+            usersToDelete = [];
             checkboxes[i].parentElement.style.display = "none";        
         }
     }
@@ -144,21 +146,21 @@ userType.addEventListener("change", () =>{
 
 form.addEventListener("submit", function(e){
     e.preventDefault();
+    submitBtn.disabled = true;
     let fd = new FormData(form);
     fetch('user-table.php', {method: 'POST', body: fd})
     .then((res) => res.json()) // Converts response to JSON
     .then(response => {
         console.log(response);
-        let updatedUsers ='<tr><td class = "create-cell" colspan = 2><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
-
+        let updatedUsers ='<tr><td class = "create-cell" colspan = 1><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
+        submitBtn.disabled = false;
         //add rows to new users table
         for(let i = 0; i < response.length; i++){
             let obj = response[i];
             updatedUsers += setNewRow(obj);
         }
 
-
-
+        
         //updates history content.
         usersTable.innerHTML = updatedUsers;
         paginateRows();
@@ -230,6 +232,8 @@ form.addEventListener("submit", function(e){
                 deleteRowsBtn.textContent = "Delete Rows";
                 for(let i = 0; i< checkboxes.length; i++){
                     checkboxes[i].style.display = "none";
+                    checkboxes[i].checked = false;
+                    usersToDelete = [];
                     checkboxes[i].parentElement.style.display = "none";        
                 }
             }
@@ -251,7 +255,6 @@ form.addEventListener("submit", function(e){
             });
             deleteBtn[i].addEventListener("click", (e) => {
                 userId = e.target.parentNode.parentNode.id;
-                conso
                 confirmText.innerHTML = "Are you sure you want to delete this user?";
                 console.log("user id: " + userId);
                 //Sets the user to be deleted.
@@ -337,7 +340,7 @@ yesBtn.addEventListener("click", () => {
             .then((res) => res.json()) // Converts response to JSON
             .then(response => {
                 fetchUsers();
-                let updatedUsers ='<tr><td class = "create-cell" colspan = 2><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
+                let updatedUsers ='<tr><td class = "create-cell" colspan = 1><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
 
                 //add rows to new users table
                 for(let i = 0; i < response.length; i++){
@@ -419,6 +422,8 @@ yesBtn.addEventListener("click", () => {
                         deleteRowsBtn.textContent = "Delete Rows";
                         for(let i = 0; i< checkboxes.length; i++){
                             checkboxes[i].style.display = "none";
+                            checkboxes[i].checked = false;
+                            usersToDelete = [];
                             checkboxes[i].parentElement.style.display = "none";        
                         }
                     }
@@ -466,6 +471,7 @@ yesBtn.addEventListener("click", () => {
 
     updateForm.addEventListener("submit", (e) => {
     e.preventDefault();
+    submitUpdate.disabled = true;
     let fd = new FormData(updateForm);
     fd.append('userId', userId);
     fetch('user-table.php',{
@@ -475,8 +481,8 @@ yesBtn.addEventListener("click", () => {
         .then(response => {
             console.log(response);
             fetchUsers();
-            let updatedUsers ='<tr><td class = "create-cell" colspan = 2><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
-
+            let updatedUsers ='<tr><td class = "create-cell" colspan = 1><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
+            submitUpdate.disabled = false;
             //add rows to new users table
             for(let i = 0; i < response.length; i++){
                 let obj = response[i];
@@ -561,6 +567,8 @@ yesBtn.addEventListener("click", () => {
                     deleteRowsBtn.textContent = "Delete Rows";
                     for(let i = 0; i< checkboxes.length; i++){
                         checkboxes[i].style.display = "none";
+                        checkboxes[i].checked = false;
+                        usersToDelete = [];
                         checkboxes[i].parentElement.style.display = "none";        
                     }
                 }
