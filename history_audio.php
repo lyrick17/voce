@@ -34,6 +34,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
     <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+
 </head>
 
 <!-- Confirm delete window -->
@@ -200,13 +201,11 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
                 <div class="orders">
                 <div class = "deleteAllClass">
                     <button type = 'button' class = "deleteSelectedRows" id = "a2t">Delete Selected Rows</button>
-                    <button type = 'button' class = "deleteRows-btn" id = "a2t">Delete Rows</button>
+                    <button type = 'button' class = "deleteRows-btn" id = "a2t">Select Rows</button>
                     <button type = 'button' class = "deleteAll-btn" id = "a2t">Delete All</button>
                 </div>
                     <div class="header">
                         <h2>Recent Audio to Text Translations</h3>
-                        <i class='bx bx-filter'></i>
-                        <i class='bx bx-search'></i>
                     </div>
                     <table>
                         <thead>
