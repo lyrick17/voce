@@ -34,6 +34,9 @@ const inputOldPass = document.getElementById("old-pword");
 const inputNewPass = document.getElementById("new-pword");
 const inputNewPass2 = document.getElementById("new-pword2");
 
+
+//navbarusername
+const navbarusername = document.getElementById("nav-name");
 //input boxes event listeners
 
 inputOldPass.addEventListener("keyup", () => {
@@ -109,6 +112,7 @@ function fetchUser(){
   .then((response) => {
     console.log(response);
 
+    navbarusername.innerHTML = response[0]['username'];
     userText.innerHTML = response[0]['username'];
     emailText.innerHTML = response[0]['email'];
 

@@ -325,7 +325,7 @@ function paginateRows(){
         // How many parts do we have?
         var numPages = pageParts.length;
         // How many parts do we want per page?
-        var perPage = 5;
+        var perPage = 10;
     
         // When the document loads we're on page 1
         // So to start with... hide everything else

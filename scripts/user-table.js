@@ -62,6 +62,9 @@ let usersToDelete = [];
 let selectDeleteBtn = document.querySelector(".deleteSelectedUsers");
 let deleteRowsBtn = document.querySelector(".deleteRows-btn");
 
+// navbar username
+let navusername = document.getElementById("nav-name");
+
 //event listener for each checkbox; adds user id to usersToDelete array if checkbox is checked
 for(let i = 0; i < checkboxes.length; i++){
     checkboxes[i].addEventListener("change", (e) => {
@@ -471,6 +474,7 @@ yesBtn.addEventListener("click", () => {
 
     updateForm.addEventListener("submit", (e) => {
     e.preventDefault();
+    navusername.innerHTML = updateUsername.value;
     submitUpdate.disabled = true;
     let fd = new FormData(updateForm);
     fd.append('userId', userId);
@@ -693,18 +697,31 @@ function readyToSubmit(func){
 function validateUser(username, func){
     const userPattern = /^[\w\-]+$/;
     if(func == "create"){
-        if(userPattern.test(username) && username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase()))
+        if(username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase()))
             uniqueUserTxt.style.color = validColor;
         else{
             uniqueUserTxt.style.color = "red";
         }
 
+        if(userPattern.test(username)){
+            validUserTxt.style.color = validColor;
+        }
+        else{
+            validUserTxt.style.color = "red";
+        }
+
     }
     else if(func == "update"){
-        if(userPattern.test(username) && username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase()))
+        if(username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase()))
             uniqueUserTxt2.style.color = validColor;
         else{
             uniqueUserTxt2.style.color = "red";
+        }
+        if(userPattern.test(username)){
+            validUserTxt2.style.color = validColor;
+        }
+        else{
+            validUserTxt2.style.color = "red";
         }
     }
     readyToSubmit(func);
