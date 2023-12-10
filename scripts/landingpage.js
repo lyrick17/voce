@@ -3,8 +3,9 @@
 let errormessage = document.getElementById('contact-error').innerHTML;
 let message = ["Thank you for your Feedback!", 
                "Please fill out the fields. Thank you.", 
-               "Message could not be sent. Please Try Again"];
-if (errormessage == message[0] || errormessage == message[1] || errormessage == message[2]) {
+               "Message could not be sent. Please Try Again",
+               "The character limit is 2,000."];
+if (errormessage == message[0] || errormessage == message[1] || errormessage == message[2] || errormessage == message[3]) {
   window.onload = function() {
       document.getElementById('contact').scrollIntoView();
   };

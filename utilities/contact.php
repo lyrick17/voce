@@ -13,14 +13,15 @@ require "smtp.php";
 $contact_message = '';
 $message = array("Thank you for your Feedback!", 
                 "Please fill out the fields. Thank you.", 
-                "Message could not be sent. Please Try Again");
+                "Message could not be sent. Please Try Again",
+                "The character limit is 2,000.");
 $contact_color = '';
 
 // user sends out a feedback
 if($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $error = 0;
-
+    $strlen_error = 0;
     $_POST['contact_name'] = sanitize_input($_POST['contact_name']);
     $_POST['contact_subject'] = sanitize_input($_POST['contact_subject']);
     $_POST['contact_message'] = sanitize_input($_POST['contact_message']);
@@ -29,9 +30,15 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
     $c_name = (!empty($_POST['contact_name'])) ? $_POST['contact_name'] : $error++;
     $c_subject = (!empty($_POST['contact_subject'])) ? $_POST['contact_subject'] : $error++;
     $c_message = (!empty($_POST['contact_message'])) ? $_POST['contact_message'] : $error++;
-
+    if (strlen($c_message) > 2000) { $strlen_error++; $error++; }
+    
+    
     if ($error > 0) {
-        $contact_message = $message[1];
+        if ($strlen_error == 1) {
+            $contact_message = $message[3];
+        } else {
+            $contact_message = $message[1];
+        }
         $contact_color = "red";
     } else {
 
@@ -64,15 +71,26 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             $mail->Body = $body;
     
             $mail->send();
+            
+            // after sending the email, save it into database
+            $query = mysqli_prepare($dbcon, "INSERT INTO contacts(username, subject, message) 
+            VALUES (?, ?, ?)");
+            mysqli_stmt_bind_param($query, "sss", $c_name, $c_subject, $c_message);
+            $result = mysqli_stmt_execute($query);
+
 
             // show to user that email has been sent
             $contact_message = $message[0];
             $contact_color = "green";
 
+
+
         } catch (Exception $e) {
             $contact_message = $message[2];
             $contact_color = "red";
         }
+
+
         
     }
 
