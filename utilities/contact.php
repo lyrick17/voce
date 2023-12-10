@@ -1,5 +1,6 @@
 <?php 
 
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -19,12 +20,15 @@ $contact_color = '';
 if($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $error = 0;
+
+    $_POST['contact_name'] = sanitize_input($_POST['contact_name']);
+    $_POST['contact_subject'] = sanitize_input($_POST['contact_subject']);
+    $_POST['contact_message'] = sanitize_input($_POST['contact_message']);
+
     // server-side validation first before sending the email
-    $c_name = (!empty($_POST['contact_name'])) ? trim($_POST['contact_name']) : $error++;
-    $c_email = (!empty($_POST['contact_email'])) ? trim($_POST['contact_email']) : $error++; // the sender email
-    if (!filter_var($_POST['contact_email'], FILTER_VALIDATE_EMAIL)) { $error++; }
-    $c_subject = (!empty($_POST['contact_subject'])) ? trim($_POST['contact_subject']) : $error++;
-    $c_message = (!empty($_POST['contact_message'])) ? trim($_POST['contact_message']) : $error++;
+    $c_name = (!empty($_POST['contact_name'])) ? $_POST['contact_name'] : $error++;
+    $c_subject = (!empty($_POST['contact_subject'])) ? $_POST['contact_subject'] : $error++;
+    $c_message = (!empty($_POST['contact_message'])) ? $_POST['contact_message'] : $error++;
 
     if ($error > 0) {
         $contact_message = $message[1];
@@ -32,12 +36,10 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
     } else {
 
         try {
-            $from_email = $c_email;
-            $to_email = 'lyrickjonson@gmail.com'; // our email, the recipient
+            $email = 'voceteam.contact@gmail.com'; // our email, the recipient
             $email_subject = $c_subject;
                 $body_content = ["<h3>User Feedback sent from Voce Website</h3>",
                                 "<b>Name:</b> {$c_name}", "<br />",
-                                "<b>Email:</b> {$c_email}", "<br />",
                                 "<hr />",
                                 "<h4>Message:</h4>", $c_message];
             $body = join(PHP_EOL, $body_content);
@@ -53,10 +55,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
     
-            $mail->setFrom('voceteam.contact@gmail.com', $c_name);     // the sender of the email, in this case, our email  still
-            $mail->addAddress('voceteam.contact@gmail.com', 'Voce');   // receiver of email, still our email
-            $mail->addReplyTo($c_email, $c_name);                   // add user email on reply to header 
-    
+            $mail->setFrom($email, $c_name);     // the sender of the email, in this case, our email  still
+            $mail->addAddress($email, 'Voce');   // receiver of email, still our email
+            
             $mail->isHTML(true);
     
             $mail->Subject = $email_subject;
@@ -75,8 +76,16 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
         
     }
 
+
 }
 
+function sanitize_input($post) {
+    global $dbcon;
+    $post = trim($post);
+    $post = htmlspecialchars($post);
+    $post = mysqli_real_escape_string($dbcon, $post);
+    return $post;
+}
 
 
 

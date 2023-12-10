@@ -316,13 +316,8 @@
             <form method="post" action="index.php">
               <h5 id="contact-error" style="<?php echo "color: " . $contact_color . ";" ?? ''; ?>"><?php echo htmlspecialchars($contact_message) ?? ''; ?><h5>
             
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <input type="text" name="contact_name" class="form-control" id="name" placeholder="Your Name">
-                </div>
-                <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <input type="email" class="form-control" name="contact_email" id="email" placeholder="Your Email">
-                </div>
+              <div class="form-group mt-3">
+                  <input type="text" name="contact_name" class="form-control" id="name" placeholder="Your Name">                
               </div>
               <div class="form-group mt-3">
                 <input type="text" class="form-control" name="contact_subject" id="subject" placeholder="Subject">
