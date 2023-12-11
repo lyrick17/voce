@@ -83,8 +83,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             $contact_message = $message[0];
             $contact_color = "green";
 
-
-
         } catch (Exception $e) {
             $contact_message = $message[2];
             $contact_color = "red";
