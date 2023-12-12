@@ -710,6 +710,7 @@ function validateUser(username, func){
             validUserTxt.style.color = "red";
         }
 
+
     }
     else if(func == "update"){
         if(username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase()))
@@ -723,6 +724,7 @@ function validateUser(username, func){
         else{
             validUserTxt2.style.color = "red";
         }
+
     }
     readyToSubmit(func);
 }
