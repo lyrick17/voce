@@ -221,7 +221,7 @@ $users = mysqli_query($dbcon, $q);
     <div class="content">
         <!-- Navbar -->
         <nav>
-            <i class='bx bx-menu'></i><?= $_SESSION['username']; ?>
+            <i class='bx bx-menu'></i><span id = "nav-name"><?= $_SESSION['username']; ?></span>
         </nav>
 
         <!-- End of Navbar -->

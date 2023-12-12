@@ -19,12 +19,16 @@ $contact_color = '';
 if($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $error = 0;
+    $_POST['contact_name'] = sanitize_input($_POST['contact_name']);
+    $_POST['contact_email'] = sanitize_input($_POST['contact_email']);
+    $_POST['contact_subject'] = sanitize_input($_POST['contact_subject']);
+    $_POST['contact_message'] = sanitize_input($_POST['contact_message']);
     // server-side validation first before sending the email
-    $c_name = (!empty($_POST['contact_name'])) ? trim($_POST['contact_name']) : $error++;
-    $c_email = (!empty($_POST['contact_email'])) ? trim($_POST['contact_email']) : $error++; // the sender email
+    $c_name = (!empty($_POST['contact_name'])) ? $_POST['contact_name'] : $error++;
+    $c_email = (!empty($_POST['contact_email'])) ? $_POST['contact_email'] : $error++; // the sender email
     if (!filter_var($_POST['contact_email'], FILTER_VALIDATE_EMAIL)) { $error++; }
-    $c_subject = (!empty($_POST['contact_subject'])) ? trim($_POST['contact_subject']) : $error++;
-    $c_message = (!empty($_POST['contact_message'])) ? trim($_POST['contact_message']) : $error++;
+    $c_subject = (!empty($_POST['contact_subject'])) ? $_POST['contact_subject'] : $error++;
+    $c_message = (!empty($_POST['contact_message'])) ? $_POST['contact_message'] : $error++;
 
     if ($error > 0) {
         $contact_message = $message[1];
@@ -77,6 +81,11 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
 }
 
+function sanitize_input($post) {
+    $post = trim($post);
+    $post = htmlspecialchars($post);
+    return $post;
+}
 
 
 

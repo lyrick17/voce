@@ -25,6 +25,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
     $q = "SELECT username, email FROM USERS where user_id = $sess_id";
     $result = mysqli_query($dbcon, $q);
     $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    unset($_POST);
     exit(json_encode($users));
 }
 
@@ -60,7 +61,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
     <div class="content">
         <!-- Navbar -->
         <nav>
-            <i class='bx bx-menu'></i><?= $_SESSION['username']; ?>
+            <i class='bx bx-menu'></i><span id = "nav-name"><?= $username?></span>
         </nav>
 
         <!-- End of Navbar -->
@@ -84,7 +85,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
                                 mysqli_stmt_execute($query);
                                 mysqli_stmt_bind_result($query, $result);
                                 mysqli_stmt_fetch($query);
-
+                            
                                 if($username == $newUsername){
                                     echo "<style>#edit-username-btn{visibility:hidden}#edit-username-div{display:block;}</style><p style = 'color:red'>You are already using this username.</p>";
                                 }
@@ -99,9 +100,10 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
 
                                 $_SESSION['username'] = $newUsername;
                                 unset($_POST);
-                                }
 
+                                }
                             }
+                            
                         ?>
                         <p class = "req unique-user2">Note: <br> *Username must be unique and 6-30 characters long <br> *Username must only contain numbers, letters, dashes, and underscores</p>
                         <input type="submit" class= "edit-submit" id="updateUsername" name="updateUsername" value="Edit Username" disabled>
@@ -174,6 +176,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
                             
                                     $_SESSION['pword'] = $hashedPass;
                                     unset($_POST);
+
                                 }
                                 else{
                                     echo "<style>#edit-psword-btn{visibility:hidden}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your old password is not correct.</p>";
