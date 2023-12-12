@@ -22,9 +22,11 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $error = 0;
     $strlen_error = 0;
+  
     $_POST['contact_name'] = sanitize_input($_POST['contact_name']);
     $_POST['contact_subject'] = sanitize_input($_POST['contact_subject']);
     $_POST['contact_message'] = sanitize_input($_POST['contact_message']);
+
 
     // server-side validation first before sending the email
     $c_name = (!empty($_POST['contact_name'])) ? $_POST['contact_name'] : $error++;
@@ -100,6 +102,7 @@ function sanitize_input($post) {
     $post = trim($post);
     $post = htmlspecialchars($post);
     $post = mysqli_real_escape_string($dbcon, $post);
+
     return $post;
 }
 

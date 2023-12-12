@@ -62,6 +62,9 @@ let usersToDelete = [];
 let selectDeleteBtn = document.querySelector(".deleteSelectedUsers");
 let deleteRowsBtn = document.querySelector(".deleteRows-btn");
 
+// navbar username
+let navusername = document.getElementById("nav-name");
+
 //event listener for each checkbox; adds user id to usersToDelete array if checkbox is checked
 for(let i = 0; i < checkboxes.length; i++){
     checkboxes[i].addEventListener("change", (e) => {
@@ -471,6 +474,7 @@ yesBtn.addEventListener("click", () => {
 
     updateForm.addEventListener("submit", (e) => {
     e.preventDefault();
+    navusername.innerHTML = updateUsername.value;
     submitUpdate.disabled = true;
     let fd = new FormData(updateForm);
     fd.append('userId', userId);
@@ -704,7 +708,8 @@ function validateUser(username, func){
         }
         else{
             validUserTxt.style.color = "red";
-         }
+        }
+
 
     }
     else if(func == "update"){
@@ -718,7 +723,8 @@ function validateUser(username, func){
         }
         else{
             validUserTxt2.style.color = "red";
-         }
+        }
+
     }
     readyToSubmit(func);
 }
