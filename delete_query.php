@@ -4,17 +4,20 @@
 
  
 if($_POST['clearAll'] == 'true'){
+    $userId = $_POST['userId'];
     // Deletes all rows corresponding to user from audio_files table if it's an audio to text translation
     if($_POST['fromAudio'] == 1){
-        $deleteQuery = "DELETE FROM text_translations WHERE user_id = " . $_POST['userId']  . " AND from_audio_file = 1";
-        mysqli_query($dbcon, $deleteQuery);
-        $deleteQuery = "DELETE FROM audio_files WHERE user_id = " . $_POST['userId'];
-        mysqli_query($dbcon, $deleteQuery);
+
+        $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM text_translations WHERE user_id = ? AND from_audio_file = 1");
+        bindAndExec($deleteQuery, "s", $userId);
+
+        $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM audio_files WHERE user_id = ?");
+        bindAndExec($deleteQuery, "s", $userId);
     }
     else{            
         // Deletes all rows corresponding to user from text_translation table
-        $deleteQuery = "DELETE FROM text_translations WHERE user_id = " . $_POST['userId']  . " AND from_audio_file = 0";
-        mysqli_query($dbcon, $deleteQuery);
+        $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM text_translations WHERE user_id = ? AND from_audio_file = 0");
+        bindAndExec($deleteQuery, "s", $userId);
     }
  }
 
@@ -23,31 +26,36 @@ if($_POST['clearAll'] == 'true'){
         $rowsToDelete = json_decode($_POST['rowsToDelete']);
         $filesToDelete = json_decode($_POST['filesToDelete']);
         for($i = 0; $i < count($rowsToDelete); $i++){
-                $deleteQuery = "DELETE FROM text_translations WHERE text_id = " . $rowsToDelete[$i];
-                mysqli_query($dbcon, $deleteQuery);
-                $deleteQuery = "DELETE FROM audio_files WHERE file_id = " .  $filesToDelete[$i];
-                mysqli_query($dbcon, $deleteQuery);
+                $deleteRows = $rowsToDelete[$i];
+                $deleteFiles =$filesToDelete[$i];
+                $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM text_translations WHERE text_id = ?");
+                bindAndExec($deleteQuery, "s", $deleteRows);
+
+                $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM audio_files WHERE file_id = ?");
+                bindAndExec($deleteQuery, "s", $deleteFiles);
+
             }
     }
 
     else{
         foreach(json_decode($_POST['rowsToDelete']) as $rowNum){
-            $deleteQuery = "DELETE FROM text_translations WHERE text_id = " . $rowNum;
-          mysqli_query($dbcon, $deleteQuery);
-        }
+            $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM text_translations WHERE text_id = ?");
+            bindAndExec($deleteQuery, "s", $rowNum);        }
     }
     
  }
 
  else{
     //deletes row from database
-    $deleteQuery = "DELETE FROM text_translations WHERE text_id = " . $_POST['rowId'];
-    mysqli_query($dbcon, $deleteQuery);
+    $rowId = $_POST['rowId'];
+    $fileId = $_POST['fileId'];
+    $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM text_translations WHERE text_id = ?");
+    bindAndExec($deleteQuery, "s", $rowId); 
 
     //deletes audio file record from database if it's an audio to text translation
     if($_POST['fileId'] != null){
-        $deleteQuery = "DELETE FROM audio_files WHERE file_id = " . $_POST['fileId'];
-        mysqli_query($dbcon, $deleteQuery);
+        $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM audio_files WHERE file_id = ?");
+        bindAndExec($deleteQuery, "s", $fileId); 
     }
  }
 
@@ -63,3 +71,8 @@ $sql = mysqli_query($dbcon, $q);
 $result = mysqli_fetch_all($sql, MYSQLI_ASSOC);
 
 exit(json_encode($result));
+
+function bindAndExec($stmt, $markers, $value){
+    mysqli_stmt_bind_param($stmt, $markers, $value);
+    mysqli_stmt_execute($stmt);
+}
