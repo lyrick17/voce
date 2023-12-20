@@ -68,34 +68,28 @@ else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new-username'])) 
     // 1
     $username = mysqli_real_escape_string($dbcon, trim($_POST['new-username']));
     $email = mysqli_real_escape_string($dbcon, trim($_POST['new-email']));
-    $password = mysqli_real_escape_string($dbcon, trim($_POST['new-pword']));
-    $password = mysqli_real_escape_string($dbcon, trim($_POST['new-pword']));
-    $hashedPass = password_hash($password, PASSWORD_BCRYPT);
+    // $password = mysqli_real_escape_string($dbcon, trim($_POST['new-pword']));
+    // $password = mysqli_real_escape_string($dbcon, trim($_POST['new-pword']));
+    // $hashedPass = password_hash($password, PASSWORD_BCRYPT);
 
     //updates session variable if current user info is updated
     if($_POST['userId'] == $_SESSION['user_id']){
         $_SESSION['username'] = $username;
         $_SESSION['email'] = $email;
-        $_SESSION['pword'] = $hashedPass;
+        // $_SESSION['pword'] = $hashedPass;
     }
 
     $userId = (int)$_POST['userId'];
 
 
-    // updates session variables
-
-
-
-    // 2
     $usernameCheck = "SELECT * FROM `users` WHERE username = '" . $username . "' ";
     $usernameResult = mysqli_query($dbcon, $usernameCheck);
     $emailCheck = "SELECT * FROM `users` WHERE email = '" . $email . "' ";
     $emailResult = mysqli_query($dbcon, $emailCheck);
 
 
-    $query = mysqli_prepare($dbcon, "UPDATE users SET username = ?, email = ?, pword = ?
-    WHERE user_id = ?");
-    mysqli_stmt_bind_param($query, "sssi", $username, $email, $hashedPass, $userId);
+    $query = mysqli_prepare($dbcon, "UPDATE users SET username = ?, email = ? WHERE user_id = ?");
+    mysqli_stmt_bind_param($query, "ssi", $username, $email, $userId);
     $result = mysqli_stmt_execute($query);
     
 
@@ -190,17 +184,12 @@ $users = mysqli_query($dbcon, $q);
                 <input type="text" placeholder="Name" class = "admin-input" id="new-username" name="new-username" required maxlength="50" required>
                 <label for = "email">Email</label>
                 <input type="email" placeholder="Email" class = "admin-input" id="new-email" name="new-email" required maxlength="100" required>
-                <label for = "pword">Password</label>
-                <input type="password" placeholder="Password" class = "admin-input" id="new-pword" name="new-pword" required>
-                <label for = "pword2">Confirm Password</label>
-                <input type="password" placeholder="Confirm Password" class = "admin-input" id="new-pword2" name="new-pword2" required>
             </div>
             <hr>
             <div class = "acc-req">
                 <p class = "req unique-user2">*Username must be unique and 6-30 characters long</p>
                 <p class = "req valid-user2">*Username must only contain numbers, letters, dashes, and underscores</p>
                 <p class = "req valid-email2">*Email must be unique and valid</p>
-                <p class = "req confirm-pass2">*Passwords must match and atleast 8 characters long</p>
             </div>
             <input type="submit" class= "admin-submit" id="submitUpdate" name="submitUpdate" value="Update User" disabled>
         </form>
