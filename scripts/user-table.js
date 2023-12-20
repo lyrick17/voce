@@ -31,12 +31,16 @@ let updateDivHeader = document.querySelector('.update-div-header');
 let updateForm = document.getElementById("update-form");
 const updateUsername = document.getElementById('new-username');
 const updateEmail = document.getElementById('new-email');
-const updatePword = document.getElementById('new-pword');
-const updatePword2 = document.getElementById('new-pword2');
+// const updatePword = document.getElementById('new-pword');
+// const updatePword2 = document.getElementById('new-pword2');
 const uniqueUserTxt2 = document.querySelector(".unique-user2");
 const validUserTxt2 = document.querySelector(".valid-user2");
 const validEmailTxt2 = document.querySelector(".valid-email2");
-const confirmPassTxt2 = document.querySelector(".confirm-pass2");
+
+uniqueUserTxt2.style.color = "green";
+validUserTxt2.style.color = "green";
+validEmailTxt2.style.color = "green";
+// const confirmPassTxt2 = document.querySelector(".confirm-pass2");
 
 //Delete function DOMs
 let deleteWindow = document.querySelector(".delete-window");
@@ -121,14 +125,24 @@ function removeToDeleteUsers(checkbox){
 }
 
 
-
+let preUpdateUsername;
+let preUpdateEmail;
 
 //Adds event listener for for every update and delete buttons per row in the table
 for(let i = 0; i <deleteBtn.length;i++){
     updateBtns[i].addEventListener("click", (e) => {
         userId = e.target.parentNode.parentNode.id;
         updateDivHeader.innerHTML = "Update User " + userId + "?";
+        updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
+        updateEmail.value = e.target.parentNode.parentNode.querySelector('#u-email').textContent;
+        updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
+        preUpdateUsername = updateUsername.value;
+        preUpdateEmail = updateEmail.value;
+        console.log(preUpdateEmail);
+        console.log(preUpdateUsername);
         displayWindow(updateWindow);
+        submitUpdate.disabled = false;
+
     });
     deleteBtn[i].addEventListener("click", (e) => {
         userId = e.target.parentNode.parentNode.id;
@@ -254,7 +268,16 @@ form.addEventListener("submit", function(e){
             updateBtns[i].addEventListener("click", (e) => {
                 userId = e.target.parentNode.parentNode.id;
                 updateDivHeader.innerHTML = "Update User " + userId + "?";
+                updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
+                updateEmail.value = e.target.parentNode.parentNode.querySelector('#u-email').textContent;
+                updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
+                preUpdateUsername = updateUsername.value;
+                preUpdateEmail = updateEmail.value;      
+                console.log(preUpdateEmail);
+                console.log(preUpdateUsername);  
                 displayWindow(updateWindow);
+                submitUpdate.disabled = false;
+
             });
             deleteBtn[i].addEventListener("click", (e) => {
                 userId = e.target.parentNode.parentNode.id;
@@ -304,13 +327,13 @@ updateEmail.addEventListener("keyup", () => {
     validateEmail(updateEmail.value, "update");
 });
 
-updatePword.addEventListener("keyup", () => {
-    validatePassword(updatePword.value, updatePword2.value, "update");
-});
+// updatePword.addEventListener("keyup", () => {
+//     validatePassword(updatePword.value, updatePword2.value, "update");
+// });
 
-updatePword2.addEventListener("keyup", () => {
-    validatePassword(updatePword.value, updatePword2.value, "update");
-});
+// updatePword2.addEventListener("keyup", () => {
+//     validatePassword(updatePword.value, updatePword2.value, "update");
+// });
 
 closeBtn.addEventListener("click", () => {
     hideWindow(createWindow);
@@ -446,6 +469,11 @@ yesBtn.addEventListener("click", () => {
                         userId = e.target.parentNode.parentNode.id;
                         updateDivHeader.innerHTML = "Update User " + userId + "?";
                         displayWindow(updateWindow);
+                        submitUpdate.disabled = false;
+                        updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
+                        updateEmail.value = e.target.parentNode.parentNode.querySelector('#u-email').textContent;
+                        updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
+                        preUpdateUsername = updateUsername.value;
                     });
                     deleteBtn[i].addEventListener("click", (e) => {
                         userId = e.target.parentNode.parentNode.id;
@@ -506,12 +534,12 @@ yesBtn.addEventListener("click", () => {
             updateForm = document.getElementById("update-form");
             updateUsername.value = "";
             updateEmail.value = "";
-            updatePword.value = "";
-            updatePword2.value = "";
-            uniqueUserTxt2.style.color = "red";
-            validUserTxt2.style.color = "red";
-            validEmailTxt2.style.color = "red";
-            confirmPassTxt2.style.color = "red";
+            // updatePword.value = "";
+            // updatePword2.value = "";
+            uniqueUserTxt2.style.color = "green";
+            validUserTxt2.style.color = "green";
+            validEmailTxt2.style.color = "green";
+            // confirmPassTxt2.style.color = "red";
             submitUpdate.disabled = true;
 
 
@@ -592,6 +620,12 @@ yesBtn.addEventListener("click", () => {
                     userId = e.target.parentNode.parentNode.id;
                     updateDivHeader.innerHTML = "Update User " + userId + "?";
                     displayWindow(updateWindow);
+                    submitUpdate.disabled = false;
+                    updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
+                    updateEmail.value = e.target.parentNode.parentNode.querySelector('#u-email').textContent;
+                    updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
+                    preUpdateUsername = updateUsername.value;
+                    preUpdateEmail = updateEmail.value;
                 });
                 deleteBtn[i].addEventListener("click", (e) => {
                     userId = e.target.parentNode.parentNode.id;
@@ -616,6 +650,10 @@ yesBtn.addEventListener("click", () => {
 //shows confirmation window
 function displayWindow(window){
     window.style.visibility = "visible";
+
+    
+
+    
 }
 
 //hides confirmation window
@@ -635,12 +673,12 @@ function hideWindow(window){
 
     updateUsername.value = "";
     updateEmail.value = "";
-    updatePword.value = "";
-    updatePword2.value = "";
-    uniqueUserTxt2.style.color = "red";
-    validUserTxt2.style.color = "red";
-    validEmailTxt2.style.color = "red";
-    confirmPassTxt2.style.color = "red";
+    // updatePword.value = "";
+    // updatePword2.value = "";
+    uniqueUserTxt2.style.color = "green";
+    validUserTxt2.style.color = "green";
+    validEmailTxt2.style.color = "green";
+    // confirmPassTxt2.style.color = "red";
 
     for(let i = 0; i <updateBtns.length;i++){
         updateBtns.disabled = true;
@@ -650,8 +688,8 @@ function hideWindow(window){
 function setNewRow(objData){
     return "<tr class = 'paginate' id = '"+ objData['user_id'] + "'>" +            
     "<td>" + objData['user_id']+ "</td>" +
-    "<td>" + objData['username']+ "</td>" +
-    "<td>" + objData['email']+ "</td>" +
+    "<td id = 'u-username'>" + objData['username']+ "</td>" +
+    "<td id = 'u-email'>" + objData['email']+ "</td>" +
     "<td>" + objData['registration_date'] + "</td>" +
     "<td>" + objData['type'] + "</td>" +
     "<td><button type = 'button' class = 'table-btn update-user'>Update</button></td>" +
@@ -671,7 +709,6 @@ function readyToSubmit(func){
         if(uniqueUserTxt.style.color == validColor &&
         validUserTxt.style.color == validColor &&
         validEmailTxt.style.color == validColor &&
-        confirmPassTxt.style.color == validColor &&
         (userType.options[userType.selectedIndex].text == "Admin" ||
         userType.options[userType.selectedIndex].text == "User")){
             submitBtn.disabled = false;
@@ -683,8 +720,7 @@ function readyToSubmit(func){
     else if (func == "update"){
         if(uniqueUserTxt2.style.color == validColor &&
         validUserTxt2.style.color == validColor &&
-        validEmailTxt2.style.color == validColor &&
-        confirmPassTxt2.style.color == validColor){
+        validEmailTxt2.style.color == validColor){
             submitUpdate.disabled = false;
         }
         else{
@@ -713,7 +749,7 @@ function validateUser(username, func){
 
     }
     else if(func == "update"){
-        if(username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase()))
+        if((username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase())) || username == preUpdateUsername) 
             uniqueUserTxt2.style.color = validColor;
         else{
             uniqueUserTxt2.style.color = "red";
@@ -732,18 +768,27 @@ function validateUser(username, func){
 // not yet finished, need to check if email is unique
 function validateEmail(email, func){
     const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if(emailPattern.test(email) && !emails.includes(email)){
-        if(func == "create")
-            validEmailTxt.style.color = validColor;    
-        else if(func == "update")
-        validEmailTxt2.style.color = validColor;    
+
+    if(func == "create"){
+        if(emailPattern.test(email) && !emails.includes(email)){
+                validEmailTxt.style.color = validColor;    
+        }
+        else{
+                validEmailTxt.style.color = "red";    
+
+        }
+
     }
-    else{
-        if(func == "create")
-            validEmailTxt.style.color = "red";    
-        else if(func == "update")
-        validEmailTxt2.style.color = "red";    
+    else if(func == "update"){
+        if((emailPattern.test(email) && !emails.includes(email)) || email == preUpdateEmail){
+                validEmailTxt2.style.color = validColor;    
+        }
+        else{
+                validEmailTxt2.style.color = "red";    
+
+        }
     }
+
     readyToSubmit(func);
 }
 
@@ -751,14 +796,14 @@ function validatePassword(password, password2, func){
     if(password.length >= 8 && password === password2 && password != ""){
         if(func == "create")
         confirmPassTxt.style.color = validColor;    
-        else if(func == "update")
-        confirmPassTxt2.style.color = validColor;    
+        // else if(func == "update")
+        // confirmPassTxt2.style.color = validColor;    
     }
     else{
         if(func == "create")
             confirmPassTxt.style.color = "red";    
-        else if(func == "update")
-            confirmPassTxt2.style.color = "red";    
+        // else if(func == "update")
+        //     confirmPassTxt2.style.color = "red";    
     }
     readyToSubmit(func);
 }
