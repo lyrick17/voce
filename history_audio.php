@@ -226,7 +226,9 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
                         <?php Translator::displayHistory($history, "audio2text")?>
                         </tbody>
                     </table>
-                    <div id="page-nav"></div>
+                    <div id="page-nav-content">
+                        <div id="page-nav"></div>
+                    </div>
                 </div>
 
             </div>

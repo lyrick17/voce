@@ -2,18 +2,24 @@
     width: 100%;
     margin: auto;
     overflow-x: scroll;
+    height:100svh;
 }
 
 .users-table{
     margin: auto;
     text-align: center;
     width: 1000px;
+    
 }
-
-
+th {
+    background-color: #fccdcd;
+}
+.user-td {
+    background-color: #fff;
+}
 th, td{
-    padding: 1em; 
-    border: 2px solid black;
+    padding: 1em;
+    
 }
 
 .table-btn{
