@@ -152,6 +152,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
                             
                                 $_SESSION['email'] = $newEmail;
                                 unset($_POST);
+
                                 }
                             }
                         ?>
@@ -191,7 +192,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
                             
                                     $_SESSION['pword'] = $hashedPass;
                                     unset($_POST);
-
+                                    
                                 }
                                 else{
                                     echo "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your old password is not correct.</p>";

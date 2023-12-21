@@ -184,7 +184,7 @@ $users = mysqli_query($dbcon, $q);
                     <input type="text" placeholder="Name" class = "admin-input" id="new-username" name="new-username" required maxlength="50" required>
                 <label for = "email">Email</label>
                 <input type="email" placeholder="Email" class = "admin-input" id="new-email" name="new-email" required maxlength="100" required>
-
+                <br />
             </div>
             <hr>
             <div class = "acc-req">
@@ -235,7 +235,9 @@ $users = mysqli_query($dbcon, $q);
                         </tr>
                         <?php Translator::displayUsers($users) ?>
                 </table>
-                <div id="page-nav"></div>
+                <br />
+                    <div id="page-nav"></div>
+
         </div>
         </main>
 
