@@ -72,7 +72,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['new-pword'])){
         exit();
     }
     else{
-        echo "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your old password is not correct.</p>";
+        $passerror = "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your old password is not correct.</p>";
     }
 }
 
