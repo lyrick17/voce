@@ -91,12 +91,12 @@ cancelPassBtn.addEventListener("click", () => hideEditWindow(editPassDiv, editPa
 
 function showEditWindow(editDiv, editBtn){
     editDiv.style.display = "block";
-    editBtn.style.visibility = "hidden";
+    editBtn.style.display = "none";
 }
 
 function hideEditWindow(editDiv, editBtn){
     editDiv.style.display = "none";
-    editBtn.style.visibility = "visible";
+    editBtn.style.display = "block";
 }
 
 function fetchUser(){

@@ -146,19 +146,19 @@ $users = mysqli_query($dbcon, $q);
         <form id = "form">
             <div class = "input-div">
                 <div><label for = "username">Username</label></div>
-                <input type="text" placeholder="Name" id="username" class = "admin-input" name="username" required maxlength="50" required>
+                    <input type="text" placeholder="Name" id="username" class = "admin-input" name="username" required maxlength="50" required>
                 <div><label for = "email">Email</label></div>
-                <input type="email" placeholder="Email" id="email" class = "admin-input" name="email" required maxlength="100" required>
+                    <input type="email" placeholder="Email" id="email" class = "admin-input" name="email" required maxlength="100" required>
                 <div><label for = "pword">Password</label></div>
-                <input type="password" placeholder="Password" class = "admin-input" id="pword" name="pword" required>
+                    <input type="password" placeholder="Password" class = "admin-input" id="pword" name="pword" required>
                 <div><label for = "pword2">Confirm Password</label></div>
-                <input type="password" placeholder="Confirm Password" class = "admin-input" id="pword2" name="pword2" required>
+                    <input type="password" placeholder="Confirm Password" class = "admin-input" id="pword2" name="pword2" required>
                 <span for = "userType" class = "typeLabel">Type of user</span>
-                <select name="userType" id="userType" class="form-control select-type">
-                    <option value="default">Type of User …</option>
-                    <option value="admin">Admin</option>
-                    <option value="user">User</option>
-                </select>
+                    <select name="userType" id="userType" class="form-control select-type">
+                        <option value="default">Type of User …</option>
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
             </div>
 
             <hr>
@@ -181,9 +181,10 @@ $users = mysqli_query($dbcon, $q);
         <form id = "update-form">
             <div class = "input-div">
                 <label for = "username">Username</label>
-                <input type="text" placeholder="Name" class = "admin-input" id="new-username" name="new-username" required maxlength="50" required>
+                    <input type="text" placeholder="Name" class = "admin-input" id="new-username" name="new-username" required maxlength="50" required>
                 <label for = "email">Email</label>
                 <input type="email" placeholder="Email" class = "admin-input" id="new-email" name="new-email" required maxlength="100" required>
+
             </div>
             <hr>
             <div class = "acc-req">
