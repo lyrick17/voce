@@ -24,17 +24,18 @@ $emailerror = "";
 $passerror = "";
 if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['email'])){
     $newEmail = mysqli_real_escape_string($dbcon, trim($_POST['email']));
-    // $query = mysqli_prepare($dbcon, "SELECT user_id FROM users where email = ?");
-    // mysqli_stmt_bind_param($query, "s", $newEmail);
-    // mysqli_stmt_execute($query);
-    // mysqli_stmt_bind_result($query, $result);
-    // mysqli_stmt_fetch($query);
+    $query = mysqli_prepare($dbcon, "SELECT user_id FROM users where email = ?");
+    mysqli_stmt_bind_param($query, "s", $newEmail);
+    mysqli_stmt_execute($query);
+    mysqli_stmt_bind_result($query, $result);
+    mysqli_stmt_fetch($query);
 
+    
     if($email == $newEmail){
         $emailerror = "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>You are already using this email.</p>";
     }
     elseif ($result > 0) {
-        $emailerror = "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>This email is not available.</p>";
+        $emailerror = "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>This email is already taken.</p>";
     }
     else{
     $query = mysqli_prepare($dbcon, "UPDATE users SET email = ?
