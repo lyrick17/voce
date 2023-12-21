@@ -219,16 +219,16 @@
       <img src="images/faqtranslator.jpg" alt="translator robot" >
     </div>
     <div class="accordion-text">
-      <div class="title">FAQ</div>
+      <div class="title">FAQS</div>
     <ul class="faq-text">
     <?php if (!empty($faq_question) && !empty($faq_answer)) { 
-            for ($i = 0; $i < sizeof($faq_question); i++) {     ?>
+            for ($i = 0; $i < sizeof($faq_question); $i++) {     ?>
               <li>
                 <div class="question-arrow">
-                  <span class="question"><?= $faq_question[i]; ?></span>
+                  <span class="question"><?= $faq_question[$i]; ?></span>
                   <i class="bx bxs-chevron-down arrow"></i>
                 </div>
-                <p><?= $faq_answer[i]; ?></p>
+                <p><?= $faq_answer[$i]; ?></p>
                 <span class="line"></span>
               </li>
     <?php    }
