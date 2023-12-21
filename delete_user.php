@@ -6,18 +6,19 @@ if($_POST['deleteSelectedUsers'] == 'true'){
     foreach(json_decode($_POST['usersToDelete']) as $userId){
         $q = "SET foreign_key_checks = 0;";
         mysqli_query($dbcon, $q);
-    
-        $q = "DELETE FROM users WHERE user_id = ". $userId . ";";
-        mysqli_query($dbcon, $q);
-    
-        $q = "DELETE FROM audio_files WHERE user_id = ". $userId . ";";
-        mysqli_query($dbcon, $q);
-    
-        $q = "DELETE FROM text_translations WHERE user_id = ". $userId . ";";
-        mysqli_query($dbcon, $q);
-    
-        $q = "DELETE FROM user_activity_log WHERE user_id = ". $userId . ";";
-        mysqli_query($dbcon, $q);
+
+        $q = mysqli_prepare($dbcon, "DELETE FROM users WHERE user_id = ?;");
+        bindAndExec($q, "s", $userId);
+
+        $q = mysqli_prepare($dbcon, "DELETE FROM audio_files WHERE user_id = ?;");
+        bindAndExec($q, "s", $userId);
+
+        $q =  mysqli_prepare($dbcon,"DELETE FROM text_translations WHERE user_id = ?;");
+        bindAndExec($q, "s", $userId);
+
+        $q =  mysqli_prepare($dbcon,"DELETE FROM user_activity_log WHERE user_id = ? ;");
+        bindAndExec($q, "s", $userId);
+        
         $q = "SET foreign_key_checks = 1;";
         mysqli_query($dbcon, $q);
     }
@@ -25,20 +26,21 @@ if($_POST['deleteSelectedUsers'] == 'true'){
 
 
 else{
+    $userId = $_POST['userId'];
     $q = "SET foreign_key_checks = 0;";
     mysqli_query($dbcon, $q);
 
-    $q = "DELETE FROM users WHERE user_id = ". $_POST['userId'] . ";";
-    mysqli_query($dbcon, $q);
+    $q = mysqli_prepare($dbcon,"DELETE FROM users WHERE user_id = ? ;");
+    bindAndExec($q, "s", $userId);
 
-    $q = "DELETE FROM audio_files WHERE user_id = ". $_POST['userId'] . ";";
-    mysqli_query($dbcon, $q);
+    $q =  mysqli_prepare($dbcon,"DELETE FROM audio_files WHERE user_id = ? ;");
+    bindAndExec($q, "s", $userId);
 
-    $q = "DELETE FROM text_translations WHERE user_id = ". $_POST['userId'] . ";";
-    mysqli_query($dbcon, $q);
+    $q =  mysqli_prepare($dbcon,"DELETE FROM text_translations WHERE user_id = ? ;");
+    bindAndExec($q, "s", $userId);
 
-    $q = "DELETE FROM user_activity_log WHERE user_id = ". $_POST['userId']  . ";";
-    mysqli_query($dbcon, $q);
+    $q = mysqli_prepare($dbcon,"DELETE FROM user_activity_log WHERE user_id = ? ;");
+    bindAndExec($q, "s", $userId);
 
     $q = "SET foreign_key_checks = 1;";
     mysqli_query($dbcon, $q);
@@ -49,3 +51,8 @@ $q = "SELECT user_id, username, email, registration_date, type FROM users ORDER 
 $users = mysqli_query($dbcon, $q);
 $result = mysqli_fetch_all($users, MYSQLI_ASSOC);
 exit(json_encode($result));
+
+function bindAndExec($stmt, $markers, $value){
+    mysqli_stmt_bind_param($stmt, $markers, $value);
+    mysqli_stmt_execute($stmt);
+}
