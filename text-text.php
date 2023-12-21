@@ -215,7 +215,9 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id =
                         <?php Translator::displayHistory($history, "text2text")?>
                         </tbody>
                     </table>
-                    <div id="page-nav"></div>
+                    <div id="page-nav-content">
+                        <div id="page-nav"></div>
+                    </div>
                 </div>
                 
           
