@@ -819,7 +819,10 @@ select::after {
 
 #page-nav{
     margin: auto;
-    width: 200px;
+    display: inline-block;
+}
+#page-nav-content {
+    text-align: center;
 }
 
 .confirm-div{

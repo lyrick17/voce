@@ -236,7 +236,9 @@ $users = mysqli_query($dbcon, $q);
                         <?php Translator::displayUsers($users) ?>
                 </table>
                 <br />
+                <div id="page-nav-content">
                     <div id="page-nav"></div>
+                </div>
 
         </div>
         </main>
