@@ -20,14 +20,69 @@ $sess_id = $_SESSION['user_id'];
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 $sess_hashedPass = $_SESSION['pword'];
+$emailerror = "";
+$passerror = "";
+if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['email'])){
+    $newEmail = mysqli_real_escape_string($dbcon, trim($_POST['email']));
+    // $query = mysqli_prepare($dbcon, "SELECT user_id FROM users where email = ?");
+    // mysqli_stmt_bind_param($query, "s", $newEmail);
+    // mysqli_stmt_execute($query);
+    // mysqli_stmt_bind_result($query, $result);
+    // mysqli_stmt_fetch($query);
 
-if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
-    $q = "SELECT username, email FROM USERS where user_id = $sess_id";
-    $result = mysqli_query($dbcon, $q);
-    $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    if($email == $newEmail){
+        $emailerror = "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>You are already using this email.</p>";
+    }
+    elseif ($result > 0) {
+        $emailerror = "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>This email is not available.</p>";
+    }
+    else{
+    $query = mysqli_prepare($dbcon, "UPDATE users SET email = ?
+    WHERE user_id = ?");
+    mysqli_stmt_bind_param($query, "ss", $newEmail, $sess_id);
+    $result = mysqli_stmt_execute($query);
+
+    $_SESSION['email'] = $newEmail;
     unset($_POST);
-    exit(json_encode($users));
+
+    header("Location: account.php");
+    exit();
+    }
+
 }
+
+if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['new-pword'])){
+    $oldPass = mysqli_real_escape_string($dbcon, trim($_POST['old-pword']));
+    $newPass = mysqli_real_escape_string($dbcon, trim($_POST['new-pword']));
+    $hashedPass = password_hash($newPass, PASSWORD_BCRYPT);
+
+    if($oldPass == $newPass){
+        $passerror = "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your password must be different from your old password</p>";
+    }
+    elseif(password_verify($oldPass, $sess_hashedPass)){
+        $query = mysqli_prepare($dbcon, "UPDATE users SET pword = ?
+        WHERE user_id = ?");
+        mysqli_stmt_bind_param($query, "ss", $hashedPass, $sess_id);
+        $result = mysqli_stmt_execute($query);
+
+        $_SESSION['pword'] = $hashedPass;
+        unset($_POST);
+
+        header("Location: account.php");
+        exit();
+    }
+    else{
+        echo "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your old password is not correct.</p>";
+    }
+}
+
+// if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
+//     $q = "SELECT username, email FROM USERS where user_id = $sess_id";
+//     $result = mysqli_query($dbcon, $q);
+//     $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
+//     unset($_POST);
+//     exit(json_encode($users));
+// }
 
 ?>
 
@@ -127,34 +182,11 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
                 <div class = "edit-info-div" id = "edit-email-div">
                     <form action = "account.php"  method = "POST" id = "inputemail-form">
                         <div><label for = "email">Change Email</label></div>
+                        <?php 
+                            echo $emailerror;
+                        ?>
                         <p class = "status username-status"></p>
                         <input type="email" placeholder="Email" id="email" class = "user-input" name="email" required maxlength="100" required>
-                        <?php 
-                            if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['email'])){
-                                $newEmail = mysqli_real_escape_string($dbcon, trim($_POST['email']));
-                                $query = mysqli_prepare($dbcon, "SELECT user_id FROM users where email = ?");
-                                mysqli_stmt_bind_param($query, "s", $newEmail);
-                                mysqli_stmt_execute($query);
-                                mysqli_stmt_bind_result($query, $result);
-                                mysqli_stmt_fetch($query);
-                            
-                                if($email == $newEmail){
-                                    echo "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>You are already using this email.</p>";
-                                }
-                                elseif ($result > 0) {
-                                    echo "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>This email is not available.</p>";
-                                }
-                                else{
-                                $query = mysqli_prepare($dbcon, "UPDATE users SET email = ?
-                                WHERE user_id = ?");
-                                mysqli_stmt_bind_param($query, "ss", $newEmail, $sess_id);
-                                $result = mysqli_stmt_execute($query);
-                            
-                                $_SESSION['email'] = $newEmail;
-                                unset($_POST);
-                                }
-                            }
-                        ?>
                         <p class = "req valid-email2">Note:<br>*Email must be unique and valid</p>
                         <input type="submit" class= "edit-submit" id="updateEmail" name="updateEmail" value="Edit Email" disabled>
                         <button type = "button" class = "close-btn" id = "close-email-btn">cancel</button>
@@ -167,7 +199,6 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
             <div class = "acc-info-div">
                 <h2>Change Password</h2>
                 <div class="">Do you want to change your password?</div>
-        
                 <hr>
                 <br />
                 <button type = "button" class = "edit-btn" id = "edit-psword-btn">Change Password</button>
@@ -175,28 +206,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
                     <form action = "account.php"  method = "POST" id = "inputpass-form">
                         <div><label for = "pword">Old Password</label></div>
                         <?php 
-                            if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['new-pword'])){
-                                $oldPass = mysqli_real_escape_string($dbcon, trim($_POST['old-pword']));
-                                $newPass = mysqli_real_escape_string($dbcon, trim($_POST['new-pword']));
-                                $hashedPass = password_hash($newPass, PASSWORD_BCRYPT);
-                            
-                                if($oldPass == $newPass){
-                                    echo "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your password must be different from your old password</p>";
-                                }
-                                elseif(password_verify($oldPass, $sess_hashedPass)){
-                                    $query = mysqli_prepare($dbcon, "UPDATE users SET pword = ?
-                                    WHERE user_id = ?");
-                                    mysqli_stmt_bind_param($query, "ss", $hashedPass, $sess_id);
-                                    $result = mysqli_stmt_execute($query);
-                            
-                                    $_SESSION['pword'] = $hashedPass;
-                                    unset($_POST);
-
-                                }
-                                else{
-                                    echo "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your old password is not correct.</p>";
-                                }
-                            }
+                            echo $passerror;
                         ?>
                         <input type="password" placeholder="Old Password" class = "user-input" id="old-pword" name="old-pword" required>
                             <div><label for = "pword">New Password</label></div>

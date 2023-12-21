@@ -1,6 +1,6 @@
 const userText = document.getElementById("user-username");
 const emailText = document.getElementById("user-email");
-fetchUser();
+// fetchUser();
 
 // display user and email
 
@@ -99,22 +99,22 @@ function hideEditWindow(editDiv, editBtn){
     editBtn.style.display = "block";
 }
 
-function fetchUser(){
-    //resets usernames and emails 
-    fetch('account.php', {
-    headers: {
-      'credentials': 'same-origin',
-      'X-Requested-With': 'XMLHttpRequest',
-      'Content-Type': 'application/json'
-       // or 'Content-Type': 'application/x-www-form-urlencoded'
-    }, method: 'POST'})
-  .then((res) => res.json())
-  .then((response) => {
-    console.log(response);
+// function fetchUser(){
+//     //resets usernames and emails 
+//     fetch('account.php', {
+//     headers: {
+//       'credentials': 'same-origin',
+//       'X-Requested-With': 'XMLHttpRequest',
+//       'Content-Type': 'application/json'
+//        // or 'Content-Type': 'application/x-www-form-urlencoded'
+//     }, method: 'POST'})
+//   .then((res) => res.json())
+//   .then((response) => {
+//     console.log(response);
 
-    navbarusername.innerHTML = response[0]['username'];
-    userText.innerHTML = response[0]['username'];
-    emailText.innerHTML = response[0]['email'];
+//     navbarusername.innerHTML = response[0]['username'];
+//     userText.innerHTML = response[0]['username'];
+//     emailText.innerHTML = response[0]['email'];
 
-  })
-}
+//   })
+// }
