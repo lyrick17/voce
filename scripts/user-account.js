@@ -2,6 +2,7 @@ const userText = document.getElementById("user-username");
 const emailText = document.getElementById("user-email");
 // fetchUser();
 
+
 // display user and email
 
 //edit and cancel buttons

@@ -818,8 +818,11 @@ select::after {
 }
 
 #page-nav{
-    margin: auto; 
-    width: 300px;
+    margin: auto;
+    display: inline-block;
+}
+#page-nav-content {
+    text-align: center;
 }
 
 .confirm-div{

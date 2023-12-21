@@ -172,14 +172,14 @@ class Translator{
         while($user = mysqli_fetch_assoc($users)){
             echo   
             "<tr class = 'paginate' id = '". $user['user_id'] . "'>" .            
-            "<td>" . $user['user_id']. "</td>" .
-            "<td id = 'u-username'>" . $user['username']. "</td>" .
-            "<td id = 'u-email'>" . $user['email']. "</td>" .
-            "<td>" . $user['registration_date']. "</td>" .
-            "<td>" . $user['type'] . "</td>" .
-            "<td><button type = 'button' class = 'table-btn update-user'>Update</button></td>" .
-            "<td><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" .
-            "<td style = 'display: none;' class = " .$user['user_id']. ">" . "<input type = 'checkbox' class = 'delete-checkbox' id = ". $user['user_id'] ."></td>" .   
+            "<td class='user-td'>" . $user['user_id']. "</td>" .
+            "<td class='user-td' id = 'u-username'>" . $user['username']. "</td>" .
+            "<td class='user-td' id = 'u-email'>" . $user['email']. "</td>" .
+            "<td class='user-td'>" . $user['registration_date']. "</td>" .
+            "<td class='user-td'>" . $user['type'] . "</td>" .
+            "<td class='user-td'><button type = 'button' class = 'table-btn update-user'>Update</button></td>" .
+            "<td class='user-td'><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" .
+            "<td style = 'display: none;' class = 'user-td " .$user['user_id']. "'>" . "<input type = 'checkbox' class = 'delete-checkbox' id = ". $user['user_id'] ."></td>" .   
             "</tr>";
         }
     }
