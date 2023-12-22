@@ -20,8 +20,70 @@ $sess_id = $_SESSION['user_id'];
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 $sess_hashedPass = $_SESSION['pword'];
+$usernameerror = "";
 $emailerror = "";
 $passerror = "";
+
+if (isset($_GET['e'])) {
+    switch ($_GET['e']) {
+        // username errors
+        case 1:
+            $usernameerror =  "<style>#edit-username-btn{display:none}#edit-username-div{display:block;}</style><p style = 'color:red'>You are already using this username.</p>";
+            break;
+        case 2:
+            $usernameerror = "<style>#edit-username-btn{display:none}#edit-username-div{display:block;}</style><p style = 'color:red'>This username already exists.</p>";
+            break;
+            
+        // email errors
+        case 3:
+            $emailerror = "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>You are already using this email.</p>";
+            break;
+        case 4:
+            $emailerror = "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>This email is already taken.</p>";
+            break;
+
+
+        // password errors
+        case 5:
+            $passerror = "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your password must be different from your old password</p>";
+            break;
+        case 6:
+            $passerror = "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your old password is not correct.</p>";
+            break;
+    }
+}
+
+if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['username'])){
+    $newUsername = mysqli_real_escape_string($dbcon, trim($_POST['username']));
+    $query = mysqli_prepare($dbcon, "SELECT user_id FROM users where username = ?");
+    mysqli_stmt_bind_param($query, "s", $newUsername);
+    mysqli_stmt_execute($query);
+    mysqli_stmt_bind_result($query, $result);
+    mysqli_stmt_fetch($query);
+
+    if($username == $newUsername){
+        header("Location: account.php?e=1");
+        exit();
+    }
+    elseif($result > 0){
+        header("Location: account.php?e=2");
+        exit();
+    }
+    else{
+    $query = mysqli_prepare($dbcon, "UPDATE users SET username = ?
+    WHERE user_id = ?");
+    mysqli_stmt_bind_param($query, "ss", $newUsername, $sess_id);
+    $result = mysqli_stmt_execute($query);
+
+    $_SESSION['username'] = $newUsername;
+    unset($_POST);
+
+    header("Location: account.php");
+    exit();
+
+    }
+}
+
 if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['email'])){
     $newEmail = mysqli_real_escape_string($dbcon, trim($_POST['email']));
     $query = mysqli_prepare($dbcon, "SELECT user_id FROM users where email = ?");
@@ -32,10 +94,12 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['email'])){
 
     
     if($email == $newEmail){
-        $emailerror = "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>You are already using this email.</p>";
+        header("Location: account.php?e=3");
+        exit();
     }
     elseif ($result > 0) {
-        $emailerror = "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>This email is already taken.</p>";
+        header("Location: account.php?e=4");
+        exit();
     }
     else{
     $query = mysqli_prepare($dbcon, "UPDATE users SET email = ?
@@ -58,7 +122,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['new-pword'])){
     $hashedPass = password_hash($newPass, PASSWORD_BCRYPT);
 
     if($oldPass == $newPass){
-        $passerror = "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your password must be different from your old password</p>";
+        header("Location: account.php?e=5");
+        exit();
     }
     elseif(password_verify($oldPass, $sess_hashedPass)){
         $query = mysqli_prepare($dbcon, "UPDATE users SET pword = ?
@@ -73,7 +138,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['new-pword'])){
         exit();
     }
     else{
-        $passerror = "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your old password is not correct.</p>";
+        header("Location: account.php?e=6");
+        exit();
     }
 }
 
@@ -134,39 +200,11 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['new-pword'])){
                 <div class = "edit-info-div" id = "edit-username-div">
                     <form action = "account.php"  method = "POST" id = "inputuser-form">
                         <div><label for = "username">Change Username</label></div>
+                        <?php 
+                            echo $usernameerror;
+                        ?>
                         <p class = "status username-status"></p>
                         <input type="text" placeholder="Name" id="username" class = "user-input" name="username" required maxlength="50" required>
-                        <?php 
-                            if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['username'])){
-                                $newUsername = mysqli_real_escape_string($dbcon, trim($_POST['username']));
-                                $query = mysqli_prepare($dbcon, "SELECT user_id FROM users where username = ?");
-                                mysqli_stmt_bind_param($query, "s", $newUsername);
-                                mysqli_stmt_execute($query);
-                                mysqli_stmt_bind_result($query, $result);
-                                mysqli_stmt_fetch($query);
-                            
-                                if($username == $newUsername){
-                                    echo "<style>#edit-username-btn{display:none}#edit-username-div{display:block;}</style><p style = 'color:red'>You are already using this username.</p>";
-                                }
-                                elseif($result > 0){
-                                    echo "<style>#edit-username-btn{display:none}#edit-username-div{display:block;}</style><p style = 'color:red'>This username already exists.</p>";
-                                }
-                                else{
-                                $query = mysqli_prepare($dbcon, "UPDATE users SET username = ?
-                                WHERE user_id = ?");
-                                mysqli_stmt_bind_param($query, "ss", $newUsername, $sess_id);
-                                $result = mysqli_stmt_execute($query);
-
-                                $_SESSION['username'] = $newUsername;
-                                unset($_POST);
-
-                                header("Location: account.php");
-                                exit();
-
-                                }
-                            }
-                            
-                        ?>
                         <p class = "req unique-user2">Note: <br> *Username must be unique and 6-30 characters long <br> *Username must only contain numbers, letters, dashes, and underscores</p>
                         <input type="submit" class= "edit-submit" id="updateUsername" name="updateUsername" value="Edit Username" disabled>
                         <button type = "button" class = "close-btn" id = "close-username-btn">cancel</button>
