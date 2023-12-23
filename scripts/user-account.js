@@ -63,19 +63,31 @@ inputNewPass2.addEventListener("keyup", () => {
 
 
 function validatePassword(password, password2, oldPass){
+
     submitPass.disabled = !(password.length >= 8 && password == password2 && password != "" && oldPass.length >= 8);
+    
+    // add css hover if submitPass is enabled
+    btnhover(submitPass);
 }
 
 inputUser.addEventListener("keyup", () => {
     const userPattern = /^[\w\-]+$/;
     let newUsername = inputUser.value;
+
     submitUsername.disabled = !(newUsername.length >= 6 && newUsername.length <= 30 && userPattern.test(newUsername));
+
+    // add css hover if submitUsername is enabled
+    btnhover(submitUsername);
 });
 
 inputEmail.addEventListener("keyup", () => {
     const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     let newEmail = inputEmail.value;
+
     submitEmail.disabled = !emailPattern.test(newEmail);
+
+    // add css hover if submitEmail is enabled
+    btnhover(submitEmail);
 });
 
 //Display and Hide edit div event listeners
@@ -98,6 +110,16 @@ function showEditWindow(editDiv, editBtn){
 function hideEditWindow(editDiv, editBtn){
     editDiv.style.display = "none";
     editBtn.style.display = "block";
+}
+
+
+function btnhover(submitButton) {
+    // add css hover if submitButton is enabled
+    if (!submitButton.disabled) {
+        submitButton.classList.add("edit-submit-enabled");
+    } else {
+        submitButton.classList.remove("edit-submit-enabled");
+    }
 }
 
 // function fetchUser(){

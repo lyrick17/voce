@@ -54,38 +54,46 @@ if (isset($_GET['e'])) {
 }
 
 if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['username'])){
+
     $newUsername = mysqli_real_escape_string($dbcon, trim($_POST['username']));
+
+    // check if username already exists
     $query = mysqli_prepare($dbcon, "SELECT user_id FROM users where username = ?");
     mysqli_stmt_bind_param($query, "s", $newUsername);
     mysqli_stmt_execute($query);
     mysqli_stmt_bind_result($query, $result);
     mysqli_stmt_fetch($query);
 
-    if($username == $newUsername){
+    if($username == $newUsername) {
+        // username error, user didnt change username
         header("Location: account.php?e=1");
         exit();
     }
-    elseif($result > 0){
+    elseif($result > 0) {
+        // username error, username already exists
         header("Location: account.php?e=2");
         exit();
     }
-    else{
-    $query = mysqli_prepare($dbcon, "UPDATE users SET username = ?
-    WHERE user_id = ?");
-    mysqli_stmt_bind_param($query, "ss", $newUsername, $sess_id);
-    $result = mysqli_stmt_execute($query);
+    else {
+        // no error
+        $query = mysqli_prepare($dbcon, "UPDATE users SET username = ?
+        WHERE user_id = ?");
+            mysqli_stmt_bind_param($query, "ss", $newUsername, $sess_id);
+            $result = mysqli_stmt_execute($query);
 
-    $_SESSION['username'] = $newUsername;
-    unset($_POST);
+        $_SESSION['username'] = $newUsername;
+        unset($_POST);
 
-    header("Location: account.php");
-    exit();
+        header("Location: account.php");
+        exit();
 
     }
 }
 
 if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['email'])){
     $newEmail = mysqli_real_escape_string($dbcon, trim($_POST['email']));
+
+    // check if email already exists
     $query = mysqli_prepare($dbcon, "SELECT user_id FROM users where email = ?");
     mysqli_stmt_bind_param($query, "s", $newEmail);
     mysqli_stmt_execute($query);
@@ -93,39 +101,45 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['email'])){
     mysqli_stmt_fetch($query);
 
     
-    if($email == $newEmail){
+    if($email == $newEmail) {
+        // email error, user type his same email
         header("Location: account.php?e=3");
         exit();
     }
     elseif ($result > 0) {
+        // email error, email already exists
         header("Location: account.php?e=4");
         exit();
     }
-    else{
-    $query = mysqli_prepare($dbcon, "UPDATE users SET email = ?
-    WHERE user_id = ?");
-    mysqli_stmt_bind_param($query, "ss", $newEmail, $sess_id);
-    $result = mysqli_stmt_execute($query);
+    else {
+        // no error
+        $query = mysqli_prepare($dbcon, "UPDATE users SET email = ?
+        WHERE user_id = ?");
+        mysqli_stmt_bind_param($query, "ss", $newEmail, $sess_id);
+        $result = mysqli_stmt_execute($query);
 
-    $_SESSION['email'] = $newEmail;
-    unset($_POST);
+        $_SESSION['email'] = $newEmail;
+        unset($_POST);
 
-    header("Location: account.php");
-    exit();
+        header("Location: account.php");
+        exit();
     }
 
 }
 
 if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['new-pword'])){
     $oldPass = mysqli_real_escape_string($dbcon, trim($_POST['old-pword']));
+
     $newPass = mysqli_real_escape_string($dbcon, trim($_POST['new-pword']));
     $hashedPass = password_hash($newPass, PASSWORD_BCRYPT);
 
     if($oldPass == $newPass){
+        // pass error, user didnt change password
         header("Location: account.php?e=5");
         exit();
     }
-    elseif(password_verify($oldPass, $sess_hashedPass)){
+    elseif (password_verify($oldPass, $sess_hashedPass)) {
+        // no error
         $query = mysqli_prepare($dbcon, "UPDATE users SET pword = ?
         WHERE user_id = ?");
         mysqli_stmt_bind_param($query, "ss", $hashedPass, $sess_id);
@@ -137,7 +151,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['new-pword'])){
         header("Location: account.php");
         exit();
     }
-    else{
+    else {
+        // pass error, old password is wrong
         header("Location: account.php?e=6");
         exit();
     }
@@ -165,10 +180,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['new-pword'])){
     <title>My Account</title>
     <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
-
-
 
 </head>
 
