@@ -83,14 +83,14 @@
       <div class="row">
         <div class="col-lg-4 col-md-6">
           <div class="icon-box">
-            <div class="icon"><img src="images/infinite.png" width="50" height="50" style="margin-left: 20px;"></i></div>
+            <div class="icon p-2"><img src="images/infinite.png" width="50" height="50" style="margin-left: 20px;"></i></div>
             <h4 class="title">Multiple Languages</h4>
             <p class="description">Break language barriers effortlessly. Our application supports a wide array of languages, ensuring your content is accessible to a global audience.</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-6">
           <div class="icon-box">
-            <div class="icon"><img src="images/fast.png" width="50" height="50" style="margin-left: 20px;"></i></div>
+            <div class="icon p-2"><img src="images/fast.png" width="50" height="50" style="margin-left: 20px;"></i></div>
             <h4 class="title">Fast</h4>
             <p class="description">Experience swift results. Our application prioritizes speed, delivering quick translations and efficient processing for an optimal user experience</p>
           </div>
@@ -98,14 +98,14 @@
         
         <div class="col-lg-4 col-md-6" data-wow-delay="0.1s">
           <div class="icon-box">
-            <div class="icon"><img src="images/reliable.png" width="50" height="50" style="margin-left: 20px;"></i></div>
+            <div class="icon p-2"><img src="images/reliable.png" width="50" height="50" style="margin-left: 20px;"></i></div>
             <h4 class="title">Reliable</h4>
             <p class="description">Trust in consistency. Our application ensures reliable performance, providing accurate translations and dependable service every time</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-6" data-wow-delay="0.1s">
           <div class="icon-box">
-            <div class="icon"><img src="images/quality.png" width="50" height="50" style="margin-left: 20px;"></i></div>
+            <div class="icon p-2"><img src="images/quality.png" width="50" height="50" style="margin-left: 20px;"></i></div>
             <h4 class="title">Quality</h4>
             <p class="description">Elevate your content with precision. Our application is dedicated to delivering high-quality translations, maintaining the integrity of your message.</p>
           </div>
@@ -113,16 +113,16 @@
 
         <div class="col-lg-4 col-md-6" data-wow-delay="0.2s">
           <div class="icon-box">
-            <div class="icon"><img src="images/free.png" width="50" height="50" style="margin-left: 20px;"></i></div>
+            <div class="icon p-2"><img src="images/free.png" width="50" height="50" style="margin-left: 20px;"></i></div>
             <h4 class="title">Free</h4>
             <p class="description">Discover the power of language without a price tag. Our application offers essential features for free, making language accessibility accessible to all.</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-6" data-wow-delay="0.2s">
           <div class="icon-box">
-            <div class="icon"><img src="images/lowstorage.png" width="50" height="50" style="margin-left: 20px;"></i></div>
+            <div class="icon p-2"><img src="images/lowstorage.png" width="50" height="50" style="margin-left: 20px;"></i></div>
             <h4 class="title"><a href="">Low Storage</a></h4>
-            <p class="description">Efficient and space-friendly. Our application optimizes storage usage, ensuring a low footprint on your device while providing powerful language capabilities.</p>
+            <p class="description">Our application optimizes storage usage, ensuring a low footprint on your device while providing powerful language capabilities.</p>
           </div>
         </div>
       </div>

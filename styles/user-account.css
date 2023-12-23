@@ -37,7 +37,7 @@ h4{
     padding: .5em;
     margin-top: 0.3em ;
     margin-bottom: 0.3em ;
-    border: 5px solid #fa7e7e;
+    border: 2px solid #6a2a2a;
     border-radius: 5px;
     background-color: #fff;
     width: 350px;
@@ -49,4 +49,16 @@ h4{
 
 .edit-submit, .close-btn {
     padding: .5em;
+}
+.edit-btn, .edit-submit, .close-btn {
+    background-color: #f9f0f0;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #775757;
+}
+
+.edit-btn:hover, .close-btn:hover, .edit-submit-enabled:hover {
+    background-color: #775757;
+    transition: 0.3s;
 }
