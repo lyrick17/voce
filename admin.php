@@ -91,6 +91,14 @@ $num_of_a2t = mysqli_fetch_assoc($result);
         <!-- End of Navbar -->
 
         <main style = "padding: 0;">
+
+
+        <div class = "float-container">
+            <div class = "donut-container">
+            <h1>Pie Chart</h1>
+            <br>
+                    <canvas id = "donutCanvas"></canvas>
+            </div>
             <div class = "admin-container">
                 <div class = "admin-content content-users">
                     <h1>Total Users</h1>
@@ -109,15 +117,15 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                 <h1>Total Audio Translations</h1>
                 <h1 class = "count"><?= $num_of_a2t['total_a2t']?></h1>
                 </div>    
-                <div class = "admin-content graph">
-                  <h1>GRAPH</h1>
-                  <button type = "button" class = " change-btn line-btn">Line Chart</button>
-                  <button type = "button" class = "change-btn pie-btn">Pie Chart</button>
+            </div>
+        </div>
+        <div class = "graph-container">
+            <h1>Line Chart</h1>
+            <div class = "graph">
                   <canvas id = "myChart">
                   </canvas>
                 </div>  
-            </div>
-
+        </div>
         </main>
 
     </div>

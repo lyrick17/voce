@@ -13,21 +13,8 @@ fetchPromise.then((response) =>
 
 //Executes code after initializing graphData
   .then(() => {
-  let linebtn = document.querySelector(".line-btn");
-  let piebtn = document.querySelector(".pie-btn");
   let chart = document.getElementById('myChart');
-
-  //Changes graph to a pie chart
-  piebtn.addEventListener("click", (e) => {
-      changeActiveBtn("pie");
-      changeGraph("pie", chart, pie_data);
-  });
-
-  //Changes graph to a line chart
-  linebtn.addEventListener("click", (e) => {
-      changeActiveBtn("line");
-      changeGraph("line", chart, line_data);
-  });
+  let donut = document.getElementById("donutCanvas");
 
   let d = new Date();
   let dates = new Array(7);
@@ -121,8 +108,16 @@ fetchPromise.then((response) =>
           data: line_data,
           options: {
             scales: {
+              x: {
+                ticks: {
+                  autoSkip: false,
+                  maxRotation: 0,
+                  minRotation: 0
+                }
+              },
               y: {
-                beginAtZero: true
+                beginAtZero: true,
+                
               }
             }
           }
@@ -135,18 +130,9 @@ fetchPromise.then((response) =>
           config
         );
 
-
-
-  function changeGraph(chartType, ctx, data){
-      //Removes active graph
-      if(myChart){
-          myChart.destroy();
-      }
-      
-      //re-initializes chart configurations
-      const config = {
-          type: chartType,
-          data: data,
+        const config2 = {
+          type: 'doughnut',
+          data: pie_data,
           options: {
             scales: {
               y: {
@@ -155,32 +141,14 @@ fetchPromise.then((response) =>
             }
           }
         };
+    
+        // render init block
+        Chart.defaults.font.size = 13;
+        let myDonut = new Chart(
+          donut,
+          config2
+        );
+        
 
-      //create new graph
-        Chart.defaults.font.size = 20;
-        myChart = new Chart(
-      ctx,
-      config
-      );
-
-
-  }
-
-
-
-  //function for changing colors of button depending on which chart type is active.
-  function changeActiveBtn(activeBtn, color1 = "gray", color2 = "pink"){
-
-      if(activeBtn == "pie")
-      {
-          piebtn.style.backgroundColor = color1;
-          linebtn.style.backgroundColor = color2;
-      }
-
-      else if(activeBtn == "line"){
-      linebtn.style.backgroundColor = color1;
-      piebtn.style.backgroundColor = color2;
-      }
-  }
 
 });
