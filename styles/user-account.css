@@ -27,10 +27,12 @@ h4{
 
 .user-input{
     padding: .5em;
-    width: 400px;
-    height: 40px;
-    border: none;
-    border-radius: 0.5em;
+    margin-top: 0.3em ;
+    margin-bottom: 0.3em ;
+    border: 2px solid #6a2a2a;
+    border-radius: 5px;
+    background-color: #fff;
+    width: 350px;
     display: inline;
 }
 .user-info-div {
