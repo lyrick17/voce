@@ -108,7 +108,6 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
             <label>  
 			Model Size:
 			<select name="modelSize" id="modelSize" class="form-control">
-				<option value="">Select One …</option>
 				<option value="base">Base (For Quick Process)</option>
 				<option value="small">Small (Balance of Quick and Accurate Transcription)</option>
 				<option value="medium">Medium (Most Recommended Model Size)</option>
@@ -121,7 +120,6 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
 			Source language:
 			<select name="src" id="sourceLanguage" class="form-control">
                 <!-- Will display Languages supported by API and Whisper -->
-				<option value="">Select One …</option>
 				<option value="auto">Auto-Detect Language...</option> <!-- Auto-Detect --> 
 				<?php foreach($common_languages as $language): ?>
 					<option name = "language"><?= $language["name"]?></option>
