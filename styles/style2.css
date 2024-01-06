@@ -1130,3 +1130,18 @@ select::after {
     width: auto;
 
 }
+
+
+
+.dlgraph-btn{
+    background : blue;
+    color: white;
+    padding: 0.5em;
+    border: none;
+    border-radius: 0.5em;
+}
+
+.dlgraph-btn:hover{
+    cursor: pointer;
+    background: rgb(96, 96, 230);
+}

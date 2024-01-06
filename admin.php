@@ -80,7 +80,7 @@ $num_of_a2t = mysqli_fetch_assoc($result);
 
     <!-- Sidebar -->
     <?php require "sidebar.php"?>
-
+    
     <!-- Main Content -->
     <div class="content">
         <!-- Navbar -->
@@ -121,10 +121,10 @@ $num_of_a2t = mysqli_fetch_assoc($result);
         </div>
         <div class = "graph-container">
             <h1>Line Chart</h1>
-            <div class = "graph">
+            <button class = "dlgraph-btn" href= "#">Download Graph</button>
+
                   <canvas id = "myChart">
                   </canvas>
-                </div>  
         </div>
         </main>
 
