@@ -13,18 +13,10 @@ fetchPromise.then((response) =>
 
 //Executes code after initializing graphData
   .then(() => {
-  var chart = document.getElementById('myChart');
-  let donut = document.getElementById("donutCanvas");
-  let dlBtn = document.querySelector(".dlgraph-btn");
-  var chartctx = chart.getContext('2d');
-
-    // Set the background color
-    chartctx.fillStyle = 'white';
-    chartctx.fillRect(0, 0, chart.width, chart.height);
-
-    // set the ctx to draw beneath your current content
-    chartctx.globalCompositeOperation = 'destination-over';
-
+  const chart = document.getElementById('myChart');
+  const donut = document.getElementById("donutCanvas");
+  const dlBtn = document.querySelector(".dlgraph-btn");
+  const dlPie = document.querySelector(".dlpie-btn");
   dlBtn.addEventListener("click", () => {
     const pngDataUrl = chart.toDataURL("image/png");
 
@@ -35,7 +27,27 @@ fetchPromise.then((response) =>
       link.href = pngDataUrl;
 
       // Set the download attribute with the desired file name
-      link.download = 'website_graph.png';
+      link.download = 'line_graph.png';
+
+      // Append the link to the document and trigger a click event
+      document.body.appendChild(link);
+      link.click();
+
+      // Remove the link from the document
+      document.body.removeChild(link);
+  });
+
+  dlPie.addEventListener("click", () => {
+    const pngDataUrl = donut.toDataURL("image/png");
+
+      // Create a temporary link element
+      var link = document.createElement('a', 1);
+
+      // Set the href attribute to the data URL
+      link.href = pngDataUrl;
+
+      // Set the download attribute with the desired file name
+      link.download = 'pie_graph.png';
 
       // Append the link to the document and trigger a click event
       document.body.appendChild(link);
@@ -143,19 +155,29 @@ fetchPromise.then((response) =>
           }
         };
 
+        const plugin2 = {
+          id: 'customCanvasBackgroundColor',
+          beforeDraw: (chart, args, options) => {
+            const {ctx} = chart;
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-over';
+            ctx.fillStyle = options.color || '#fccdcd';
+            ctx.fillRect(0, 0, chart.width, chart.height);
+            ctx.restore();
+          }
+        };
+
         // config 
         const config = {
           type: 'line',
           data: line_data,
+          plugins: [plugin],
           options: {
             plugins: {
               customCanvasBackgroundColor: {
                 color: '#fccdcd',
               }
-            }
-          },
-          plugins: [plugin],
-          options: {
+            },
             scales: {
               x: {
                 ticks: {
@@ -182,7 +204,13 @@ fetchPromise.then((response) =>
         const config2 = {
           type: 'doughnut',
           data: pie_data,
+          plugins: [plugin],
           options: {
+            plugins: {
+              customCanvasBackgroundColor: {
+                color: '#fccdcd',
+              }
+            },
             scales: {
               y: {
                 beginAtZero: true
@@ -193,7 +221,6 @@ fetchPromise.then((response) =>
     
         // render init block
         Chart.defaults.font.size = 13;
-        Chart.defaults.backgroundColor = "black";
         let myDonut = new Chart(
           donut,
           config2

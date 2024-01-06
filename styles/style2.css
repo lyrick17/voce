@@ -952,7 +952,13 @@ select::after {
         background: #fccdcd;
         border-radius: 2em;
         text-align: center;
+        padding: 1em;
         }
+    .dlbtns-container{
+        width: 900px;
+        margin: auto;
+        padding: 1em;
+    }
 
     .admin-content{
         margin: 1em;
@@ -1142,6 +1148,19 @@ select::after {
 }
 
 .dlgraph-btn:hover{
+    cursor: pointer;
+    background: rgb(96, 96, 230);
+}
+
+.dlpie-btn{
+    background : blue;
+    color: white;
+    padding: 0.5em;
+    border: none;
+    border-radius: 0.5em;
+}
+
+.dlpie-btn:hover{
     cursor: pointer;
     background: rgb(96, 96, 230);
 }
