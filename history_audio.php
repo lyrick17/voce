@@ -158,7 +158,8 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
 
 
       <input class = "removeBGM" type = "checkbox" name = "removeBGM">
-      <label for = "removeBGM">Remove BGM <br> <span style = "font-style: italic; color: red;">PS: Remove BGM before translating audio with music.</span></label>
+      <label for = "removeBGM">Remove BGM <br> <span style = "font-style: italic; color: red;">*Remove BGM before translating audio with music.</span></label>
+      <br><span style = "font-style: italic; color: red;">*Only a maximum of 60MB file is accepted.</span>
     </div>
  
 
@@ -209,8 +210,6 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
                         <thead>
                             <tr>
                             <th>File Name</th>
-                            <th>File Type</th>
-                            <th>File Size</th>  
                             <th>Original Text</th>
                             <th>Source Language</th>
                             <th>Translated Text</th>

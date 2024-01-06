@@ -13,6 +13,26 @@ if($_POST['clearAll'] == 'true'){
 
         $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM audio_files WHERE user_id = ?");
         bindAndExec($deleteQuery, "s", $userId);
+
+        // since we delete all, get all the files that has the user_id in file and delete them
+        $mask = $userId . "_*";
+
+        $iterator = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($mask, FilesystemIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::CHILD_FIRST
+            );
+
+        //$items = glob($mask);
+
+        foreach ($iterator as $file) {
+            if ($file->isFile()) {
+                unlink($file->getPathname());
+            } elseif ($file->isDir() && !$iterator->hasChildren()) {
+                rmdir($file->getPathname());rmdir($item);
+            }
+        }
+
+        //array_map('unlink', glob($mask));
     }
     else{            
         // Deletes all rows corresponding to user from text_translation table
@@ -47,6 +67,9 @@ if($_POST['clearAll'] == 'true'){
 
  else{
     //deletes row from database
+
+    $userId = $_POST['userId'];
+
     $rowId = $_POST['rowId'];
     $fileId = $_POST['fileId'];
     $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM text_translations WHERE text_id = ?");
@@ -54,8 +77,37 @@ if($_POST['clearAll'] == 'true'){
 
     //deletes audio file record from database if it's an audio to text translation
     if($_POST['fileId'] != null){
+        $datequery = "SELECT file_name, DATE_FORMAT(upload_date, '%m%d%Y_%H%i%s') AS formatted_date 
+                        FROM audio_files WHERE file_id = '$fileId'";
+        $dateresult = mysqli_query($dbcon, $datequery);
+        $row = mysqli_fetch_assoc($dateresult);
+
+        $filename = pathinfo($row['file_name'], PATHINFO_FILENAME);
+        $extension = pathinfo($row['file_name'], PATHINFO_EXTENSION);
+
+        $filenameMask = "audio_files/" . $userId . "_" . $filename . $row['formatted_date'] . $extension;
+        unlink($filenameMask);
+
+        /*$iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($directoryMask, FilesystemIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::CHILD_FIRST
+        );
+     
+        foreach ($iterator as $item) {
+            if ($item->isFile()) {
+                unlink($item->getPathname());
+            } elseif ($item->isDir() && !$iterator->hasChildren()) {
+                rmdir($item->getPathname());
+            }
+        }*/
+        
+
+        
+        
+        
         $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM audio_files WHERE file_id = ?");
         bindAndExec($deleteQuery, "s", $fileId); 
+        
     }
  }
 
