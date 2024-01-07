@@ -13,8 +13,49 @@ fetchPromise.then((response) =>
 
 //Executes code after initializing graphData
   .then(() => {
-  let chart = document.getElementById('myChart');
-  let donut = document.getElementById("donutCanvas");
+  const chart = document.getElementById('myChart');
+  const donut = document.getElementById("donutCanvas");
+  const dlBtn = document.querySelector(".dlgraph-btn");
+  const dlPie = document.querySelector(".dlpie-btn");
+  dlBtn.addEventListener("click", () => {
+    const pngDataUrl = chart.toDataURL("image/png");
+
+      // Create a temporary link element
+      var link = document.createElement('a', 1);
+
+      // Set the href attribute to the data URL
+      link.href = pngDataUrl;
+
+      // Set the download attribute with the desired file name
+      link.download = 'line_graph.png';
+
+      // Append the link to the document and trigger a click event
+      document.body.appendChild(link);
+      link.click();
+
+      // Remove the link from the document
+      document.body.removeChild(link);
+  });
+
+  dlPie.addEventListener("click", () => {
+    const pngDataUrl = donut.toDataURL("image/png");
+
+      // Create a temporary link element
+      var link = document.createElement('a', 1);
+
+      // Set the href attribute to the data URL
+      link.href = pngDataUrl;
+
+      // Set the download attribute with the desired file name
+      link.download = 'pie_graph.png';
+
+      // Append the link to the document and trigger a click event
+      document.body.appendChild(link);
+      link.click();
+
+      // Remove the link from the document
+      document.body.removeChild(link);
+  });
 
   let d = new Date();
   let dates = new Array(7);
@@ -102,11 +143,41 @@ fetchPromise.then((response) =>
         };
     
         
+        const plugin = {
+          id: 'customCanvasBackgroundColor',
+          beforeDraw: (chart, args, options) => {
+            const {ctx} = chart;
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-over';
+            ctx.fillStyle = options.color || '#fccdcd';
+            ctx.fillRect(0, 0, chart.width, chart.height);
+            ctx.restore();
+          }
+        };
+
+        const plugin2 = {
+          id: 'customCanvasBackgroundColor',
+          beforeDraw: (chart, args, options) => {
+            const {ctx} = chart;
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-over';
+            ctx.fillStyle = options.color || '#fccdcd';
+            ctx.fillRect(0, 0, chart.width, chart.height);
+            ctx.restore();
+          }
+        };
+
         // config 
         const config = {
           type: 'line',
           data: line_data,
+          plugins: [plugin],
           options: {
+            plugins: {
+              customCanvasBackgroundColor: {
+                color: '#fccdcd',
+              }
+            },
             scales: {
               x: {
                 ticks: {
@@ -124,7 +195,7 @@ fetchPromise.then((response) =>
         };
     
         // render init block
-        Chart.defaults.font.size = 20;
+        Chart.defaults.font.size = 13;
         let myChart = new Chart(
           chart,
           config
@@ -133,7 +204,13 @@ fetchPromise.then((response) =>
         const config2 = {
           type: 'doughnut',
           data: pie_data,
+          plugins: [plugin],
           options: {
+            plugins: {
+              customCanvasBackgroundColor: {
+                color: '#fccdcd',
+              }
+            },
             scales: {
               y: {
                 beginAtZero: true
