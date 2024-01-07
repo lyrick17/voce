@@ -7,7 +7,61 @@
     }
 
     require("utilities/faqs.php");
+     
+    // 2
+    $total_audio = "SELECT COUNT(*) FROM text_translations WHERE user_id = '" . $_SESSION['user_id'] . "' and from_audio_file = 1";
+    $total_audio_result = mysqli_query($dbcon, $total_audio);
+    $audio_result_row = mysqli_fetch_array($total_audio_result);
+   
+    $total_audio = $audio_result_row[0];
 
+
+    $total_text = "SELECT COUNT(*) FROM text_translations WHERE user_id = '" . $_SESSION['user_id'] . "' AND from_audio_file = 0";
+    $total_text_result = mysqli_query($dbcon, $total_text);
+    
+    $text_result_row = mysqli_fetch_array($total_text_result);
+
+    $total_text = $text_result_row[0];
+
+    $total_message_array = array();
+    
+    // message to display on TEXT TO TEXT part
+    if ($total_text == 0) {
+        // message to display if user hasn't translated in text to text yet.
+        array_push($total_message_array, "Translate Now in Text to Text translation!");
+
+    } else if ($total_text > $total_audio) {
+        // message to display if user translated MORE in text to text
+        array_push($total_message_array, "You have been using Text to Text more with a total of  <b>" . $total_text . "</b> times.");
+    
+    } else if ($total_text < $total_audio) {
+        // message to display if user translated LESS in text to text
+        array_push($total_message_array, "You have a total of <b>" . $total_text . "</b> Text to Text translation.");
+    
+    } else if ($total_text == $total_audio) {
+        // message to display if user both utilized text and audio the same
+        array_push($total_message_array, "You have been using both Text to Text and Audio to Text translation with a total of <b>" . $total_text . "</b> times.");
+    }
+    
+    // message to display on AUDIO TO TEXT part
+    if ($total_audio == 0) {
+      // message to display if user hasn't translated in audio to text yet.
+      array_push($total_message_array, "You haven't translated any audio yet! Translate one now!");
+
+    } else if ($total_audio > $total_text) {
+      // message to display if user translated MORE in audio to text
+      array_push($total_message_array, "You have been using Audio to Text more with a total of  <b>" . $total_audio . "</b> times.");
+    
+    } else if ($total_audio < $total_text) {
+      // message to display if user translated LESS in audio to text
+      array_push($total_message_array, "You have a total of <b>" . $total_audio . "</b> audio to text translation.");
+    
+    } else if ($total_audio == $total_text) {
+      // message to display if user both utilized text and audio the same
+      array_push($total_message_array, "Thank you for using both Text to Text and Audio to Text Translation Service!");
+    }
+
+                              
 ?>
 
 <!DOCTYPE html>
@@ -160,6 +214,8 @@
             
             <!-- End of Insights -->
             <div class="bottom-data">
+
+                <!-- Text to Text Translation -->
                 <div class="orders">
                     <div class="header">
                             <img src="images/translateicon.png" width="120px" height="100px">
@@ -169,13 +225,15 @@
                             </p>
                             <button class="button"><a href="text-text.php" class="logo">START TRANSLATING TEXT
                                 <i class="fa fa-arrow-circle-o-right"></i></button></a>
+                            
                     </div>
                 </div>
                 
-                <!-- Reminders -->
+
+                <!-- Audio to Text Translation -->
                 <div class="orders">
                     <div class="header">
-                    <img src="images/languageicon.png" width="120px" height="100px">
+                            <img src="images/languageicon.png" width="120px" height="100px">
                             <h3>Audio to Text Translation</h3>      
                             <p class="description">
                             Upload your audio file to smoothly translate it into another language, breaking the language barrier.
@@ -186,6 +244,17 @@
                     <br>
                 </div>
 
+                
+                <div class="orders">
+                  <div class="header">
+                    <span style="font-size: 1.3em; text-align:center;"><?php echo $total_message_array[0]; ?></span>
+                  </div>
+                </div>
+                <div class="orders">
+                  <div class="header">
+                    <span style="font-size: 1.3em; text-align:center;"><?php echo $total_message_array[1]; ?></span>
+                  </div>
+                </div>
             </div>
 
 <div class="accordion">

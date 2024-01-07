@@ -66,11 +66,12 @@ if($_POST['clearAll'] == 'true'){
 
     $rowId = $_POST['rowId'];
     $fileId = $_POST['fileId'];
+    
     $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM text_translations WHERE text_id = ?");
     bindAndExec($deleteQuery, "s", $rowId); 
 
     //deletes audio file record from database if it's an audio to text translation
-    if($_POST['fileId'] != null){
+    if($_POST['fileId'] != "null"){
         
         deleteAudioFile($fileId, $userId);
         
