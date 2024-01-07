@@ -231,9 +231,7 @@ function setNewRow(objData){
     //Sets new rows for audio to text history
     else{
         return "<tr id = " + objData['text_id'] + " class = '" + objData['user_id'] + " " + "a2t" + " " + objData['file_id']  + " paginate" + "'>" +
-        "<td class = " + objData['user_id'] + ">"  + objData['file_name'] + "</td>" + 
-        "<td class = " + objData['user_id'] + ">"  + objData['file_format'] + "</td>" +
-        "<td class = " + objData['user_id'] + ">"  + objData['file_size'] + "</td>" +
+        "<td class = '" + objData['user_id'] + " break-word'>"  + objData['file_name'] + "</td>" + 
         "<td class = '" + objData['user_id']+  " truncate-text'>" + objData['translate_from'] + "</td>" + 
         "<td class = " + objData['user_id'] + ">"  + objData['original_language'] + "</td>" + 
         "<td class = '" + objData['user_id'] +  " truncate-text'>" + objData['translate_to'] +  "</td>" +

@@ -1130,3 +1130,8 @@ select::after {
     width: auto;
 
 }
+
+.break-word {
+    word-break: break-word;
+    width: 13em;
+}

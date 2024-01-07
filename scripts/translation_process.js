@@ -51,18 +51,18 @@ async function translationProcess(audio_info) {
         for (let i = 2; i <= 6; i++) {
             audio_info.set('step', i);
     
-            if (data.error != 0) { break; }                 // if there is an error, stop the loop
             if (i == 2 && removeBGM == 'off') { continue; } // skip step 2 if not remove BGM 
             
             displayLoadingMessage(i);
             
             data = await fetch('utilities/audio_translation.php', {
-                            method: "POST",
-                            body: audio_info,
-                        })
-                        .then(response => response.json())
-                        .catch(error => finishProcess(error));
-                        
+                method: "POST",
+                body: audio_info,
+            })
+            .then(response => response.json())
+            .catch(error => finishProcess(error));
+            
+            if (data.error != 0) { break; }                 // if there is an error, stop the loop
     
             // console.log(data);
         }
