@@ -80,7 +80,7 @@ $num_of_a2t = mysqli_fetch_assoc($result);
 
     <!-- Sidebar -->
     <?php require "sidebar.php"?>
-
+    
     <!-- Main Content -->
     <div class="content">
         <!-- Navbar -->
@@ -91,7 +91,8 @@ $num_of_a2t = mysqli_fetch_assoc($result);
         <!-- End of Navbar -->
 
         <main style = "padding: 0;">
-
+        
+ 
 
         <div class = "float-container">
             <div class = "donut-container">
@@ -101,7 +102,7 @@ $num_of_a2t = mysqli_fetch_assoc($result);
             </div>
             <div class = "admin-container">
                 <div class = "admin-content content-users">
-                    <h1>Total Users</h1>
+                    <h1 class = "">Total Users</h1>
                     <h1 class = "count"><?= $num_of_users['total_users'] ?></h1>
 
                 </div>    
@@ -121,11 +122,15 @@ $num_of_a2t = mysqli_fetch_assoc($result);
         </div>
         <div class = "graph-container">
             <h1>Line Chart</h1>
-            <div class = "graph">
                   <canvas id = "myChart">
                   </canvas>
-                </div>  
         </div>
+        <div class = "dlbtns-container">
+        <button class = "dlpie-btn" href= "#">Download Pie Graph</button>
+        <button class = "dlgraph-btn" href= "#">Download Line Graph</button>
+        </div>
+
+
         </main>
 
     </div>
