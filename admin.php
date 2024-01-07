@@ -102,7 +102,7 @@ $num_of_a2t = mysqli_fetch_assoc($result);
             </div>
             <div class = "admin-container">
                 <div class = "admin-content content-users">
-                    <h1 class = "data-">Total Users</h1>
+                    <h1 class = "">Total Users</h1>
                     <h1 class = "count"><?= $num_of_users['total_users'] ?></h1>
 
                 </div>    
