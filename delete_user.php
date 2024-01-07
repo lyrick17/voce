@@ -1,5 +1,6 @@
 <?php
  require("mysql/mysqli_connect.php"); 
+ require("utilities/delete_files.php");
 
 //Delete records of a user from all tables in the database
 if($_POST['deleteSelectedUsers'] == 'true'){
@@ -21,6 +22,9 @@ if($_POST['deleteSelectedUsers'] == 'true'){
         
         $q = "SET foreign_key_checks = 1;";
         mysqli_query($dbcon, $q);
+
+        // all audio files that user uploaded will be deleted as well
+        deleteAllAudioFiles($userId);
     }
 }
 
@@ -44,6 +48,9 @@ else{
 
     $q = "SET foreign_key_checks = 1;";
     mysqli_query($dbcon, $q);
+
+    // all audio files that user uploaded will be deleted as well
+    deleteAllAudioFiles($userId);
 }
 
 

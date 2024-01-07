@@ -1,6 +1,6 @@
 <?php
  require("mysql/mysqli_connect.php"); 
-
+ require("utilities/delete_files.php");
 
  
 if($_POST['clearAll'] == 'true'){
@@ -15,7 +15,7 @@ if($_POST['clearAll'] == 'true'){
         bindAndExec($deleteQuery, "s", $userId);
 
 
-        deleteAllAudioFiles();
+        deleteAllAudioFiles($userId);
         
     }
     else{            
@@ -37,7 +37,7 @@ if($_POST['clearAll'] == 'true'){
                 $deleteFiles =$filesToDelete[$i];
                 
 
-                deleteAudioFile($deleteFiles);
+                deleteAudioFile($deleteFiles, $userId);
 
                 
                 $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM text_translations WHERE text_id = ?");
@@ -72,7 +72,7 @@ if($_POST['clearAll'] == 'true'){
     //deletes audio file record from database if it's an audio to text translation
     if($_POST['fileId'] != null){
         
-        deleteAudioFiles($fileId);
+        deleteAudioFiles($fileId, $userId);
         
         $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM audio_files WHERE file_id = ?");
         bindAndExec($deleteQuery, "s", $fileId); 
