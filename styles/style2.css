@@ -594,7 +594,7 @@ body{
 .content main .bottom-data .orders{
     flex-grow: 1;
     flex-basis: 500px;
-    margin-bottom: 50px;
+    margin-bottom: 25px;
 }
 
 .content main .bottom-data .orders h2{
@@ -1137,7 +1137,10 @@ select::after {
 
 }
 
-
+.break-word {
+    word-break: break-word;
+    width: 13em;
+}
 
 .dlgraph-btn{
     background : blue;
