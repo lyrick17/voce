@@ -23,6 +23,7 @@
     --test: #fccdcd;
     --accent: #923a3a; 
     --background: #f9f0f0;
+    --logocolor: #00C3F0;
 
 }
 
@@ -86,19 +87,21 @@ body{
 }
 
 .sidebar .logo{
+    padding-left: 10px;
     font-size: 40px;
     font-weight: 700;
     height: 56px;
     display: flex;
     align-items: center;
-    color: var(--primary);
+    color: var(--logocolor);
     z-index: 500;
-
     box-sizing: content-box;
+    
 }
 
 .sidebar .logo .logo-name span{
     color: var(--light);
+   
 }
 
 .sidebar .logo .bx .fa{

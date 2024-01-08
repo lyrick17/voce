@@ -99,7 +99,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
             <!-- Loading Modal after clicking translate button -->
                 <div id="loadingModal" class="modalloading">
                     <div class="modal-contentloading">
-                        <img src="images/loading.gif" alt="Loading..." />
+                        <img src="images/duckagain.gif" alt="Loading..." />
                         <p id="loadingModalMessage">Loading....</p>
                     </div>
                 </div>
