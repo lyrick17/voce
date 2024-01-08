@@ -38,6 +38,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search'])){
             exit(json_encode($result));
         }
 
+        elseif(is_numeric($_POST['search'])){
+            $q = "SELECT user_id, username, email, registration_date, type FROM users WHERE user_id LIKE '%". $_POST['search'] ."%'" . "ORDER BY user_id ASC";
+            $users = mysqli_query($dbcon, $q);
+            $result = mysqli_fetch_all($users, MYSQLI_ASSOC);
+            exit(json_encode($result));
+        }
+
         else{
         $q = "SELECT user_id, username, email, registration_date, type FROM users WHERE username LIKE '%". $_POST['search'] ."%'" . "ORDER BY user_id ASC";
         $users = mysqli_query($dbcon, $q);
