@@ -187,7 +187,7 @@ searchForm.addEventListener("submit", function(e){
 
 
         searchBox.value = "";
-        
+
         //re-initializes update variables after updating the history.
         updateBtns = document.querySelectorAll('.update-user');
         updateWindow = document.querySelector(".update-window");
@@ -518,10 +518,6 @@ yesBtn.addEventListener("click", () => {
                     let obj = response[i];
                     updatedUsers += setNewRow(obj);
                 }
-
-                
-
-
 
                 //updates history content.
                 usersTable.innerHTML = updatedUsers;
