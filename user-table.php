@@ -31,10 +31,19 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
 //Retrieves searched users 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search'])){
     
+        if(str_contains($_POST['search'], '@')){
+            $q = "SELECT user_id, username, email, registration_date, type FROM users WHERE email LIKE '%". $_POST['search'] ."%'" . "ORDER BY user_id ASC";
+            $users = mysqli_query($dbcon, $q);
+            $result = mysqli_fetch_all($users, MYSQLI_ASSOC);
+            exit(json_encode($result));
+        }
+
+        else{
         $q = "SELECT user_id, username, email, registration_date, type FROM users WHERE username LIKE '%". $_POST['search'] ."%'" . "ORDER BY user_id ASC";
         $users = mysqli_query($dbcon, $q);
         $result = mysqli_fetch_all($users, MYSQLI_ASSOC);
         exit(json_encode($result));
+        }
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['userType'])) {
