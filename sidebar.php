@@ -1,6 +1,6 @@
 <div class="sidebar">
         <a href="dashboard1.php" class="logo">
-            <i class="fa fa-microphone"></i>
+            <img src="images/icon.ico" width="50px" height="50px"></img>
             <div class="logo-name"><span>Vo</span>CE</div>
         </a>
         <ul class="side-menu">
