@@ -6,6 +6,11 @@ fetchUsers();
 //initial pagination
 paginateRows();
 
+
+//initialize search box
+let searchBox = document.getElementById("search-user");
+let searchForm = document.getElementById("search-form");
+
 //Create function DOMs
 let closeBtn = document.querySelector('.closecreate-btn');
 let createWindow = document.querySelector(".create-window");
@@ -161,9 +166,149 @@ userType.addEventListener("change", () =>{
     readyToSubmit("create");
 });
 
-form.addEventListener("submit", function(e){
+searchForm.addEventListener("submit", function(e){
     e.preventDefault();
-    submitBtn.disabled = true;
+    let fd = new FormData(searchForm);
+    fetch('user-table.php', {method: 'POST', body: fd})
+    .then((res) => res.json()) // Converts response to JSON
+    .then(response => {
+        console.log(response);
+        let updatedUsers ='<tr><td class = "create-cell" colspan = 1><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
+        submitBtn.disabled = false;
+        //add rows to new users table
+        for(let i = 0; i < response.length; i++){
+            let obj = response[i];
+            updatedUsers += setNewRow(obj);
+        }
+        
+        //updates history content.
+        usersTable.innerHTML = updatedUsers;
+        paginateRows();
+
+
+        searchBox.value = "";
+        
+        //re-initializes update variables after updating the history.
+        updateBtns = document.querySelectorAll('.update-user');
+        updateWindow = document.querySelector(".update-window");
+        closeupdateBtn = document.querySelector('.closeupdate-btn');
+        updateDivHeader = document.querySelector('.update-div-header');
+
+        //re-initializes delete variables after updating the history.
+        deleteWindow = document.querySelector(".delete-window");
+        closeBtn = document.querySelector('.closecreate-btn');
+        createWindow = document.querySelector(".create-window");
+        createBtn = document.querySelector(".create-btn");
+        form = document.getElementById("form");
+        submitBtn = document.getElementById("create-user");
+        userType = document.getElementById('userType');
+        let deleteBtn = document.querySelectorAll(".delete-user");
+        userId = 0;
+        username.value = "";
+        email.value = "";
+        pword.value = "";
+        pword2.value = "";
+        uniqueUserTxt.style.color = "red";
+        validUserTxt.style.color = "red";
+        validEmailTxt.style.color = "red";
+        confirmPassTxt.style.color = "red";
+        resetUserType();
+        submitBtn.disabled = true;
+
+
+        //re-initializes variables and event listeners for selection delete of users         
+        deleteSelectedUsers = false;
+        checkboxes = document.querySelectorAll(".delete-checkbox");
+        usersToDelete = [];
+        selectDeleteBtn = document.querySelector(".deleteSelectedUsers");
+        deleteRowsBtn = document.querySelector(".deleteRows-btn");
+
+
+        for(let i = 0; i < checkboxes.length; i++){
+            checkboxes[i].addEventListener("change", (e) => {
+                if(checkboxes[i].checked){
+                    addToDeleteUsers(checkboxes[i]);
+                }
+                else{
+                    removeToDeleteUsers(checkboxes[i]);
+                }
+            });
+        }
+        
+
+        //re-adds eventlisteners to new delete buttons.
+        deleteRowsBtn.addEventListener("click", (e) => {
+            if(!deleteSelectedUsers){
+                deleteSelectedUsers = true;
+                selectDeleteBtn.style.display = "inline";
+                deleteRowsBtn.textContent = "Cancel Delete Rows";
+                for(let i = 0; i< checkboxes.length; i++)
+                    {
+                    checkboxes[i].style.display = "block";
+                    checkboxes[i].parentElement.style.display = "table-cell";    
+                }    
+            }
+            else{
+                deleteSelectedUsers = false;
+                selectDeleteBtn.style.display = "none";
+                deleteRowsBtn.textContent = "Delete Rows";
+                for(let i = 0; i< checkboxes.length; i++){
+                    checkboxes[i].style.display = "none";
+                    checkboxes[i].checked = false;
+                    usersToDelete = [];
+                    checkboxes[i].parentElement.style.display = "none";        
+                }
+            }
+        });
+        
+        
+        selectDeleteBtn.addEventListener("click", () => {
+            confirmText.innerHTML = "Are you sure you want to delete all users you selected?";
+            userId = 0;
+            console.log("user id: " + userId);
+            displayWindow(deleteWindow);
+        });
+
+        for(let i = 0; i <deleteBtn.length;i++){
+            updateBtns[i].addEventListener("click", (e) => {
+                userId = e.target.parentNode.parentNode.id;
+                updateDivHeader.innerHTML = "Update User " + userId + "?";
+                updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
+                updateEmail.value = e.target.parentNode.parentNode.querySelector('#u-email').textContent;
+                updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
+                preUpdateUsername = updateUsername.value;
+                preUpdateEmail = updateEmail.value;      
+                console.log(preUpdateEmail);
+                console.log(preUpdateUsername);  
+                displayWindow(updateWindow);
+                submitUpdate.disabled = false;
+
+            });
+            deleteBtn[i].addEventListener("click", (e) => {
+                userId = e.target.parentNode.parentNode.id;
+                confirmText.innerHTML = "Are you sure you want to delete this user?";
+                console.log("user id: " + userId);
+                //Sets the user to be deleted.
+                displayWindow(deleteWindow);
+            });
+            closeBtn.addEventListener("click", () => {
+                hideWindow(createWindow);
+            });
+            
+            createBtn.addEventListener("click", () => {
+                displayWindow(createWindow);
+            });
+        }
+
+    hideWindow(createWindow);  
+    fetchUsers();  
+    });
+
+});
+
+form.addEventListener("submit", function(e){
+    
+    e.preventDefault();
     let fd = new FormData(form);
     fetch('user-table.php', {method: 'POST', body: fd})
     .then((res) => res.json()) // Converts response to JSON
@@ -685,18 +830,34 @@ function hideWindow(window){
     }
 }
 
-function setNewRow(objData){
-    return "<tr class = 'paginate' id = '"+ objData['user_id'] + "'>" +            
-    "<td>" + objData['user_id']+ "</td>" +
-    "<td id = 'u-username'>" + objData['username']+ "</td>" +
-    "<td id = 'u-email'>" + objData['email']+ "</td>" +
-    "<td>" + objData['registration_date'] + "</td>" +
-    "<td>" + objData['type'] + "</td>" +
-    "<td><button type = 'button' class = 'table-btn update-user'>Update</button></td>" +
-    "<td><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" +
-    "<td style = 'display: none;' class = " + objData['user_id'] + ">" + "<input type = 'checkbox' class = 'delete-checkbox' id = " + objData['user_id'] +"></td>" +  
 
+// function fetchSearchedUsers(){
+    
+// }
+
+function setNewRow(objData){
+
+    return "<tr class = 'paginate' id = '"+ objData['user_id'] + "'>" +            
+    "<td class='user-td'>" + objData['user_id'] + "</td>" +
+    "<td class='user-td' id = 'u-username'>" +objData['username'] + "</td>" +
+    "<td class='user-td' id = 'u-email'>" +objData['email']+ "</td>" +
+    "<td class='user-td'>" + objData['registration_date']+ "</td>" +
+    "<td class='user-td'>" + objData['type']+ "</td>" +
+    "<td class='user-td'><button type = 'button' class = 'table-btn update-user'>Update</button></td>" +
+    "<td class='user-td'><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" +
+    "<td style = 'display: none;' class = 'user-td " + objData['user_id'] + "'>" + "<input type = 'checkbox' class = 'delete-checkbox' id = "+ objData['user_id'] +"></td>" +   
     "</tr>";
+
+    // return "<tr class = 'paginate' id = '"+ objData['user_id'] + "'>" +            
+    // "<td  class='user-td'>" + objData['user_id']+ "</td>" +
+    // "<td  class='user-td' id = 'u-username'>" + objData['username']+ "</td>" +
+    // "<td  class='user-td' id = 'u-email'>" + objData['email']+ "</td>" +
+    // "<td  class='user-td'>" + objData['registration_date'] + "</td>" +
+    // "<td  class='user-td'>" + objData['type'] + "</td>" +
+    // "<td  class='user-td'><button type = 'button' class = 'table-btn update-user'>Update</button></td>" +
+    // "<td  class='user-td'><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" +
+    // "<td style = 'display: none;' class = 'user-td " + objData['user_id'] + "'>" + "<input type = 'checkbox' class = 'delete-checkbox' id = " + objData['user_id'] +"></td>" +  
+    // "</tr>";
 
 }
 

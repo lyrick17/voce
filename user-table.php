@@ -24,7 +24,17 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
     $q = "SELECT username, email FROM USERS";
     $result = mysqli_query($dbcon, $q);
     $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
     exit(json_encode($users));
+}
+
+//Retrieves searched users 
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search'])){
+    
+        $q = "SELECT user_id, username, email, registration_date, type FROM users WHERE username LIKE '%". $_POST['search'] ."%'" . "ORDER BY user_id ASC";
+        $users = mysqli_query($dbcon, $q);
+        $result = mysqli_fetch_all($users, MYSQLI_ASSOC);
+        exit(json_encode($result));
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['userType'])) {
@@ -212,18 +222,22 @@ $users = mysqli_query($dbcon, $q);
         <!-- Navbar -->
         <nav>
             <i class='bx bx-menu'></i><span id = "nav-name"><?= $_SESSION['username']; ?></span>
+            <form id = "search-form">
+                        <input id = "search-user" type="text" placeholder="Search User.." name="search">
+        </form>
         </nav>
 
         <!-- End of Navbar -->
 
         <main style = "padding: 0;">
-
         <div class = "table-container">
                 <table class = "users-table">
                         <tr>
+
+                        </tr>
+                        <tr>
                             <td class = "create-cell" colspan = 1><button class = "table-btn create-btn">Create User</button></td>
                             <td class = "select-cell" colspan = 2><button type = 'button' class = "deleteSelectedUsers">Delete Selected Rows</button><button type = 'button' class = "deleteRows-btn">Delete Rows</button></td>
-
                         </tr>
                         <tr>
                             <th class = "data">User ID</th>
@@ -236,6 +250,7 @@ $users = mysqli_query($dbcon, $q);
                         <?php Translator::displayUsers($users) ?>
                 </table>
                 <br />
+                
                 <div id="page-nav-content">
                     <div id="page-nav"></div>
                 </div>
