@@ -67,7 +67,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if ($_POST['step'] == 4) { #!!! transcribing the vocals/audio file using whisper
-        $transcript = Translator::uploadAndTranscribe($_SESSION['a_info']['newfile'], $removeBGM, $src_lang, $_POST['modelSize']);
+        $transcript = Translator::uploadAndTranscribe($userid, $_SESSION['a_info']['newfile'], $removeBGM, $src_lang, $_POST['modelSize']);
         $_SESSION['a_info']['text'] = $transcript['text']; 
         $_SESSION['a_info']['lang'] = $transcript['language']; 
 
