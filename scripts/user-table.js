@@ -615,7 +615,7 @@ yesBtn.addEventListener("click", () => {
                         updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
                         updateUserType.value = e.target.parentNode.parentNode.querySelector('#u-type').textContent;
                         preUpdateUsername = updateUsername.value;
-                        preUpdateEmail = updateUsername.value;
+                        preUpdateEmail = updateEmail.value;
                     });
                     deleteBtn[i].addEventListener("click", (e) => {
                         userId = e.target.parentNode.parentNode.id;
