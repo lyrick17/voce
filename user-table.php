@@ -270,9 +270,9 @@ $users = mysqli_query($dbcon, $q);
 
             <hr>
             <div class = "acc-req">
-                <p class = "req unique-user">*Username must be unique and 6-30 characters long</p>
+                <p class = "req unique-user">*Username must be 6-30 characters long</p>
                 <p class = "req valid-user">*Username must only contain numbers, letters, dashes, and underscores</p>
-                <p class = "req valid-email">*Email must be unique and valid</p>
+                <p class = "req valid-email">*Email must be valid</p>
                 <p class = "req confirm-pass">*Passwords must match and atleast 8 characters long</p>
             </div>
             <input type="submit" class= "admin-submit" id="create-user" name="submit-register" value="Create User" disabled>
@@ -295,9 +295,9 @@ $users = mysqli_query($dbcon, $q);
             </div>
             <hr>
             <div class = "acc-req">
-                <p class = "req unique-user2">*Username must be unique and 6-30 characters long</p>
+                <p class = "req unique-user2">*Username must be 6-30 characters long</p>
                 <p class = "req valid-user2">*Username must only contain numbers, letters, dashes, and underscores</p>
-                <p class = "req valid-email2">*Email must be unique and valid</p>
+                <p class = "req valid-email2">*Email must be valid</p>
             </div>
             <input type="submit" class= "admin-submit" id="submitUpdate" name="submitUpdate" value="Update User" disabled>
         </form>

@@ -231,6 +231,9 @@ th, td{
     background: #fe4c5a;
 }
 
+.req{
+    color:red;
+}
 
 @media (orientation: portrait){
     .create-form-div{

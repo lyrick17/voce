@@ -1,6 +1,7 @@
 //initial pagination
 paginateRows();
 
+let validColor = "green";
 
 //initialize search box
 let searchBox = document.getElementById("search-user");
@@ -36,8 +37,9 @@ const updateEmail = document.getElementById('new-email');
 const uniqueUserTxt2 = document.querySelector(".unique-user2");
 const validUserTxt2 = document.querySelector(".valid-user2");
 const validEmailTxt2 = document.querySelector(".valid-email2");
-
-// const confirmPassTxt2 = document.querySelector(".confirm-pass2");
+uniqueUserTxt2.style.color = "green";
+validUserTxt2.style.color = "green";
+validEmailTxt2.style.color = "green";
 
 //Delete function DOMs
 let deleteWindow = document.querySelector(".delete-window");
@@ -53,8 +55,6 @@ let sessionId = mysession.getAttribute('id');
 
 //initialize form data content
 let userId = 0;
-
-let validColor = "green";
 
 //initialize vars for selecting users to be deleted
 let deleteSelectedUsers = false;
@@ -200,6 +200,10 @@ searchForm.addEventListener("submit", function(e){
         email.value = "";
         pword.value = "";
         pword2.value = "";
+        uniqueUserTxt.style.color = "red";
+        validUserTxt.style.color = "red";
+        validEmailTxt.style.color = "red";
+        confirmPassTxt.style.color = "red";
         resetUserType();
         submitBtn.disabled = true;
 
@@ -342,6 +346,10 @@ form.addEventListener("submit", function(e){
         email.value = "";
         pword.value = "";
         pword2.value = "";
+        uniqueUserTxt.style.color = "red";
+        validUserTxt.style.color = "red";
+        validEmailTxt.style.color = "red";
+        confirmPassTxt.style.color = "red";
         resetUserType();
         submitBtn.disabled = true;
 
@@ -438,28 +446,28 @@ form.addEventListener("submit", function(e){
 
 //Event listeners for validating create user inputs
 username.addEventListener("keyup", () => {
-    readyToSubmit("create");
+    validateUser(username.value, "create");
 });
 
 email.addEventListener("keyup", () => {
-    readyToSubmit("create");
+    validateEmail(email.value, "create");
 });
 
 pword.addEventListener("keyup", () => {
-    readyToSubmit("create");
+    validatePassword(pword.value, pword2.value, "create");
 });
 
 pword2.addEventListener("keyup", () => {
-    readyToSubmit("create");
+    validatePassword(pword.value, pword2.value, "create");
 });
 
 //Event listeners for validating update user inputs
 updateUsername.addEventListener("keyup", () => {
-    readyToSubmit("update");
+    validateUser(updateUsername.value, "update");
 });
 
 updateEmail.addEventListener("keyup", () => {
-    readyToSubmit("update");
+    validateUser(updateUsername.value, "update");
 });
 
 // updatePword.addEventListener("keyup", () => {
@@ -535,6 +543,10 @@ yesBtn.addEventListener("click", () => {
                 email.value = "";
                 pword.value = "";
                 pword2.value = "";
+                uniqueUserTxt.style.color = "red";
+                validUserTxt.style.color = "red";
+                validEmailTxt.style.color = "red";
+                confirmPassTxt.style.color = "red";
                 resetUserType();
 
                 submitBtn.disabled = true;
@@ -649,7 +661,9 @@ yesBtn.addEventListener("click", () => {
                 alert(errmessage);
             }
             else{
-            navusername.innerHTML = updateUsername.value;
+            if(userId == sessionId){
+                navusername.innerHTML = updateUsername.value;
+            }
             let updatedUsers ='<tr><td class = "create-cell" colspan = 1><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
             //add rows to new users table
             for(let i = 0; i < response.length; i++){
@@ -672,7 +686,9 @@ yesBtn.addEventListener("click", () => {
             updateEmail.value = "";
             // updatePword.value = "";
             // updatePword2.value = "";
-
+            uniqueUserTxt2.style.color = "green";
+            validUserTxt2.style.color = "green";
+            validEmailTxt2.style.color = "green";
             submitUpdate.disabled = true;
 
 
@@ -690,6 +706,11 @@ yesBtn.addEventListener("click", () => {
             email.value = "";
             pword.value = "";
             pword2.value = "";
+
+            uniqueUserTxt.style.color = "red";
+            validUserTxt.style.color = "red";
+            validEmailTxt.style.color = "red";
+            confirmPassTxt.style.color = "red";
 
             resetUserType();
             submitBtn.disabled = true;
@@ -791,6 +812,10 @@ function hideWindow(window){
     email.value = "";
     pword.value = "";
     pword2.value = "";
+    uniqueUserTxt.style.color = "red";
+    validUserTxt.style.color = "red";
+    validEmailTxt.style.color = "red";
+    confirmPassTxt.style.color = "red";
     resetUserType();
     submitBtn.disabled = true;
 
@@ -798,6 +823,9 @@ function hideWindow(window){
     updateEmail.value = "";
     // updatePword.value = "";
     // updatePword2.value = "";
+    uniqueUserTxt2.style.color = "green";
+    validUserTxt2.style.color = "green";
+    validEmailTxt2.style.color = "green";
 
     for(let i = 0; i <updateBtns.length;i++){
         updateBtns.disabled = true;
@@ -825,10 +853,9 @@ function displayWindow(window){
 
 function readyToSubmit(func){
     if(func == "create"){
-        if(username.value.length > 0 &&
-            email.value.length > 0 &&
-            pword.value.length > 0 &&
-            pword2.value.length > 0 &&
+        if(uniqueUserTxt.style.color == validColor &&
+        validUserTxt.style.color == validColor &&
+        validEmailTxt.style.color == validColor &&
         (userType.options[userType.selectedIndex].text == "Admin" ||
         userType.options[userType.selectedIndex].text == "User")){
             submitBtn.disabled = false;
@@ -838,9 +865,9 @@ function readyToSubmit(func){
         }
     }
     else if (func == "update"){
-        if(updateUsername.value.length > 0 &&
-        updateEmail.value.length > 0
-        ){
+        if(uniqueUserTxt2.style.color == validColor &&
+        validUserTxt2.style.color == validColor &&
+        validEmailTxt2.style.color == validColor){
             submitUpdate.disabled = false;
         }
         else{
@@ -888,4 +915,82 @@ function paginateRows(){
         });
     });
 
+}
+
+function validateUser(username, func){
+    const userPattern = /^[\w\-]+$/;
+    if(func == "create"){
+        if(username.length >= 6 && username.length <= 30)
+            uniqueUserTxt.style.color = validColor;
+        else{
+            uniqueUserTxt.style.color = "red";
+        }
+
+        if(userPattern.test(username)){
+            validUserTxt.style.color = validColor;
+        }
+        else{
+            validUserTxt.style.color = "red";
+        }
+
+
+    }
+    else if(func == "update"){
+        if(username.length >= 6 && username.length <= 30 || username == preUpdateUsername) 
+            uniqueUserTxt2.style.color = validColor;
+        else{
+            uniqueUserTxt2.style.color = "red";
+        }
+        if(userPattern.test(username)){
+            validUserTxt2.style.color = validColor;
+        }
+        else{
+            validUserTxt2.style.color = "red";
+        }
+
+    }
+    readyToSubmit(func);
+}
+
+// not yet finished, need to check if email is unique
+function validateEmail(email, func){
+    const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if(func == "create"){
+        if(emailPattern.test(email)){
+                validEmailTxt.style.color = validColor;    
+        }
+        else{
+                validEmailTxt.style.color = "red";    
+
+        }
+
+    }
+    else if(func == "update"){
+        if(emailPattern.test(email) || email == preUpdateEmail){
+                validEmailTxt2.style.color = validColor;    
+        }
+        else{
+                validEmailTxt2.style.color = "red";    
+
+        }
+    }
+
+    readyToSubmit(func);
+}
+
+function validatePassword(password, password2, func){
+    if(password.length >= 8 && password === password2 && password != ""){
+        if(func == "create")
+        confirmPassTxt.style.color = validColor;    
+        // else if(func == "update")
+        // confirmPassTxt2.style.color = validColor;    
+    }
+    else{
+        if(func == "create")
+            confirmPassTxt.style.color = "red";    
+        // else if(func == "update")
+        //     confirmPassTxt2.style.color = "red";    
+    }
+    readyToSubmit(func);
 }
