@@ -615,6 +615,7 @@ yesBtn.addEventListener("click", () => {
                         updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
                         updateUserType.value = e.target.parentNode.parentNode.querySelector('#u-type').textContent;
                         preUpdateUsername = updateUsername.value;
+                        preUpdateEmail = updateUsername.value;
                     });
                     deleteBtn[i].addEventListener("click", (e) => {
                         userId = e.target.parentNode.parentNode.id;
@@ -940,7 +941,7 @@ function validateUser(username, func){
 
     }
     else if(func == "update"){
-        if(username.length >= 6 && username.length <= 30 || username == preUpdateUsername) 
+        if(username.length >= 6 && username.length <= 30) 
             uniqueUserTxt2.style.color = validColor;
         else{
             uniqueUserTxt2.style.color = "red";
