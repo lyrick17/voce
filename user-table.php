@@ -45,33 +45,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search'])){
         }
 }
 
-
-// else if(func == "update"){
-//     if((username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase())) || username == preUpdateUsername) 
-//         uniqueUserTxt2.style.color = validColor;
-//     else{
-//         uniqueUserTxt2.style.color = "red";
-//     }
-//     if(userPattern.test(username)){
-//         validUserTxt2.style.color = validColor;
-//     }
-//     else{
-//         validUserTxt2.style.color = "red";
-//     }
-
-// }
-
-// else if(func == "update"){
-//     if((emailPattern.test(email) && !emails.includes(email)) || email == preUpdateEmail){
-//             validEmailTxt2.style.color = validColor;    
-//     }
-//     else{
-//             validEmailTxt2.style.color = "red";    
-
-//     }
-// }
-
-
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['userType'])) {
     $errors = ["ERRORS"];
     $userPattern = '/^[\w\-]+$/';
@@ -148,6 +121,7 @@ else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new-username'])) 
 
     $username = mysqli_real_escape_string($dbcon, trim($_POST['new-username']));
     $email = mysqli_real_escape_string($dbcon, trim($_POST['new-email']));
+    $usertype = mysqli_real_escape_string($dbcon, trim($_POST['new-userType']));
 
         // Username Validation
         $stmt = mysqli_prepare($dbcon, "SELECT EXISTS(SELECT username FROM USERS WHERE username = ?)");
@@ -183,6 +157,9 @@ else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new-username'])) 
         array_push($errors, "Email must be valid.");
     }
 
+    if($_POST['userId'] == $_SESSION['user_id'] && $_SESSION['type'] != $usertype){
+        array_push($errors, "You can't change your own user type!");
+    }
     if(sizeof($errors) == 1){
         if($_POST['userId'] == $_SESSION['user_id']){
             $_SESSION['username'] = $username;
@@ -191,8 +168,8 @@ else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new-username'])) 
         }
     $userId = (int)$_POST['userId'];
 
-    $query = mysqli_prepare($dbcon, "UPDATE users SET username = ?, email = ? WHERE user_id = ?");
-    mysqli_stmt_bind_param($query, "ssi", $username, $email, $userId);
+    $query = mysqli_prepare($dbcon, "UPDATE users SET username = ?, email = ?, type = ? WHERE user_id = ?");
+    mysqli_stmt_bind_param($query, "sssi", $username, $email, $usertype, $userId);
     $result = mysqli_stmt_execute($query);
     
 
@@ -291,6 +268,11 @@ $users = mysqli_query($dbcon, $q);
                     <input type="text" placeholder="Name" class = "admin-input" id="new-username" name="new-username" required maxlength="50" required>
                 <label for = "email">Email</label>
                 <input type="email" placeholder="Email" class = "admin-input" id="new-email" name="new-email" required maxlength="100" required>
+                <span for = "new-userType" class = "typeLabel">Type of user</span>
+                    <select name="new-userType" id="new-userType" class="form-control select-type">
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
                 <br />
             </div>
             <hr>
@@ -318,10 +300,10 @@ $users = mysqli_query($dbcon, $q);
     <div class="content">
         <!-- Navbar -->
         <nav>
-            <i class='bx bx-menu'></i><span id = "nav-name"><?= $_SESSION['username']; ?></span>
             <form id = "search-form">
+            <i class='bx bx-menu'></i><span id = "nav-name"><?= $_SESSION['username']; ?></span>
                         <input id = "search-user" type="text" placeholder="Search User.." name="search">
-        </form>
+            </form>
         </nav>
 
         <!-- End of Navbar -->

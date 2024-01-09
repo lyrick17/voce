@@ -248,7 +248,7 @@ th, td{
 }
 
 #search-user{
-    margin-left: 10em;
+    margin-left: 2em;
     border-radius: .5em;
     width: 200px;
     height: 30px;
@@ -258,5 +258,7 @@ th, td{
 #search-form{
     text-align: center;
     position: absolute;
+    display: flex;
+    justify-content: start;
 
 }

@@ -30,8 +30,9 @@ let updateWindow = document.querySelector(".update-window");
 let closeupdateBtn = document.querySelector('.closeupdate-btn');
 let updateDivHeader = document.querySelector('.update-div-header');
 let updateForm = document.getElementById("update-form");
-const updateUsername = document.getElementById('new-username');
-const updateEmail = document.getElementById('new-email');
+let updateUsername = document.getElementById('new-username');
+let updateEmail = document.getElementById('new-email');
+let updateUserType = document.getElementById('new-userType');
 // const updatePword = document.getElementById('new-pword');
 // const updatePword2 = document.getElementById('new-pword2');
 const uniqueUserTxt2 = document.querySelector(".unique-user2");
@@ -132,7 +133,7 @@ for(let i = 0; i <deleteBtn.length;i++){
         updateDivHeader.innerHTML = "Update User " + userId + "?";
         updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
         updateEmail.value = e.target.parentNode.parentNode.querySelector('#u-email').textContent;
-        updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
+        updateUserType.value = e.target.parentNode.parentNode.querySelector('#u-type').textContent;
         preUpdateUsername = updateUsername.value;
         preUpdateEmail = updateEmail.value;
         console.log(preUpdateEmail);
@@ -267,6 +268,7 @@ searchForm.addEventListener("submit", function(e){
                 updateDivHeader.innerHTML = "Update User " + userId + "?";
                 updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
                 updateEmail.value = e.target.parentNode.parentNode.querySelector('#u-email').textContent;
+                updateUserType.value = e.target.parentNode.parentNode.querySelector('#u-type').textContent;
                 updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
                 preUpdateUsername = updateUsername.value;
                 preUpdateEmail = updateEmail.value;      
@@ -611,6 +613,7 @@ yesBtn.addEventListener("click", () => {
                         updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
                         updateEmail.value = e.target.parentNode.parentNode.querySelector('#u-email').textContent;
                         updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
+                        updateUserType.value = e.target.parentNode.parentNode.querySelector('#u-type').textContent;
                         preUpdateUsername = updateUsername.value;
                     });
                     deleteBtn[i].addEventListener("click", (e) => {
@@ -775,6 +778,7 @@ yesBtn.addEventListener("click", () => {
                     updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
                     updateEmail.value = e.target.parentNode.parentNode.querySelector('#u-email').textContent;
                     updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
+                    updateUserType.value = e.target.parentNode.parentNode.querySelector('#u-type').textContent;
                     preUpdateUsername = updateUsername.value;
                     preUpdateEmail = updateEmail.value;
                 });
@@ -840,7 +844,7 @@ function setNewRow(objData){
     "<td class='user-td' id = 'u-username'>" +objData['username'] + "</td>" +
     "<td class='user-td' id = 'u-email'>" +objData['email']+ "</td>" +
     "<td class='user-td'>" + objData['registration_date']+ "</td>" +
-    "<td class='user-td'>" + objData['type']+ "</td>" +
+    "<td class='user-td' id = 'u-type'>" + objData['type']+ "</td>" +
     "<td class='user-td'><button type = 'button' class = 'table-btn update-user'>Update</button></td>" +
     "<td class='user-td'><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" +
     "<td style = 'display: none;' class = 'user-td " + objData['user_id'] + "'>" + "<input type = 'checkbox' class = 'delete-checkbox' id = "+ objData['user_id'] +"></td>" +   
