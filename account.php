@@ -1,20 +1,21 @@
-<?php require("mysql/mysqli_session.php"); 
+<?php 
+require("mysql/mysqli_session.php"); 
 $current_page = basename($_SERVER['PHP_SELF']);
-?>
-<?php if (!isset($_SESSION['username'])) {
-    
+
+if (!isset($_SESSION['username'])) {    
   header("location: index.php");
   exit(); 
-}?>
-
-<?php
+}
 
 function dd($item){
     var_dump($item);
     exit();
 }
 
-require "utilities/Translator_Functions.php";
+require "utilities/Translator_Functions.php"; 
+
+require "utilities/contact.php"; // used when user provides feedback
+
 
 $sess_id = $_SESSION['user_id'];
 $username = $_SESSION['username'];
@@ -269,6 +270,25 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['new-pword'])){
                             <button type = "button" class = "close-btn" id = "close-psword-btn">cancel</button>
                     </form>
                 </div>
+                
+            </div>
+
+            <br />
+            <div class = "acc-info-div">
+                <h2>Provide Us Feedback!</h2>
+                <div class="">We value your input and look forward to connecting with you.</div>
+                <hr>
+                <br />
+                <span id="contact-error" style="<?php echo "color: " . $contact_color . ";" ?? ''; ?>"><?php echo htmlspecialchars($contact_message) ?? ''; ?></span>
+                <form method="post" action="account.php">
+                    <input type="text" placeholder="Your Name" id="name" class = "user-input" name="contact_name" required maxlength="100" value="<?= $username?>" readonly required> <br>
+                    <input type="text" placeholder="Subject" id="subject" class = "user-input" name="contact_subject" required maxlength="100" required><br>
+                    <textarea class="user-input" name="contact_message" rows="5" placeholder="Message"></textarea>
+
+                    <br />
+                    <button type = "submit" class = "edit-btn" id = "edit-psword-btn">Send Message</button>
+                    
+                </form>
                 
             </div>
         </main>

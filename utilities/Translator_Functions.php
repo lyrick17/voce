@@ -73,7 +73,7 @@ class Translator{
         }
     }
 
-    static function uploadAndTranscribe($newFile, $removeBGM, $src_lang, $modelSize){
+    static function uploadAndTranscribe($userid, $newFile, $removeBGM, $src_lang, $modelSize){
 
         global $dbcon;      
 
@@ -106,7 +106,7 @@ class Translator{
             return $output;
             // the array will be returned so both text and language can be accessed
         } else {
-            ErrorHandling::audioError3();
+            ErrorHandling::audioError3($newFile, $userid); // pass the filename so it can be deleted, since it's not processed
         }
     }
 

@@ -19,6 +19,8 @@ function removeFolder($path) {
     }
 }
 
+
+# START: Deleting Audio Files on Database ---------------------------
 function fetchAudioContent($fileid) {
     global $dbcon;
     $datequery = "SELECT file_name, DATE_FORMAT(upload_date, '%m%d%Y_%H%i%s') AS formatted_date 
@@ -39,6 +41,14 @@ function fetchAudioContent($fileid) {
 
     return $info;
 }
+function deleteAudioContent($userid) {
+    global $dbcon;
+
+    $delquery = "DELETE FROM audio_files WHERE user_id = '$userid' ORDER BY upload_date DESC LIMIT 1";
+    $delresult = mysqli_query($dbcon, $delquery);
+}
+# END  : Deleting Audio Files on Database ---------------------------
+
 
 function deleteAudioFile($fileid, $userid) {
     //get the audio file content from the database, to be used on locating the filename in audio_files folder
@@ -73,6 +83,24 @@ function deleteAllAudioFiles($userid) {
         }
     
     }
+}
+
+function deleteErrorFile($filename, $userid) {
+    //get the audio file content from the database, to be used on locating the filename in audio_files folder
+
+    $name = pathinfo($filename, PATHINFO_FILENAME);
+    $extension = pathinfo($filename, PATHINFO_EXTENSION);
+
+    // remove the audio file uploaded by user
+    $filenameMask = "../audio_files/" . $name . "." . $extension; 
+    if (file_exists($filenameMask)) 
+        unlink($filenameMask);
+    
+    // remove the folder created on specific file and all its contents
+    $folderMask = "../audio_files/" . $name;
+    removeFolder($folderMask);
+
+    deleteAudioContent($userid);
 }
 
 ?>

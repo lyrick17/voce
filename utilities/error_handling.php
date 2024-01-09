@@ -1,4 +1,7 @@
 <?php
+
+require("delete_files.php");
+
 class ErrorHandling{
 
 	// make sure that in php.ini
@@ -15,11 +18,13 @@ class ErrorHandling{
 	}
 
 
-	static function audioError3() {
+	static function audioError3($filename, $userid) {
 		// error, for some reason, there is no output
 		global $dbcon;
 		logs("error-at-5", $_SESSION['username'], $dbcon);
 		//header("Location: history_audio.php?error=5");
+
+		deleteErrorFile($filename, $userid);
 		
 		$exit = ['error' => 5];
         exit(json_encode($exit));

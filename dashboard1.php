@@ -40,7 +40,7 @@
     
     } else if ($total_text == $total_audio) {
         // message to display if user both utilized text and audio the same
-        array_push($total_message_array, "You have been using both Text to Text and Audio to Text translation with a total of <b>" . $total_text . "</b> times.");
+        array_push($total_message_array, "You have been using both Text to Text and Audio to Text translation with a total of <b>" . $total_text + $total_audio . "</b> times.");
     }
     
     // message to display on AUDIO TO TEXT part
@@ -256,7 +256,6 @@
                   </div>
                 </div>
             </div>
-
 <div class="accordion">
     <div class="image-box">
       <img src="images/faqtranslator.jpg" alt="translator robot" >
