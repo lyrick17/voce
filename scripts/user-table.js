@@ -1,11 +1,7 @@
-//Fetch usernames and emails
-let usernames = [];
-let emails = []
-fetchUsers();
-
 //initial pagination
 paginateRows();
 
+let validColor = "green";
 
 //initialize search box
 let searchBox = document.getElementById("search-user");
@@ -34,18 +30,17 @@ let updateWindow = document.querySelector(".update-window");
 let closeupdateBtn = document.querySelector('.closeupdate-btn');
 let updateDivHeader = document.querySelector('.update-div-header');
 let updateForm = document.getElementById("update-form");
-const updateUsername = document.getElementById('new-username');
-const updateEmail = document.getElementById('new-email');
+let updateUsername = document.getElementById('new-username');
+let updateEmail = document.getElementById('new-email');
+let updateUserType = document.getElementById('new-userType');
 // const updatePword = document.getElementById('new-pword');
 // const updatePword2 = document.getElementById('new-pword2');
 const uniqueUserTxt2 = document.querySelector(".unique-user2");
 const validUserTxt2 = document.querySelector(".valid-user2");
 const validEmailTxt2 = document.querySelector(".valid-email2");
-
 uniqueUserTxt2.style.color = "green";
 validUserTxt2.style.color = "green";
 validEmailTxt2.style.color = "green";
-// const confirmPassTxt2 = document.querySelector(".confirm-pass2");
 
 //Delete function DOMs
 let deleteWindow = document.querySelector(".delete-window");
@@ -61,8 +56,6 @@ let sessionId = mysession.getAttribute('id');
 
 //initialize form data content
 let userId = 0;
-
-let validColor = "green";
 
 //initialize vars for selecting users to be deleted
 let deleteSelectedUsers = false;
@@ -140,7 +133,7 @@ for(let i = 0; i <deleteBtn.length;i++){
         updateDivHeader.innerHTML = "Update User " + userId + "?";
         updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
         updateEmail.value = e.target.parentNode.parentNode.querySelector('#u-email').textContent;
-        updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
+        updateUserType.value = e.target.parentNode.parentNode.querySelector('#u-type').textContent;
         preUpdateUsername = updateUsername.value;
         preUpdateEmail = updateEmail.value;
         console.log(preUpdateEmail);
@@ -275,6 +268,7 @@ searchForm.addEventListener("submit", function(e){
                 updateDivHeader.innerHTML = "Update User " + userId + "?";
                 updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
                 updateEmail.value = e.target.parentNode.parentNode.querySelector('#u-email').textContent;
+                updateUserType.value = e.target.parentNode.parentNode.querySelector('#u-type').textContent;
                 updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
                 preUpdateUsername = updateUsername.value;
                 preUpdateEmail = updateEmail.value;      
@@ -301,19 +295,25 @@ searchForm.addEventListener("submit", function(e){
         }
 
     hideWindow(createWindow);  
-    fetchUsers();  
     });
 
 });
 
 form.addEventListener("submit", function(e){
-    
     e.preventDefault();
     let fd = new FormData(form);
     fetch('user-table.php', {method: 'POST', body: fd})
     .then((res) => res.json()) // Converts response to JSON
     .then(response => {
         console.log(response);
+        if(response.includes("ERRORS")){
+            let errmessage = "ERROR \n";
+            for(let i = 1; i< response.length;i++){
+                errmessage += i + ".) " + response[i] + "\n";
+            }
+            alert(errmessage);
+        }
+        else{
         let updatedUsers ='<tr><td class = "create-cell" colspan = 1><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
         submitBtn.disabled = false;
         //add rows to new users table
@@ -441,7 +441,7 @@ form.addEventListener("submit", function(e){
         }
 
     hideWindow(createWindow);  
-    fetchUsers();  
+        }
     });
 
 });
@@ -469,7 +469,7 @@ updateUsername.addEventListener("keyup", () => {
 });
 
 updateEmail.addEventListener("keyup", () => {
-    validateEmail(updateEmail.value, "update");
+    validateUser(updateUsername.value, "update");
 });
 
 // updatePword.addEventListener("keyup", () => {
@@ -510,7 +510,6 @@ yesBtn.addEventListener("click", () => {
             body: fd})
             .then((res) => res.json()) // Converts response to JSON
             .then(response => {
-                fetchUsers();
                 let updatedUsers ='<tr><td class = "create-cell" colspan = 1><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
 
                 //add rows to new users table
@@ -614,7 +613,9 @@ yesBtn.addEventListener("click", () => {
                         updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
                         updateEmail.value = e.target.parentNode.parentNode.querySelector('#u-email').textContent;
                         updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
+                        updateUserType.value = e.target.parentNode.parentNode.querySelector('#u-type').textContent;
                         preUpdateUsername = updateUsername.value;
+                        preUpdateEmail = updateEmail.value;
                     });
                     deleteBtn[i].addEventListener("click", (e) => {
                         userId = e.target.parentNode.parentNode.id;
@@ -643,19 +644,31 @@ yesBtn.addEventListener("click", () => {
 
     updateForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    navusername.innerHTML = updateUsername.value;
     submitUpdate.disabled = true;
     let fd = new FormData(updateForm);
     fd.append('userId', userId);
+    fd.append('preUpdateUsername', preUpdateUsername);
+    fd.append('preUpdateEmail', preUpdateEmail);
     fetch('user-table.php',{
         method : 'POST', 
         body: fd})
         .then((res) => res.json()) // Converts response to JSON
         .then(response => {
-            console.log(response);
-            fetchUsers();
-            let updatedUsers ='<tr><td class = "create-cell" colspan = 1><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
             submitUpdate.disabled = false;
+            console.log(response);
+            if(response.includes("ERRORS")){
+                let errmessage = "ERRORS \n";
+
+                for(let i = 1; i< response.length;i++){
+                    errmessage += i + ".) " + response[i] + "\n";
+                }
+                alert(errmessage);
+            }
+            else{
+            if(userId == sessionId){
+                navusername.innerHTML = updateUsername.value;
+            }
+            let updatedUsers ='<tr><td class = "create-cell" colspan = 1><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
             //add rows to new users table
             for(let i = 0; i < response.length; i++){
                 let obj = response[i];
@@ -680,7 +693,6 @@ yesBtn.addEventListener("click", () => {
             uniqueUserTxt2.style.color = "green";
             validUserTxt2.style.color = "green";
             validEmailTxt2.style.color = "green";
-            // confirmPassTxt2.style.color = "red";
             submitUpdate.disabled = true;
 
 
@@ -698,10 +710,12 @@ yesBtn.addEventListener("click", () => {
             email.value = "";
             pword.value = "";
             pword2.value = "";
+
             uniqueUserTxt.style.color = "red";
             validUserTxt.style.color = "red";
             validEmailTxt.style.color = "red";
             confirmPassTxt.style.color = "red";
+
             resetUserType();
             submitBtn.disabled = true;
 
@@ -765,6 +779,7 @@ yesBtn.addEventListener("click", () => {
                     updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
                     updateEmail.value = e.target.parentNode.parentNode.querySelector('#u-email').textContent;
                     updateUsername.value = e.target.parentNode.parentNode.querySelector('#u-username').textContent;
+                    updateUserType.value = e.target.parentNode.parentNode.querySelector('#u-type').textContent;
                     preUpdateUsername = updateUsername.value;
                     preUpdateEmail = updateEmail.value;
                 });
@@ -783,6 +798,7 @@ yesBtn.addEventListener("click", () => {
                 });
             }
             hideWindow(updateWindow);
+        }
         });        
 });
 
@@ -790,11 +806,7 @@ yesBtn.addEventListener("click", () => {
 
 //shows confirmation window
 function displayWindow(window){
-    window.style.visibility = "visible";
-
-    
-
-    
+    window.style.visibility = "visible"; 
 }
 
 //hides confirmation window
@@ -819,17 +831,12 @@ function hideWindow(window){
     uniqueUserTxt2.style.color = "green";
     validUserTxt2.style.color = "green";
     validEmailTxt2.style.color = "green";
-    // confirmPassTxt2.style.color = "red";
 
     for(let i = 0; i <updateBtns.length;i++){
         updateBtns.disabled = true;
     }
 }
 
-
-// function fetchSearchedUsers(){
-    
-// }
 
 function setNewRow(objData){
 
@@ -838,23 +845,11 @@ function setNewRow(objData){
     "<td class='user-td' id = 'u-username'>" +objData['username'] + "</td>" +
     "<td class='user-td' id = 'u-email'>" +objData['email']+ "</td>" +
     "<td class='user-td'>" + objData['registration_date']+ "</td>" +
-    "<td class='user-td'>" + objData['type']+ "</td>" +
+    "<td class='user-td' id = 'u-type'>" + objData['type']+ "</td>" +
     "<td class='user-td'><button type = 'button' class = 'table-btn update-user'>Update</button></td>" +
     "<td class='user-td'><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" +
     "<td style = 'display: none;' class = 'user-td " + objData['user_id'] + "'>" + "<input type = 'checkbox' class = 'delete-checkbox' id = "+ objData['user_id'] +"></td>" +   
     "</tr>";
-
-    // return "<tr class = 'paginate' id = '"+ objData['user_id'] + "'>" +            
-    // "<td  class='user-td'>" + objData['user_id']+ "</td>" +
-    // "<td  class='user-td' id = 'u-username'>" + objData['username']+ "</td>" +
-    // "<td  class='user-td' id = 'u-email'>" + objData['email']+ "</td>" +
-    // "<td  class='user-td'>" + objData['registration_date'] + "</td>" +
-    // "<td  class='user-td'>" + objData['type'] + "</td>" +
-    // "<td  class='user-td'><button type = 'button' class = 'table-btn update-user'>Update</button></td>" +
-    // "<td  class='user-td'><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" +
-    // "<td style = 'display: none;' class = 'user-td " + objData['user_id'] + "'>" + "<input type = 'checkbox' class = 'delete-checkbox' id = " + objData['user_id'] +"></td>" +  
-    // "</tr>";
-
 }
 
 function displayWindow(window){
@@ -884,107 +879,6 @@ function readyToSubmit(func){
             submitUpdate.disabled = true;
         }
     }
-}
-
-// not yet finished, need to check if username is unique
-function validateUser(username, func){
-    const userPattern = /^[\w\-]+$/;
-    if(func == "create"){
-        if(username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase()))
-            uniqueUserTxt.style.color = validColor;
-        else{
-            uniqueUserTxt.style.color = "red";
-        }
-
-        if(userPattern.test(username)){
-            validUserTxt.style.color = validColor;
-        }
-        else{
-            validUserTxt.style.color = "red";
-        }
-
-
-    }
-    else if(func == "update"){
-        if((username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase())) || username == preUpdateUsername) 
-            uniqueUserTxt2.style.color = validColor;
-        else{
-            uniqueUserTxt2.style.color = "red";
-        }
-        if(userPattern.test(username)){
-            validUserTxt2.style.color = validColor;
-        }
-        else{
-            validUserTxt2.style.color = "red";
-        }
-
-    }
-    readyToSubmit(func);
-}
-
-// not yet finished, need to check if email is unique
-function validateEmail(email, func){
-    const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-    if(func == "create"){
-        if(emailPattern.test(email) && !emails.includes(email)){
-                validEmailTxt.style.color = validColor;    
-        }
-        else{
-                validEmailTxt.style.color = "red";    
-
-        }
-
-    }
-    else if(func == "update"){
-        if((emailPattern.test(email) && !emails.includes(email)) || email == preUpdateEmail){
-                validEmailTxt2.style.color = validColor;    
-        }
-        else{
-                validEmailTxt2.style.color = "red";    
-
-        }
-    }
-
-    readyToSubmit(func);
-}
-
-function validatePassword(password, password2, func){
-    if(password.length >= 8 && password === password2 && password != ""){
-        if(func == "create")
-        confirmPassTxt.style.color = validColor;    
-        // else if(func == "update")
-        // confirmPassTxt2.style.color = validColor;    
-    }
-    else{
-        if(func == "create")
-            confirmPassTxt.style.color = "red";    
-        // else if(func == "update")
-        //     confirmPassTxt2.style.color = "red";    
-    }
-    readyToSubmit(func);
-}
-
-function fetchUsers(){
-    //resets usernames and emails 
-    usernames = [];
-    emails = [];
-    fetch('user-table.php', {
-    headers: {
-      'credentials': 'same-origin',
-      'X-Requested-With': 'XMLHttpRequest',
-      'Content-Type': 'application/json'
-       // or 'Content-Type': 'application/x-www-form-urlencoded'
-    }, method: 'POST'})
-  .then((res) => res.json())
-  .then((response) => {
-    console.log(response);
-
-    for(let i = 0; i < response.length; i++){
-        usernames.push(response[i]['username'].toLowerCase());
-        emails.push(response[i]['email'].toLowerCase());
-    }
-  })
 }
 
 function resetUserType(){
@@ -1026,4 +920,82 @@ function paginateRows(){
         });
     });
 
+}
+
+function validateUser(username, func){
+    const userPattern = /^[\w\-]+$/;
+    if(func == "create"){
+        if(username.length >= 6 && username.length <= 30)
+            uniqueUserTxt.style.color = validColor;
+        else{
+            uniqueUserTxt.style.color = "red";
+        }
+
+        if(userPattern.test(username)){
+            validUserTxt.style.color = validColor;
+        }
+        else{
+            validUserTxt.style.color = "red";
+        }
+
+
+    }
+    else if(func == "update"){
+        if(username.length >= 6 && username.length <= 30) 
+            uniqueUserTxt2.style.color = validColor;
+        else{
+            uniqueUserTxt2.style.color = "red";
+        }
+        if(userPattern.test(username)){
+            validUserTxt2.style.color = validColor;
+        }
+        else{
+            validUserTxt2.style.color = "red";
+        }
+
+    }
+    readyToSubmit(func);
+}
+
+// not yet finished, need to check if email is unique
+function validateEmail(email, func){
+    const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if(func == "create"){
+        if(emailPattern.test(email)){
+                validEmailTxt.style.color = validColor;    
+        }
+        else{
+                validEmailTxt.style.color = "red";    
+
+        }
+
+    }
+    else if(func == "update"){
+        if(emailPattern.test(email) || email == preUpdateEmail){
+                validEmailTxt2.style.color = validColor;    
+        }
+        else{
+                validEmailTxt2.style.color = "red";    
+
+        }
+    }
+
+    readyToSubmit(func);
+}
+
+function validatePassword(password, password2, func){
+    if(password.length >= 8 && password === password2 && password != ""){
+        if(func == "create")
+        confirmPassTxt.style.color = validColor;    
+        // else if(func == "update")
+        // confirmPassTxt2.style.color = validColor;    
+    }
+    else{
+        if(func == "create")
+            confirmPassTxt.style.color = "red";    
+        // else if(func == "update")
+        //     confirmPassTxt2.style.color = "red";    
+    }
+    readyToSubmit(func);
 }

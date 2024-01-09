@@ -169,10 +169,6 @@ th, td{
     cursor: pointer;
 }
 
-.req{
-    color: red;
-}
-
 .update-window{
     position: absolute;
     width:100vw;
@@ -235,6 +231,9 @@ th, td{
     background: #fe4c5a;
 }
 
+.req{
+    color:red;
+}
 
 @media (orientation: portrait){
     .create-form-div{
@@ -249,7 +248,7 @@ th, td{
 }
 
 #search-user{
-    margin-left: 10em;
+    margin-left: 2em;
     border-radius: .5em;
     width: 200px;
     height: 30px;
@@ -259,5 +258,7 @@ th, td{
 #search-form{
     text-align: center;
     position: absolute;
+    display: flex;
+    justify-content: start;
 
 }
