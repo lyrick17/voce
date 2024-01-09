@@ -1,8 +1,3 @@
-//Fetch usernames and emails
-let usernames = [];
-let emails = []
-fetchUsers();
-
 //initial pagination
 paginateRows();
 
@@ -42,9 +37,6 @@ const uniqueUserTxt2 = document.querySelector(".unique-user2");
 const validUserTxt2 = document.querySelector(".valid-user2");
 const validEmailTxt2 = document.querySelector(".valid-email2");
 
-uniqueUserTxt2.style.color = "green";
-validUserTxt2.style.color = "green";
-validEmailTxt2.style.color = "green";
 // const confirmPassTxt2 = document.querySelector(".confirm-pass2");
 
 //Delete function DOMs
@@ -208,10 +200,6 @@ searchForm.addEventListener("submit", function(e){
         email.value = "";
         pword.value = "";
         pword2.value = "";
-        uniqueUserTxt.style.color = "red";
-        validUserTxt.style.color = "red";
-        validEmailTxt.style.color = "red";
-        confirmPassTxt.style.color = "red";
         resetUserType();
         submitBtn.disabled = true;
 
@@ -301,19 +289,25 @@ searchForm.addEventListener("submit", function(e){
         }
 
     hideWindow(createWindow);  
-    fetchUsers();  
     });
 
 });
 
 form.addEventListener("submit", function(e){
-    
     e.preventDefault();
     let fd = new FormData(form);
     fetch('user-table.php', {method: 'POST', body: fd})
     .then((res) => res.json()) // Converts response to JSON
     .then(response => {
         console.log(response);
+        if(response.includes("ERRORS")){
+            let errmessage = "ERROR \n";
+            for(let i = 1; i< response.length;i++){
+                errmessage += i + ".) " + response[i] + "\n";
+            }
+            alert(errmessage);
+        }
+        else{
         let updatedUsers ='<tr><td class = "create-cell" colspan = 1><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
         submitBtn.disabled = false;
         //add rows to new users table
@@ -348,10 +342,6 @@ form.addEventListener("submit", function(e){
         email.value = "";
         pword.value = "";
         pword2.value = "";
-        uniqueUserTxt.style.color = "red";
-        validUserTxt.style.color = "red";
-        validEmailTxt.style.color = "red";
-        confirmPassTxt.style.color = "red";
         resetUserType();
         submitBtn.disabled = true;
 
@@ -441,35 +431,35 @@ form.addEventListener("submit", function(e){
         }
 
     hideWindow(createWindow);  
-    fetchUsers();  
+        }
     });
 
 });
 
 //Event listeners for validating create user inputs
 username.addEventListener("keyup", () => {
-    validateUser(username.value, "create");
+    readyToSubmit("create");
 });
 
 email.addEventListener("keyup", () => {
-    validateEmail(email.value, "create");
+    readyToSubmit("create");
 });
 
 pword.addEventListener("keyup", () => {
-    validatePassword(pword.value, pword2.value, "create");
+    readyToSubmit("create");
 });
 
 pword2.addEventListener("keyup", () => {
-    validatePassword(pword.value, pword2.value, "create");
+    readyToSubmit("create");
 });
 
 //Event listeners for validating update user inputs
 updateUsername.addEventListener("keyup", () => {
-    validateUser(updateUsername.value, "update");
+    readyToSubmit("update");
 });
 
 updateEmail.addEventListener("keyup", () => {
-    validateEmail(updateEmail.value, "update");
+    readyToSubmit("update");
 });
 
 // updatePword.addEventListener("keyup", () => {
@@ -510,7 +500,6 @@ yesBtn.addEventListener("click", () => {
             body: fd})
             .then((res) => res.json()) // Converts response to JSON
             .then(response => {
-                fetchUsers();
                 let updatedUsers ='<tr><td class = "create-cell" colspan = 1><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
 
                 //add rows to new users table
@@ -546,10 +535,6 @@ yesBtn.addEventListener("click", () => {
                 email.value = "";
                 pword.value = "";
                 pword2.value = "";
-                uniqueUserTxt.style.color = "red";
-                validUserTxt.style.color = "red";
-                validEmailTxt.style.color = "red";
-                confirmPassTxt.style.color = "red";
                 resetUserType();
 
                 submitBtn.disabled = true;
@@ -643,19 +628,29 @@ yesBtn.addEventListener("click", () => {
 
     updateForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    navusername.innerHTML = updateUsername.value;
     submitUpdate.disabled = true;
     let fd = new FormData(updateForm);
     fd.append('userId', userId);
+    fd.append('preUpdateUsername', preUpdateUsername);
+    fd.append('preUpdateEmail', preUpdateEmail);
     fetch('user-table.php',{
         method : 'POST', 
         body: fd})
         .then((res) => res.json()) // Converts response to JSON
         .then(response => {
-            console.log(response);
-            fetchUsers();
-            let updatedUsers ='<tr><td class = "create-cell" colspan = 1><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
             submitUpdate.disabled = false;
+            console.log(response);
+            if(response.includes("ERRORS")){
+                let errmessage = "ERRORS \n";
+
+                for(let i = 1; i< response.length;i++){
+                    errmessage += i + ".) " + response[i] + "\n";
+                }
+                alert(errmessage);
+            }
+            else{
+            navusername.innerHTML = updateUsername.value;
+            let updatedUsers ='<tr><td class = "create-cell" colspan = 1><button class = "table-btn create-btn">Create User</button></td><td class = "select-cell" colspan = 2><button type = "button" class = "deleteSelectedUsers">Delete Selected Rows</button><button type = "button" class = "deleteRows-btn">Delete Rows</button></td></tr><tr><th class = "data">User ID</th><th>Username</th><th>Email</th><th>Registration Date</th><th>Type</th><th colspan = 3>Actions</th></tr>';
             //add rows to new users table
             for(let i = 0; i < response.length; i++){
                 let obj = response[i];
@@ -677,10 +672,7 @@ yesBtn.addEventListener("click", () => {
             updateEmail.value = "";
             // updatePword.value = "";
             // updatePword2.value = "";
-            uniqueUserTxt2.style.color = "green";
-            validUserTxt2.style.color = "green";
-            validEmailTxt2.style.color = "green";
-            // confirmPassTxt2.style.color = "red";
+
             submitUpdate.disabled = true;
 
 
@@ -698,10 +690,7 @@ yesBtn.addEventListener("click", () => {
             email.value = "";
             pword.value = "";
             pword2.value = "";
-            uniqueUserTxt.style.color = "red";
-            validUserTxt.style.color = "red";
-            validEmailTxt.style.color = "red";
-            confirmPassTxt.style.color = "red";
+
             resetUserType();
             submitBtn.disabled = true;
 
@@ -783,6 +772,7 @@ yesBtn.addEventListener("click", () => {
                 });
             }
             hideWindow(updateWindow);
+        }
         });        
 });
 
@@ -790,11 +780,7 @@ yesBtn.addEventListener("click", () => {
 
 //shows confirmation window
 function displayWindow(window){
-    window.style.visibility = "visible";
-
-    
-
-    
+    window.style.visibility = "visible"; 
 }
 
 //hides confirmation window
@@ -805,10 +791,6 @@ function hideWindow(window){
     email.value = "";
     pword.value = "";
     pword2.value = "";
-    uniqueUserTxt.style.color = "red";
-    validUserTxt.style.color = "red";
-    validEmailTxt.style.color = "red";
-    confirmPassTxt.style.color = "red";
     resetUserType();
     submitBtn.disabled = true;
 
@@ -816,20 +798,12 @@ function hideWindow(window){
     updateEmail.value = "";
     // updatePword.value = "";
     // updatePword2.value = "";
-    uniqueUserTxt2.style.color = "green";
-    validUserTxt2.style.color = "green";
-    validEmailTxt2.style.color = "green";
-    // confirmPassTxt2.style.color = "red";
 
     for(let i = 0; i <updateBtns.length;i++){
         updateBtns.disabled = true;
     }
 }
 
-
-// function fetchSearchedUsers(){
-    
-// }
 
 function setNewRow(objData){
 
@@ -843,18 +817,6 @@ function setNewRow(objData){
     "<td class='user-td'><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" +
     "<td style = 'display: none;' class = 'user-td " + objData['user_id'] + "'>" + "<input type = 'checkbox' class = 'delete-checkbox' id = "+ objData['user_id'] +"></td>" +   
     "</tr>";
-
-    // return "<tr class = 'paginate' id = '"+ objData['user_id'] + "'>" +            
-    // "<td  class='user-td'>" + objData['user_id']+ "</td>" +
-    // "<td  class='user-td' id = 'u-username'>" + objData['username']+ "</td>" +
-    // "<td  class='user-td' id = 'u-email'>" + objData['email']+ "</td>" +
-    // "<td  class='user-td'>" + objData['registration_date'] + "</td>" +
-    // "<td  class='user-td'>" + objData['type'] + "</td>" +
-    // "<td  class='user-td'><button type = 'button' class = 'table-btn update-user'>Update</button></td>" +
-    // "<td  class='user-td'><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" +
-    // "<td style = 'display: none;' class = 'user-td " + objData['user_id'] + "'>" + "<input type = 'checkbox' class = 'delete-checkbox' id = " + objData['user_id'] +"></td>" +  
-    // "</tr>";
-
 }
 
 function displayWindow(window){
@@ -863,9 +825,10 @@ function displayWindow(window){
 
 function readyToSubmit(func){
     if(func == "create"){
-        if(uniqueUserTxt.style.color == validColor &&
-        validUserTxt.style.color == validColor &&
-        validEmailTxt.style.color == validColor &&
+        if(username.value.length > 0 &&
+            email.value.length > 0 &&
+            pword.value.length > 0 &&
+            pword2.value.length > 0 &&
         (userType.options[userType.selectedIndex].text == "Admin" ||
         userType.options[userType.selectedIndex].text == "User")){
             submitBtn.disabled = false;
@@ -875,116 +838,15 @@ function readyToSubmit(func){
         }
     }
     else if (func == "update"){
-        if(uniqueUserTxt2.style.color == validColor &&
-        validUserTxt2.style.color == validColor &&
-        validEmailTxt2.style.color == validColor){
+        if(updateUsername.value.length > 0 &&
+        updateEmail.value.length > 0
+        ){
             submitUpdate.disabled = false;
         }
         else{
             submitUpdate.disabled = true;
         }
     }
-}
-
-// not yet finished, need to check if username is unique
-function validateUser(username, func){
-    const userPattern = /^[\w\-]+$/;
-    if(func == "create"){
-        if(username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase()))
-            uniqueUserTxt.style.color = validColor;
-        else{
-            uniqueUserTxt.style.color = "red";
-        }
-
-        if(userPattern.test(username)){
-            validUserTxt.style.color = validColor;
-        }
-        else{
-            validUserTxt.style.color = "red";
-        }
-
-
-    }
-    else if(func == "update"){
-        if((username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase())) || username == preUpdateUsername) 
-            uniqueUserTxt2.style.color = validColor;
-        else{
-            uniqueUserTxt2.style.color = "red";
-        }
-        if(userPattern.test(username)){
-            validUserTxt2.style.color = validColor;
-        }
-        else{
-            validUserTxt2.style.color = "red";
-        }
-
-    }
-    readyToSubmit(func);
-}
-
-// not yet finished, need to check if email is unique
-function validateEmail(email, func){
-    const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-    if(func == "create"){
-        if(emailPattern.test(email) && !emails.includes(email)){
-                validEmailTxt.style.color = validColor;    
-        }
-        else{
-                validEmailTxt.style.color = "red";    
-
-        }
-
-    }
-    else if(func == "update"){
-        if((emailPattern.test(email) && !emails.includes(email)) || email == preUpdateEmail){
-                validEmailTxt2.style.color = validColor;    
-        }
-        else{
-                validEmailTxt2.style.color = "red";    
-
-        }
-    }
-
-    readyToSubmit(func);
-}
-
-function validatePassword(password, password2, func){
-    if(password.length >= 8 && password === password2 && password != ""){
-        if(func == "create")
-        confirmPassTxt.style.color = validColor;    
-        // else if(func == "update")
-        // confirmPassTxt2.style.color = validColor;    
-    }
-    else{
-        if(func == "create")
-            confirmPassTxt.style.color = "red";    
-        // else if(func == "update")
-        //     confirmPassTxt2.style.color = "red";    
-    }
-    readyToSubmit(func);
-}
-
-function fetchUsers(){
-    //resets usernames and emails 
-    usernames = [];
-    emails = [];
-    fetch('user-table.php', {
-    headers: {
-      'credentials': 'same-origin',
-      'X-Requested-With': 'XMLHttpRequest',
-      'Content-Type': 'application/json'
-       // or 'Content-Type': 'application/x-www-form-urlencoded'
-    }, method: 'POST'})
-  .then((res) => res.json())
-  .then((response) => {
-    console.log(response);
-
-    for(let i = 0; i < response.length; i++){
-        usernames.push(response[i]['username'].toLowerCase());
-        emails.push(response[i]['email'].toLowerCase());
-    }
-  })
 }
 
 function resetUserType(){

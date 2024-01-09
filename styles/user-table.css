@@ -169,10 +169,6 @@ th, td{
     cursor: pointer;
 }
 
-.req{
-    color: red;
-}
-
 .update-window{
     position: absolute;
     width:100vw;

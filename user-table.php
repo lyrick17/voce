@@ -20,14 +20,6 @@ function dd($item){
 
 require "utilities/Translator_Functions.php";
 
-if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
-    $q = "SELECT username, email FROM USERS";
-    $result = mysqli_query($dbcon, $q);
-    $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-    exit(json_encode($users));
-}
-
 //Retrieves searched users 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search'])){
     
@@ -53,66 +45,151 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search'])){
         }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['userType'])) {
-    // 1 get all the values input first and protection from sql injection, then
-    // 2 get username and email from database, to avoid same data
-    // 3 before validating it if its empty or user/email already taken or password matched
 
-    // 1
+// else if(func == "update"){
+//     if((username.length >= 6 && username.length <= 30 && !usernames.includes(username.toLowerCase())) || username == preUpdateUsername) 
+//         uniqueUserTxt2.style.color = validColor;
+//     else{
+//         uniqueUserTxt2.style.color = "red";
+//     }
+//     if(userPattern.test(username)){
+//         validUserTxt2.style.color = validColor;
+//     }
+//     else{
+//         validUserTxt2.style.color = "red";
+//     }
+
+// }
+
+// else if(func == "update"){
+//     if((emailPattern.test(email) && !emails.includes(email)) || email == preUpdateEmail){
+//             validEmailTxt2.style.color = validColor;    
+//     }
+//     else{
+//             validEmailTxt2.style.color = "red";    
+
+//     }
+// }
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['userType'])) {
+    $errors = ["ERRORS"];
+    $userPattern = '/^[\w\-]+$/';
+    $emailPattern = '/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/';
     $username = mysqli_real_escape_string($dbcon, trim($_POST['username']));
     $email = mysqli_real_escape_string($dbcon, trim($_POST['email']));
     $password = mysqli_real_escape_string($dbcon, trim($_POST['pword']));
+    $password2 = mysqli_real_escape_string($dbcon, trim($_POST['pword2']));
+
     $usertype = mysqli_real_escape_string($dbcon, trim($_POST['userType']));
     $hashedPass = password_hash($password, PASSWORD_BCRYPT);
 
-    // 2
-    $usernameCheck = "SELECT * FROM `users` WHERE username = '" . $username . "' ";
-    $usernameResult = mysqli_query($dbcon, $usernameCheck);
-    $emailCheck = "SELECT * FROM `users` WHERE email = '" . $email . "' ";
-    $emailResult = mysqli_query($dbcon, $emailCheck);
+    // Username Validation
+    $stmt = mysqli_prepare($dbcon, "SELECT EXISTS(SELECT username FROM USERS WHERE username = ?)");
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $result);
+    mysqli_stmt_fetch($stmt);
+    $stmt->close();
 
+    if($result == 1){
+        array_push($errors, "Username must be unique");
+    }
+    if(strlen($username) < 6 || strlen($username) > 30){
+        array_push($errors, "Username length should be between 6 to 30 characters");
+    }
+    
+    if(!preg_match($userPattern, $username)){
+        array_push($errors, "Username must only contain letters digits, dashes, and underscores");
+    }
+    
+    $stmt = mysqli_prepare($dbcon, "SELECT EXISTS(SELECT email FROM USERS WHERE email = ?)");
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $result);
+    mysqli_stmt_fetch($stmt);
+    $stmt->close();
+    
+    if($result == 1){
+        array_push($errors, "The email you entered is already in use");
+    }
+    
+    if(!preg_match($emailPattern, $email)){
+        array_push($errors, "Email must be valid.");
+    }
 
+    if((strlen($password) < 8)){
+        array_push($errors, "Password must be atleast 8 characters.");
+    }
+    if($password != $password2){
+        array_push($errors, "Passwords must match");
+    }    
+
+    if(sizeof($errors) == 1){
     $query = mysqli_prepare($dbcon, "INSERT INTO users(username, email, pword, type, registration_date) 
                                     VALUES (?, ?, ?, ?, NOW())");
     mysqli_stmt_bind_param($query, "ssss", $username, $email, $hashedPass, $usertype);
     $result = mysqli_stmt_execute($query);
     
-
     $q = "SELECT user_id, username, email, registration_date, type FROM users ORDER BY user_id ASC";
     $users = mysqli_query($dbcon, $q);
     $result = mysqli_fetch_all($users, MYSQLI_ASSOC);
     exit(json_encode($result));
+    }
+    else{
+        exit(json_encode($errors));
+    }
 }
 
 else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new-username'])) {
-    // 1 get all the values input first and protection from sql injection, then
-    // 2 get username and email from database, to avoid same data
-    // 3 before validating it if its empty or user/email already taken or password matched
+    $errors = ["ERRORS"];
+    $userPattern = '/^[\w\-]+$/';
+    $emailPattern = '/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/';
 
-
-
-    // 1
     $username = mysqli_real_escape_string($dbcon, trim($_POST['new-username']));
     $email = mysqli_real_escape_string($dbcon, trim($_POST['new-email']));
-    // $password = mysqli_real_escape_string($dbcon, trim($_POST['new-pword']));
-    // $password = mysqli_real_escape_string($dbcon, trim($_POST['new-pword']));
-    // $hashedPass = password_hash($password, PASSWORD_BCRYPT);
 
-    //updates session variable if current user info is updated
-    if($_POST['userId'] == $_SESSION['user_id']){
-        $_SESSION['username'] = $username;
-        $_SESSION['email'] = $email;
-        // $_SESSION['pword'] = $hashedPass;
+        // Username Validation
+        $stmt = mysqli_prepare($dbcon, "SELECT EXISTS(SELECT username FROM USERS WHERE username = ?)");
+        mysqli_stmt_bind_param($stmt, "s", $username);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_bind_result($stmt, $result);
+        mysqli_stmt_fetch($stmt);
+        $stmt->close();
+    
+        if($result == 1 && $_POST['preUpdateUsername'] != $username){
+            array_push($errors, "Username must be unique");
+        }
+        if(strlen($username) < 6 || strlen($username) > 30){
+            array_push($errors, "Username length should be between 6 to 30 characters");
+        }
+        
+        if(!preg_match($userPattern, $username)){
+            array_push($errors, "Username must only contain letters digits, dashes, and underscores");
+        }
+
+    $stmt = mysqli_prepare($dbcon, "SELECT EXISTS(SELECT email FROM USERS WHERE email = ?)");
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $result);
+    mysqli_stmt_fetch($stmt);
+    $stmt->close();
+    
+    if($result == 1 && $_POST['preUpdateEmail'] != $email){
+        array_push($errors, "The email you entered is already in use");
+    }
+    
+    if(!preg_match($emailPattern, $email)){
+        array_push($errors, "Email must be valid.");
     }
 
+    if(sizeof($errors) == 1){
+        if($_POST['userId'] == $_SESSION['user_id']){
+            $_SESSION['username'] = $username;
+            $_SESSION['email'] = $email;
+            // $_SESSION['pword'] = $hashedPass;
+        }
     $userId = (int)$_POST['userId'];
-
-
-    $usernameCheck = "SELECT * FROM `users` WHERE username = '" . $username . "' ";
-    $usernameResult = mysqli_query($dbcon, $usernameCheck);
-    $emailCheck = "SELECT * FROM `users` WHERE email = '" . $email . "' ";
-    $emailResult = mysqli_query($dbcon, $emailCheck);
-
 
     $query = mysqli_prepare($dbcon, "UPDATE users SET username = ?, email = ? WHERE user_id = ?");
     mysqli_stmt_bind_param($query, "ssi", $username, $email, $userId);
@@ -123,6 +200,10 @@ else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new-username'])) 
     $users = mysqli_query($dbcon, $q);
     $result = mysqli_fetch_all($users, MYSQLI_ASSOC);
     exit(json_encode($result));
+    }
+    else{
+        exit(json_encode($errors));
+    }
 }
 
 
