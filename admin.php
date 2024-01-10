@@ -125,9 +125,23 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                   <canvas id = "myChart">
                   </canvas>
         </div>
+        <br />
+        <div class = "graph-container">
+            <h1>Errors in Text to Text</h1>
+                  <canvas id = "bartext">
+                  </canvas>
+        </div>
+        <br />
+        <div class = "graph-container">
+            <h1>Errors in Audio to Text</h1>
+                  <canvas id = "baraudio">
+                  </canvas>
+        </div>
         <div class = "dlbtns-container">
         <button class = "dlpie-btn" href= "#">Download Pie Graph</button>
         <button class = "dlgraph-btn" href= "#">Download Line Graph</button>
+        <button class = "dlbar1-btn" href= "#">Download Text Errors Graph</button>
+        <button class = "dlbar2-btn" href= "#">Download Audio Errors Graph</button>
         </div>
 
 

@@ -1145,7 +1145,7 @@ select::after {
     width: 13em;
 }
 
-.dlgraph-btn{
+.dlgraph-btn, .dlbar1-btn, .dlbar2-btn {
     background : blue;
     color: white;
     padding: 0.5em;
@@ -1153,7 +1153,7 @@ select::after {
     border-radius: 0.5em;
 }
 
-.dlgraph-btn:hover{
+.dlgraph-btn:hover, .dlbar1-btn:hover, .dlbar2-btn:hover {
     cursor: pointer;
     background: rgb(96, 96, 230);
 }
