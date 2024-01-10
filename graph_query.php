@@ -57,12 +57,51 @@ for($i = 0; $i < 7; $i++){
 }
 
 
+// get all the error logs
+$t_error = [];
+$a_error = [];
+
+$t_error[0] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error text-text: language not selected';";
+$t_error[1] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error text-text: no text input';";
+$t_error[2] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error text-text: same language selected';";
+$t_error[3] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error text-text: user chose unprovided language';";
+
+$t_error_result = [];
+for ($t = 0; $t < 4; $t++) {
+    $t_error_row[$t] = mysqli_fetch_row(mysqli_query($dbcon, $t_error[$t]));
+}
+
+$a_error[0] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error audio-text: language / model not selected';";
+$a_error[1] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error audio-text: no file uploaded';";
+$a_error[2] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error audio-text: file format not supported';";
+$a_error[3] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error audio-text: same language selected';";
+$a_error[4] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'translation no output: audio-to-text';";
+$a_error[5] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error audio-text: user chose unprovided language';";
+
+$a_error_result = [];
+for ($a = 0; $a < 6; $a++) {
+    $a_error_row[$a] = mysqli_fetch_row(mysqli_query($dbcon, $a_error[$a]));
+}
+
+// place all the total errors in designated variables
+$bartext_values = [0, 0, 0, 0];
+for($i = 0; $i < 4; $i++) {
+    $bartext_values[$i] = $t_error_row[$i]; 
+}
+
+$baraudio_values = [0, 0, 0, 0, 0, 0];
+for($i = 0; $i < 6; $i++) {
+    $baraudio_values[$i] = $a_error_row[$i]; 
+}
+
 // Associative array containing the graph values
 $graph_data = [
     'line_values' => [
         'a2t_totals' => $a2t_per_day, 
         't2t_totals' => $t2t_per_day],
-    'pie_values' => $pie_values
+    'pie_values' => $pie_values,
+    'bartext_values' => $bartext_values,
+    'baraudio_values' => $baraudio_values
 ];
 
 exit(json_encode($graph_data));

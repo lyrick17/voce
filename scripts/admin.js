@@ -15,8 +15,12 @@ fetchPromise.then((response) =>
   .then(() => {
   const chart = document.getElementById('myChart');
   const donut = document.getElementById("donutCanvas");
+  const barT = document.getElementById("bartext");
+  const barA = document.getElementById("baraudio");
   const dlBtn = document.querySelector(".dlgraph-btn");
   const dlPie = document.querySelector(".dlpie-btn");
+  const dlBar1 = document.querySelector(".dlbar1-btn");
+  const dlBar2 = document.querySelector(".dlbar2-btn");
   dlBtn.addEventListener("click", () => {
     const pngDataUrl = chart.toDataURL("image/png");
 
@@ -57,6 +61,46 @@ fetchPromise.then((response) =>
       document.body.removeChild(link);
   });
 
+  dlBar1.addEventListener("click", () => {
+    const pngDataUrl = barT.toDataURL("image/png");
+
+      // Create a temporary link element
+      var link = document.createElement('a', 1);
+
+      // Set the href attribute to the data URL
+      link.href = pngDataUrl;
+
+      // Set the download attribute with the desired file name
+      link.download = 'text_translation_errors.png';
+
+      // Append the link to the document and trigger a click event
+      document.body.appendChild(link);
+      link.click();
+
+      // Remove the link from the document
+      document.body.removeChild(link);
+  });
+
+  dlBar2.addEventListener("click", () => {
+    const pngDataUrl = barA.toDataURL("image/png");
+
+      // Create a temporary link element
+      var link = document.createElement('a', 1);
+
+      // Set the href attribute to the data URL
+      link.href = pngDataUrl;
+
+      // Set the download attribute with the desired file name
+      link.download = 'audio_translation_errors.png';
+
+      // Append the link to the document and trigger a click event
+      document.body.appendChild(link);
+      link.click();
+
+      // Remove the link from the document
+      document.body.removeChild(link);
+  });
+
   let d = new Date();
   let dates = new Array(7);
   console.log(dates.toString());
@@ -69,6 +113,7 @@ fetchPromise.then((response) =>
   }
 
   dates.reverse();
+
       //line graph data
       const line_data = {
           labels: dates,
@@ -141,7 +186,72 @@ fetchPromise.then((response) =>
           },
         ]
         };
+        // bar text error data
+        const bartext_data = {
+          labels: ['language not selected', 
+                  'no text input',
+                  'same language selected',
+                  'chose unprovided language'],
+          datasets: [{
+            label: 'Total Error',
+            data: graphData['bartext_values'],
+            backgroundColor: [
+              'rgba(255, 26, 104, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(0, 0, 0, 0.2)'
+            ],
+            borderColor: [
+              'rgba(255, 26, 104, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)',
+              'rgba(0, 0, 0, 1)'
+            ],
+              borderWidth: 2
+            }
+        ]
+        };
+
+        // bar audio error data
+        const baraudio_data = {
+          labels: ['language/model not selected', 
+                  'no file uploaded',
+                  'file format not supported',
+                  'same language selected',
+                  'no text output from file',
+                  'chose unprovided language'],
+          datasets: [{
+            label: 'Total Error',
+            data: graphData['baraudio_values'],
+            backgroundColor: [
+              'rgba(255, 26, 104, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(0, 0, 0, 0.2)'
+            ],
+            borderColor: [
+              'rgba(255, 26, 104, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)',
+              'rgba(0, 0, 0, 1)'
+            ],
     
+            borderWidth: 2
+          },
+        ]
+        };
         
         const plugin = {
           id: 'customCanvasBackgroundColor',
@@ -218,12 +328,64 @@ fetchPromise.then((response) =>
             }
           }
         };
+        
+        const config3 = {
+          type: 'bar',
+          data: bartext_data,
+          plugins: [plugin],
+          options: {
+            plugins: {
+              customCanvasBackgroundColor: {
+                color: '#fccdcd',
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        };
+
+        const config4 = {
+          type: 'bar',
+          data: baraudio_data,
+          plugins: [plugin],
+          options: {
+            plugins: {
+              customCanvasBackgroundColor: {
+                color: '#fccdcd',
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        };
+
+        
     
         // render init block
         Chart.defaults.font.size = 13;
         let myDonut = new Chart(
           donut,
           config2
+        );
+
+        // render init block
+        Chart.defaults.font.size = 13;
+        let myBarText = new Chart(
+          barT,
+          config3
+        );
+
+        // render init block
+        Chart.defaults.font.size = 13;
+        let myBarAudio = new Chart(
+          barA,
+          config4
         );
         
 
