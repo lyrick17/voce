@@ -136,14 +136,16 @@ class Translator{
             while($row = mysqli_fetch_assoc($history)){
                 echo               
                 "<tr id = ". $row['text_id'] ." class = '". $row['user_id']. " " . "t2t" . " paginate" . "'>" .
-                "<td class = '" .$row['user_id']. " truncate-text'>" .$row['translate_from'] . "</td>" . 
-                "<td class = " .$row['user_id']. ">" .$row['original_language'] . "</td>" .
-                "<td class = '" .$row['user_id']. " truncate-text'>" .$row['translate_to'] . "</td>" .
-                "<td class = " .$row['user_id']. ">" .$row['translated_language'] . "</td>" . 
-                "<td class = " .$row['user_id']. ">" .$row['translation_date'] . "</td>" .  
-                "<td class = " .$row['user_id']. ">"."<button type = 'button' class = 'delete-btn'>Delete</button></td>" .  
-                "<td class = " .$row['user_id']. ">" . "<input type = 'checkbox' class = 'delete-checkbox' id = ". $row['text_id'] ."></td>"   
+                "<td class = 'user-td'>" .$row['text_id'] . "</td>" . 
+                "<td class = 'user-td " .$row['user_id']. "'>" .$row['original_language'] . "</td>" .
+                "<td class = 'user-td " .$row['user_id']. " truncate-text'>" .$row['translate_from'] . "</td>" . 
+                "<td class = 'user-td " .$row['user_id']. "'>" .$row['translated_language'] . "</td>" . 
+                "<td class = 'user-td " .$row['user_id']. " truncate-text'>" .$row['translate_to'] . "</td>" .
+                "<td class = 'user-td " .$row['user_id']. "'>" .$row['translation_date'] . "</td>" .  
+                "<td class = 'user-td " .$row['user_id']. "'>"."<button type = 'button' class = 'delete-btn'>Delete</button></td>" .  
+                "<td class = 'user-td " .$row['user_id']. "'>" . "<input type = 'checkbox' class = 'delete-checkbox' id = ". $row['text_id'] ."></td>"   
                 . "</tr>";
+
             }
         }
         // Displays audio to text history
@@ -151,15 +153,34 @@ class Translator{
             while($row = mysqli_fetch_assoc($history)){
                 echo               
                 "<tr id = ". $row['text_id'] ." class = '". $row['user_id']. " " . "a2t". " " . $row['file_id'] .  " paginate" . "'>" .
-                "<td class = '" .$row['user_id']. " break-word'>" .$row['file_name'] . "</td>" . 
-                "<td class = '" .$row['user_id']. " truncate-text'>" .$row['translate_from'] . "</td>" . 
-                "<td class = " .$row['user_id']. ">" .$row['original_language'] . "</td>" . 
-                "<td class = '" .$row['user_id']. " truncate-text'>" .$row['translate_to'] . "</td>" .
-                "<td class = " .$row['user_id']. ">" .$row['translated_language'] . "</td>" .
-                "<td class = " .$row['user_id']. ">" .$row['translation_date'] . "</td>" . 
-                "<td class = " .$row['user_id']. ">" . "<button type = 'button' class = 'delete-btn'>Delete</button></td>" .
-                "<td class = " .$row['user_id']. ">" . "<input type = 'checkbox' class = 'delete-checkbox' id = ". $row['text_id'] ."></td>"   
+                "<td class = 'user-td'>" .$row['text_id'] . "</td>" .
+                "<td class = 'user-td " .$row['user_id']. " break-word'>" .$row['file_name'] . "</td>" . 
+                "<td class = 'user-td " .$row['user_id']. "'>" .$row['original_language'] . "</td>" . 
+                "<td class = 'user-td " .$row['user_id']. " truncate-text'>" .$row['translate_from'] . "</td>" . 
+                "<td class = 'user-td " .$row['user_id']. "'>" .$row['translated_language'] . "</td>" .
+                "<td class = 'user-td " .$row['user_id']. " truncate-text'>" .$row['translate_to'] . "</td>" .
+                "<td class = 'user-td " .$row['user_id']. "'>" .$row['translation_date'] . "</td>" . 
+                "<td class = 'user-td " .$row['user_id']. "'>" . "<button type = 'button' class = 'delete-btn'>Delete</button></td>" .
+                "<td class = 'user-td " .$row['user_id']. "'>" . "<input type = 'checkbox' class = 'delete-checkbox' id = ". $row['text_id'] ."></td>"   
                 . "</tr>";
+
+            }
+        }
+
+        else {
+            while($row = mysqli_fetch_assoc($history)){
+                echo               
+                "<tr id = ". $row['text_id'] ." class = '" . $row['file_id'] .  " paginate" . "'>" .
+                    "<td class='user-td'>" .$row['text_id'] . "</td>" . 
+                    "<td class='user-td break-word'>" .$row['file_name'] . "</td>" . 
+                    "<td class='user-td'>" .$row['original_language'] . "</td>" . 
+                    "<td class='user-td truncate-text'>" .$row['translate_from'] . "</td>" . 
+                    "<td class='user-td'>" .$row['translated_language'] . "</td>" .
+                    "<td class='user-td truncate-text'>" .$row['translate_to'] . "</td>" .
+                    "<td class='user-td'>" .$row['translation_date'] . "</td>" . 
+                    "<td class='user-td'>" . "<button type = 'button' class = 'delete-btn'>Delete</button></td>" .
+                    "<td class='user-td'>" . "<input type = 'checkbox' class = 'delete-checkbox' id = ". $row['text_id'] ."></td>"  .
+                "</tr>";
 
             }
         }

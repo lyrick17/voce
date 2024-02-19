@@ -1,4 +1,9 @@
 <?php 
+
+
+// This file is possible to  be removed, as login is not needed anymore
+
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }

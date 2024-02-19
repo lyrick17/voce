@@ -191,44 +191,11 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
 <br>    
                 <!-- Truncate Text -->
                 <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <p id="modalText"></p>
-                </div>
-                </div>
-            <div class="bottom-data">
-                <div class="orders">
-                <div class = "deleteAllClass">
-                    <button type = 'button' class = "deleteSelectedRows" id = "a2t">Delete Selected Rows</button>
-                    <button type = 'button' class = "deleteRows-btn" id = "a2t">Select Rows</button>
-                    <button type = 'button' class = "deleteAll-btn" id = "a2t">Delete All</button>
-                </div>
-                    <div class="header">
-                        <h2>Recent Audio to Text Translations</h3>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                            <th>File Name</th>
-                            <th>Original Text</th>
-                            <th>Source Language</th>
-                            <th>Translated Text</th>
-                            <th>Target Language</th>
-                            <th>Translation Date</th>    
-                            <th>Delete</th>    
-                            </tr>
-                        </thead>
-                        <tbody class = "history-body">
-                        <!-- Displays audio to text history -->
-                        <?php Translator::displayHistory($history, "audio2text")?>
-                        </tbody>
-                    </table>
-                    <div id="page-nav-content">
-                        <div id="page-nav"></div>
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p id="modalText"></p>
                     </div>
                 </div>
-
-            </div>
 
         </main>
 

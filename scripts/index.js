@@ -54,10 +54,12 @@ window.addEventListener('resize', () => {
 
     const yourButtonID = document.getElementById('yourButtonID');
 
-    // Add an event listener to both select elements
-    sourceLanguageSelect.addEventListener('change', toggleTranslateButton);
-    targetLanguageSelect.addEventListener('change', toggleTranslateButton);
-    modelSizeSelect.addEventListener('change', toggleTranslateButton);
+    if (sourceLanguageSelect && targetLanguageSelect && modelSizeSelect) {
+        // Add an event listener to both select elements
+        sourceLanguageSelect.addEventListener('change', toggleTranslateButton);
+        targetLanguageSelect.addEventListener('change', toggleTranslateButton);
+        modelSizeSelect.addEventListener('change', toggleTranslateButton);
+    }
     
     window.addEventListener('load', function() {
         toggleTranslateButton();

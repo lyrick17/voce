@@ -8,8 +8,7 @@
 .users-table{
     margin: auto;
     text-align: center;
-    width: 1000px;
-    
+    padding: 20px 50px;
 }
 th {
     background-color: #fccdcd;

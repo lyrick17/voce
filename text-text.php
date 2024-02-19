@@ -12,8 +12,6 @@ require("utilities/common_languages.php"); // Translator_Functions and Error Han
 
 $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
-// Translation history for text to text 
-$history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 0 ORDER BY translation_date DESC");
 ?>
 
 <!DOCTYPE html>
@@ -183,48 +181,6 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id =
                     </p>
                     </div>
                 </div>
-
-
-                <!-- Table -->
-
-                <div class="orders">
-                <div class = "deleteAllClass">
-                    <button type = 'button' class = "deleteSelectedRows" id = "t2t">Delete Selected Rows</button>
-                    <button type = 'button' class = "deleteRows-btn" id = "t2t">Delete Rows</button>
-                    <button type = 'button' class = "deleteAll-btn" id = "t2t">Delete All</button>
-                </div>
-                    <div class="header">
-                        <h2>Recent Text to Text Translations</h2>
-                        <br>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                            <th>Original Text</th>
-                            <th>Source Language</th>
-                            <th>Translated Text</th>
-                            <th>Target Language</th>
-                            <th>Translation Date</th>  
-                            <th>Delete</th>  
-                            </tr>
-                        </thead>
-                        <tbody class = "history-body">
-                        
-                        <!-- Displays text to text history -->
-
-                        <?php Translator::displayHistory($history, "text2text")?>
-                        </tbody>
-                    </table>
-                    <div id="page-nav-content">
-                        <div id="page-nav"></div>
-                    </div>
-                </div>
-                
-          
-                
-
-                <!-- End of Reminders-->
-
             </div>
 
         </main>
