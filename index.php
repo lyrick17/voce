@@ -1,8 +1,4 @@
 <?php include("mysql/mysqli_registration.php"); 
-    if (isset($_SESSION['username'])) {
-    	header("location: dashboard1.php");
-        exit();
-    }
 
     require("utilities/contact.php");
 

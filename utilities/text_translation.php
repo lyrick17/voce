@@ -6,8 +6,6 @@ require("common_languages.php"); // Translator_Functions are alr required in thi
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
 // Translate text input
 if($_SERVER["REQUEST_METHOD"] == "POST"){ 
-
-    $id = $_SESSION['user_id'];
     
     // Error Handling first before translation 
     
@@ -25,14 +23,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $target_lang = $_POST['target'];
     $orig_text = $_POST["text"];
     $isFromAudio = False;
-  
+    
     // db query
-    $query_insert = mysqli_prepare($dbcon, "INSERT INTO text_translations(user_id, from_audio_file, original_language, translated_language,
-    translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, NOW())");
-    mysqli_stmt_bind_param($query_insert, 'iissss', $id, $isFromAudio, $source_lang, $target_lang, $orig_text, $translation);
+    $query_insert = mysqli_prepare($dbcon, "INSERT INTO text_translations(from_audio_file, original_language, translated_language,
+    translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, NOW())");
+    mysqli_stmt_bind_param($query_insert, 'issss', $isFromAudio, $source_lang, $target_lang, $orig_text, $translation);
     mysqli_stmt_execute($query_insert);
 
-    logs("text-to-text", $_SESSION['username'], $dbcon);
+    /*$query_insert = mysqli_prepare($dbcon, "INSERT INTO text_translations(user_id, from_audio_file, original_language, translated_language,
+    translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, NOW())");
+    mysqli_stmt_bind_param($query_insert, 'iissss', $id, $isFromAudio, $source_lang, $target_lang, $orig_text, $translation);
+    mysqli_stmt_execute($query_insert);*/
+
+    $id = 0;
+    $query_select = mysqli_prepare($dbcon, "SELECT text_id FROM text_translations ORDER BY id DESC LIMIT 1");
+    mysqli_stmt_execute($query_select);
+    mysqli_stmt_bind_result($query_select, $id);
+    mysqli_stmt_fetch($query_select);
+    mysqli_stmt_close($query_select);
+    
+    
+    logs("text-to-text", $id, $dbcon);
 
     
     header("Location: ../text-text.php?translated=1");

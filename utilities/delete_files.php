@@ -41,10 +41,12 @@ function fetchAudioContent($fileid) {
 
     return $info;
 }
-function deleteAudioContent($userid) {
+function deleteAudioContent($filename) {
     global $dbcon;
 
-    $delquery = "DELETE FROM audio_files WHERE user_id = '$userid' ORDER BY upload_date DESC LIMIT 1";
+    $fileid = explode("_", $filename)[0]; // split string by underscore (_), then take first element of result array
+
+    $delquery = "DELETE FROM audio_files WHERE file_id = '$fileid'";
     $delresult = mysqli_query($dbcon, $delquery);
 }
 # END  : Deleting Audio Files on Database ---------------------------
@@ -85,7 +87,7 @@ function deleteAllAudioFiles($userid) {
     }
 }
 
-function deleteErrorFile($filename, $userid) {
+function deleteErrorFile($filename) {
     //get the audio file content from the database, to be used on locating the filename in audio_files folder
 
     $name = pathinfo($filename, PATHINFO_FILENAME);
@@ -100,7 +102,7 @@ function deleteErrorFile($filename, $userid) {
     $folderMask = "../audio_files/" . $name;
     removeFolder($folderMask);
 
-    deleteAudioContent($userid);
+    deleteAudioContent($filename);
 }
 
 ?>

@@ -22,13 +22,34 @@ require "utilities/Translator_Functions.php";
 
 $q = "SELECT user_id, username, email, registration_date, type FROM users ORDER BY user_id ASC";
 $users = mysqli_query($dbcon, $q);
-// get session id
 
+
+//Retrieves searched users 
+if($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])){
+    $search = mysqli_real_escape_string($dbcon, trim($_GET['search']));
+    
+    $q = "SELECT text_id, a.file_id, t.user_id, file_name, original_language, translate_from, translated_language, translate_to, translation_date 
+            FROM text_translations t LEFT JOIN audio_files a ON t.file_id = a.file_id 
+            WHERE t.from_audio_file = 1 AND 
+                (text_id LIKE '%$search%' OR file_name LIKE '%$search%' OR original_language LIKE '%$search%' OR translate_from LIKE '%$search%' OR translated_language LIKE '%$search%' OR translate_to LIKE '%$search%')
+            ORDER BY text_id DESC";
+    
+    
+    $query = mysqli_query($dbcon, $q);
+    if ($query) {
+        $history = $query;
+    }
+} else {
+    
+    // Translation history for audio to text 
+    $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN audio_files a ON t.file_id = a.file_id WHERE t.from_audio_file = 1 ORDER BY translation_date DESC");
+}
+
+
+
+// get session id
 $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
-
-// Translation history for audio to text 
-$history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN audio_files a ON t.file_id = a.file_id WHERE t.from_audio_file = 1 ORDER BY translation_date DESC");
 
 ?>
 
@@ -73,9 +94,9 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
     <div class="content">
         <!-- Navbar -->
         <nav>
-            <form id = "search-form">
+            <form method="get" id = "search-form" action="admin-audio-history.php">
             <i class='bx bx-menu'></i><span id = "nav-name"><?= $_SESSION['username']; ?></span>
-                        <input id = "search-user" type="text" placeholder="Search User.." name="search">
+                        <input id = "search-user" type="text" placeholder="Search.." name="search">
             </form>
         </nav>
 

@@ -11,20 +11,20 @@ class ErrorHandling{
 	static function audioError2() {
 		// error, user did not upload file
 		global $dbcon;
-		logs("error-at-2", $_SESSION['username'], $dbcon);
+		logs("error-at-2", $dbcon);
 		//header("Location: history_audio.php?error=2");
 		$exit = ['error' => 2];
         exit(json_encode($exit));
 	}
 
 
-	static function audioError3($filename, $userid) {
+	static function audioError3($filename) {
 		// error, for some reason, there is no output
 		global $dbcon;
-		logs("error-at-5", $_SESSION['username'], $dbcon);
+		logs("error-at-5", $dbcon);
 		//header("Location: history_audio.php?error=5");
 
-		deleteErrorFile($filename, $userid);
+		deleteErrorFile($filename);
 		
 		$exit = ['error' => 5];
         exit(json_encode($exit));
@@ -35,7 +35,7 @@ class ErrorHandling{
 		global $dbcon;
 		// error, user did not input text
 		if (empty(trim($_POST['text']))) {
-			logs("error-tt-2", $_SESSION['username'], $dbcon);
+			logs("error-tt-2", $dbcon);
 			header("Location: ../text-text.php?error=3");
 			
 			exit(json_encode($exit));
@@ -55,7 +55,7 @@ class ErrorHandling{
 			// (1)
 			if ($_POST["src"] == "" || $_POST['target'] == "") {
 				// error, user did not choose language
-				logs("error-tt-1", $_SESSION['username'], $dbcon);
+				logs("error-tt-1", $dbcon);
 				header("Location: ../text-text.php?error=1");
 				exit();
 				
@@ -64,7 +64,7 @@ class ErrorHandling{
 			// (2)
 			if ($_POST["src"] == $_POST['target']) {
 				// error, user picked same language, useless
-				logs("error-tt-3", $_SESSION['username'], $dbcon);
+				logs("error-tt-3", $dbcon);
 				header("Location: ../text-text.php?error=2");
 				exit();
 			}
@@ -72,7 +72,7 @@ class ErrorHandling{
 			// (3)
 			if (array_search($_POST['src'], array_column($api_lang, 'name')) === false ||
 				array_search($_POST['target'], array_column($api_lang, 'name')) === false) {
-					logs("error-at-4", $_SESSION['username'], $dbcon);
+					logs("error-at-4", $dbcon);
 	
 					header("Location: ../text-text.php?error=4");
 					exit();
@@ -83,7 +83,7 @@ class ErrorHandling{
 			$modelSizes = array("base", "medium", "large");
 			// (1)
 			if ($_POST["src"] == "" || $_POST['target'] == "" ||  $_POST['modelSize'] == "") {
-				logs("error-at-1", $_SESSION['username'], $dbcon);
+				logs("error-at-1", $dbcon);
 				//header("Location: history_audio.php?error=1");
 				$exit = ['removeBGM' => 'error', 'error' => 1];
 				exit(json_encode($exit));
@@ -91,7 +91,7 @@ class ErrorHandling{
 
 			// (2)
 			if ($_POST["src"] == $_POST['target']) {
-				logs("error-at-4", $_SESSION['username'], $dbcon);
+				logs("error-at-4", $dbcon);
 				//header("Location: history_audio.php?error=4");
 				$exit = ['removeBGM' => 'error', 'error' => 4];
 				exit(json_encode($exit));
@@ -102,7 +102,7 @@ class ErrorHandling{
 				if (array_search($_POST['src'], array_column($common_lang, 'name')) === false ||
 					array_search($_POST['target'], array_column($api_lang, 'name')) === false ||
 					!in_array($_POST['modelSize'], $modelSizes)) {
-						logs("error-at-6", $_SESSION['username'], $dbcon);
+						logs("error-at-6", $dbcon);
 		
 						$exit = ['removeBGM' => 'error', 'error' => 6];
 						exit(json_encode($exit));
@@ -135,7 +135,7 @@ class ErrorHandling{
 		global $dbcon;
 		
 		if (!in_array($ext, $validExtensions)) {
-			logs("error-at-3", $_SESSION['username'], $dbcon);
+			logs("error-at-3", $dbcon);
 			//header("Location: history_audio.php?error=3");
 			
 			$exit = ['removeBGM' => 'error', 'error' => 3];

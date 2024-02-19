@@ -22,13 +22,36 @@ require "utilities/Translator_Functions.php";
 
 $q = "SELECT user_id, username, email, registration_date, type FROM users ORDER BY user_id ASC";
 $users = mysqli_query($dbcon, $q);
-// get session id
 
+//Retrieves searched users 
+if($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])){
+    $search = mysqli_real_escape_string($dbcon, trim($_GET['search']));
+    
+    $q = "SELECT text_id, user_id, original_language, translate_from, translated_language, translate_to, translation_date 
+            FROM text_translations 
+            WHERE from_audio_file = 0 AND 
+                (text_id LIKE '%$search%' OR 
+                original_language LIKE '%$search%' OR 
+                translate_from LIKE '%$search%' OR 
+                translated_language LIKE '%$search%' OR 
+                translate_to LIKE '%$search%')
+            ORDER BY text_id DESC";
+    
+    
+    $query = mysqli_query($dbcon, $q);
+    if ($query) {
+        $history = $query;
+    }
+} else {
+    
+    // Translation history for text to text 
+    $history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE from_audio_file = 0 ORDER BY translation_date DESC");
+}
+
+// get session id
 $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
 
-// Translation history for text to text 
-$history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE from_audio_file = 0 ORDER BY translation_date DESC");
 
 
 ?>
@@ -76,7 +99,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE from_audi
         <nav>
             <form id = "search-form">
             <i class='bx bx-menu'></i><span id = "nav-name"><?= $_SESSION['username']; ?></span>
-                        <input id = "search-user" type="text" placeholder="Search User.." name="search">
+                <input id = "search-user" type="text" placeholder="Search.." name="search">
             </form>
         </nav>
 

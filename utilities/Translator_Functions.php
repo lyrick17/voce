@@ -4,7 +4,7 @@ require("error_handling.php");
 
 class Translator{
 
-    static function db_insertAudioFile($path, $userid,  $pathsize) {
+    static function db_insertAudioFile($path, $pathsize) {
         global $dbcon;
         // prepare userid, filename, filesize, fileformat
         $file_name = $path;
@@ -13,30 +13,31 @@ class Translator{
         $file_format =  pathinfo('../audio_files/' . $file_name, PATHINFO_EXTENSION);
         
         // insert audio file into database
-          $query_insert2 = mysqli_prepare($dbcon, "INSERT INTO audio_files(user_id, file_name, file_size, file_format,
-          upload_date) VALUES (?, ?, ?, ?, NOW())");
+          $query_insert2 = mysqli_prepare($dbcon, "INSERT INTO audio_files(file_name, file_size, file_format,
+          upload_date) VALUES (? ?, ?, ?, NOW())");
     
         // execute the query
-          mysqli_stmt_bind_param($query_insert2, 'isss', $userid, $file_name, $file_size, $file_format);
+          mysqli_stmt_bind_param($query_insert2, 'sss', $file_name, $file_size, $file_format);
           mysqli_stmt_execute($query_insert2);
     }
     
     
-    static function createNewFilename($path, $userid) {
+    static function createNewFilename($path) {
         global $dbcon;
         // create a new filename with format
         $filename = pathinfo($path, PATHINFO_FILENAME);
         $extension = pathinfo($path, PATHINFO_EXTENSION);
 
         $path = mysqli_real_escape_string($dbcon, $path);
-        $userid = mysqli_real_escape_string($dbcon, $userid);
         // get the date of the file from db
-        $datequery = "SELECT DATE_FORMAT(upload_date, '%m%d%Y_%H%i%s') AS formatted_date 
-                        FROM audio_files WHERE user_id = '$userid' and file_name = '$path' ORDER BY file_id DESC LIMIT 1";
+        $datequery = "SELECT file_id, DATE_FORMAT(upload_date, '%m%d%Y_%H%i%s') AS formatted_date 
+                        FROM audio_files WHERE file_name = '$path' ORDER BY file_id DESC LIMIT 1";
         $dateresult = mysqli_query($dbcon, $datequery);
         $row = mysqli_fetch_assoc($dateresult);
 
-        $newFilename = $userid . "_" . $filename . $row['formatted_date'];
+        // create an error handler where in if $datequery possibly resulted into two result
+
+        $newFilename = $row['file_id'] . "_" . $filename . $row['formatted_date'];
         $newFile = $newFilename . "." . $extension;
         
         // audio files folder
@@ -73,7 +74,7 @@ class Translator{
         }
     }
 
-    static function uploadAndTranscribe($userid, $newFile, $removeBGM, $src_lang, $modelSize){
+    static function uploadAndTranscribe($newFile, $removeBGM, $src_lang, $modelSize){
 
         global $dbcon;      
 
@@ -106,7 +107,7 @@ class Translator{
             return $output;
             // the array will be returned so both text and language can be accessed
         } else {
-            ErrorHandling::audioError3($newFile, $userid); // pass the filename so it can be deleted, since it's not processed
+            ErrorHandling::audioError3($newFile); // pass the filename so it can be deleted, since it's not processed
         }
     }
 
@@ -186,22 +187,6 @@ class Translator{
         }
     }
 
-    static function displayUsers($users){
-        // Displays text to text history  or audio2text
-        while($user = mysqli_fetch_assoc($users)){
-            echo   
-            "<tr class = 'paginate' id = '". $user['user_id'] . "'>" .            
-            "<td class='user-td'>" . $user['user_id']. "</td>" .
-            "<td class='user-td' id = 'u-username'>" . $user['username']. "</td>" .
-            "<td class='user-td' id = 'u-email'>" . $user['email']. "</td>" .
-            "<td class='user-td'>" . $user['registration_date']. "</td>" .
-            "<td class='user-td' id = 'u-type'>" . $user['type'] . "</td>" .
-            "<td class='user-td'><button type = 'button' class = 'table-btn update-user'>Update</button></td>" .
-            "<td class='user-td'><button type = 'button' class = 'table-btn delete-user'>Delete</button></td>" .
-            "<td style = 'display: none;' class = 'user-td " .$user['user_id']. "'>" . "<input type = 'checkbox' class = 'delete-checkbox' id = ". $user['user_id'] ."></td>" .   
-            "</tr>";
-        }
-    }
     
     static function getLangCodes(){
 

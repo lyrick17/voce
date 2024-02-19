@@ -16,7 +16,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     // required for uploading the file
     $path=$_FILES['user_file']['name']; // file
     $pathsize = $_FILES['user_file']['size']; // file size
-    $userid = $_SESSION['user_id']; // to be used to add userid on new filename
+    
+    //$userid = $_SESSION['user_id']; // to be used to add userid on new filename
 
     $model_size = $_POST['modelSize'];
     $src_lang = ($_POST['src'] == 'auto') ? "auto" : $audio_src_lang_codes[$_POST["src"]] ?? '';
@@ -33,8 +34,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         ErrorHandling::validateFormat($path);
         ErrorHandling::checkFolder();
         
-        Translator::db_insertAudioFile($path, $userid, $pathsize);
-        $newFile = Translator::createNewFilename($path, $userid);
+        Translator::db_insertAudioFile($path, $pathsize);
+        $newFile = Translator::createNewFilename($path);
         if ($removeBGM == "off") {
             $output = Translator::createNewFolder($newFile);
         }
@@ -44,7 +45,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             'removeBGM' => $removeBGM,
             'error' => 0
         ];
-        $_SESSION['a_info']['newfile'] = $newFile; 
+        $_SESSION['a_info']['newfile'] = $newFile;
         exit(json_encode($success));
     }
 
@@ -67,7 +68,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if ($_POST['step'] == 4) { #!!! transcribing the vocals/audio file using whisper
-        $transcript = Translator::uploadAndTranscribe($userid, $_SESSION['a_info']['newfile'], $removeBGM, $src_lang, $_POST['modelSize']);
+        $transcript = Translator::uploadAndTranscribe($_SESSION['a_info']['newfile'], $removeBGM, $src_lang, $_POST['modelSize']);
         $_SESSION['a_info']['text'] = $transcript['text']; 
         $_SESSION['a_info']['lang'] = $transcript['language']; 
 
@@ -98,15 +99,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $isFromAudio = TRUE;
         
-        $get_fileid = "SELECT file_id FROM audio_files WHERE user_id = '$userid' ORDER BY file_id DESC LIMIT 1";
-        $fileresult = mysqli_query($dbcon, $get_fileid);
 
-        $row = mysqli_fetch_assoc($fileresult);
-
-        $query_insert1 = mysqli_prepare($dbcon, "INSERT INTO text_translations(file_id, user_id, from_audio_file, original_language, translated_language,
-        translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+        $fileid = explode("_", $_SESSION['a_info']['newfile'])[0]; // split string by underscore (_), then take first element of result array
         
-        mysqli_stmt_bind_param($query_insert1, 'iiissss', $row['file_id'], $userid, $isFromAudio, $source_lang, $target_lang, $_SESSION['a_info']['text'], $_SESSION['a_info']['output']);
+        $query_insert1 = mysqli_prepare($dbcon, "INSERT INTO text_translations(file_id, from_audio_file, original_language, translated_language,
+        translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, NOW())");
+        
+        mysqli_stmt_bind_param($query_insert1, 'iissss', $fileid, $isFromAudio, $source_lang, $target_lang, $_SESSION['a_info']['text'], $_SESSION['a_info']['output']);
         mysqli_stmt_execute($query_insert1);
 
         unset_extra_sess_vars();

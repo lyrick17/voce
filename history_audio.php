@@ -1,9 +1,5 @@
 <?php require("mysql/mysqli_session.php"); 
     $current_page = basename($_SERVER['PHP_SELF']);
-    if (!isset($_SESSION['username'])) {
-        header("location: index.php");
-        exit(); 
-    }
 
     function dd($item){
         var_dump($item);
@@ -11,13 +7,6 @@
     }
 
 require("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
-
-$id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
-
-
-// Translation history for audio to text 
-$history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN audio_files a ON t.file_id = a.file_id WHERE t.user_id = $id AND a.user_id = $id AND t.from_audio_file = 1 ORDER BY translation_date DESC");
-
 
 ?>
 
@@ -48,7 +37,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
     </div>
 </div>
 
-<body id = "<?= $_SESSION['user_id']?>">
+<body>
     <!-- Sidebar -->
     <?php require "sidebar.php"?>
 
@@ -56,7 +45,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
     <div class="content">
         <!-- Navbar -->
         <nav>
-            <i class='bx bx-menu'></i><?= $_SESSION['username']; ?>
+            <i class='bx bx-menu'></i>
         </nav>
 
         <!-- End of Navbar -->
