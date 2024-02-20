@@ -23,7 +23,7 @@ function removeFolder($path) {
 # START: Deleting Audio Files on Database ---------------------------
 function fetchAudioContent($fileid) {
     global $dbcon;
-    $datequery = "SELECT file_name, DATE_FORMAT(upload_date, '%m%d%Y_%H%i%s') AS formatted_date 
+    $datequery = "SELECT file_id, file_name, DATE_FORMAT(upload_date, '%m%d%Y_%H%i%s') AS formatted_date 
                         FROM audio_files WHERE file_id = '$fileid'";
     $dateresult = mysqli_query($dbcon, $datequery);
 
@@ -35,7 +35,9 @@ function fetchAudioContent($fileid) {
 
     // put filename, extension and date in array, these infos are needed to select
     //  specific record from the database in order to delete a specific file
-    $info = array("filename" => $filename, 
+    $info = array(
+                "file_id" => $fileid,
+                "filename" => $filename, 
                 "extension" => $extension,
                 "formatted_date" => $audiofile['formatted_date']);
 
@@ -52,26 +54,26 @@ function deleteAudioContent($filename) {
 # END  : Deleting Audio Files on Database ---------------------------
 
 
-function deleteAudioFile($fileid, $userid) {
+function deleteAudioFile($fileid) {
     //get the audio file content from the database, to be used on locating the filename in audio_files folder
     $audiofile = fetchAudioContent($fileid);
 
     // remove the audio file uploaded by user
-    $filenameMask = "audio_files/" . $userid . "_" . $audiofile['filename'] . $audiofile['formatted_date'] . "." . $audiofile['extension']; 
+    $filenameMask = "audio_files/" . $fileid . "_" . $audiofile['filename'] . $audiofile['formatted_date'] . "." . $audiofile['extension']; 
     if (file_exists($filenameMask)) 
         unlink($filenameMask);
     
     // remove the folder created on specific file and all its contents
-    $folderMask = "audio_files/" . $userid . "_" . $audiofile['filename'] . $audiofile['formatted_date'];
+    $folderMask = "audio_files/" . $fileid . "_" . $audiofile['filename'] . $audiofile['formatted_date'];
     removeFolder($folderMask);
 }
 
-function deleteAllAudioFiles($userid) {
-    // since we delete all, get all the files and folder that has the user_id in file
-    $mask = "audio_files/" . $userid . "_*";
+function deleteAllAudioFiles() {
+    // since we delete all, get all the files and folder (since we do not need user_id, all of them will be deleted)
+    $folderpath = "audio_files/*";
 
-    // put all the folder/filenames that matches the $mask in an array
-    $items = glob($mask);
+    // put all the folder/filenames that matches the $folderpath in an array
+    $items = glob($folderpath);
 
     
     foreach ($items as $file) {

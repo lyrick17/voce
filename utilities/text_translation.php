@@ -43,7 +43,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     mysqli_stmt_close($query_select);
     
     
-    logs("text-to-text", $id, $dbcon);
+    success_logs("text-to-text", $id, $dbcon);
 
     
     header("Location: ../text-text.php?translated=1");

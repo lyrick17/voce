@@ -3,6 +3,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+/*
 function logs($log_act, $user, $dbcon) {
     // every action of user records a log in db
     // 1 determine the activity of the user before
@@ -113,10 +114,7 @@ function logs($log_act, $user, $dbcon) {
 }
 
 //mysqli_close($dbcon);
-?>
-
-
-<?php 
+?>*/
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -128,7 +126,7 @@ function logs($log_act, $dbcon) {
     // 2 finding the user in db and
     // 3 creating a log
     $activity = "";
-    $admin_id = (isset($_SESSION['id'])) ? $_SESSION['id'] : 0;
+    $admin_id = (isset($_SESSION['user_id'])) ? $_SESSION['user_id'] : 0;
 
     // 1
     switch ($log_act) {
@@ -219,7 +217,7 @@ function logs($log_act, $dbcon) {
     if ($admin_id != 0) {
         $query_insert = mysqli_prepare($dbcon, "INSERT INTO activity_logs (admin_id, activity_description, activity_date) VALUES (?, ?, NOW())");
         mysqli_stmt_bind_param($query_insert, 'is', $admin_id, $activity);
-    } else  else {
+    } else {
         $query_insert = mysqli_prepare($dbcon, "INSERT INTO activity_logs (activity_description, activity_date) VALUES (?, NOW())");
         mysqli_stmt_bind_param($query_insert, 's', $activity);
     }
@@ -227,7 +225,7 @@ function logs($log_act, $dbcon) {
 
 }
 
-function logs($log_act, $translation_id, $dbcon) {
+function success_logs($log_act, $translation_id, $dbcon) {
     switch ($log_act) {
         case "text-to-text":
             $activity = "translation: text-to-text";

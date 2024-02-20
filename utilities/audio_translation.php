@@ -109,6 +109,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         mysqli_stmt_execute($query_insert1);
 
         unset_extra_sess_vars();
+
+
+        $id = 0;
+        $query_select = mysqli_prepare($dbcon, "SELECT text_id FROM text_translations ORDER BY id DESC LIMIT 1");
+        mysqli_stmt_execute($query_select);
+        mysqli_stmt_bind_result($query_select, $id);
+        mysqli_stmt_fetch($query_select);
+        mysqli_stmt_close($query_select);
+
+        success_logs("audio-to-text", $id, $dbcon);
         
         $success = ['error' => 0];
         exit(json_encode($success));

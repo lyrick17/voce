@@ -23,6 +23,22 @@ things na wala nang userid
 -uploadAndTranscribe
 -audioError3
 -step 6 in storing record a2t
+-Translator-Functions
+-t2t process
+-a2t process
+-deleteAudioFile
+-deleteAudioContent
+-fetchAudioContent
+-removeFolder
+-deleteAllAudioFiles
+-deleteErrorFile
+-delete_query.php
+    - clearAll
+    - deleteRows
+    - else
+
+-delete file
+
 
 store the file_id instead of the user_id
 

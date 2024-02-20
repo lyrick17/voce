@@ -16,7 +16,7 @@
             <a href="history_audio.php"><img src="images/sidebaraudio.png" alt="scroll icon" width="25" height="25" style="margin-left: 10px;">
             &nbsp Audio to Text</a></li>
 
-            <?php if(isset($_SESSION['type']) && $_SESSION['type'] == 'admin'): ?>
+            <?php if(isset($_SESSION['user_id'])): ?>
             
             <li class="<?php echo ($current_page === 'dashboard1.php') ? 'active' : ''; ?>"><a href="dashboard1.php"><i class='bx bxs-dashboard'></i>Dashboard</a></li> 
             

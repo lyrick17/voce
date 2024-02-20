@@ -118,8 +118,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType2'])) {
     
     if ($username && $password) {
 
-        $q1 = "SELECT * FROM users WHERE (`username` = '". $username ."' OR `email` = '". $username ."')";
-        //$q1 = "SELECT * FROM admin_users WHERE (`username` = '". $username ."' OR `email` = '". $username ."')";
+        //$q1 = "SELECT * FROM users WHERE (`username` = '". $username ."' OR `email` = '". $username ."')";
+        $q1 = "SELECT * FROM admin_users WHERE (`username` = '". $username ."' OR `email` = '". $username ."')";
         $result1 = @mysqli_query($dbcon, $q1);
         
         
@@ -131,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType2'])) {
             if (password_verify($password, $hashed_pass)) {
                 $_SESSION = $user_row;
     
-                logs("login", $_SESSION['username'], $dbcon);  
+                logs("login", $dbcon);  
                 
                 mysqli_free_result($result1);
                 mysqli_close($dbcon);

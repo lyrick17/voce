@@ -8,25 +8,23 @@ if($_POST['clearAll'] == 'true'){
     if($_POST['fromAudio'] == 1){
 
         $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM text_translations WHERE from_audio_file = ?");
-        bindAndExec($deleteQuery, "i", 0);
+        bindAndExec($deleteQuery, "i", $_POST['fromAudio']);
 
-        $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM audio_files WHERE user_id = ?");
-        bindAndExec($deleteQuery, "s", $userId);
+        $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM audio_files");
+        mysqli_stmt_execute($deleteQuery);
 
 
-        deleteAllAudioFiles($userId);
+        deleteAllAudioFiles();
         
     }
     else{            
         // Deletes all rows from text_translations table where from_audio_file is 0
         $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM text_translations WHERE from_audio_file = ?");
-        bindAndExec($deleteQuery, "i", 0);
+        bindAndExec($deleteQuery, "i", $_POST['fromAudio']);
     }
  }
 
  elseif($_POST['deleteRows'] == 'true'){
-
-    $userId = $_POST['userId'];
 
     if($_POST['fromAudio'] == 1){
         $rowsToDelete = json_decode($_POST['rowsToDelete']);
@@ -36,7 +34,7 @@ if($_POST['clearAll'] == 'true'){
                 $deleteFiles =$filesToDelete[$i];
                 
 
-                deleteAudioFile($deleteFiles, $userId);
+                deleteAudioFile($deleteFiles);
 
                 
                 $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM text_translations WHERE text_id = ?");
@@ -61,8 +59,6 @@ if($_POST['clearAll'] == 'true'){
  else{
     //deletes row from database
 
-    $userId = $_POST['userId'];
-
     $rowId = $_POST['rowId'];
     $fileId = $_POST['fileId'];
     
@@ -72,7 +68,7 @@ if($_POST['clearAll'] == 'true'){
     //deletes audio file record from database if it's an audio to text translation
     if($_POST['fileId'] != "null"){
         
-        deleteAudioFile($fileId, $userId);
+        deleteAudioFile($fileId);
         
         $deleteQuery = mysqli_prepare($dbcon, "DELETE FROM audio_files WHERE file_id = ?");
         bindAndExec($deleteQuery, "s", $fileId); 
