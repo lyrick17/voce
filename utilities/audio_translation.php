@@ -112,11 +112,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
         $id = 0;
-        $query_select = mysqli_prepare($dbcon, "SELECT text_id FROM text_translations ORDER BY id DESC LIMIT 1");
+        $query_select = mysqli_prepare($dbcon, "SELECT text_id FROM text_translations ORDER BY text_id DESC LIMIT 1");
         mysqli_stmt_execute($query_select);
         mysqli_stmt_bind_result($query_select, $id);
         mysqli_stmt_fetch($query_select);
         mysqli_stmt_close($query_select);
+
+        $_SESSION['recent_audio'] = $id;
+        $_SESSION['audio_time'] = time();
 
         success_logs("audio-to-text", $id, $dbcon);
         

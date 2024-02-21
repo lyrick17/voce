@@ -20,8 +20,6 @@ function dd($item){
 
 require "utilities/Translator_Functions.php";
 
-$q = "SELECT user_id, username, email, registration_date, type FROM users ORDER BY user_id ASC";
-$users = mysqli_query($dbcon, $q);
 
 //Retrieves searched users 
 if($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])){

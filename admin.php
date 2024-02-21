@@ -19,16 +19,10 @@ require "utilities/common_languages.php"; // Translator_Functions and Error Hand
   $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
 
-// Translation history for text to text 
-$history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN audio_files a ON t.file_id = a.file_id WHERE t.user_id = $id AND a.user_id = $id AND t.from_audio_file = 1 ORDER BY translation_date DESC");
-
-// Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
-
-// Query for total number of users
-$q = "SELECT COUNT(user_id) AS total_users FROM users";
+// Query for total number of feedback sent
+$q = "SELECT COUNT(contact_id) AS total_feedback FROM contacts";
 $result = mysqli_query($dbcon, $q);
-$num_of_users = mysqli_fetch_assoc($result);
-
+$num_of_feedback = mysqli_fetch_assoc($result);
 
 // Query for total number of files uploaded
 $q = "SELECT COUNT(file_id) AS total_files FROM audio_files";
@@ -96,14 +90,14 @@ $num_of_a2t = mysqli_fetch_assoc($result);
 
         <div class = "float-container">
             <div class = "donut-container">
-            <h1>Pie Chart</h1>
+            <h1>Total Translations</h1>
             <br>
                     <canvas id = "donutCanvas"></canvas>
             </div>
             <div class = "admin-container">
                 <div class = "admin-content content-users">
-                    <h1 class = "">Total Users</h1>
-                    <h1 class = "count"><?= $num_of_users['total_users'] ?></h1>
+                    <h1 class = "">Total Feedback Given</h1>
+                    <h1 class = "count"><?= $num_of_feedback['total_feedback'] ?></h1>
 
                 </div>    
                 <div class = "admin-content content-files">
@@ -121,7 +115,7 @@ $num_of_a2t = mysqli_fetch_assoc($result);
             </div>
         </div>
         <div class = "graph-container">
-            <h1>Line Chart</h1>
+            <h1>Usage for the Past Week</h1>
                   <canvas id = "myChart">
                   </canvas>
         </div>

@@ -2,6 +2,7 @@
     $current_page = basename($_SERVER['PHP_SELF']);
     
 require("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
+require("utilities/recent_text_translation.php");
 
 ?>
 
@@ -126,8 +127,11 @@ require("utilities/common_languages.php"); // Translator_Functions and Error Han
                        <!-- <input type = "text" name = "text" class="form-control"> -->
                         <textarea class="custom-textfield" name = "text" placeholder='Type Here...'><?php
                         // url must have translated=1 before showing the output
+                        if (isset($_SESSION['recent_text'])) {
+                            $textid = $_SESSION['recent_text']; 
+                            $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE text_id = '$textid' AND from_audio_file = 0 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
+                        }
                         if (isset($_GET['translated']) && $_GET['translated'] == 1) {
-                            $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 0 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
                             echo $data[6] ?? '';
                         }
                         ?></textarea>
@@ -164,9 +168,9 @@ require("utilities/common_languages.php"); // Translator_Functions and Error Han
                     <!-- Output text-->
                     <div class="custom-textfield" contenteditable="true" readonly>
                     <p class="test"><?php
-                       // url must have translated=1 before showing the output
-                       if (isset($_GET['translated']) && $_GET['translated'] == 1) {
-                        echo $data[7] ?? '';
+                        // url must have translated=1 before showing the output
+                        if (isset($_GET['translated']) && $_GET['translated'] == 1) {
+                            echo $data[7] ?? '';
                         }
                     ?>
                     </p>

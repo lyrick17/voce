@@ -14,7 +14,7 @@ class Translator{
         
         // insert audio file into database
           $query_insert2 = mysqli_prepare($dbcon, "INSERT INTO audio_files(file_name, file_size, file_format,
-          upload_date) VALUES (? ?, ?, ?, NOW())");
+          upload_date) VALUES (?, ?, ?, NOW())");
     
         // execute the query
           mysqli_stmt_bind_param($query_insert2, 'sss', $file_name, $file_size, $file_format);

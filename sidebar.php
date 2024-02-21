@@ -18,11 +18,11 @@
 
             <?php if(isset($_SESSION['user_id'])): ?>
             
-            <li class="<?php echo ($current_page === 'dashboard1.php') ? 'active' : ''; ?>"><a href="dashboard1.php"><i class='bx bxs-dashboard'></i>Dashboard</a></li> 
+            <li class="<?php echo ($current_page === 'dashboard1.php') ? 'active' : ''; ?>"><a href="dashboard1.php"><i class='bx bxs-dashboard'></i>Old Dashboard</a></li> 
             
             <li class="<?php echo ($current_page === 'admin.php') ? 'active' : ''; ?>">
                 <a href="admin.php"><img src="images/graph.png" alt="scroll icon" width="25" height="25" style="margin-left: 10px;">
-            &nbsp Statistics</a></li>     
+            &nbsp Dashboad</a></li>     
             
             <li class="<?php echo ($current_page === 'admin-text-history.php') ? 'active' : ''; ?>">
                     <a href="admin-text-history.php"><img src="images/users.png" alt="scroll icon" width="25" height="25" style="margin-left: 10px;">

@@ -22,8 +22,7 @@ form.addEventListener('submit', function(e) {
 
     // add a 'step' data in the POST variables for server to detect
     //  what current step to take
-    audio_info.append('step', 1); 
-
+    audio_info.append('step', 1);
     if (checkFileSize(uploadField)) {
         translationProcess(audio_info);
     } else {
@@ -40,8 +39,7 @@ async function translationProcess(audio_info) {
                         method: "POST",
                         body: audio_info,
                     })
-                    .then(response => response.json())
-                    .catch(error => console.log(error));
+                    .then(response => response.json());
                     
                     
     let removeBGM = data.removeBGM ? data.removeBGM : ' ';

@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType'])) {
             // record/log it
             logs("register", $username, $dbcon);
 
-            header("location: dashboard1.php");
+            header("location: admin.php");
             mysqli_free_result($result);
             mysqli_close($dbcon);
             exit();
@@ -136,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType2'])) {
                 mysqli_free_result($result1);
                 mysqli_close($dbcon);
                 
-                header("location: dashboard1.php");
+                header("location: admin.php");
                 exit();
             } else {
                 $display_errors['login']  = error_message("invalid-login");

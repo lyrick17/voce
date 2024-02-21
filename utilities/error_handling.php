@@ -13,7 +13,7 @@ class ErrorHandling{
 		global $dbcon;
 		logs("error-at-2", $dbcon);
 		//header("Location: history_audio.php?error=2");
-		$exit = ['error' => 2];
+		$exit = ['removeBGM' => 'error', 'error' => 2];
         exit(json_encode($exit));
 	}
 
@@ -80,7 +80,7 @@ class ErrorHandling{
 
 		} else if ($mode == "audio") {
 
-			$modelSizes = array("base", "medium", "large");
+			$modelSizes = array("base", "small", "medium", "large");
 			// (1)
 			if ($_POST["src"] == "" || $_POST['target'] == "" ||  $_POST['modelSize'] == "") {
 				logs("error-at-1", $dbcon);

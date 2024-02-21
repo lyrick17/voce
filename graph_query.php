@@ -61,22 +61,22 @@ for($i = 0; $i < 7; $i++){
 $t_error = [];
 $a_error = [];
 
-$t_error[0] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error text-text: language not selected';";
-$t_error[1] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error text-text: no text input';";
-$t_error[2] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error text-text: same language selected';";
-$t_error[3] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error text-text: user chose unprovided language';";
+$t_error[0] = "SELECT COUNT(*) FROM activity_logs WHERE activity_description = 'error text-text: language not selected';";
+$t_error[1] = "SELECT COUNT(*) FROM activity_logs WHERE activity_description = 'error text-text: no text input';";
+$t_error[2] = "SELECT COUNT(*) FROM activity_logs WHERE activity_description = 'error text-text: same language selected';";
+$t_error[3] = "SELECT COUNT(*) FROM activity_logs WHERE activity_description = 'error text-text: user chose unprovided language';";
 
 $t_error_result = [];
 for ($t = 0; $t < 4; $t++) {
     $t_error_row[$t] = mysqli_fetch_row(mysqli_query($dbcon, $t_error[$t]));
 }
 
-$a_error[0] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error audio-text: language / model not selected';";
-$a_error[1] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error audio-text: no file uploaded';";
-$a_error[2] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error audio-text: file format not supported';";
-$a_error[3] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error audio-text: same language selected';";
-$a_error[4] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'translation no output: audio-to-text';";
-$a_error[5] = "SELECT COUNT(*) FROM user_activity_log WHERE activity_description = 'error audio-text: user chose unprovided language';";
+$a_error[0] = "SELECT COUNT(*) FROM activity_logs WHERE activity_description = 'error audio-text: language / model not selected';";
+$a_error[1] = "SELECT COUNT(*) FROM activity_logs WHERE activity_description = 'error audio-text: no file uploaded';";
+$a_error[2] = "SELECT COUNT(*) FROM activity_logs WHERE activity_description = 'error audio-text: file format not supported';";
+$a_error[3] = "SELECT COUNT(*) FROM activity_logs WHERE activity_description = 'error audio-text: same language selected';";
+$a_error[4] = "SELECT COUNT(*) FROM activity_logs WHERE activity_description = 'translation no output: audio-to-text';";
+$a_error[5] = "SELECT COUNT(*) FROM activity_logs WHERE activity_description = 'error audio-text: user chose unprovided language';";
 
 $a_error_result = [];
 for ($a = 0; $a < 6; $a++) {

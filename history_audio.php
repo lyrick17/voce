@@ -7,9 +7,8 @@
     }
 
 require("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
+require("utilities/recent_audio_translation.php");
 
-// get session id
-$id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 ?>
 
 <!DOCTYPE html>
@@ -161,7 +160,10 @@ $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSI
   <div class="text-section">
         <header>Original text:</header>
         <textarea id="originalText" name="originalText" class="customtextfield" rows="4" readonly><?php
-            $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 1 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
+            if (isset($_SESSION['recent_audio'])) {
+                $textid = $_SESSION['recent_audio']; 
+                $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE text_id = '$textid' AND from_audio_file = 1 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
+            }
             if (isset($_GET['translated']) && $_GET['translated'] == 1) {
                 echo $data[6] ?? '';
             }
