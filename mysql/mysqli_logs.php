@@ -238,7 +238,7 @@ function success_logs($log_act, $translation_id, $dbcon) {
         $query_insert = mysqli_prepare($dbcon, "INSERT INTO activity_logs (translation_id, activity_description, activity_date) VALUES (?, ?, NOW())");
         mysqli_stmt_bind_param($query_insert, 'is', $translation_id, $activity);
     }
-    
+    mysqli_stmt_execute($query_insert);
 }
 //mysqli_close($dbcon);
 
