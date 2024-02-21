@@ -1,5 +1,5 @@
 <div class="sidebar">
-        <a href="dashboard1.php" class="logo">
+        <a href="index.php" class="logo">
             <img src="images/icon.ico" width="50px" height="50px"></img>
             <div class="logo-name"><span>Vo</span>CE</div>
         </a>
