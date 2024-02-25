@@ -189,10 +189,8 @@ class Translator{
 
     
     static function getLangCodes(){
-        $url = "http://localhost:5000/process_data"; // Replace with your Python script URL
-        $data = ["key1" => "value1", "key2" => "value2"]; // Replace with your actual data
-        $json_data = json_encode($data);
-        
+        $url = "http://localhost:5000/getlangcodes"; //Python endpoint for language codes.
+        $data = ["key1" => "value1", "key2" => "value2"];        
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);        
         $response = curl_exec($ch);
@@ -207,50 +205,46 @@ class Translator{
             $data = json_decode($response, true);
 
             // Access and use the retrieved data
-            var_dump($data);
+            return $data;
         }
-
-        exit();
     }
 
 
-    static function translate($input = '', $src = '', $target = '', $mode = "text"){
-        $curl = curl_init();
-
-        $transcript = $input;
+    static function translate($input = '', $src = '', $target = '') {
         
+        $data = [
+            "txt" => $input,
+            "src" => $src,
+            "trg" => $target
+        ];
+    
+        $json_data = json_encode($data);
 
-  
-    
-        $src_lang =  $src;
-        $trg_lang =  $target;
-        curl_setopt_array($curl, [
-            CURLOPT_URL => "https://text-translator2.p.rapidapi.com/translate",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => "source_language=".$src_lang."&target_language=".$trg_lang."&text=".$transcript,
-            CURLOPT_HTTPHEADER => [
-                "X-RapidAPI-Host: text-translator2.p.rapidapi.com",
-                "X-RapidAPI-Key: 5a4a854aecmsh5aefb5b52f1c29ap189bdfjsnebc4acefe413",
-                "content-type: application/x-www-form-urlencoded"
-            ],
-        ]);
-    
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-    
-        curl_close($curl);
-    
-        if ($err) {
-            echo "cURL Error #:" . $err;
-        } else {
 
-            $decoded = json_decode($response, true);
-            return $decoded["data"]["translatedText"];
+        $url = "http://localhost:5000/translate";
+    
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_close($ch);
+
+        // Error handling
+        if (!$response = curl_exec($ch)) {
+            throw new Exception(curl_error($ch)); // More informative error message
         }
+        // Check for JSON decoding errors
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception("Invalid JSON response");
+        }
+
+        var_dump($response);
+        exit();
+    
+        // Return the decoded data for further processing
+        return $data;
     }
 }
 ?>
