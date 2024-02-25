@@ -11,8 +11,10 @@ $whisper_langs = array_column($whisperlanguages, 'code', 'name');
 
 $common_langs = array_intersect($deep_langs, $whisper_langs);
 
+
 $common_langs['chinese (simplified)'] = "zh-CN";
 $common_langs['chinese (traditional)'] = "zh-TW";
 
+ksort($common_langs);
 
 ?>

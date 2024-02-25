@@ -238,13 +238,9 @@ class Translator{
         // Check for JSON decoding errors
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new Exception("Invalid JSON response");
-        }
+        }    
 
-        var_dump($response);
-        exit();
-    
-        // Return the decoded data for further processing
-        return $data;
+        return $response;
     }
 }
 ?>
