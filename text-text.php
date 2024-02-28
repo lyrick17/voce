@@ -3,7 +3,6 @@
     
 require("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
 require("utilities/recent_text_translation.php");
-
 ?>
 
 <!DOCTYPE html>
@@ -131,7 +130,7 @@ require("utilities/recent_text_translation.php");
                             $textid = $_SESSION['recent_text']; 
                             $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE text_id = '$textid' AND from_audio_file = 0 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
                         }
-                        if (isset($_GET['translated']) && $_GET['translated'] == 1) {
+                        if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1) {
                             echo $data[6] ?? '';
                         }
                         ?></textarea>
@@ -169,17 +168,26 @@ require("utilities/recent_text_translation.php");
                     <div class="custom-textfield" contenteditable="true" readonly>
                     <p class="test"><?php
                         // url must have translated=1 before showing the output
-                        if (isset($_GET['translated']) && $_GET['translated'] == 1) {
+                        if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1) {
                             echo $data[7] ?? '';
                         }
                     ?>
                     </p>
                     </div>
                 </div>
-            </div>
 
+                <?php if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
+                <div class="download button" dir="rtl">
+                    <form method="post" action="utilities/download_output.php">
+                        <button type="submit" name="text" style="padding:5px;">Download as Text File</button>   
+                        <button type="submit" name="word" style="padding:5px;">Download as Word File</button>   
+                    </form>
+                </div>
+                <?php endif;?>
+            </div>
         </main>
 
+                    
     </div>
 
     <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->

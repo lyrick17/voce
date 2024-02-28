@@ -199,7 +199,8 @@ class Translator{
 
         // Process the response
         if ($response === false) {
-            echo "Error: curl failed to execute.";
+            header("location: service-unavailable.php");
+            exit();
         } else {
             // Decode the JSON response
             $data = json_decode($response, true);
