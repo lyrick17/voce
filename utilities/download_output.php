@@ -7,24 +7,22 @@ if (isset($_SESSION['recent_text'])):
     $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE text_id = '$textid' AND from_audio_file = 0 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
 
     $date = $data[8];
-    
     // Use DateTime to parse and format the date and time in various ways
     $date = new DateTime($data[8]);
     
     // Format the date and time
     $formattedDateTime = str_replace(['-', ' ', ':'], '', $data[8]);
 
-    // filename for microsoft word
-    $filename = "texttranslation_" . $formattedDateTime . ".doc";
-
-    // USER WANTS TO DOWNLOAD IN WORD FILE
+    
+    // USER WANTS TO DOWNLOAD IN WORD OR PDF FILE
     if (isset($_POST['word'])):
+        // filename for microsoft word
+        
         // filename for microsoft word
         $filename = "texttranslation_" . $formattedDateTime . ".doc";
         
         header("Content-type: application/vnd.ms-word");
         header("Content-Disposition: attachment;  Filename=$filename");
-    
 ?>
         <html>
         <body>

@@ -180,7 +180,7 @@ require("utilities/recent_text_translation.php");
                 <div class="download button" dir="rtl">
                     <form method="post" action="utilities/download_output.php">
                         <button type="submit" name="text" style="padding:5px;">Download as Text File</button>   
-                        <button type="submit" name="word" style="padding:5px;">Download as Word File</button>   
+                        <button type="submit" name="word" style="padding:5px;">Download as Word File</button>
                     </form>
                 </div>
                 <?php endif;?>
