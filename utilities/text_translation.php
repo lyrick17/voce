@@ -9,14 +9,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
     // Error Handling first before translation 
     
-    ErrorHandling::checkLanguageChosen("text", $languages, $common_languages);
-    ErrorHandling::checkTextInput();
+    // ErrorHandling::checkLanguageChosen("text", $languages, $common_languages);
+    // ErrorHandling::checkTextInput();
     
     // translates text, get output
-    $translation = Translator::translate($_POST["text"], 
-        $lang_codes[$_POST["src"]], 
-        $lang_codes[$_POST["target"]]
-    );
+
+        $translation = Translator::translate($_POST["text"], 
+        $_POST["src"], 
+        $_POST["target"]);
+
 
     // insert into database
     $source_lang = $_POST['src'];

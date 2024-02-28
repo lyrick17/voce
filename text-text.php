@@ -119,8 +119,8 @@ require("utilities/recent_text_translation.php");
                         <!-- SELECT LANGUAGE -->     
                         <select name="src" id="sourceLanguage">
                         <option value="">Select One …</option>
-                            <?php foreach($languages as $language): ?>
-                                <option name = "language"><?= $language["name"]?></option>
+                            <?php foreach($common_langs as $lang => $code): ?>
+                                <option name = "language"><?= $lang ?></option>
                             <?php endforeach ?> 	
                         </select>
 
@@ -155,9 +155,9 @@ require("utilities/recent_text_translation.php");
                     <!-- SELECT LANGUAGE -->  
                     <select name="target" class="form-control" id="targetLanguage">
                         <option value="">Select One …</option>
-                        <?php foreach($languages as $language): ?>
-                            <option name = "language"><?= $language["name"]?></option>
-                        <?php endforeach ?>
+                        <?php foreach($common_langs as $lang => $code): ?>
+                            <option name = "language"><?= $lang ?></option>
+                        <?php endforeach ?> 	
                     </select>
                     
                     <!-- END OF FORM -->

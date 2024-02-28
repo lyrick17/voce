@@ -23,8 +23,6 @@ require("utilities/recent_audio_translation.php");
     <title>Audio to Text Translation</title>
     <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
 </head>
 
 <!-- Confirm delete window -->
@@ -111,9 +109,9 @@ require("utilities/recent_audio_translation.php");
 			<select name="src" id="sourceLanguage" class="form-control">
                 <!-- Will display Languages supported by API and Whisper -->
 				<option value="auto">Auto-Detect Language...</option> <!-- Auto-Detect --> 
-				<?php foreach($common_languages as $language): ?>
-					<option name = "language"><?= $language["name"]?></option>
-				<?php endforeach ?> 
+                <?php foreach($common_langs as $lang => $code): ?>
+                    <option name = "language"><?= $lang ?></option>
+                <?php endforeach ?> 	
 
 			</select>
 			</label>
@@ -123,9 +121,9 @@ require("utilities/recent_audio_translation.php");
 			<select name="target" id="targetLanguage" class="form-control">
                 <!-- Will display languages supported by API only-->
 				<option value="">Select One …</option>
-				<?php foreach($languages as $language): ?>
-					<option name = "language"><?= $language["name"]?></option>
-				<?php endforeach ?>
+                <?php foreach($common_langs as $lang => $code): ?>
+                    <option name = "language"><?= $lang ?></option>
+                <?php endforeach ?> 	
 
 			</select>
 			</label><br><br>
