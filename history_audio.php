@@ -96,11 +96,7 @@ require("utilities/recent_audio_translation.php");
             <label>  
 			Model Size:
 			<select name="modelSize" id="modelSize" class="form-control">
-				<option value="base">Base (For Quick Process)</option>
-				<option value="small">Small (Balance of Quick and Accurate Transcription)</option>
 				<option value="medium">Medium (Most Recommended Model Size)</option>
-				<option value="large">Large (Most Accurate, but Slowest Transcription)</option>
-
 			</select>
 			</label>
             <br>

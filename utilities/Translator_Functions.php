@@ -82,33 +82,55 @@ class Translator{
         $extension = pathinfo($newFile, PATHINFO_EXTENSION);
         
                 /* make sure to go to php.ini in xampp (config > php.ini) 
-                *  and set max_execution_time into 600 [10 minutes] or higher (write in seconds), for longer processing
-                *  you only need to pass the name of file as argument for translation (file extension not needed)
+                 and set max_execution_time into 600 [10 minutes] or higher (write in seconds), for longer processing
+                 you only need to pass the name of file as argument for translation (file extension not needed)
                 */
+                $data = [
+                    "fname" => $filename,
+                    "ext" => $extension,
+                    "removeBG" => $removeBGM,
+                    "src" => $src_lang, 
+                    "modelSize" => $modelSize
+                ];
+            
+                $json_data = json_encode($data);
         
-        // will receive json containing text and language
-        $outputString = shell_exec("cd .. && python scripts/translate.py " . 
-                                    escapeshellarg($filename) . " " . 
-                                    escapeshellarg($removeBGM) . " " . 
-                                    escapeshellarg($extension) . " " .
-                                    escapeshellarg($src_lang) . " " .
-                                    escapeshellarg($modelSize));
-
-
+        
+                $url = "http://localhost:5000/transcribe";
+            
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_close($ch);
+        
+                // Error handling
+                if (!$response = curl_exec($ch)) {
+                    throw new Exception(curl_error($ch)); // More informative error message
+                }
+                // Check for JSON decoding errors
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    throw new Exception("Invalid JSON response");
+                }    
+        
+                return  json_decode($response, true);
+        
         // replace single quotes around language codes and fields with double quotes
-        $outputString = preg_replace('/(?<!\w)\'(.*?)\'/', '"$1"', $outputString);
+        // $outputString = preg_replace('/(?<!\w)\'(.*?)\'/', '"$1"', $outputString);
 
         //$outputString = preg_replace('/\'(.*?)\'/', '"$1"', $outputString);
-        $output = json_decode($outputString, true);
+        // $output = json_decode($outputString, true);
         
-        if (!isset($output['text'])) { exit(json_encode(['error' => var_dump($outputString)])); }
+        // if (!isset($output['text'])) { exit(json_encode(['error' => var_dump($outputString)])); }
 
-        if ($output["text"]) {
-            return $output;
-            // the array will be returned so both text and language can be accessed
-        } else {
-            ErrorHandling::audioError3($newFile); // pass the filename so it can be deleted, since it's not processed
-        }
+        // if ($output["text"]) {
+        //     return $output;
+        //     // the array will be returned so both text and language can be accessed
+        // } else {
+        //     ErrorHandling::audioError3($newFile); // pass the filename so it can be deleted, since it's not processed
+        // }
     }
 
 

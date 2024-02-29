@@ -20,8 +20,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     //$userid = $_SESSION['user_id']; // to be used to add userid on new filename
 
     $model_size = $_POST['modelSize'];
-    $src_lang = ($_POST['src'] == 'auto') ? "auto" : $audio_src_lang_codes[$_POST["src"]] ?? '';
-    $trg_lang = $audio_trgt_lang_codes[$_POST["target"]] ?? ''; 
+    $src_lang = ($_POST['src'] == 'auto') ? "auto" : $common_langs[$_POST["src"]] ?? '';
+    $trg_lang = $common_langs[$_POST["target"]] ?? ''; 
     
     // Checks whether checkbox is checked or not
     $removeBGM = ISSET($_POST["removeBGM"]) ?  "on" : "off";
@@ -29,10 +29,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['step'] == 1) { #!!! error handling and insertion of audio file to database
         
-        ErrorHandling::checkLanguageChosen("audio", $languages, $common_languages);
-        ErrorHandling::checkFileUpload($_FILES["user_file"]);
-        ErrorHandling::validateFormat($path);
-        ErrorHandling::checkFolder();
+        // ErrorHandling::checkLanguageChosen("audio", $deep, $common_languages);
+        // ErrorHandling::checkFileUpload($_FILES["user_file"]);
+        // ErrorHandling::validateFormat($path);
+        // ErrorHandling::checkFolder();
         
         Translator::db_insertAudioFile($path, $pathsize);
         $newFile = Translator::createNewFilename($path);
@@ -67,19 +67,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit(json_encode($success));
     }
 
+
+    //FIX STEP 4
     if ($_POST['step'] == 4) { #!!! transcribing the vocals/audio file using whisper
-        $transcript = Translator::uploadAndTranscribe($_SESSION['a_info']['newfile'], $removeBGM, $src_lang, $_POST['modelSize']);
-        $_SESSION['a_info']['text'] = $transcript['text']; 
-        $_SESSION['a_info']['lang'] = $transcript['language']; 
+        $data = Translator::uploadAndTranscribe($_SESSION['a_info']['newfile'], $removeBGM, $src_lang, $_POST['modelSize']);
+
+        $_SESSION['a_info']['text'] = $data['text']; 
+        $_SESSION['a_info']['lang'] = $data['language']; 
 
         $success = ['error' => 0];
         exit(json_encode($success));
     }
 
 
-    if ($_POST['step'] == 5) { #!!! using the text transcribed, call api to translate text
-        $result = Translator::translate($_SESSION['a_info']['text'], $_SESSION['a_info']['lang'], $trg_lang);
-        
+    if ($_POST['step'] == 5) { 
+        $result = Translator::translate($_SESSION['a_info']['text'], $_POST["src"], $_POST["target"]);
         $_SESSION['a_info']['output'] = $result;
         $success = ['error' => 0];
         exit(json_encode($success));
@@ -88,12 +90,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['step'] == 6) { #!!! record the text output on database
 
-        if ($_POST['src'] == 'auto') {
-            $key = array_search($_SESSION['a_info']['lang'], array_column($common_languages, 'code'));    
-            $source_lang = $common_languages[$key]['name']; // extract the lang name from array if user chooses auto-detect
-        } else {
+        // if ($_POST['src'] == 'auto') {
+        //     $key = array_search($_SESSION['a_info']['lang'], array_column($common_langs, 'code'));    
+        //     $source_lang = $common_languages[$key]['name']; // extract the lang name from array if user chooses auto-detect
+        // } 
+        // else {
             $source_lang = $_POST['src']; 
-        }
+        // }
 
         $target_lang = $_POST['target'];
 
