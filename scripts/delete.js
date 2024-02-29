@@ -15,7 +15,6 @@ let confirmText = document.querySelector(".confirm-text");
 //initialize form data content
 let deleteId = 0;
 let userId = document.getElementsByTagName("body")[0].id;
-console.log(userId);
 let fromAudio = 0;
 let clearAll = false;
 let fileId = null;

@@ -128,7 +128,10 @@ require("utilities/recent_audio_translation.php");
 			</select>
 			</label><br><br>
                     
-	
+            <div class="container">
+                <button id="mic" class="mic-toggle">Record Now</button>
+                <audio class="playback" controls></audio>
+            </div>
            <div class="container">
             <div class="wrapper">
     <header>Transcribe Now</header>
@@ -194,8 +197,8 @@ require("utilities/recent_audio_translation.php");
     <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js" integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="scripts/live_record.js"></script>
     <script src="scripts/index.js"></script>
-    <script src="scripts/delete.js"></script>
     <script src="scripts/translation_process.js"></script>
 
 </body>
