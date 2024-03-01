@@ -23,6 +23,8 @@ form.addEventListener('submit', function(e) {
     // add a 'step' data in the POST variables for server to detect
     //  what current step to take
     audio_info.append('step', 1);
+    
+    console.log(audio_info);
     if (checkFileSize(uploadField)) {
         translationProcess(audio_info);
     } else {

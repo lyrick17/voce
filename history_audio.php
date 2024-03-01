@@ -93,12 +93,7 @@ require("utilities/recent_audio_translation.php");
                 </div>
             <form enctype="multipart/form-data" id="form" action="utilities/audio_translation.php" method = "POST" onsubmit="showLoading()">
 
-            <label>  
-			Model Size:
-			<select name="modelSize" id="modelSize" class="form-control">
-				<option value="medium">Medium (Most Recommended Model Size)</option>
-			</select>
-			</label>
+            
             <br>
             <label>  
 			Source language:
@@ -128,6 +123,8 @@ require("utilities/recent_audio_translation.php");
                 <button id="mic" class="mic-toggle">Record Now</button>
                 <audio class="playback" controls></audio>
             </div>
+
+
            <div class="container">
             <div class="wrapper">
     <header>Transcribe Now</header>

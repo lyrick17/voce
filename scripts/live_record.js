@@ -71,53 +71,49 @@ function setupStream(stream) {
     recorder.onstop = e => {
         console.log('stopped');
         const blob = new Blob(chunks, { type: "audio/mpeg; codecs=opus"});
+        
+        // reset the chunks
         chunks = [];
+
+        // display the recorded audio in the website
         const audioURL = window.URL.createObjectURL(blob);
         playback.src = audioURL;
     }
     
     // FOR DETECTING SILENCE
-    // minimum decibels to detect silence,
-    // Define a constant for the minimum decibels to be used in the audio analysis.
-    // This is a threshold below which the audio levels are considered insignificant.
+
+    // minimum decibels to detect silence
     const MIN_DECIBELS = -45;
 
-    // Create a new AudioContext instance. This is the main component of the Web Audio API,
-    // acting as a hub for creating and managing all of the various audio elements known as nodes.
-    // AudioContext is essential for working with audio in web applications [0][1].
+    // new AudioContext instance. main component of the Web Audio API, acting as a hub for creating 
+    //  and managing all of the various audio elements known as nodes.
     const audioContext = new AudioContext();
 
     // Create a MediaStreamAudioSourceNode from the provided audio stream. This node is part of the audio graph
-    // and is responsible for playing the audio stream. It's an input node that feeds audio data into the audio graph [0][1].
+    // and is responsible for playing the audio stream. It's an input node that feeds audio data into the audio graph.
     const audioStreamSource = audioContext.createMediaStreamSource(stream);
 
-    // Create an AnalyserNode to perform real-time frequency and time-domain analysis. This node is used to extract
-    // data about the audio for visualization or other purposes. It's a processing node that can analyze the audio
-    // data in various ways, such as frequency or waveform [0][1].
+    // performs real-time frequency and time-domain analysis. used to extract data about the audio 
+    // for visualization or other purposes. It's a processing node that can analyze the audio
+    // data in various ways, such as frequency or waveform.
     const analyser = audioContext.createAnalyser();
 
-    // Set the minimum decibels for the analyser. This value is used as the reference level for the decibel measurements.
-    // By setting a minimum decibel level, we ensure that the analyser does not consider very low audio levels as significant [1].
     analyser.minDecibels = MIN_DECIBELS;
 
-    // Connect the audio source to the analyser. This is a crucial step in the audio graph setup. By connecting the source
-    // to the analyser, we allow the audio data to flow from the source through the analyser. This setup is part of the
-    // modular routing concept of the Web Audio API, where nodes are linked together to form an audio routing graph [0][1].
+    // Connect the audio source to the analyser. This setup is part of the
+    // modular routing concept of the Web Audio API, where nodes are linked together to form an audio routing graph.
     audioStreamSource.connect(analyser);
 
-    // Get the number of frequency bins in the analyser. Each bin represents a range of frequencies, and the total number of bins
+    // Each bin represents a range of frequencies, and the total number of bins
     // determines the frequency resolution of the analyser. The frequency resolution is the ability to distinguish between
-    // different frequencies in the audio signal. A higher number of bins means a higher frequency resolution [1].
+    // different frequencies in the audio signal. A higher number of bins means a higher frequency resolution.
     const bufferLength = analyser.frequencyBinCount;
 
-    // Create a Uint8Array to store the frequency data. The size of this array is equal to the number of frequency bins.
+    // stores the frequency data. The size of this array is equal to the number of frequency bins.
     // This array will hold the frequency data that is extracted from the audio stream by the analyser. The Uint8Array is
-    // used because it is a typed array that holds 8-bit unsigned integers, which is suitable for storing frequency data [1].
+    // used because it is a typed array that holds 8-bit unsigned integers, which is suitable for storing frequency data.
     const domainData = new Uint8Array(bufferLength);
 
-    // Call a function to detect sound using the analyser and the frequency data array. This function is not defined in the provided code
-    // but would typically analyze the frequency data to detect the presence of sound. This could involve looking for peaks in the
-    // frequency data that exceed a certain threshold, indicating the presence of sound [1].
     detectSound(analyser, domainData, bufferLength);
 }
 
