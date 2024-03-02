@@ -115,6 +115,12 @@ require("utilities/recent_text_translation.php");
 
                     <!-- START OF FORM, COVERS TWO SELECT AND ONE TEXT AREA -->
                     <form id="myForm" action="utilities/text_translation.php" method="POST" onsubmit="showLoading()">   
+                        <?php // url must have translated=1 before showing the output
+                            if (isset($_SESSION['recent_text'])) {
+                                $textid = $_SESSION['recent_text']; 
+                                $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE text_id = '$textid' AND from_audio_file = 0 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
+                            }
+                        ?>
                         <!-- SELECT LANGUAGE -->     
                         <select name="src" id="sourceLanguage">
                         <option value="">Select One …</option>
@@ -122,14 +128,10 @@ require("utilities/recent_text_translation.php");
                                 <option name = "language"><?= $lang ?></option>
                             <?php endforeach ?> 	
                         </select>
-
+                        <br>
+                        <?php if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1) { echo "Language: " . $data[4]; } ?>
                        <!-- <input type = "text" name = "text" class="form-control"> -->
                         <textarea class="custom-textfield" name = "text" placeholder='Type Here...'><?php
-                        // url must have translated=1 before showing the output
-                        if (isset($_SESSION['recent_text'])) {
-                            $textid = $_SESSION['recent_text']; 
-                            $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE text_id = '$textid' AND from_audio_file = 0 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
-                        }
                         if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1) {
                             echo $data[6] ?? '';
                         }
@@ -158,7 +160,8 @@ require("utilities/recent_text_translation.php");
                             <option name = "language"><?= $lang ?></option>
                         <?php endforeach ?> 	
                     </select>
-                    
+                    <br>
+                    <?php if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1) { echo "Language: " . $data[5]; } ?>
                     <!-- END OF FORM -->
                     </form>
                      

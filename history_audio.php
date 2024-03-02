@@ -120,7 +120,8 @@ require("utilities/recent_audio_translation.php");
 			</label><br><br>
                     
             <div class="container">
-                <button id="mic" class="mic-toggle">Record Now</button>
+                <input type="hidden" name="record" />
+                <button type="button" id="mic" class="mic-toggle">Record Now</button>
                 <audio class="playback" controls></audio>
             </div>
 
@@ -148,23 +149,26 @@ require("utilities/recent_audio_translation.php");
  
 
 
-<button type = "submit" id="yourButtonID" class="custom-button" disabled>Translate</button>
+<button type="submit" id="yourButtonID" class="custom-button">Translate</button>
 
 </form>
   <div class="text-section">
-        <header>Original text:</header>
-        <textarea id="originalText" name="originalText" class="customtextfield" rows="4" readonly><?php
-            if (isset($_SESSION['recent_audio'])) {
+            <?php if (isset($_SESSION['recent_audio'])) {
                 $textid = $_SESSION['recent_audio']; 
                 $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE text_id = '$textid' AND from_audio_file = 1 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
-            }
+            } ?>
+        <header>Original text:</header>
+        <p>Language: <?php if (isset($_GET['translated']) && $_GET['translated'] == 1) { echo $data[4] ?? ''; }?></p>
+        <textarea id="originalText" name="originalText" class="customtextfield" rows="4" readonly><?php
+            
             if (isset($_GET['translated']) && $_GET['translated'] == 1) {
                 echo $data[6] ?? '';
             }
             ?>
         </textarea>
-
+        
         <header>Translated text:</header>
+        <p>Language: <?php if (isset($_GET['translated']) && $_GET['translated'] == 1) { echo $data[5] ?? ''; }?></p>
         <textarea id="translatedText" name="translatedText" class="customtextfield" rows="4" readonly>`<?php
             if (isset($_GET['translated']) && $_GET['translated'] == 1) {
                 echo $data[7] ?? '';
@@ -190,7 +194,6 @@ require("utilities/recent_audio_translation.php");
     <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js" integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="scripts/live_record.js"></script>
     <script src="scripts/index.js"></script>
     <script src="scripts/translation_process.js"></script>
 

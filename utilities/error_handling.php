@@ -80,9 +80,8 @@ class ErrorHandling{
 
 		} else if ($mode == "audio") {
 
-			$modelSizes = array("base", "small", "medium", "large");
 			// (1)
-			if ($_POST["src"] == "" || $_POST['target'] == "" ||  $_POST['modelSize'] == "") {
+			if ($_POST["src"] == "" || $_POST['target'] == "") {
 				logs("error-at-1", $dbcon);
 				//header("Location: history_audio.php?error=1");
 				$exit = ['removeBGM' => 'error', 'error' => 1];
@@ -100,8 +99,7 @@ class ErrorHandling{
 			// (3) Note: Source Language would be compared on common_languages of API and Whisper
 			if ($_POST['src'] != "auto") {
 				if (array_search($_POST['src'], array_column($common_lang, 'name')) === false ||
-					array_search($_POST['target'], array_column($api_lang, 'name')) === false ||
-					!in_array($_POST['modelSize'], $modelSizes)) {
+					array_search($_POST['target'], array_column($api_lang, 'name')) === false) {
 						logs("error-at-6", $dbcon);
 		
 						$exit = ['removeBGM' => 'error', 'error' => 6];
@@ -120,6 +118,7 @@ class ErrorHandling{
 			self::audioError2();
 		}
 	}
+
 	static function validateFormat($filePath) {
 		// error, user no upload file
 		if (!$filePath) {

@@ -14,12 +14,21 @@ if (!isset($_SESSION['a_info'])) $_SESSION['a_info'] = array();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     // required for uploading the file
-    $path=$_FILES['user_file']['name']; // file
-    $pathsize = $_FILES['user_file']['size']; // file size
     
+    // checks if user uploads file or live record
+    if (isset($_POST['record'])) {
+        $is_recorded = true;
+        $record = $_POST['record'];
+    } else {
+        $is_recorded = false;
+        $path=$_FILES['user_file']['name'];         // file
+        $pathsize = $_FILES['user_file']['size']; // file size
+    }
+
+
     //$userid = $_SESSION['user_id']; // to be used to add userid on new filename
 
-    $model_size = $_POST['modelSize'];
+    //$model_size = $_POST['modelSize'];
     $src_lang = ($_POST['src'] == 'auto') ? "auto" : $common_langs[$_POST["src"]] ?? '';
     $trg_lang = $common_langs[$_POST["target"]] ?? ''; 
     
@@ -29,13 +38,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['step'] == 1) { #!!! error handling and insertion of audio file to database
         
-        // ErrorHandling::checkLanguageChosen("audio", $deep, $common_languages);
-        // ErrorHandling::checkFileUpload($_FILES["user_file"]);
-        // ErrorHandling::validateFormat($path);
-        // ErrorHandling::checkFolder();
+        ErrorHandling::checkLanguageChosen("audio", $deep_langs, $common_langs);
+        if (!$is_recorded) {
+            ErrorHandling::checkFileUpload($_FILES["user_file"]);
+            ErrorHandling::validateFormat($path);
+        }
+        ErrorHandling::checkFolder();
         
-        Translator::db_insertAudioFile($path, $pathsize);
-        $newFile = Translator::createNewFilename($path);
+        $audio = null;
+        if (!$is_recorded) {
+            Translator::db_insertAudioFile($path, $pathsize);
+        } 
+        else {
+            $path = Translator::db_uploadRecordFile($record);
+        }
+
+        $newFile = Translator::createNewFilename($path, $is_recorded);
         if ($removeBGM == "off") {
             $output = Translator::createNewFolder($newFile);
         }
@@ -70,7 +88,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     //FIX STEP 4
     if ($_POST['step'] == 4) { #!!! transcribing the vocals/audio file using whisper
-        $data = Translator::uploadAndTranscribe($_SESSION['a_info']['newfile'], $removeBGM, $src_lang, $_POST['modelSize']);
+        $data = Translator::uploadAndTranscribe($_SESSION['a_info']['newfile'], $removeBGM, $src_lang);
 
         $_SESSION['a_info']['text'] = $data['text']; 
         $_SESSION['a_info']['lang'] = $data['language']; 
@@ -175,7 +193,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['step'])) {
 
     // step 3: transcribing audio
     //  $transcript contains the text and language
-    $transcript = Translator::uploadAndTranscribe($newFile, $removeBGM, $src_lang, $_POST['modelSize']);
+    $transcript = Translator::uploadAndTranscribe($newFile, $removeBGM, $src_lang);
 
 
 

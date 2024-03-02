@@ -47,9 +47,6 @@ function ToggleMic() {
 
 // FUNCTION - permission is granted, record the audio through microphone
 function setupStream(stream) {
-
-    
-
     recorder = new MediaRecorder(stream);
 
     console.log('setup');
@@ -78,6 +75,9 @@ function setupStream(stream) {
         // display the recorded audio in the website
         const audioURL = window.URL.createObjectURL(blob);
         playback.src = audioURL;
+
+        document.getElementById("input-record").value = blob;
+        console.log(blob);
     }
     
     // FOR DETECTING SILENCE
@@ -85,23 +85,19 @@ function setupStream(stream) {
     // minimum decibels to detect silence
     const MIN_DECIBELS = -45;
 
-    // new AudioContext instance. main component of the Web Audio API, acting as a hub for creating 
-    //  and managing all of the various audio elements known as nodes.
+    // main component of the Web Audio API, acting as a hub for creating and managing all of the various audio elements known as nodes.
     const audioContext = new AudioContext();
 
-    // Create a MediaStreamAudioSourceNode from the provided audio stream. This node is part of the audio graph
-    // and is responsible for playing the audio stream. It's an input node that feeds audio data into the audio graph.
+    // responsible for playing the audio stream. It's an input node that feeds audio data into the audio graph.
     const audioStreamSource = audioContext.createMediaStreamSource(stream);
 
-    // performs real-time frequency and time-domain analysis. used to extract data about the audio 
-    // for visualization or other purposes. It's a processing node that can analyze the audio
-    // data in various ways, such as frequency or waveform.
+    // performs real-time frequency and time-domain analysis. 
+    // used to extract data about the audio for visualization or other purposes. 
+    // can analyze the audio data in various ways, such as frequency or waveform.
     const analyser = audioContext.createAnalyser();
 
     analyser.minDecibels = MIN_DECIBELS;
 
-    // Connect the audio source to the analyser. This setup is part of the
-    // modular routing concept of the Web Audio API, where nodes are linked together to form an audio routing graph.
     audioStreamSource.connect(analyser);
 
     // Each bin represents a range of frequencies, and the total number of bins
@@ -109,7 +105,7 @@ function setupStream(stream) {
     // different frequencies in the audio signal. A higher number of bins means a higher frequency resolution.
     const bufferLength = analyser.frequencyBinCount;
 
-    // stores the frequency data. The size of this array is equal to the number of frequency bins.
+    // stores the frequency data. 
     // This array will hold the frequency data that is extracted from the audio stream by the analyser. The Uint8Array is
     // used because it is a typed array that holds 8-bit unsigned integers, which is suitable for storing frequency data.
     const domainData = new Uint8Array(bufferLength);
@@ -117,6 +113,7 @@ function setupStream(stream) {
     detectSound(analyser, domainData, bufferLength);
 }
 
+// FUNCTION - continuously check for silence, to stop recording if silence = 5 seconds
 function detectSound(analyser, domainData, bufferLength) {
     let soundDetected = false;
 

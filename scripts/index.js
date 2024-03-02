@@ -61,18 +61,18 @@ window.addEventListener('resize', () => {
         modelSizeSelect.addEventListener('change', toggleTranslateButton);
     }
     
-    window.addEventListener('load', function() {
+    /*window.addEventListener('load', function() {
         toggleTranslateButton();
-    });
+    });*/
     // Function to enable/disable the translate button based on selections
-    function toggleTranslateButton() {
+    /*function toggleTranslateButton() {
         if (sourceLanguageSelect.value && targetLanguageSelect.value && modelSizeSelect.value) {
             yourButtonID.removeAttribute('disabled');
             
         } else {
             yourButtonID.setAttribute('disabled', 'true');
         }
-    }
+    }*/
 
     document.addEventListener('DOMContentLoaded', function () {
         // Get all the cells with class 'truncate-text'

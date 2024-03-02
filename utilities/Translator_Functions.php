@@ -11,39 +11,87 @@ class Translator{
         $file_size = round($pathsize / 1024 / 1024, 2);
             //$file_size = round(filesize('audio_files/' . $file_name)/1000000, 2);
         $file_format =  pathinfo('../audio_files/' . $file_name, PATHINFO_EXTENSION);
-        
+        $is_recorded = false;
         // insert audio file into database
-          $query_insert2 = mysqli_prepare($dbcon, "INSERT INTO audio_files(file_name, file_size, file_format,
-          upload_date) VALUES (?, ?, ?, NOW())");
+          $query_insert2 = mysqli_prepare($dbcon, "INSERT INTO audio_files(file_name, is_recorded, file_size, file_format,
+          upload_date) VALUES (?, ?, ?, ?, NOW())");
     
         // execute the query
-          mysqli_stmt_bind_param($query_insert2, 'sss', $file_name, $file_size, $file_format);
+          mysqli_stmt_bind_param($query_insert2, 'siss', $file_name, $is_recorded, $file_size, $file_format);
           mysqli_stmt_execute($query_insert2);
+    }
+    static function db_uploadRecordFile($record) {
+        global $dbcon;
+        // prepare convert audio blob
+        $is_recorded = true;
+        $temp = "record" . (time() . rand(10000, 99999)) . ".webm";
+        
+        // temporarily save the audio file
+        file_put_contents("../audio_files/" . $temp, $record);
+        
+        
+        // prepare file id, filename, filesize, fileformat
+        $file_name = $temp;
+        $file_size = round(filesize('../audio_files/' . $temp) / 1024 / 1024, 2);
+        $file_format =  pathinfo('../audio_files/' . $temp, PATHINFO_EXTENSION);
+
+        // temporary save in database
+          $query_insert2 = mysqli_prepare($dbcon, "INSERT INTO audio_files(file_name, is_recorded, file_size, file_format,
+          upload_date) VALUES (?, ?, ?, ?, NOW())");
+    
+        // execute the query
+          mysqli_stmt_bind_param($query_insert2, 'siss', $file_name, $is_recorded, $file_size, $file_format);
+          mysqli_stmt_execute($query_insert2);
+
+          return $temp;
     }
     
     
-    static function createNewFilename($path) {
+    static function createNewFilename($path, $is_recorded) {
         global $dbcon;
         // create a new filename with format
         $filename = pathinfo($path, PATHINFO_FILENAME);
         $extension = pathinfo($path, PATHINFO_EXTENSION);
 
         $path = mysqli_real_escape_string($dbcon, $path);
+
         // get the date of the file from db
         $datequery = "SELECT file_id, DATE_FORMAT(upload_date, '%m%d%Y_%H%i%s') AS formatted_date 
                         FROM audio_files WHERE file_name = '$path' ORDER BY file_id DESC LIMIT 1";
         $dateresult = mysqli_query($dbcon, $datequery);
         $row = mysqli_fetch_assoc($dateresult);
-
         // create an error handler where in if $datequery possibly resulted into two result
+        if (!$is_recorded) {
+    
+            $newFilename = $row['file_id'] . "_" . $filename . $row['formatted_date'];
+            $newFile = $newFilename . "." . $extension;
+            
+            // audio files folder
+            $pathto = "../audio_files/" . $newFile;
 
-        $newFilename = $row['file_id'] . "_" . $filename . $row['formatted_date'];
-        $newFile = $newFilename . "." . $extension;
-        
-        // audio files folder
-        $pathto="../audio_files/" . $newFile;
+            move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(ErrorHandling::audioError2());
+            
+        } else {
+            
+            $newFilename = $row['file_id'] . "_" . "record" . $row['formatted_date'];
+            $newFile = $newFilename . "." . $extension;
+            
+            // audio files folder
+            $pathto = "../audio_files/" . $newFile;
 
-        move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(ErrorHandling::audioError2());
+            move_uploaded_file($_FILES['record']['tmp_name'], $pathto) or die("Error: Could not move file");
+            
+            $file_size = round(filesize($pathto) / 1024 / 1024, 2);
+            $file_format =  pathinfo($pathto, PATHINFO_EXTENSION);
+            
+            // officially update the database
+            $query_update = mysqli_prepare($dbcon, "UPDATE audio_files SET file_size = ?, `file_format` = ? WHERE file_id = ?");
+            mysqli_stmt_bind_param($query_update, "ssi", $file_size, $file_format, $row['file_id']);
+            $result = mysqli_stmt_execute($query_update);
+
+            // delete temporary file, its delete process is the same as error files
+            deleteErrorFile($path);
+        }
         
         return $newFile;
     }
@@ -74,7 +122,7 @@ class Translator{
         }
     }
 
-    static function uploadAndTranscribe($newFile, $removeBGM, $src_lang, $modelSize){
+    static function uploadAndTranscribe($newFile, $removeBGM, $src_lang){
 
         global $dbcon;      
 
@@ -89,8 +137,7 @@ class Translator{
                     "fname" => $filename,
                     "ext" => $extension,
                     "removeBG" => $removeBGM,
-                    "src" => $src_lang, 
-                    "modelSize" => $modelSize
+                    "src" => $src_lang
                 ];
             
                 $json_data = json_encode($data);
