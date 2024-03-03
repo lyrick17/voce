@@ -169,14 +169,29 @@ require("utilities/recent_text_translation.php");
     
                     <!-- Output text-->
                     <div class="custom-textfield" contenteditable="true" readonly>
-                    <p class="test" id="text-output"><?php
+                    <p class="test outputText" id="text-output"><?php
                         // url must have translated=1 before showing the output
                         if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1) {
-                            echo $data[7] ?? '';
+
+                            if($data[5] == 'english'){
+                                $words = explode(" ", $data[7]);
+                                foreach($words as $word)
+                                    echo  "<span class = 'word-span'>".htmlspecialchars($word) ." </span>";
+                            }
+                            else{
+                                echo htmlspecialchars($data[7]);
+                            }
+
                         }
                     ?>
                     </p>
                     </div>
+                </div>
+                <div class = "dict-div">
+                    <h2 class = "hovered-word">Word</h2>
+                    <p class = "word-meaning">Meaning: </p>
+     
+
                 </div>
 
                 <div class="download button" dir="rtl" id="download-file" style="display:none;">
@@ -192,11 +207,13 @@ require("utilities/recent_text_translation.php");
     </div>
 
     <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->
+    <script src="scripts/index.js"></script>
+    <script src="scripts/dictionary.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js" integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="scripts/index.js"></script>
     <script src="scripts/translation_process2.js"></script>
-    <script src="scripts/delete.js"></script>
+    <!-- <script src="scripts/delete.js"></script> -->
 
 
 

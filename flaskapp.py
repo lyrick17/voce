@@ -1,13 +1,20 @@
 from deep_translator import GoogleTranslator
 from flask import Flask, request, jsonify
+from PyDictionary import PyDictionary
 import whisper
 import json
 
+
+dictionary = PyDictionary()
 model = whisper.load_model("small")
 langs_dict = GoogleTranslator().get_supported_languages(as_dict=True) 
 app = Flask('lang_codes')
 
-print(langs_dict)
+@app.route("/get_meanings", methods=["POST"])
+def get_meaning():
+    json_data = request.get_json()
+    meanings = dictionary.meaning(json_data["word"])
+    return json.dumps(meanings)
 
 @app.route("/transcribe", methods=["POST"])
 def transcribe():

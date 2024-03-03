@@ -544,7 +544,7 @@ body{
 }
 
 .custom-textfield {
-    
+    resize: none;
     border-radius: 10px;
     font-size: 16px;
     background-color: var(--light);
@@ -1015,6 +1015,11 @@ select::after {
         }
         } */
 
+.word-span:hover{
+    cursor:pointer;
+    background-color: blue;
+    color: white;
+}
 .drag-hover  {
     background-color: #fccdcd;
 }
