@@ -78,7 +78,6 @@ class Translator{
             
             // audio files folder
             $pathto = "../audio_files/" . $newFile;
-
             move_uploaded_file($_FILES['record']['tmp_name'], $pathto) or die("Error: Could not move file");
             
             $file_size = round(filesize($pathto) / 1024 / 1024, 2);
