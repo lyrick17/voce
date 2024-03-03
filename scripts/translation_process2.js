@@ -36,6 +36,8 @@ function translateInput() {
     }
     document.getElementById("download-file").style.display = "none";
 }
+
+
 function realTimeTranslate() {
     const form = document.getElementById("myForm");
     const text_info = new FormData(form);
@@ -60,7 +62,67 @@ function realTimeTranslate() {
 }
 
 function displayTranslation(data) { 
-    document.getElementById("text-output").innerHTML = data.translation;
+    let words = data.translation;
+    words = words.split(" ");
+    console.log(words);
+    let tags = "";
+    for(let i = 0; i < words.length; i++){
+        tags +=  "<span class ='word-span'>" + words[i] +" </span>";
+    }
+
+    document.querySelector(".outputText").innerHTML = tags;
+
+    const wordSpans = document.querySelectorAll(".word-span");
+    const displayWord = document.querySelector(".hovered-word");
+    const displayedMeaning = document.querySelector(".word-meaning");
+
+
+    console.log("HI THERE");
+    const nonLetterRegex = /[^a-zA-Z'-]/g;
+    wordSpans.forEach((wordspan) => {
+    wordspan.addEventListener("click", () => {
+        console.log("clicked");
+        // Displays the word on the dictionary div 
+        displayedMeaning.textContent = "Loading";
+        let clickedWord = wordspan.textContent;
+        clickedWord = clickedWord.replace(nonLetterRegex, "")
+        displayWord.textContent = clickedWord;
+        displayMeaning(clickedWord);
+    });
+    });
+
+
+    
+    async function displayMeaning(word){
+        const data = new FormData();
+        data.append("word", word);
+
+        await fetch('utilities/getmeaning.php', {
+            method : 'POST',
+            body: data
+        }).then((res) => res.json())
+        .then((response) => {
+
+
+            console.log(response);
+            displayedMeaning.textContent = "";
+
+            Object.keys(response).forEach(key => {
+                
+                displayedMeaning.innerHTML = displayedMeaning.innerHTML + String(key) + ": <br>";
+
+                for(let i = 0; i < response[key].length; i++){
+                    displayedMeaning.innerHTML = displayedMeaning.innerHTML + (i+1) + ".) " + response[key][i] + "<br>";
+                }
+
+                displayedMeaning.innerHTML = displayedMeaning.innerHTML + "<br>";
+            });
+
+
+
+        });
+        
+    }
 }
 
 
@@ -92,3 +154,6 @@ function timerForSavingDB() {
         document.getElementById("download-file").style.display = "block";
     }, 3000); // save the translation to the database after 5 seconds
 }
+
+
+
