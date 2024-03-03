@@ -35,10 +35,14 @@ class ErrorHandling{
 		global $dbcon;
 		// error, user did not input text
 		if (empty(trim($_POST['text']))) {
-			logs("error-tt-2", $dbcon);
-			header("Location: ../text-text.php?error=3");
 			
-			exit(json_encode($exit));
+			// it's better to not log it
+			//logs("error-tt-2", $dbcon);
+			
+			$exit = ['error' => 3];
+        	exit(json_encode($exit));
+			//header("Location: ../text-text.php?error=3");
+			//exit(json_encode($exit));
 		}
 	}
 
@@ -56,26 +60,31 @@ class ErrorHandling{
 			if ($_POST["src"] == "" || $_POST['target'] == "") {
 				// error, user did not choose language
 				logs("error-tt-1", $dbcon);
-				header("Location: ../text-text.php?error=1");
-				exit();
 				
+				$exit = ['error' => 1];
+				exit(json_encode($exit));
+				//header("Location: ../text-text.php?error=1");
+				//exit();
 			} 
 
 			// (2)
 			if ($_POST["src"] == $_POST['target']) {
 				// error, user picked same language, useless
 				logs("error-tt-3", $dbcon);
-				header("Location: ../text-text.php?error=2");
-				exit();
+				$exit = ['error' => 2];
+				exit(json_encode($exit));
+				//header("Location: ../text-text.php?error=2");
+				//exit();
 			}
 
 			// (3)
-			if (array_search($_POST['src'], array_column($api_lang, 'name')) === false ||
-				array_search($_POST['target'], array_column($api_lang, 'name')) === false) {
+			if (!array_key_exists($_POST['src'], $api_lang) || !array_key_exists($_POST['target'], $api_lang)) {
 					logs("error-at-4", $dbcon);
 	
-					header("Location: ../text-text.php?error=4");
-					exit();
+					$exit = ['error' => 4];
+					exit(json_encode($exit));
+					//header("Location: ../text-text.php?error=4");
+					//exit();
 			}
 
 		} else if ($mode == "audio") {
@@ -98,8 +107,14 @@ class ErrorHandling{
 			
 			// (3) Note: Source Language would be compared on common_languages of API and Whisper
 			if ($_POST['src'] != "auto") {
-				require("common_languages.php");
-				if (!ISSET($common_langs[$_POST['src']])) {
+				if (!array_key_exists($_POST['src'], $api_lang) || !array_key_exists($_POST['target'], $common_lang)) {
+						logs("error-at-6", $dbcon);
+		
+						$exit = ['removeBGM' => 'error', 'error' => 6];
+						exit(json_encode($exit));
+				}
+			} else {
+				if (!array_key_exists($_POST['target'], $common_lang)) {
 						logs("error-at-6", $dbcon);
 		
 						$exit = ['removeBGM' => 'error', 'error' => 6];

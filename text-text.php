@@ -61,7 +61,7 @@ require("utilities/recent_text_translation.php");
 
 
                     <!-- Error Message: Pabago nalang if may naiisip kang ibang design -->
-                    <p style="color: red;"><i>
+                    <p style="color: red;" id="error-message"><i>
                     <?php
                         if (isset($_GET['error'])) {
                             switch ($_GET['error']) {
@@ -131,7 +131,7 @@ require("utilities/recent_text_translation.php");
                         <br>
                         <?php if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1) { echo "Language: " . $data[4]; } ?>
                        <!-- <input type = "text" name = "text" class="form-control"> -->
-                        <textarea class="custom-textfield" name = "text" placeholder='Type Here...'><?php
+                        <textarea class="custom-textfield" name = "text" id = "text-input" placeholder='Type Here...'><?php
                         if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1) {
                             echo $data[6] ?? '';
                         }
@@ -169,7 +169,7 @@ require("utilities/recent_text_translation.php");
     
                     <!-- Output text-->
                     <div class="custom-textfield" contenteditable="true" readonly>
-                    <p class="test outputText"><?php
+                    <p class="test outputText" id="text-output"><?php
                         // url must have translated=1 before showing the output
                         if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1) {
 
@@ -194,14 +194,12 @@ require("utilities/recent_text_translation.php");
 
                 </div>
 
-                <?php if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
-                <div class="download button" dir="rtl">
+                <div class="download button" dir="rtl" id="download-file" style="display:none;">
                     <form method="post" action="utilities/download_output.php">
                         <button type="submit" name="text" style="padding:5px;">Download as Text File</button>   
                         <button type="submit" name="word" style="padding:5px;">Download as Word File</button>
                     </form>
                 </div>
-                <?php endif;?>
             </div>
         </main>
 
@@ -213,8 +211,8 @@ require("utilities/recent_text_translation.php");
     <script src="scripts/dictionary.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js" integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
+    <script src="scripts/index.js"></script>
+    <script src="scripts/translation_process2.js"></script>
     <!-- <script src="scripts/delete.js"></script> -->
 
 
