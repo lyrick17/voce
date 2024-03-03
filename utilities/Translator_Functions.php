@@ -3,6 +3,35 @@
 require("error_handling.php");
 
 class Translator{
+    static function get_meanings($word){
+        $data = [
+            "word" => $word
+        ];
+    
+        $json_data = json_encode($data);
+
+        $url = "http://localhost:5000/get_meanings";
+    
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_close($ch);
+
+        // Error handling
+        if (!$response = curl_exec($ch)) {
+            throw new Exception(curl_error($ch)); // More informative error message
+        }
+        // Check for JSON decoding errors
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception("Invalid JSON response");
+        }    
+
+        return $response;
+    }
+    
 
     static function db_insertAudioFile($path, $pathsize) {
         global $dbcon;
@@ -91,9 +120,9 @@ class Translator{
 
             // delete temporary file, its delete process is the same as error files
             deleteErrorFile($path);
+            return $newFile;
         }
         
-        return $newFile;
     }
 
     static function createNewFolder($filename) {

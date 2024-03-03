@@ -98,8 +98,8 @@ class ErrorHandling{
 			
 			// (3) Note: Source Language would be compared on common_languages of API and Whisper
 			if ($_POST['src'] != "auto") {
-				if (array_search($_POST['src'], array_column($common_lang, 'name')) === false ||
-					array_search($_POST['target'], array_column($api_lang, 'name')) === false) {
+				require("common_languages.php");
+				if (!ISSET($common_langs[$_POST['src']])) {
 						logs("error-at-6", $dbcon);
 		
 						$exit = ['removeBGM' => 'error', 'error' => 6];
