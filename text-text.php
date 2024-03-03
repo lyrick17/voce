@@ -1,19 +1,8 @@
 <?php require("mysql/mysqli_session.php"); 
     $current_page = basename($_SERVER['PHP_SELF']);
     
-    if (!isset($_SESSION['username'])) {
-        header("location: loginpage.php");
-        exit();
-    }
-
 require("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
-
-// get session id
-
-$id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
-
-// Translation history for text to text 
-$history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 0 ORDER BY translation_date DESC");
+require("utilities/recent_text_translation.php");
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +33,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id =
     </div>
 </div>
 
-<body id = "<?= $_SESSION['user_id']?>">
+<body>
 
 
     <!-- Sidebar -->
@@ -54,7 +43,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id =
     <div class="content">
         <!-- Navbar -->
         <nav>
-            <i class='bx bx-menu'></i><?= $_SESSION['username']; ?>
+            <i class='bx bx-menu'></i>
         </nav>
 
         <!-- End of Navbar -->
@@ -72,7 +61,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id =
 
 
                     <!-- Error Message: Pabago nalang if may naiisip kang ibang design -->
-                    <p style="color: red;"><i>
+                    <p style="color: red;" id="error-message"><i>
                     <?php
                         if (isset($_GET['error'])) {
                             switch ($_GET['error']) {
@@ -126,19 +115,24 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id =
 
                     <!-- START OF FORM, COVERS TWO SELECT AND ONE TEXT AREA -->
                     <form id="myForm" action="utilities/text_translation.php" method="POST" onsubmit="showLoading()">   
+                        <?php // url must have translated=1 before showing the output
+                            if (isset($_SESSION['recent_text'])) {
+                                $textid = $_SESSION['recent_text']; 
+                                $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE text_id = '$textid' AND from_audio_file = 0 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
+                            }
+                        ?>
                         <!-- SELECT LANGUAGE -->     
                         <select name="src" id="sourceLanguage">
                         <option value="">Select One …</option>
-                            <?php foreach($languages as $language): ?>
-                                <option name = "language"><?= $language["name"]?></option>
+                            <?php foreach($common_langs as $lang => $code): ?>
+                                <option name = "language"><?= $lang ?></option>
                             <?php endforeach ?> 	
                         </select>
-
+                        <br>
+                        <?php if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1) { echo "Language: " . $data[4]; } ?>
                        <!-- <input type = "text" name = "text" class="form-control"> -->
-                        <textarea class="custom-textfield" name = "text" placeholder='Type Here...'><?php
-                        // url must have translated=1 before showing the output
-                        if (isset($_GET['translated']) && $_GET['translated'] == 1) {
-                            $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 0 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
+                        <textarea class="custom-textfield" name = "text" id = "text-input" placeholder='Type Here...'><?php
+                        if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1) {
                             echo $data[6] ?? '';
                         }
                         ?></textarea>
@@ -162,11 +156,12 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id =
                     <!-- SELECT LANGUAGE -->  
                     <select name="target" class="form-control" id="targetLanguage">
                         <option value="">Select One …</option>
-                        <?php foreach($languages as $language): ?>
-                            <option name = "language"><?= $language["name"]?></option>
-                        <?php endforeach ?>
+                        <?php foreach($common_langs as $lang => $code): ?>
+                            <option name = "language"><?= $lang ?></option>
+                        <?php endforeach ?> 	
                     </select>
-                    
+                    <br>
+                    <?php if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1) { echo "Language: " . $data[5]; } ?>
                     <!-- END OF FORM -->
                     </form>
                      
@@ -174,68 +169,51 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id =
     
                     <!-- Output text-->
                     <div class="custom-textfield" contenteditable="true" readonly>
-                    <p class="test"><?php
-                       // url must have translated=1 before showing the output
-                       if (isset($_GET['translated']) && $_GET['translated'] == 1) {
-                        echo $data[7] ?? '';
+                    <p class="test outputText" id="text-output"><?php
+                        // url must have translated=1 before showing the output
+                        if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1) {
+
+                            if($data[5] == 'english'){
+                                $words = explode(" ", $data[7]);
+                                foreach($words as $word)
+                                    echo  "<span class = 'word-span'>".htmlspecialchars($word) ." </span>";
+                            }
+                            else{
+                                echo htmlspecialchars($data[7]);
+                            }
+
                         }
                     ?>
                     </p>
                     </div>
                 </div>
+                <div class = "dict-div">
+                    <h2 class = "hovered-word">Word</h2>
+                    <p class = "word-meaning">Meaning: </p>
+     
 
-
-                <!-- Table -->
-
-                <div class="orders">
-                <div class = "deleteAllClass">
-                    <button type = 'button' class = "deleteSelectedRows" id = "t2t">Delete Selected Rows</button>
-                    <button type = 'button' class = "deleteRows-btn" id = "t2t">Delete Rows</button>
-                    <button type = 'button' class = "deleteAll-btn" id = "t2t">Delete All</button>
                 </div>
-                    <div class="header">
-                        <h2>Recent Text to Text Translations</h2>
-                        <br>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                            <th>Original Text</th>
-                            <th>Source Language</th>
-                            <th>Translated Text</th>
-                            <th>Target Language</th>
-                            <th>Translation Date</th>  
-                            <th>Delete</th>  
-                            </tr>
-                        </thead>
-                        <tbody class = "history-body">
-                        
-                        <!-- Displays text to text history -->
 
-                        <?php Translator::displayHistory($history, "text2text")?>
-                        </tbody>
-                    </table>
-                    <div id="page-nav-content">
-                        <div id="page-nav"></div>
-                    </div>
+                <div class="download button" dir="rtl" id="download-file" style="display:none;">
+                    <form method="post" action="utilities/download_output.php">
+                        <button type="submit" name="text" style="padding:5px;">Download as Text File</button>   
+                        <button type="submit" name="word" style="padding:5px;">Download as Word File</button>
+                    </form>
                 </div>
-                
-          
-                
-
-                <!-- End of Reminders-->
-
             </div>
-
         </main>
 
+                    
     </div>
 
     <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->
+    <script src="scripts/index.js"></script>
+    <script src="scripts/dictionary.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js" integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="scripts/index.js"></script>
-    <script src="scripts/delete.js"></script>
+    <script src="scripts/translation_process2.js"></script>
+    <!-- <script src="scripts/delete.js"></script> -->
 
 
 

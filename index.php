@@ -1,8 +1,4 @@
 <?php include("mysql/mysqli_registration.php"); 
-    if (isset($_SESSION['username'])) {
-    	header("location: dashboard1.php");
-        exit();
-    }
 
     require("utilities/contact.php");
 
@@ -60,7 +56,7 @@
           <h1>Audio Translator</h1>
              
           <h2>Unlock the power of your audio content by effortlessly translating it into another language</h2>
-          <div><a href="loginpage.php" class="btn-get-started rounded-pill scrollto">Get Started</a></div>
+          <div><a href="text-text.php" class="btn-get-started rounded-pill scrollto">Get Started</a></div>
         </div>
       </div>
     </div>

@@ -20,27 +20,6 @@
 <body>
 
     <div class="container" id="container">
-        <!-- REGISTER -->
-        <div class="form-container sign-up">
-            <form action="loginpage.php" method="post">
-                <h1>Create Account</h1>
-                <div>
-                    <span id="usererror" style="color: red; font-style: italic;"><?= $display_errors['user'] ?? ""; ?></span><br />
-                    <span id="emailerror" style="color: red; font-style: italic;"><?= $display_errors['email'] ?? ""; ?></span><br />
-                    <span id="passerror" style="color: red; font-style: italic;"><?= $display_errors['pass'] ?? ""; ?></span><br />
-                </div>
-
-                <!-- This input type determines whether form is REGISTER or login -->
-                <input type="hidden" id="formType" name="formType" value="register">
-
-                <input type="text" placeholder="Name" id="username" name="username" required maxlength="50">
-                <input type="email" placeholder="Email" id="email" name="email" required maxlength="100">
-                <input type="password" placeholder="Password" id="pword" name="pword" required>
-                <input type="password" placeholder="Confirm Password" id="pword2" name="pword2" required>
-                <input type="submit" id="submit-register" name="submit-register" value="Submit" disabled>
-
-            </form>
-        </div>
         <!-- LOGIN -->
         <div class="form-container sign-in">
             <form action="loginpage.php" method="post">
@@ -60,15 +39,9 @@
         </div>
         <div class="toggle-container">
             <div class="toggle">
-                <div class="toggle-panel toggle-left">
-                    <h1>Hello, Friend!</h1>
-                    <p>Register with your personal details to use all of site features</p>
-                    <button class="hidden" id="login">Sign In</button>
-                </div>
                 <div class="toggle-panel toggle-right">
-                    <h1>Welcome Back!</h1>
-                    <p>Enter your personal details to use all of site features</p>
-                    <button class="hidden" id="register">Sign Up</button>
+                    <h1>Welcome Back, Voce Admin.</h1>
+                    <p>Enter your personal details to use all of site features.</p>
                 </div>
             </div>
         </div>

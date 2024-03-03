@@ -1,4 +1,9 @@
 <?php 
+
+
+// This file is possible to  be removed, as login is not needed anymore
+
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -26,7 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType'])) {
     $username = mysqli_real_escape_string($dbcon, trim($_POST['username']));
     $email = mysqli_real_escape_string($dbcon, trim($_POST['email']));
     $password = mysqli_real_escape_string($dbcon, trim($_POST['pword']));
-    $usertype = "user";
     $hashedPass = password_hash($password, PASSWORD_BCRYPT);
 
 
@@ -62,16 +66,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType'])) {
     }
 
     if ($error == 0) {
-        $query = mysqli_prepare($dbcon, "INSERT INTO users(username, email, pword, type, registration_date) 
-                                        VALUES (?, ?, ?, ?, NOW())");
-        mysqli_stmt_bind_param($query, "ssss", $username, $email, $hashedPass, $usertype);
+        $query = mysqli_prepare($dbcon, "INSERT INTO admin_users(username, email, pword, registration_date) 
+                                        VALUES (?, ?, ?, NOW())");
+        mysqli_stmt_bind_param($query, "ssss", $username, $email, $hashedPass);
         $result = mysqli_stmt_execute($query);
 
         if ($result) {
             // register is successful
             
             // get the new user info from db, with the user_id
-            $get_user_query = "SELECT * FROM users WHERE (`username` = '". $username ."' AND `pword` = '". $hashedPass . "')";
+            $get_user_query = "SELECT * FROM admin_users WHERE (`username` = '". $username ."' AND `pword` = '". $hashedPass . "')";
 
             $userresult = @mysqli_query($dbcon, $get_user_query);
 
@@ -88,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType'])) {
             // record/log it
             logs("register", $username, $dbcon);
 
-            header("location: dashboard1.php");
+            header("location: admin.php");
             mysqli_free_result($result);
             mysqli_close($dbcon);
             exit();
@@ -114,7 +118,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType2'])) {
     
     if ($username && $password) {
 
-        $q1 = "SELECT * FROM users WHERE (`username` = '". $username ."' OR `email` = '". $username ."')";
+        //$q1 = "SELECT * FROM users WHERE (`username` = '". $username ."' OR `email` = '". $username ."')";
+        $q1 = "SELECT * FROM admin_users WHERE (`username` = '". $username ."' OR `email` = '". $username ."')";
         $result1 = @mysqli_query($dbcon, $q1);
         
         
@@ -126,12 +131,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formType2'])) {
             if (password_verify($password, $hashed_pass)) {
                 $_SESSION = $user_row;
     
-                logs("login", $_SESSION['username'], $dbcon);  
+                logs("login", $dbcon);  
                 
                 mysqli_free_result($result1);
                 mysqli_close($dbcon);
                 
-                header("location: dashboard1.php");
+                header("location: admin.php");
                 exit();
             } else {
                 $display_errors['login']  = error_message("invalid-login");

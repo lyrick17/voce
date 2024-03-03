@@ -9,14 +9,14 @@
     require("utilities/faqs.php");
      
     // 2
-    $total_audio = "SELECT COUNT(*) FROM text_translations WHERE user_id = '" . $_SESSION['user_id'] . "' and from_audio_file = 1";
+    $total_audio = "SELECT COUNT(*) FROM text_translations WHERE from_audio_file = 1";
     $total_audio_result = mysqli_query($dbcon, $total_audio);
     $audio_result_row = mysqli_fetch_array($total_audio_result);
    
     $total_audio = $audio_result_row[0];
 
 
-    $total_text = "SELECT COUNT(*) FROM text_translations WHERE user_id = '" . $_SESSION['user_id'] . "' AND from_audio_file = 0";
+    $total_text = "SELECT COUNT(*) FROM text_translations WHERE from_audio_file = 0";
     $total_text_result = mysqli_query($dbcon, $total_text);
     
     $text_result_row = mysqli_fetch_array($total_text_result);

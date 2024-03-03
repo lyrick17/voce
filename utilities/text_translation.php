@@ -6,36 +6,28 @@ require("common_languages.php"); // Translator_Functions are alr required in thi
 // Language Translation, please check https://rapidapi.com/dickyagustin/api/text-translator2 for more information.
 // Translate text input
 if($_SERVER["REQUEST_METHOD"] == "POST"){ 
-
-    $id = $_SESSION['user_id'];
     
     // Error Handling first before translation 
     
-    ErrorHandling::checkLanguageChosen("text", $languages, $common_languages);
+    ErrorHandling::checkLanguageChosen("text", $deep_langs, $common_langs);
     ErrorHandling::checkTextInput();
     
     // translates text, get output
-    $translation = Translator::translate($_POST["text"], 
-        $lang_codes[$_POST["src"]], 
-        $lang_codes[$_POST["target"]]
-    );
-
-    // insert into database
-    $source_lang = $_POST['src'];
-    $target_lang = $_POST['target'];
-    $orig_text = $_POST["text"];
-    $isFromAudio = False;
-  
-    // db query
-    $query_insert = mysqli_prepare($dbcon, "INSERT INTO text_translations(user_id, from_audio_file, original_language, translated_language,
-    translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, NOW())");
-    mysqli_stmt_bind_param($query_insert, 'iissss', $id, $isFromAudio, $source_lang, $target_lang, $orig_text, $translation);
-    mysqli_stmt_execute($query_insert);
-
-    logs("text-to-text", $_SESSION['username'], $dbcon);
-
     
-    header("Location: ../text-text.php?translated=1");
-    exit();
+    $source_lang = mysqli_real_escape_string($dbcon, trim($_POST['src']));
+    $target_lang = mysqli_real_escape_string($dbcon, trim($_POST['target']));
+    $orig_text = mysqli_real_escape_string($dbcon, trim($_POST["text"]));
+    $isFromAudio = False;
+    $translation = Translator::translate($orig_text,  $source_lang,  $target_lang);
+    
+    $exit = ['error' => 0,
+            'source' => $source_lang,
+            'target' => $target_lang,
+            'orig_text' => $orig_text,  
+            'translation' => $translation];
+
+    exit(json_encode($exit));
+    //header("Location: ../text-text.php?translated=1");
+    //exit();
 }
 ?>

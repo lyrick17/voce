@@ -1,0 +1,49 @@
+
+
+text-text.php
+- line 130 - userid  - change it  to either cookie or session
+
+history_audio.php
+- line 162 - userid - change it to either cookie or session
+
+
+
+
+things na wala nang userid
+-db_insertAudioFile
+-checkLanguageChosen
+-checkFileUpload
+-audioError2
+-validateFormat
+-checkFolder
+-createNewFolder
+-createNewFilename
+-getVocals
+-removeSilence
+-uploadAndTranscribe
+-audioError3
+-step 6 in storing record a2t
+-Translator-Functions
+-t2t process
+-a2t process
+-deleteAudioFile
+-deleteAudioContent
+-fetchAudioContent
+-removeFolder
+-deleteAllAudioFiles
+-deleteErrorFile
+-delete_query.php
+    - clearAll
+    - deleteRows
+    - else
+
+-delete file
+
+
+store the file_id instead of the user_id
+
+
+
+$newFilename = $row['file_id'] . "_" . $filename . $row['formatted_date'];
+
+// create an error handler where in if $datequery possibly resulted into two result

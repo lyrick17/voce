@@ -15,7 +15,6 @@ let confirmText = document.querySelector(".confirm-text");
 //initialize form data content
 let deleteId = 0;
 let userId = document.getElementsByTagName("body")[0].id;
-console.log(userId);
 let fromAudio = 0;
 let clearAll = false;
 let fileId = null;
@@ -103,8 +102,7 @@ yesBtn.addEventListener("click", () => {
     fd.append('deleteRows', deleteRows);
     fd.append('filesToDelete', JSON.stringify(filesToDelete));
     fd.append('rowsToDelete', JSON.stringify(rowsToDelete));
-
-
+    
     fetch('delete_query.php',{
         method : 'post', 
         body: fd})
@@ -218,27 +216,30 @@ function setNewRow(objData){
     //Sets new rows for audio to text history
     if(fromAudio == 0)
     {    return "<tr id = " + objData['text_id'] + " class = '" + objData['user_id'] + " " + "t2t" + " paginate" + "'>" +
-    "<td class = '" + objData['user_id']+  " truncate-text'>" + objData['translate_from'] + "</td>" + 
-    "<td class = " + objData['user_id']+ ">"+ objData['original_language'] + "</td>" +
-    "<td class = '" + objData['user_id']+  " truncate-text'>" + objData['translate_to'] + "</td>" + 
-        "<td class = " + objData['user_id']+ ">"+ objData['translated_language'] + "</td>" + 
-        "<td class = " + objData['user_id']+ ">"+ objData['translation_date'] + "</td>" +
-        "<td class = " + objData['user_id']+ ">"+ "<button type = 'button' class = 'delete-btn'>Delete</button></td>" +
-        "<td class = " + objData['user_id'] + ">" + "<input type = 'checkbox' class = 'delete-checkbox' id = " + objData['text_id'] +"></td>"     
+        "<td class='user-td'>" + objData['text_id']+ "</td>" +
+        "<td class = 'user-td " + objData['user_id']+ "'>"+ objData['original_language'] + "</td>" +
+        "<td class = 'user-td " + objData['user_id']+  " truncate-text'>" + objData['translate_from'] + "</td>" + 
+        "<td class = 'user-td " + objData['user_id']+ "'>"+ objData['translated_language'] + "</td>" + 
+        "<td class = 'user-td " + objData['user_id']+ " truncate-text'>" + objData['translate_to'] + "</td>" + 
+        "<td class = 'user-td " + objData['user_id']+ "'>"+ objData['translation_date'] + "</td>" +
+        "<td class = 'user-td " + objData['user_id']+ "'>"+ "<button type = 'button' class = 'delete-btn'>Delete</button></td>" +
+        "<td class = 'user-td " + objData['user_id']+ "'>" + "<input type = 'checkbox' class = 'delete-checkbox' id = " + objData['text_id'] +"></td>"     
         + "</tr>";
+        
     }
-
+    
     //Sets new rows for audio to text history
     else{
         return "<tr id = " + objData['text_id'] + " class = '" + objData['user_id'] + " " + "a2t" + " " + objData['file_id']  + " paginate" + "'>" +
-        "<td class = '" + objData['user_id'] + " break-word'>"  + objData['file_name'] + "</td>" + 
-        "<td class = '" + objData['user_id']+  " truncate-text'>" + objData['translate_from'] + "</td>" + 
-        "<td class = " + objData['user_id'] + ">"  + objData['original_language'] + "</td>" + 
-        "<td class = '" + objData['user_id'] +  " truncate-text'>" + objData['translate_to'] +  "</td>" +
-        "<td class = " + objData['user_id'] + ">"  + objData['translated_language'] + "</td>" +
-        "<td class = " + objData['user_id'] + ">"  + objData['translation_date'] + "</td>" +
-        "<td class = " + objData['user_id'] + ">"  +  "<button type = 'button' class = 'delete-btn'>Delete</button></td>" +
-        "<td class = " + objData['user_id'] + ">" + "<input type = 'checkbox' class = 'delete-checkbox' id = " + objData['text_id'] +"></td>"     
+        "<td class = 'user-td'>" + objData['text_id']+ "</td>" +
+        "<td class = 'user-td " + objData['user_id'] + " break-word'>"  + objData['file_name'] + "</td>" + 
+        "<td class = 'user-td " + objData['user_id'] + "'>"  + objData['original_language'] + "</td>" + 
+        "<td class = 'user-td " + objData['user_id']+  " truncate-text'>" + objData['translate_from'] + "</td>" + 
+        "<td class = 'user-td " + objData['user_id'] + "'>"  + objData['translated_language'] + "</td>" +
+        "<td class = 'user-td " + objData['user_id'] +  " truncate-text'>" + objData['translate_to'] +  "</td>" +
+        "<td class = 'user-td " + objData['user_id'] + "'>"  + objData['translation_date'] + "</td>" +
+        "<td class = 'user-td " + objData['user_id'] + "'>"  +  "<button type = 'button' class = 'delete-btn'>Delete</button></td>" +
+        "<td class = 'user-td " + objData['user_id'] + "'>" + "<input type = 'checkbox' class = 'delete-checkbox' id = " + objData['text_id'] +"></td>"     
         + "</tr>";
     }
 }

@@ -3,7 +3,7 @@ include("../mysql/mysqli_registration.php");
 
 session_start();
 echo $_SESSION['username'];
-logs("logout", $_SESSION['username'] , $dbcon);
+logs("logout", $dbcon);
 // unset all session variables
 $_SESSION = array();
 

@@ -1,9 +1,5 @@
 <?php require("mysql/mysqli_session.php"); 
     $current_page = basename($_SERVER['PHP_SELF']);
-    if (!isset($_SESSION['username'])) {
-        header("location: index.php");
-        exit(); 
-    }
 
     function dd($item){
         var_dump($item);
@@ -11,13 +7,7 @@
     }
 
 require("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
-
-$id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
-
-
-// Translation history for audio to text 
-$history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN audio_files a ON t.file_id = a.file_id WHERE t.user_id = $id AND a.user_id = $id AND t.from_audio_file = 1 ORDER BY translation_date DESC");
-
+require("utilities/recent_audio_translation.php");
 
 ?>
 
@@ -33,8 +23,6 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
     <title>Audio to Text Translation</title>
     <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
 </head>
 
 <!-- Confirm delete window -->
@@ -48,7 +36,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
     </div>
 </div>
 
-<body id = "<?= $_SESSION['user_id']?>">
+<body>
     <!-- Sidebar -->
     <?php require "sidebar.php"?>
 
@@ -56,7 +44,7 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
     <div class="content">
         <!-- Navbar -->
         <nav>
-            <i class='bx bx-menu'></i><?= $_SESSION['username']; ?>
+            <i class='bx bx-menu'></i>
         </nav>
 
         <!-- End of Navbar -->
@@ -105,25 +93,16 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
                 </div>
             <form enctype="multipart/form-data" id="form" action="utilities/audio_translation.php" method = "POST" onsubmit="showLoading()">
 
-            <label>  
-			Model Size:
-			<select name="modelSize" id="modelSize" class="form-control">
-				<option value="base">Base (For Quick Process)</option>
-				<option value="small">Small (Balance of Quick and Accurate Transcription)</option>
-				<option value="medium">Medium (Most Recommended Model Size)</option>
-				<option value="large">Large (Most Accurate, but Slowest Transcription)</option>
-
-			</select>
-			</label>
+            
             <br>
             <label>  
 			Source language:
 			<select name="src" id="sourceLanguage" class="form-control">
                 <!-- Will display Languages supported by API and Whisper -->
 				<option value="auto">Auto-Detect Language...</option> <!-- Auto-Detect --> 
-				<?php foreach($common_languages as $language): ?>
-					<option name = "language"><?= $language["name"]?></option>
-				<?php endforeach ?> 
+                <?php foreach($common_langs as $lang => $code): ?>
+                    <option name = "language"><?= $lang ?></option>
+                <?php endforeach ?> 	
 
 			</select>
 			</label>
@@ -133,14 +112,20 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
 			<select name="target" id="targetLanguage" class="form-control">
                 <!-- Will display languages supported by API only-->
 				<option value="">Select One …</option>
-				<?php foreach($languages as $language): ?>
-					<option name = "language"><?= $language["name"]?></option>
-				<?php endforeach ?>
+                <?php foreach($common_langs as $lang => $code): ?>
+                    <option name = "language"><?= $lang ?></option>
+                <?php endforeach ?> 	
 
 			</select>
 			</label><br><br>
                     
-	
+            <div class="container">
+                <input type="hidden" name="record" />
+                <button type="button" id="mic" class="mic-toggle">Record Now</button>
+                <audio class="playback" controls></audio>
+            </div>
+
+
            <div class="container">
             <div class="wrapper">
     <header>Transcribe Now</header>
@@ -164,20 +149,26 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
  
 
 
-<button type = "submit" id="yourButtonID" class="custom-button" disabled>Translate</button>
+<button type="submit" id="yourButtonID" class="custom-button">Translate</button>
 
 </form>
   <div class="text-section">
+            <?php if (isset($_SESSION['recent_audio'])) {
+                $textid = $_SESSION['recent_audio']; 
+                $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE text_id = '$textid' AND from_audio_file = 1 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
+            } ?>
         <header>Original text:</header>
+        <p>Language: <?php if (isset($_GET['translated']) && $_GET['translated'] == 1) { echo $data[4] ?? ''; }?></p>
         <textarea id="originalText" name="originalText" class="customtextfield" rows="4" readonly><?php
-            $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE user_id = $id AND from_audio_file = 1 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
+            
             if (isset($_GET['translated']) && $_GET['translated'] == 1) {
                 echo $data[6] ?? '';
             }
             ?>
         </textarea>
-
+        
         <header>Translated text:</header>
+        <p>Language: <?php if (isset($_GET['translated']) && $_GET['translated'] == 1) { echo $data[5] ?? ''; }?></p>
         <textarea id="translatedText" name="translatedText" class="customtextfield" rows="4" readonly>`<?php
             if (isset($_GET['translated']) && $_GET['translated'] == 1) {
                 echo $data[7] ?? '';
@@ -191,44 +182,11 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
 <br>    
                 <!-- Truncate Text -->
                 <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <p id="modalText"></p>
-                </div>
-                </div>
-            <div class="bottom-data">
-                <div class="orders">
-                <div class = "deleteAllClass">
-                    <button type = 'button' class = "deleteSelectedRows" id = "a2t">Delete Selected Rows</button>
-                    <button type = 'button' class = "deleteRows-btn" id = "a2t">Select Rows</button>
-                    <button type = 'button' class = "deleteAll-btn" id = "a2t">Delete All</button>
-                </div>
-                    <div class="header">
-                        <h2>Recent Audio to Text Translations</h3>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                            <th>File Name</th>
-                            <th>Original Text</th>
-                            <th>Source Language</th>
-                            <th>Translated Text</th>
-                            <th>Target Language</th>
-                            <th>Translation Date</th>    
-                            <th>Delete</th>    
-                            </tr>
-                        </thead>
-                        <tbody class = "history-body">
-                        <!-- Displays audio to text history -->
-                        <?php Translator::displayHistory($history, "audio2text")?>
-                        </tbody>
-                    </table>
-                    <div id="page-nav-content">
-                        <div id="page-nav"></div>
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p id="modalText"></p>
                     </div>
                 </div>
-
-            </div>
 
         </main>
 
@@ -237,7 +195,6 @@ $history = mysqli_query($dbcon, "SELECT * FROM text_translations t INNER JOIN au
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js" integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="scripts/index.js"></script>
-    <script src="scripts/delete.js"></script>
     <script src="scripts/translation_process.js"></script>
 
 </body>

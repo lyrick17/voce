@@ -59,7 +59,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['username'])){
     $newUsername = mysqli_real_escape_string($dbcon, trim($_POST['username']));
 
     // check if username already exists
-    $query = mysqli_prepare($dbcon, "SELECT user_id FROM users where username = ?");
+    $query = mysqli_prepare($dbcon, "SELECT user_id FROM admin_users where username = ?");
     mysqli_stmt_bind_param($query, "s", $newUsername);
     mysqli_stmt_execute($query);
     mysqli_stmt_bind_result($query, $result);
@@ -77,7 +77,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['username'])){
     }
     else {
         // no error
-        $query = mysqli_prepare($dbcon, "UPDATE users SET username = ?
+        $query = mysqli_prepare($dbcon, "UPDATE admin_users SET username = ?
         WHERE user_id = ?");
             mysqli_stmt_bind_param($query, "ss", $newUsername, $sess_id);
             $result = mysqli_stmt_execute($query);
@@ -95,7 +95,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['email'])){
     $newEmail = mysqli_real_escape_string($dbcon, trim($_POST['email']));
 
     // check if email already exists
-    $query = mysqli_prepare($dbcon, "SELECT user_id FROM users where email = ?");
+    $query = mysqli_prepare($dbcon, "SELECT user_id FROM admin_users where email = ?");
     mysqli_stmt_bind_param($query, "s", $newEmail);
     mysqli_stmt_execute($query);
     mysqli_stmt_bind_result($query, $result);
@@ -114,7 +114,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['email'])){
     }
     else {
         // no error
-        $query = mysqli_prepare($dbcon, "UPDATE users SET email = ?
+        $query = mysqli_prepare($dbcon, "UPDATE admin_users SET email = ?
         WHERE user_id = ?");
         mysqli_stmt_bind_param($query, "ss", $newEmail, $sess_id);
         $result = mysqli_stmt_execute($query);
@@ -141,7 +141,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && ISSET($_POST['new-pword'])){
     }
     elseif (password_verify($oldPass, $sess_hashedPass)) {
         // no error
-        $query = mysqli_prepare($dbcon, "UPDATE users SET pword = ?
+        $query = mysqli_prepare($dbcon, "UPDATE admin_users SET pword = ?
         WHERE user_id = ?");
         mysqli_stmt_bind_param($query, "ss", $hashedPass, $sess_id);
         $result = mysqli_stmt_execute($query);

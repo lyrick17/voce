@@ -5,7 +5,4 @@ if (session_status() == PHP_SESSION_NONE) {
 require("mysqli_connect.php");
 require("mysqli_logs.php");
 
-
-// file if user/admin is logged in  
-
 ?>

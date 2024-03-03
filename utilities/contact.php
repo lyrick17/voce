@@ -32,7 +32,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
     $c_name = (!empty($_POST['contact_name'])) ? $_POST['contact_name'] : $error++;
     $c_subject = (!empty($_POST['contact_subject'])) ? $_POST['contact_subject'] : $error++;
     $c_message = (!empty($_POST['contact_message'])) ? $_POST['contact_message'] : $error++;
-    if (isset($_SESSION['user_id'])) { $id = $_SESSION['user_id']; }
     if (strlen($c_message) > 2000) { $strlen_error++; $error++; }
     
     
@@ -75,18 +74,12 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
     
             $mail->send();
             
-            // after sending the email, save it into database
-            if (!isset($_SESSION['user_id'])) {
-                // save into db when guest user sends feedback (without userid)
-                $query = mysqli_prepare($dbcon, "INSERT INTO contacts(username, subject, message) 
-                VALUES (?, ?, ?)");
-                mysqli_stmt_bind_param($query, "sss", $c_name, $c_subject, $c_message);
-            } else {
-                // save into db when user is logged in, connected to user_id
-                $query = mysqli_prepare($dbcon, "INSERT INTO contacts(username, subject, message, user_id) 
-                VALUES (?, ?, ?, ?)");
-                mysqli_stmt_bind_param($query, "sssi", $c_name, $c_subject, $c_message, $id);
-            }
+            
+            // save into db when guest user sends feedback (without userid)
+            $query = mysqli_prepare($dbcon, "INSERT INTO contacts(username, subject, message) 
+            VALUES (?, ?, ?)");
+            mysqli_stmt_bind_param($query, "sss", $c_name, $c_subject, $c_message);
+            
             $result = mysqli_stmt_execute($query);
 
 
