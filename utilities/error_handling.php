@@ -30,6 +30,15 @@ class ErrorHandling{
         exit(json_encode($exit));
 	}
 	
+	static function audioError4($filename) {
+		// error, for some reason, we can't upload user record file
+		global $dbcon;
+		logs("error-at-7", $dbcon);
+		
+		$exit = ['error' => 7];
+        exit(json_encode($exit));
+	}
+	
 
 	static function checkTextInput() {
 		global $dbcon;

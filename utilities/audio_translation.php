@@ -15,9 +15,9 @@ if (!isset($_SESSION['a_info'])) $_SESSION['a_info'] = array();
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     // required for uploading the file
     // checks if user uploads file or live record
-    if (isset($_POST['record']) || $_POST['record'] != "") {
+    if (isset($_FILES['record'])){
         $is_recorded = true;
-        $record = $_POST['record'];
+        $record = $_FILES['record'];
     } else {
         $is_recorded = false;
         $path=$_FILES['user_file']['name'];         // file
@@ -36,7 +36,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     
 
     if ($_POST['step'] == 1) { #!!! error handling and insertion of audio file to database
-        
         ErrorHandling::checkLanguageChosen("audio", $deep_langs, $common_langs);
         if (!$is_recorded) {
             ErrorHandling::checkFileUpload($_FILES["user_file"]);
@@ -45,14 +44,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         ErrorHandling::checkFolder();
         
         $audio = null;
-        if (!$is_recorded) {
-            Translator::db_insertAudioFile($path, $pathsize);
+        if ($is_recorded) {
+            $path = Translator::db_uploadRecordFile($record);
         } 
         else {
-            $path = Translator::db_uploadRecordFile($record);
+            Translator::db_insertAudioFile($path, $pathsize);
         }
 
         $newFile = Translator::createNewFilename($path, $is_recorded);
+
         if ($removeBGM == "off") {
             $output = Translator::createNewFolder($newFile);
         }
