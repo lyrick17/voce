@@ -178,6 +178,15 @@ require("utilities/recent_audio_translation.php");
                
              </div>
         </div>
+
+        <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
+        <div class="download button" dir="rtl" id="download-file">
+            <form method="post" action="utilities/download_audio_output.php">
+                <button type="submit" name="text" style="padding:5px;">Download as Text File</button>   
+                <button type="submit" name="word" style="padding:5px;">Download as Word File</button>
+            </form>
+        </div>
+        <?php endif; ?>
       
 <br>    
                 <!-- Truncate Text -->

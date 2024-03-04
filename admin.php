@@ -15,7 +15,7 @@ function dd($item){
 }
 
 require "utilities/common_languages.php"; // Translator_Functions and Error Handling are alr required in this file
-
+require "utilities/verify_audio_files.php";
   $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
 
@@ -130,6 +130,15 @@ $num_of_a2t = mysqli_fetch_assoc($result);
             <h1>Errors in Audio to Text</h1>
                   <canvas id = "baraudio">
                   </canvas>
+        </div>
+        <br />
+        <div class = "graph-container">
+            <form method="post" action="admin.php">
+                <button style="padding: 5px;" id="verify-files">
+                    <h3>Verify Audio Files</h3>
+                </button>
+            </form>
+            <p><?= $verify_message; ?></p>
         </div>
         <div class = "dlbtns-container">
         <button class = "dlpie-btn" href= "#">Download Pie Graph</button>
