@@ -205,6 +205,9 @@ function logs($log_act, $dbcon) {
             $activity = "error audio-text: user chose unprovided language";
             break;
         case "error-at-7":
+            $activity = "error audio-text: system error, cannot upload recorded file";
+            break;
+        case "error-at-8":
             $activity = "error audio-text: system error";
             break;
         // -----------------------------

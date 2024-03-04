@@ -77,6 +77,9 @@ require("utilities/recent_audio_translation.php");
                                 case 6: // user added unprovided choices
                                     echo "Please choose only on the provided models/languages.";
                                     break;
+                                case 7: // user added unprovided choices
+                                    echo "Recorded audio cannot be processed. Please contact Voce team.";
+                                    break;
                             }
                         }
                     ?> 

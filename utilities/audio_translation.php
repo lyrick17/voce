@@ -15,10 +15,9 @@ if (!isset($_SESSION['a_info'])) $_SESSION['a_info'] = array();
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     // required for uploading the file
     // checks if user uploads file or live record
-    
-    if ($_POST['record'] != ""){
+    if (isset($_FILES['record'])){
         $is_recorded = true;
-        $record = $_POST['record'];
+        $record = $_FILES['record'];
     } else {
         $is_recorded = false;
         $path=$_FILES['user_file']['name'];         // file
