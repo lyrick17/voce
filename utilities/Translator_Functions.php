@@ -99,8 +99,10 @@ class Translator{
             $pathto = "../audio_files/" . $newFile;
 
             move_uploaded_file( $_FILES['user_file']['tmp_name'],$pathto) or die(ErrorHandling::audioError2());
-            
-        } else {
+            return $newFile;
+
+        } 
+        else {
             
             $newFilename = $row['file_id'] . "_" . "record" . $row['formatted_date'];
             $newFile = $newFilename . "." . $extension;
@@ -121,7 +123,7 @@ class Translator{
             deleteErrorFile($path);
             return $newFile;
         }
-        
+  
     }
 
     static function createNewFolder($filename) {
@@ -143,7 +145,8 @@ class Translator{
             $output = shell_exec("cd .. && ffmpeg -y -i " . escapeshellarg("audio_files/" . $filename . "/vocals.wav") . 
             " -af  silenceremove=stop_periods=-1:stop_duration=1:stop_threshold=-50dB " . escapeshellarg("audio_files/" . $filename . "/audio_processed.mp3"));
         
-        } else {                    // we will use the original file since spleeter isn't used
+        } 
+        else {                    // we will use the original file since spleeter isn't used
             $output = shell_exec("cd .. && ffmpeg -y -i " . escapeshellarg("audio_files/". $inputFile) . 
             " -af  silenceremove=stop_periods=-1:stop_duration=1:stop_threshold=-50dB " . escapeshellarg("audio_files/" . $filename . "/audio_processed.mp3"));
 
