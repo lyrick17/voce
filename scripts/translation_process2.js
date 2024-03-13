@@ -14,18 +14,21 @@ const targetLanguage = document.getElementById("targetLanguage");
 sourceLanguage.addEventListener("change", function() {
     isSrcChosen = true;
     translateInput();
+    console.log("a");
 });
 targetLanguage.addEventListener("change", function() {
     isTargetChosen = true;
     translateInput();
+    console.log("a");
 });
 
 textinput.addEventListener("input", translateInput);
-
 function translateInput() {
+    console.log("aa");
     clearTimeout(typingTimer);
     clearTimeout(savingTimer);
     if (isSrcChosen && isTargetChosen) { 
+        console.log("bb");
 
         typingTimer = setTimeout(function() {
             realTimeTranslate();    // translate the text after a pause
@@ -54,10 +57,10 @@ function realTimeTranslate() {
             console.log("translated");
         } else {
             finishProcess(data.error);
-            console.log("error");
+            console.log("error" + data.error);
         }
     });
-
+    console.log("cc");
 
 }
 

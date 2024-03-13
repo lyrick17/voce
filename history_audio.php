@@ -30,7 +30,8 @@ require("utilities/recent_audio_translation.php");
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 
 <!-- Confirm delete window 
@@ -82,17 +83,18 @@ require("utilities/recent_audio_translation.php");
         </div>
     </div>
     <div class="main-content">
-        <div class="header">
-            <button><img src="images/translator.png" alt="Language Icon" width="30px">Text</button>
-            <button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload a File</button>
-        </div>
-        <div class="header-downloadfile-wrapper">
-            <!-- The download as text or word new UI-->
-            <div class="header-downloadfile">
-                <button>
-                    <img src="images/write.png" alt="Language Icon" width="30px">Copy</button>
-                <button><img src="images/download.png" alt="Language Icon" width="30px">Download file</button>
+
+        <div id="loadingModal" class="modalloading">
+            <div class="modal-contentloading">
+                <img src="images/duckagain.gif" alt="Loading..." />
+                <p id="loadingModalMessage">Loading....</p>
             </div>
+        </div>
+        <div class="header">
+            <a href="text-text.php"><button><img src="images/translator.png" alt="Language Icon"
+                        width="30px">Text</button></a>
+            <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
+                    a File</button></a>
         </div>
         <p style="color: red;" id="error-message"><i>
                 <?php
@@ -123,42 +125,42 @@ require("utilities/recent_audio_translation.php");
                 }
                 ?>
             </i></p>
-
-
-        <!-- Add this div for the loading feature -->
-        <!-- Loading Modal after clicking translate button 
-    <div id="loadingModal" class="modalloading">
-        <div class="modal-contentloading">
-            <img src="images/duckagain.gif" alt="Loading..." />
-            <p id="loadingModalMessage">Loading....</p>
-        </div>
-    </div> -->
-
         <div class="header-language selector">
             <div class="language-selector-wrapper">
                 <div class="language-selector">
                     <label class="label1">
                         Source language:
                     </label>
-                    <span>English</span>
-                    <span>Spanish</span>
-                    <span>French</span>
-                    <!--<select name="src" id="sourceLanguage" class="form-control">
-                            <!-- Will display Languages supported by API and Whisper 
-                            <option value="auto">Auto-Detect Language...</option> <!-- Auto-Detect 
-                            <?php foreach ($common_langs as $lang => $code): ?>
-                                <option name="language">
-                                    <?= $lang ?>
-                                </option>
-                            <?php endforeach ?>
-                        </select> -->
-                    </label>
+                    <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
+                        <?php $textid = $_SESSION['recent_audio'];
+                        $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE text_id = '$textid' AND from_audio_file = 1 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
+                        echo $data[4] ?? ''; ?>
+                    <?php else: ?>
+                        <form enctype="multipart/form-data" id="form" action="utilities/audio_translation.php" method="POST"
+                            onsubmit="showLoading()">
+                            <select name="src" id="sourceLanguage" class="form-control">
+                                <!--  Will display Languages supported by API and Whisper -->
+                                <option value="auto">Auto-Detect Language...</option>Auto-Detect
+                                <?php foreach ($common_langs as $lang => $code): ?>
+                                    <option name="language">
+                                        <?= $lang ?>
+                                    </option>
+                                <?php endforeach ?>
+                            </select>
+
+                        <?php endif; ?>
                 </div>
             </div>
             <div class="language-selector-wrapper">
+
+
                 <div class="language-selector">
-                    <label>
+                    <label class="label1">
                         Target language:
+                    </label>
+                    <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
+                        <?php echo $data[5] ?? ''; ?>
+                    <?php else: ?>
                         <select name="target" id="targetLanguage" class="form-control">
                             <!-- Will display languages supported by API only-->
                             <option value="">Select One …</option>
@@ -168,34 +170,72 @@ require("utilities/recent_audio_translation.php");
                                 </option>
                             <?php endforeach ?>
                         </select>
-                    </label>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
-        <div class="container">
-            <div class="box">
-                <form enctype="multipart/form-data" id="form" action="utilities/audio_translation.php" method="POST"
-                    onsubmit="showLoading()">
-                    <div class="upload-file" id="drop-zone" ondrop="fileDropHandler(event);"
-                        ondragover="dragOverHandler(event);" ondragenter="dragEnterHandler(event);"
-                        ondragleave="dragLeaveHandler(event);">
-                        <div class="upload-icon">
-                            <img src="images/upload.png" alt="Upload Icon">
-                            <input class="file-input" type="file" name="user_file" id="fileInputLabel" for="fileInput">
-                        </div>
+        <div class="container" id="drop-zone" ondrop="fileDropHandler(event);" ondragover="dragOverHandler(event);"
+            ondragenter="dragEnterHandler(event);" ondragleave="dragLeaveHandler(event);">
+
+            <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
+                <div class="box">
+                    <div class="text-section">
+                        <textarea id="originalText" name="originalText" class="customtextfield" rows="4"
+                            readonly><?php
+                            if (isset($_GET['translated']) && $_GET['translated'] == 1) {
+                                echo $data[6] ?? '';
+                            }
+                            ?>
+                                                                                                                    </textarea>
                     </div>
-                    <div class="details">
-                        <input class="removeBGM" type="checkbox" name="removeBGM">
-                        <label for="removeBGM">Remove BGM <br> <span style="font-style: italic; color: red;">*Remove BGM
-                                before translating audio with music.</span></label>
-                    </div>
-                    <button type="submit" class="translate-button" id="yourButtonID">Translate</button>
                     <!-- former button before updating ui 
                         <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
-            </div>
-            <div class="box2">
-                </form>
-            </div>
+                </div>
+                <div class="box2">
+                    <div class="text-section">
+                        <textarea id="translatedText" name="translatedText" class="customtextfield" rows="4"
+                            readonly>`<?php
+                            if (isset($_GET['translated']) && $_GET['translated'] == 1) {
+                                echo $data[7] ?? '';
+                            }
+                            ?>
+                                                                                                                                                </textarea>
+                    </div>
+                </div>
+            <?php else: ?>
+
+                <div class="box">
+                    <div class="upload-icon">
+                        <img src="images/upload.png" alt="Upload Icon">
+                        <input class="file-input" type="file" name="user_file" id="fileInputLabel" for="fileInput"><br>
+                        <div>
+                            <input class="removeBGM" type="checkbox" name="removeBGM">
+                            <label for="removeBGM"><span style="font-style: italic; color: red;">*Remove BGM
+                                    before translating audio with music.</span></label>
+                        </div>
+
+
+                    </div>
+                    <button type="submit" class="translate-button" id="yourButtonID">Translate</button>
+
+                    <!-- former button before updating ui 
+                            <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
+
+                </div>
+                <div class="box2">
+                    <div class="details">
+                        <input type="hidden" name="record" />
+                        <button type="record-button" id="mic" class="mic-toggle hovering">
+                            <span class="material-symbols-outlined">
+                                campaign
+                            </span>
+                        </button>
+                        <audio class="playback" controls></audio>
+                    </div>
+                </div>
+
+                <div class="drop-text">Drop files here</div>
+            <?php endif; ?>
             <div class="options">
                 <a href=""><img src="images/anti-clockwise.png" alt="Language Icon" width="30px"></a>
                 <label>History</label>
@@ -204,6 +244,10 @@ require("utilities/recent_audio_translation.php");
                 <label>Dictionary</label>
             </div>
         </div>
+        </form>
+        <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
+            <a href="history_audio.php"><button class="tryagain">TRANSLATE AGAIN?</button></a>
+        <?php endif; ?>
     </div>
     <!-- Live Recording 
                 <div class="container">
@@ -237,40 +281,6 @@ require("utilities/recent_audio_translation.php");
 
                     <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
 
-    <div class="text-section">
-        <?php if (isset($_SESSION['recent_audio'])) {
-            $textid = $_SESSION['recent_audio'];
-            $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE text_id = '$textid' AND from_audio_file = 1 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
-        } ?>
-        <header>Original text:</header>
-        <p>Language:
-            <?php if (isset($_GET['translated']) && $_GET['translated'] == 1) {
-                echo $data[4] ?? '';
-            } ?>
-        </p>
-        <textarea id="originalText" name="originalText" class="customtextfield" rows="4" readonly><?php
-
-        if (isset($_GET['translated']) && $_GET['translated'] == 1) {
-            echo $data[6] ?? '';
-        }
-        ?>
-        </textarea>
-
-        <header>Translated text:</header>
-        <p>Language:
-            <?php if (isset($_GET['translated']) && $_GET['translated'] == 1) {
-                echo $data[5] ?? '';
-            } ?>
-        </p>
-        <textarea id="translatedText" name="translatedText" class="customtextfield" rows="4" readonly>`<?php
-        if (isset($_GET['translated']) && $_GET['translated'] == 1) {
-            echo $data[7] ?? '';
-        }
-        ?>
-        </textarea>
-
-    </div>
-    </div>
 
     <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
         <div class="download button" dir="rtl" id="download-file">
@@ -290,7 +300,7 @@ require("utilities/recent_audio_translation.php");
         </div>
     </div>
 
-    </main>
+
 
     </div>
 
@@ -303,7 +313,6 @@ require("utilities/recent_audio_translation.php");
     <script src="scripts/index.js"></script>
     <script src="scripts/translation_process.js"></script>
     <script src="scripts/newindex.js"></script>
-
 </body>
 
 </html>

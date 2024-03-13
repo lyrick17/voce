@@ -1,78 +1,3 @@
-const sideLinks = document.querySelectorAll('.sidebar .side-menu li a:not(.logout)');
-const menuBar = document.querySelector('.content nav .bx.bx-menu');
-const sideBar = document.querySelector('.sidebar');
-
-// Function to save sidebar state to localStorage
-function saveSidebarState(isClosed) {
-    localStorage.setItem('sidebarState', isClosed ? 'closed' : 'open');
-}
-
-// Function to load sidebar state from localStorage
-function loadSidebarState() {
-    return localStorage.getItem('sidebarState') === 'closed';
-}
-
-// Set initial state based on localStorage
-sideBar.classList.toggle('close', loadSidebarState());
-
-sideLinks.forEach(item => {
-    const li = item.parentElement;
-    item.addEventListener('click', () => {
-        sideLinks.forEach(i => {
-            i.parentElement.classList.remove('active');
-        });
-        li.classList.add('active');
-
-        if (window.innerWidth < 768) {
-            sideBar.classList.add('close');
-            saveSidebarState(true);
-        }
-    });
-});
-
-menuBar.addEventListener('click', () => {
-    sideBar.classList.toggle('close');
-    saveSidebarState(sideBar.classList.contains('close'));
-});
-
-
-
-window.addEventListener('resize', () => {
-    if (window.innerWidth < 768 && !sideBar.classList.contains('close')) {
-        sideBar.classList.add('close');
-        saveSidebarState(true);
-    } else if (window.innerWidth >= 768 && sideBar.classList.contains('close')) {
-        sideBar.classList.remove('close');
-        saveSidebarState(false);
-    }
-});
-
-    // Get references to the select elements and the translate button
-    const sourceLanguageSelect = document.getElementById('sourceLanguage');
-    const targetLanguageSelect = document.getElementById('targetLanguage');
-    const modelSizeSelect = document.getElementById('modelSize');
-
-    const yourButtonID = document.getElementById('yourButtonID');
-
-    if (sourceLanguageSelect && targetLanguageSelect && modelSizeSelect) {
-        // Add an event listener to both select elements
-        sourceLanguageSelect.addEventListener('change', toggleTranslateButton);
-        targetLanguageSelect.addEventListener('change', toggleTranslateButton);
-        modelSizeSelect.addEventListener('change', toggleTranslateButton);
-    }
-    
-    /*window.addEventListener('load', function() {
-        toggleTranslateButton();
-    });*/
-    // Function to enable/disable the translate button based on selections
-    /*function toggleTranslateButton() {
-        if (sourceLanguageSelect.value && targetLanguageSelect.value && modelSizeSelect.value) {
-            yourButtonID.removeAttribute('disabled');
-            
-        } else {
-            yourButtonID.setAttribute('disabled', 'true');
-        }
-    }*/
 
     document.addEventListener('DOMContentLoaded', function () {
         // Get all the cells with class 'truncate-text'
@@ -126,7 +51,7 @@ window.addEventListener('resize', () => {
     // modal for loading the duck
     function showLoading() {
         document.getElementById('loadingModal').style.display = 'flex';
-    }
+      }
     function removeLoading() {
         document.getElementById('loadingModal').style.display = 'none';
     }
@@ -166,4 +91,22 @@ function dragLeaveHandler(event) {
         event.currentTarget.classList.remove('drag-hover');
     }
 }
-    
+
+
+const sidebar = document.querySelector('.sidebar');
+const mainContent = document.querySelector('.main-content');
+
+// Function to toggle sidebar
+function toggleSidebar(event) {
+    event.preventDefault(); // Prevent default behavior (page reload)
+    sidebar.classList.toggle('open');
+    mainContent.classList.toggle('open');
+}
+
+// Add event listener to icons inside the options div
+const optionIcons = document.querySelectorAll('.options img');
+optionIcons.forEach(icon => {
+    icon.addEventListener('click', toggleSidebar);
+});
+
+
