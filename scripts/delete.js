@@ -268,28 +268,29 @@ function removeToDeleteRows(checkbox){
 function truncateText() {
     // Get all the cells with class 'truncate-text'
     var cells = document.querySelectorAll('.truncate-text');
-
+    
     // Get the modal and its close button
     var modal = document.getElementById('myModal');
     var closeBtn = modal.querySelector('.close');
-
+    
     // Iterate through each cell and add the truncation functionality
     cells.forEach(function (cell) {
         var originalText = cell.textContent.trim();
-
+        
         // Check if the text length is greater than 150 characters
         if (originalText.length > 150) {
             // If yes, truncate the text and add ellipsis as a button
             var truncatedText = originalText.substring(0, 150);
             var contentSpan = document.createElement('span');
+            console.log(contentSpan);
             contentSpan.innerHTML = truncatedText + '<button class="ellipsis" type="button">.....</button>';
+            
 
             // Replace the content of the cell with the new span
             cell.innerHTML = '';
             cell.appendChild(contentSpan);
-
             // Add a click event listener to the ellipsis button to show the full text in a modal
-            var ellipsisButton = cell.querySelector('.ellipsis');
+            let ellipsisButton = cell.querySelector('.ellipsis');
             ellipsisButton.addEventListener('click', function () {
                 // Set the full text in the modal
                 document.getElementById('modalText').textContent = originalText;

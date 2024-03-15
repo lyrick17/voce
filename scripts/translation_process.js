@@ -27,7 +27,7 @@ function ToggleMic() {
 
     if (is_recording) {
         console.log('start');
-
+        document.getElementById("audio-translate-btn").disabled = true;
         // Function to request microphone permission
         const getMicrophonePermission = async () => {
             try {
@@ -36,6 +36,7 @@ function ToggleMic() {
                 .then(setupStream);                         // set up the recording once permission is granted
             } catch (error) {
             console.error('Microphone access denied:', error);
+            document.getElementById("audio-translate-btn").disabled = false;
             is_recording = !is_recording;                   // Revert recording status if permission denied
             }
         };
@@ -69,6 +70,7 @@ function setupStream(stream) {
     // when we stop recording we can create a blob from the chunks - type: format; compression
         recorder.onstop = e => {
             console.log('stopped');
+            document.getElementById("audio-translate-btn").disabled = false;
             const blob = new Blob(chunks, { type: "audio/webm; codecs=opus"});
             audio_blob = blob;                                  // save blob on file for audio transfer to fetchapi
             chunks = [];                                        // reset the chunks
@@ -138,6 +140,7 @@ function detectSound(analyser, domainData, bufferLength) {
                     is_recording = false;
                     recorder.stop();
                     console.log("Silence detected, recording stopped.");
+                    document.getElementById("audio-translate-btn").disabled = false;
                 }
             }, 5000); // 5 seconds of silence to stop recording
         }

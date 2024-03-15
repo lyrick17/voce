@@ -6,10 +6,6 @@ function dd($item)
     var_dump($item);
     exit();
 }
-
-require("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
-require("utilities/recent_audio_translation.php");
-
 ?>
 
 <!DOCTYPE html>
@@ -91,9 +87,9 @@ require("utilities/recent_audio_translation.php");
             </div>
         </div>
         <div class="header">
-            <a href="newtext-text.php"><button><img src="images/translator.png" alt="Language Icon"
+            <a href="text-text.php"><button><img src="images/translator.png" alt="Language Icon"
                         width="30px">Text</button></a>
-            <a href="history_audio.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
+            <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
                     a File</button></a>
         </div>
         <div class="container">

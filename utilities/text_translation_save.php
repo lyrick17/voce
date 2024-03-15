@@ -12,9 +12,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $target_lang = mysqli_real_escape_string($dbcon, trim($_POST['target']));
     $orig_text = mysqli_real_escape_string($dbcon, trim($_POST["text"]));
     $translation = mysqli_real_escape_string($dbcon, trim($_POST["translation"]));
+
+    // remove the span elements in the output
+    $translation = str_replace('<span class ="word-span">' , "", $translation);
+    $translation = str_replace("</span>" , "", $translation);
     $isFromAudio = False;
     
-
     // db query
     $query_insert = mysqli_prepare($dbcon, "INSERT INTO text_translations(from_audio_file, original_language, translated_language,
     translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, NOW())");

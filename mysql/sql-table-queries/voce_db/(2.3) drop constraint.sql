@@ -1,0 +1,1 @@
+ALTER TABLE activity_logs DROP CONSTRAINT activity_logs_ibfk_1;

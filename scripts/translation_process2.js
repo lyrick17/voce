@@ -147,7 +147,13 @@ function timerForSavingDB() {
     savingTimer = setTimeout(function() {
         const form = document.getElementById("myForm");
         const text_info = new FormData(form);
-        text_info.append("translation", document.getElementById("text-output").innerHTML);
+        let output = document.getElementById("text-output").innerHTML;
+
+        // remove all the html span elements 
+        output = output.replaceAll("\"word-span\"", "");
+        output = output.replaceAll("<span class=>", "");
+        output = output.replaceAll("</span>", "");
+        text_info.append("translation", output);
         fetch('utilities/text_translation_save.php', {
             method: "POST",
             body: text_info,
