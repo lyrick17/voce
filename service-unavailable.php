@@ -1,4 +1,4 @@
-<?php require("mysql/mysqli_session.php");
+<?php require ("mysql/mysqli_session.php");
 $current_page = basename($_SERVER['PHP_SELF']);
 
 function dd($item)
@@ -7,8 +7,8 @@ function dd($item)
     exit();
 }
 
-require("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
-require("utilities/recent_audio_translation.php");
+require ("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
+require ("utilities/recent_audio_translation.php");
 
 ?>
 
@@ -21,7 +21,7 @@ require("utilities/recent_audio_translation.php");
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!--<link rel="stylesheet" href="styles/style2.css"> -->
     <link rel="stylesheet" href="styles/simplePagination.css">
-    <link rel="stylesheet" href="styles/style4.css">
+    <link rel="stylesheet" href="styles/index-style.css">
     <title>Audio to Text Translation</title>
     <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -148,7 +148,7 @@ require("utilities/recent_audio_translation.php");
                     <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
 
 
-    <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
+    <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
         <div class="download button" dir="rtl" id="download-file">
             <form method="post" action="utilities/download_audio_output.php">
                 <button type="submit" name="text" style="padding:5px;">Download as Text File</button>
