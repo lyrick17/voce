@@ -186,7 +186,7 @@ require("utilities/recent_audio_translation.php");
                                 echo $data[6] ?? '';
                             }
                             ?>
-                                                                                                                    </textarea>
+                                                                                                                        </textarea>
                     </div>
                     <!-- former button before updating ui 
                         <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
@@ -199,7 +199,7 @@ require("utilities/recent_audio_translation.php");
                                 echo $data[7] ?? '';
                             }
                             ?>
-                                                                                                                                                </textarea>
+                                                                                                                                                    </textarea>
                     </div>
                 </div>
             <?php else: ?>
@@ -246,7 +246,7 @@ require("utilities/recent_audio_translation.php");
         </div>
         </form>
         <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
-            <a href="history_audio.php"><button class="tryagain">TRANSLATE AGAIN?</button></a>
+            <a href="index.php"><button class="tryagain">TRANSLATE AGAIN?</button></a>
         <?php endif; ?>
     </div>
     <!-- Live Recording 

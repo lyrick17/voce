@@ -56,33 +56,7 @@ require("utilities/recent_audio_translation.php");
         </div>
     </nav>
     <!-- End of Navbar -->
-    <div class="sidebar">
-        <div class="top-iconsheader">
-            <div class="top-icons">
-                <a href=""><img src="images/anti-clockwise.png" alt="Language Icon" width="30px"></a>
-                <a href=""><img src="images/anti-clockwise.png" alt="Language Icon" width="30px"></a>
-            </div>
-            <div class="top-close">
-                <a href=""><img src="images/xmas.png" alt="Language Icon" width="30px"></a>
-            </div>
-        </div>
-        <div class="sidebar-header">
-            <h2 style="margin-left: 10px;">History</h2>
-        </div>
-        <div class="sidebar-headerclear">
-            <a href="#" style="margin-right: 4px; padding: 5px;">Clear all history</a>
-        </div>
-        <br>
-        <div class="sidebar-history">
-            Testting first
-            Testting first
-            Testting first
-            Testting first
-        </div>
-        <div class="robot-section">
-            <img src="images/hi-robot.gif" class="robot" alt="robot waving" width="80%">
-        </div>
-    </div>
+    <?php include("sidebar.php") ?>
     <div class="main-content">
 
         <div id="loadingModal" class="modalloading">
@@ -94,7 +68,7 @@ require("utilities/recent_audio_translation.php");
         <div class="header">
             <a href="text-text.php"><button><img src="images/translator.png" alt="Language Icon"
                         width="30px">Text</button></a>
-            <a href="translator.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
+            <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
                     a File</button></a>
         </div>
         <p style="color: red;" id="error-message"><i>
@@ -187,7 +161,7 @@ require("utilities/recent_audio_translation.php");
                                 echo $data[6] ?? '';
                             }
                             ?>
-                                                                                                                                                            </textarea>
+                                                                                                                                                                                    </textarea>
                     </div>
                     <!-- former button before updating ui 
                         <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
@@ -200,7 +174,7 @@ require("utilities/recent_audio_translation.php");
                                 echo $data[7] ?? '';
                             }
                             ?>
-                                                                                                                                                                                        </textarea>
+                                                                                                                                                                                                                </textarea>
                     </div>
                 </div>
             <?php else: ?>
@@ -247,7 +221,7 @@ require("utilities/recent_audio_translation.php");
         </div>
         </form>
         <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
-            <a href="translator.php"><button class="tryagain">Translate again bro</button></a>
+            <a href="index.php"><button class="tryagain">Translate again</button></a>
         <?php endif; ?>
     </div>
     <!-- Live Recording 
@@ -313,7 +287,6 @@ require("utilities/recent_audio_translation.php");
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="scripts/index.js"></script>
     <script src="scripts/translation_process.js"></script>
-    <script src="scripts/newindex.js"></script>
 </body>
 
 </html>
