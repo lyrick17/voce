@@ -96,17 +96,14 @@ nav .logo span {
 }
 
 .main-content {
-  margin-bottom: 0; /* Remove any bottom margin */
+  margin-bottom: 0;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   height: 100vh;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-content: space-around;
-  justify-content: flex-start;
   margin-right: 0;
   transition: margin-right 0.5s ease;
   background-color: #fffafa;
+  flex-direction: column;
 }
 
 textarea {
@@ -197,7 +194,13 @@ textarea {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 1em;
+  font-size: 14px;
+  transition: background-color 0.2s ease-in-out;
+  font-family: "Poppins", sans-serif;
+}
+
+.translate-button:hover {
+  background-color: #41aaf5; /* Change the background color on hover */
 }
 
 .header {
@@ -458,12 +461,13 @@ textarea {
 }
 
 .dict-div {
-  width: 50%;
+  width: 80%;
   display: flex;
   flex-direction: column;
 }
 
 .options {
+  display: none;
 }
 
 .feedback {
@@ -487,4 +491,11 @@ textarea {
   position: absolute;
   margin-right: 200px;
   right: 0;
+}
+
+.mic-toggle {
+  appearance: none; /* Remove default button styles */
+  border: none; /* Remove default border */
+  background: transparent; /* Make background transparent */
+  cursor: pointer; /* Indicate clickable behavior */
 }

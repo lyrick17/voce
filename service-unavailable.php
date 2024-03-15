@@ -93,7 +93,7 @@ require("utilities/recent_audio_translation.php");
         <div class="header">
             <a href="newtext-text.php"><button><img src="images/translator.png" alt="Language Icon"
                         width="30px">Text</button></a>
-            <a href="history_audio.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
+            <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
                     a File</button></a>
         </div>
         <div class="container">
