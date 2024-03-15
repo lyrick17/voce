@@ -257,9 +257,9 @@ function checkFileSize(uploadField) {
 
 function finishProcess(errornumber) {
     if (errornumber == 0) {
-        window.location.href = "history_audio.php?translated=1";
+        window.location.href = "index.php?translated=1";
     } else {
-        window.location.href = "history_audio.php?error=" + errornumber;
+        window.location.href = "index.php?error=" + errornumber;
     }
 }
 
