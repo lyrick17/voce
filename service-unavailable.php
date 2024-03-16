@@ -7,9 +7,6 @@ function dd($item)
     exit();
 }
 
-require ("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
-require ("utilities/recent_audio_translation.php");
-
 ?>
 
 <!DOCTYPE html>

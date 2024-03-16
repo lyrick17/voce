@@ -292,7 +292,7 @@ class Translator{
 
         // Process the response
         if ($response === false) {
-            header("location: service-unavailable.php");
+            header("Location: service-unavailable.php");
             exit();
         } else {
             // Decode the JSON response

@@ -165,9 +165,8 @@ $num_of_a2t = mysqli_fetch_assoc($result);
 
     </div>
 
-    <script src="scripts/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="scripts/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>                            
+    <script src = "scripts/admin.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
 
 </body>
