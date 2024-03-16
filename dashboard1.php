@@ -1,11 +1,11 @@
-<?php require("mysql/mysqli_session.php");
+<?php require ("mysql/mysqli_session.php");
 $current_page = basename($_SERVER['PHP_SELF']);
-if (!isset($_SESSION['username'])) {
+if (!isset ($_SESSION['username'])) {
   header("location: loginpage.php");
   exit();
 }
 
-require("utilities/faqs.php");
+require ("utilities/faqs.php");
 
 // 2
 $total_audio = "SELECT COUNT(*) FROM text_translations WHERE from_audio_file = 1";
@@ -70,7 +70,7 @@ if ($total_audio == 0) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="styles/style2.css">
+  <link rel="stylesheet" href="styles/UI-OLDSTYLE.css">
   <title>Dashboard</title>
   <link rel="icon" type="image/x-icon" href="images/icon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -286,7 +286,7 @@ if ($total_audio == 0) {
         <div class="accordion-text">
           <div class="title">FAQS</div>
           <ul class="faq-text">
-            <?php if (!empty($faq_question) && !empty($faq_answer)) {
+            <?php if (!empty ($faq_question) && !empty ($faq_answer)) {
               for ($i = 0; $i < sizeof($faq_question); $i++) { ?>
                 <li>
                   <div class="question-arrow">

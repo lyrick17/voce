@@ -1,8 +1,8 @@
-<?php require("mysql/mysqli_session.php");
+<?php require ("mysql/mysqli_session.php");
 $current_page = basename($_SERVER['PHP_SELF']);
 
-require("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
-require("utilities/recent_text_translation.php");
+require ("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
+require ("utilities/recent_text_translation.php");
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +13,7 @@ require("utilities/recent_text_translation.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!-- <link rel="stylesheet" href="styles/style2.css"> -->
-    <link rel="stylesheet" href="styles/style4.css">
+    <link rel="stylesheet" href="styles/text-textstyle.css">
     <link rel="stylesheet" href="styles/simplePagination.css">
     <title>Text to Text Translation</title>
     <link rel="icon" type="image/x-icon" href="images/icon.ico">
@@ -90,9 +90,9 @@ require("utilities/recent_text_translation.php");
             </div>
         </div>
         <!-- Error Message: Pabago nalang if may naiisip kang ibang design -->
-        <p style="color: red;" id="error-message"><i>
+        <p style="color: red; display: none;" id="error-message"><i>
                 <?php
-                if (isset($_GET['error'])) {
+                if (isset ($_GET['error'])) {
                     switch ($_GET['error']) {
                         case 1: // user did not chooose language
                             echo "Please select a source/translated language.";
@@ -153,21 +153,21 @@ require("utilities/recent_text_translation.php");
                 <div class="custom-textfield">
 
                     <?php // url must have translated=1 before showing the output
-                    if (isset($_SESSION['recent_text'])) {
+                    if (isset ($_SESSION['recent_text'])) {
                         $textid = $_SESSION['recent_text'];
                         $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE text_id = '$textid' AND from_audio_file = 0 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
                     }
                     ?>
-                    <?php if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1) {
+                    <?php if (isset ($_SESSION['recent_text']) && isset ($_GET['translated']) && $_GET['translated'] == 1) {
                         echo "Language: " . $data[4];
                     } ?>
                     <textarea class="textinput" name="text" id="text-input" placeholder='Type Here...'><?php
-                    if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1) {
+                    if (isset ($_SESSION['recent_text']) && isset ($_GET['translated']) && $_GET['translated'] == 1) {
                         echo $data[6] ?? '';
                     }
                     ?></textarea>
 
-                    <?php if (isset($_SESSION['recent_text']) && isset($_GET['translated']) && $_GET['translated'] == 1) {
+                    <?php if (isset ($_SESSION['recent_text']) && isset ($_GET['translated']) && $_GET['translated'] == 1) {
                         echo "Language: " . $data[5];
                     } ?>
                     <!-- end of form -->
