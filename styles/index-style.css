@@ -191,18 +191,17 @@ textarea {
 }
 
 .translate-button {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
+  display: flex;
   background-color: #87ceeb;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 30px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 20px;
   transition: background-color 0.2s ease-in-out;
   font-family: "Poppins", sans-serif;
+  margin-top: 20px;
 }
 
 .translate-button:hover {
@@ -525,8 +524,4 @@ select {
 }
 option {
   text-transform: capitalize;
-}
-
-.outputText {
-  margin: 0;
 }

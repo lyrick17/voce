@@ -51,7 +51,7 @@ require ("utilities/recent_audio_translation.php");
     <!-- Navbar -->
     <nav>
         <div class="logo">
-            <img src="images/logo.png" alt="Voce logo">
+            <a href="index.php"> <img src="images/logo.png" alt="Voce logo"></a>
             <span>Text Translator</span>
         </div>
     </nav>
@@ -72,7 +72,7 @@ require ("utilities/recent_audio_translation.php");
                     a File</button></a>
         </div>
         <div class="header-downloadfile-wrapper">
-            <div class="header-downloadfile" dir="rtl" id="download-file" style="display: none;">
+            <div class="header-downloadfile" dir="rtl" id="download-file">
                 <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
                     <div class="download button" dir="rtl" id="download-file">
                         <form method="post" action="utilities/download_audio_output.php">
@@ -167,14 +167,13 @@ require ("utilities/recent_audio_translation.php");
             <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
                 <div class="box">
                     <div class="text-section">
-                        <textarea id="originalText" name="originalText" class="customtextfield" rows="4"
-                            readonly><?php
-                            if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
-                                echo $data[6] ?? '';
-                            }
-                            ?>
+                        <textarea id="originalText" name="originalText" class="customtextfield" rows="4" readonly><?php
+                        if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
+                            echo $data[6] ?? '';
+                        }
+                        ?>
 
-                        </textarea>
+                                                                                    </textarea>
                     </div>
                     <!-- former button before updating ui 
                         <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
@@ -182,12 +181,12 @@ require ("utilities/recent_audio_translation.php");
                 <div class="box2">
                     <div class="text-section">
                         <textarea id="translatedText" name="translatedText" class="customtextfield" rows="4"
-                            readonly>`<?php
+                            readonly><?php
                             if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
                                 echo $data[7] ?? '';
                             }
                             ?>
-                                                                                                                                                                                                                                            </textarea>
+                                                                                                                                                                                                                                                                                                        </textarea>
                     </div>
                 </div>
             <?php else: ?>
@@ -204,7 +203,6 @@ require ("utilities/recent_audio_translation.php");
 
 
                     </div>
-                    <button type="submit" class="translate-button" id="audio-translate-btn">Translate</button>
 
                     <!-- former button before updating ui 
                             <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
@@ -232,10 +230,13 @@ require ("utilities/recent_audio_translation.php");
                 <label>Dictionary</label>
             </div>
         </div>
-        </form>
         <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
             <a href="index.php"><button class="tryagain">Translate again</button></a>
+        <?php else: ?>
+            <button type="submit" class="translate-button" id="audio-translate-btn">Translate</button>
         <?php endif; ?>
+        </form>
+
     </div>
     <!-- Live Recording 
                 <div class="container">
