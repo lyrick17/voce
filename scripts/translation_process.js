@@ -12,6 +12,7 @@ const mic_btn = document.querySelector('#mic');
 const playback = document.querySelector(".playback");
 
 mic_btn.addEventListener("click", ToggleMic);
+
 let is_recording = false;
 let recorder = null;
 

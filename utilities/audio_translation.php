@@ -1,12 +1,12 @@
 <?php
-require("../mysql/mysqli_session.php");
+require ("../mysql/mysqli_session.php");
 
-require("common_languages.php"); // Translator_Functions and Error Habdling are alr required in this file
+require ("common_languages.php"); // Translator_Functions and Error Habdling are alr required in this file
 
 // consider if javascript is turned off,
 
 
-if (!isset($_SESSION['a_info']))
+if (!isset ($_SESSION['a_info']))
     $_SESSION['a_info'] = array();
 // $_SESSION['a_info']['newfile'] contains new Filename
 // $_SESSION['a_info']['text'] contains transcript text from Whisper
@@ -16,7 +16,7 @@ if (!isset($_SESSION['a_info']))
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // required for uploading the file
     // checks if user uploads file or live record
-    if (isset($_FILES['record'])) {
+    if (isset ($_FILES['record'])) {
         $is_recorded = true;
         $record = $_FILES['record'];
     } else {
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $trg_lang = $common_langs[$_POST["target"]] ?? '';
 
     // Checks whether checkbox is checked or not
-    $removeBGM = isset($_POST["removeBGM"]) ? "on" : "off";
+    $removeBGM = isset ($_POST["removeBGM"]) ? "on" : "off";
 
 
     if ($_POST['step'] == 1) { #!!! error handling and insertion of audio file to database
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'error' => 0
         ];
         $_SESSION['a_info']['newfile'] = $newFile;
-        exit(json_encode($success));
+        exit (json_encode($success));
     }
 
 
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         $success = ['error' => 0];
-        exit(json_encode($success));
+        exit (json_encode($success));
     }
 
     if ($_POST['step'] == 3) { #!!! removing silence in the file
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         Translator::removeSilence($_SESSION['a_info']['newfile'], $removeBGM);
 
         $success = ['error' => 0];
-        exit(json_encode($success));
+        exit (json_encode($success));
     }
 
 
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['a_info']['lang'] = $data['language'];
 
         $success = ['error' => 0];
-        exit(json_encode($success));
+        exit (json_encode($success));
     }
 
 
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $result = Translator::translate($_SESSION['a_info']['text'], $common_codes[$_SESSION['a_info']['lang']], $_POST["target"]);
         $_SESSION['a_info']['output'] = $result;
         $success = ['error' => 0];
-        exit(json_encode($success));
+        exit (json_encode($success));
     }
 
 
@@ -142,13 +142,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         success_logs("audio-to-text", $id, $dbcon);
 
         $success = ['error' => 0];
-        exit(json_encode($success));
+        exit (json_encode($success));
     }
 }
 
 function unset_extra_sess_vars()
 {
-    if (isset($_SESSION['a_info'])) {
+    if (isset ($_SESSION['a_info'])) {
         unset($_SESSION['a_info']);
     }
 }

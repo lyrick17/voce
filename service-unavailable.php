@@ -1,4 +1,4 @@
-<?php require("mysql/mysqli_session.php");
+<?php require ("mysql/mysqli_session.php");
 $current_page = basename($_SERVER['PHP_SELF']);
 
 function dd($item)
@@ -7,8 +7,8 @@ function dd($item)
     exit();
 }
 
-require("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
-require("utilities/recent_audio_translation.php");
+require ("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
+require ("utilities/recent_audio_translation.php");
 
 ?>
 
@@ -21,7 +21,7 @@ require("utilities/recent_audio_translation.php");
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!--<link rel="stylesheet" href="styles/style2.css"> -->
     <link rel="stylesheet" href="styles/simplePagination.css">
-    <link rel="stylesheet" href="styles/style4.css">
+    <link rel="stylesheet" href="styles/index-style.css">
     <title>Audio to Text Translation</title>
     <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -91,28 +91,21 @@ require("utilities/recent_audio_translation.php");
             </div>
         </div>
         <div class="header">
-            <a href="newtext-text.php"><button><img src="images/translator.png" alt="Language Icon"
+            <a href="text-text.php"><button><img src="images/translator.png" alt="Language Icon"
                         width="30px">Text</button></a>
-            <a href="history_audio.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
+            <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
                     a File</button></a>
         </div>
-        <div class="container">
-            <!-- SOURCE LANGUAGE DIVISION-->
-            <div class="">
-                <div class="">
-                    <h3 style="text-align:center;">Voce Service Unavailable</h3>
-                    <hr>
-                    <div
-                        style="background-color: #fff; padding: 20px;  margin: 15px; border-radius: 10px; text-align:center;">
-                        We apologize, but our <b>Translation Services</b> is currently experiencing technical
-                        difficulties.
-                        Our team is working diligently to restore the service.
-                        Please check back later. Thank you for your understanding!
-                    </div>
-                    <center> <img src="images/sadrobot.gif"></center>
-                </div>
+        <div class="container-service">
+            <h3 style="text-align:center;">Voce Service Unavailable</h3>
+            <hr>
+            <div style="background-color: #fff; padding: 20px;  margin: 15px; border-radius: 10px; text-align:center;">
+                We apologize, but our <b>Translation Services</b> is currently experiencing technical
+                difficulties.
+                Our team is working diligently to restore the service.
+                Please check back later. Thank you for your understanding!
             </div>
-
+            <center> <img src="images/sadrobot.gif"></center>
         </div>
     </div>
     <!-- Live Recording 
@@ -148,7 +141,7 @@ require("utilities/recent_audio_translation.php");
                     <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
 
 
-    <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
+    <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
         <div class="download button" dir="rtl" id="download-file">
             <form method="post" action="utilities/download_audio_output.php">
                 <button type="submit" name="text" style="padding:5px;">Download as Text File</button>

@@ -1,4 +1,4 @@
-<?php require("mysql/mysqli_session.php");
+<?php require ("mysql/mysqli_session.php");
 $current_page = basename($_SERVER['PHP_SELF']);
 
 function dd($item)
@@ -7,8 +7,8 @@ function dd($item)
     exit();
 }
 
-require("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
-require("utilities/recent_audio_translation.php");
+require ("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
+require ("utilities/recent_audio_translation.php");
 
 ?>
 
@@ -21,7 +21,7 @@ require("utilities/recent_audio_translation.php");
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!--<link rel="stylesheet" href="styles/style2.css"> -->
     <link rel="stylesheet" href="styles/simplePagination.css">
-    <link rel="stylesheet" href="styles/style4.css">
+    <link rel="stylesheet" href="styles/index-style.css">
     <title>Audio to Text Translation</title>
     <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -56,7 +56,7 @@ require("utilities/recent_audio_translation.php");
         </div>
     </nav>
     <!-- End of Navbar -->
-    <?php include("sidebar.php") ?>
+    <?php include ("sidebar.php") ?>
     <div class="main-content">
 
         <div id="loadingModal" class="modalloading">
@@ -71,9 +71,21 @@ require("utilities/recent_audio_translation.php");
             <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
                     a File</button></a>
         </div>
+        <div class="header-downloadfile-wrapper">
+            <div class="header-downloadfile" dir="rtl" id="download-file" style="display: none;">
+                <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
+                    <div class="download button" dir="rtl" id="download-file">
+                        <form method="post" action="utilities/download_audio_output.php">
+                            <button type="submit" name="text" style="padding:5px;">Download as Text File</button>
+                            <button type="submit" name="word" style="padding:5px;">Download as Word File</button>
+                        </form>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
         <p style="color: red;" id="error-message"><i>
                 <?php
-                if (isset($_GET['error'])) {
+                if (isset ($_GET['error'])) {
                     switch ($_GET['error']) {
                         case 1: // user did not choose language
                             echo "Please select a model or source/translated language.";
@@ -106,7 +118,7 @@ require("utilities/recent_audio_translation.php");
                     <label class="label1">
                         Source language:
                     </label>
-                    <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
+                    <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
                         <?php $textid = $_SESSION['recent_audio'];
                         $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE text_id = '$textid' AND from_audio_file = 1 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
                         echo $data[4] ?? ''; ?>
@@ -133,7 +145,7 @@ require("utilities/recent_audio_translation.php");
                     <label class="label1">
                         Target language:
                     </label>
-                    <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
+                    <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
                         <?php echo $data[5] ?? ''; ?>
                     <?php else: ?>
                         <select name="target" id="targetLanguage" class="form-control">
@@ -152,16 +164,16 @@ require("utilities/recent_audio_translation.php");
         <div class="container" id="drop-zone" ondrop="fileDropHandler(event);" ondragover="dragOverHandler(event);"
             ondragenter="dragEnterHandler(event);" ondragleave="dragLeaveHandler(event);">
 
-            <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
+            <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
                 <div class="box">
                     <div class="text-section">
                         <textarea id="originalText" name="originalText" class="customtextfield" rows="4"
                             readonly><?php
-                            if (isset($_GET['translated']) && $_GET['translated'] == 1) {
+                            if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
                                 echo $data[6] ?? '';
                             }
                             ?>
-                                                                                                                                                                                    </textarea>
+                                                                                                                                                                                                                </textarea>
                     </div>
                     <!-- former button before updating ui 
                         <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
@@ -170,11 +182,11 @@ require("utilities/recent_audio_translation.php");
                     <div class="text-section">
                         <textarea id="translatedText" name="translatedText" class="customtextfield" rows="4"
                             readonly>`<?php
-                            if (isset($_GET['translated']) && $_GET['translated'] == 1) {
+                            if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
                                 echo $data[7] ?? '';
                             }
                             ?>
-                                                                                                                                                                                                                </textarea>
+                                                                                                                                                                                                                                            </textarea>
                     </div>
                 </div>
             <?php else: ?>
@@ -220,7 +232,7 @@ require("utilities/recent_audio_translation.php");
             </div>
         </div>
         </form>
-        <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
+        <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
             <a href="index.php"><button class="tryagain">Translate again</button></a>
         <?php endif; ?>
     </div>
@@ -257,7 +269,7 @@ require("utilities/recent_audio_translation.php");
                     <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
 
 
-    <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
+    <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
         <div class="download button" dir="rtl" id="download-file">
             <form method="post" action="utilities/download_audio_output.php">
                 <button type="submit" name="text" style="padding:5px;">Download as Text File</button>
