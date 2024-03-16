@@ -91,28 +91,21 @@ require ("utilities/recent_audio_translation.php");
             </div>
         </div>
         <div class="header">
-            <a href="newtext-text.php"><button><img src="images/translator.png" alt="Language Icon"
+            <a href="text-text.php"><button><img src="images/translator.png" alt="Language Icon"
                         width="30px">Text</button></a>
             <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
                     a File</button></a>
         </div>
-        <div class="container">
-            <!-- SOURCE LANGUAGE DIVISION-->
-            <div class="">
-                <div class="">
-                    <h3 style="text-align:center;">Voce Service Unavailable</h3>
-                    <hr>
-                    <div
-                        style="background-color: #fff; padding: 20px;  margin: 15px; border-radius: 10px; text-align:center;">
-                        We apologize, but our <b>Translation Services</b> is currently experiencing technical
-                        difficulties.
-                        Our team is working diligently to restore the service.
-                        Please check back later. Thank you for your understanding!
-                    </div>
-                    <center> <img src="images/sadrobot.gif"></center>
-                </div>
+        <div class="container-service">
+            <h3 style="text-align:center;">Voce Service Unavailable</h3>
+            <hr>
+            <div style="background-color: #fff; padding: 20px;  margin: 15px; border-radius: 10px; text-align:center;">
+                We apologize, but our <b>Translation Services</b> is currently experiencing technical
+                difficulties.
+                Our team is working diligently to restore the service.
+                Please check back later. Thank you for your understanding!
             </div>
-
+            <center> <img src="images/sadrobot.gif"></center>
         </div>
     </div>
     <!-- Live Recording 

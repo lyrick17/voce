@@ -173,7 +173,7 @@ require ("utilities/recent_audio_translation.php");
                                 echo $data[6] ?? '';
                             }
                             ?>
-                                                                                                                                                                                                        </textarea>
+                                                                                                                                                                                                                </textarea>
                     </div>
                     <!-- former button before updating ui 
                         <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
@@ -186,7 +186,7 @@ require ("utilities/recent_audio_translation.php");
                                 echo $data[7] ?? '';
                             }
                             ?>
-                                                                                                                                                                                                                                    </textarea>
+                                                                                                                                                                                                                                            </textarea>
                     </div>
                 </div>
             <?php else: ?>

@@ -112,14 +112,20 @@ textarea {
   font-size: 24px;
   font-family: "Poppins", sans-serif;
 }
-#error-message {
-  display: none;
-}
+
 .container {
   display: flex;
   flex-direction: row;
   width: 80%;
   z-index: 1;
+}
+
+.container-service {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  z-index: 1;
+  align-items: center;
 }
 .box {
   position: relative;
@@ -278,7 +284,7 @@ textarea {
   margin-left: 5px;
 }
 .language-selector .label1 {
-  font-weight: 700;
+  font-weight: 600;
   margin: 0;
   font-size: 20px;
   color: #333333;
@@ -397,6 +403,7 @@ textarea {
   left: 50%; /* Position it horizontally at 50% */
   transform: translate(-50%, -50%); /* Adjust positioning as needed */
   opacity: 0; /* Initially hide the text */
+  pointer-events: none;
 }
 
 .container.drag-hover .drop-text {
@@ -498,4 +505,28 @@ textarea {
   border: none; /* Remove default border */
   background: transparent; /* Make background transparent */
   cursor: pointer; /* Indicate clickable behavior */
+}
+
+select {
+  border: 10px;
+  border-radius: 20px;
+  font-size: 18px;
+  font-family: "Poppins", sans-serif;
+  padding: 20px;
+  width: 300px;
+  font-weight: 300;
+  display: flex;
+  height: 55px;
+  cursor: pointer;
+  padding: 0 16px;
+  border-radius: 8px;
+  align-items: center;
+  background: #fff;
+}
+option {
+  text-transform: capitalize;
+}
+
+.outputText {
+  margin: 0;
 }

@@ -90,7 +90,7 @@ require ("utilities/recent_text_translation.php");
             </div>
         </div>
         <!-- Error Message: Pabago nalang if may naiisip kang ibang design -->
-        <p style="color: red;" id="error-message"><i>
+        <p style="color: red; display: none;" id="error-message"><i>
                 <?php
                 if (isset ($_GET['error'])) {
                     switch ($_GET['error']) {

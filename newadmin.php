@@ -50,10 +50,20 @@ $num_of_a2t = mysqli_fetch_assoc($result);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootstrap Admin Dashboard</title>
+    <title>Admin Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="styles/newadmin.css">
+
+    <style>
+        .card-body {
+            max-height: 500px;
+            /* Adjust as needed */
+            max-width: 500px;
+            /* Adjust as needed */
+        }
+    </style>
 </head>
 
 <body>
@@ -89,23 +99,6 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                         </ul>
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link collapsed" data-bs-target="#posts" data-bs-toggle="collapse"
-                            aria-expanded="false"><i class="fa-solid fa-sliders pe-2"></i>
-                            Posts
-                        </a>
-                        <ul id="posts" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Post 1</a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Post 2</a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Post 3</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="sidebar-item">
                         <a href="#" class="sidebar-link collapsed" data-bs-target="#auth" data-bs-toggle="collapse"
                             aria-expanded="false"><i class="fa-regular fa-user pe-2"></i>
                             Auth
@@ -113,29 +106,6 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                         <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
                                 <a href="#" class="sidebar-link">Edit a user</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="sidebar-header">
-                        Multi Level Menu
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link collapsed" data-bs-target="#multi" data-bs-toggle="collapse"
-                            aria-expanded="false"><i class="fa-solid fa-share-nodes pe-2"></i>
-                            Multi Dropdown
-                        </a>
-                        <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link collapsed" data-bs-target="#level-1"
-                                    data-bs-toggle="collapse" aria-expanded="false">Level 1</a>
-                                <ul id="level-1" class="sidebar-dropdown list-unstyled collapse">
-                                    <li class="sidebar-item">
-                                        <a href="#" class="sidebar-link">Level 1.1</a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a href="#" class="sidebar-link">Level 1.2</a>
-                                    </li>
-                                </ul>
                             </li>
                         </ul>
                     </li>
@@ -169,46 +139,6 @@ $num_of_a2t = mysqli_fetch_assoc($result);
 
                     </div>
                     <div class="row">
-                        <div class="col-md-5">
-                            <div class="card">
-                                <div class="card-header">Graph</div>
-                                <div class="card-body">
-                                    <p> <canvas id="myChart">
-                                        </canvas></p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="card">
-                                <div class="card-header">Monthly Statistics</div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <span>Total Audio Translations</span>
-                                                    <span class="count">
-                                                        <?= $num_of_t2t['total_t2t'] ?>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <span>Total Audio Translations</span>
-                                                    <span class="count">
-                                                        <?= $num_of_a2t['total_a2t'] ?>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="col-md-4">
                             <div class="card">
                                 <div class="card-header">Pie Chart</div>
@@ -216,6 +146,40 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                                     <div class="donut-container">
                                         <br>
                                         <canvas id="donutCanvas"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 linegraph">
+                            <div class="card ">
+                                <div class="card-header">Graph</div>
+                                <div class="card-body">
+                                    <p> <canvas id="myChart">
+                                        </canvas></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-header">Monthly Statistics</div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <span>Total Audio Translations</span>
+                                                <span class="count">
+                                                    <?= $num_of_t2t['total_t2t'] ?>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <span>Total Audio Translations</span>
+                                                <span class="count">
+                                                    <?= $num_of_a2t['total_a2t'] ?>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
