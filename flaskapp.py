@@ -46,6 +46,21 @@ def translate():
     translated = GoogleTranslator(source= src, target= trg).translate(json_data['txt'])
     return translated
 
+
+@app.route("/spleeter", methods=["POST"])
+def spleeter():
+    # TO BE FIXED
+    json_data = request.get_json()
+    print(json_data)
+    return 0
+
+@app.route("/removesilence", methods=["POST"])
+def removesilence():
+    # TO BE FIXED
+    json_data = request.get_json()
+    print(json_data)
+    return 0
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
 
