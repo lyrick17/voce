@@ -3,7 +3,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <?php if (!isset ($_SESSION['username'])) {
 
-    header("location: index.php");
+    header("location: index");
     exit();
 } ?>
 

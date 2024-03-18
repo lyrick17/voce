@@ -32,7 +32,7 @@ things na wala nang userid
 -removeFolder
 -deleteAllAudioFiles
 -deleteErrorFile
--delete_query.php
+-utilities/delete_query.php
     - clearAll
     - deleteRows
     - else

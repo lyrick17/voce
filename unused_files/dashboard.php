@@ -242,7 +242,7 @@ if ($total_audio == 0) {
             <p class="description">
               Comminucate effortlessly by translating your content into another language using our technology.
             </p>
-            <button class="button"><a href="text-text.php" class="logo">START TRANSLATING TEXT
+            <button class="button"><a href="text-to-text.php" class="logo">START TRANSLATING TEXT
                 <i class="fa fa-arrow-circle-o-right"></i></button></a>
 
           </div>
@@ -257,7 +257,7 @@ if ($total_audio == 0) {
             <p class="description">
               Upload your audio file to smoothly translate it into another language, breaking the language barrier.
             </p>
-            <button class="button"><a href="index.php" class="logo">START TRANSCRIBING AUDIO
+            <button class="button"><a href="index" class="logo">START TRANSCRIBING AUDIO
                 <i class="fa fa-arrow-circle-o-right"></i></button></a>
           </div>
           <br>

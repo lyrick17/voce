@@ -201,19 +201,35 @@ form.addEventListener('submit', function(e) {
 
     // each step would receive a response if the step has an error, or success
     //  proceed on next steps if no error, otherwise, break process
+
+const controller = new AbortController();
+const signal = controller.signal;
+
+    function abortTranslation(e){
+        console.log("Unloading");
+        //event.preventDefault();
+        e.returnValue = "Are you sure bro?";
+        if (controller){
+            controller.abort();
+        }
+    }
 async function translationProcess(audio_info) {
     // step 1
     let data = await fetch('utilities/audio_translation.php', {
                         method: "POST",
                         body: audio_info,
+                        signal: signal,
                     })
                     .then(response => response.json());
                     
                     
     let removeBGM = data.removeBGM ? data.removeBGM : ' ';
 
+
+
     // step 2 to 5
     if (data.error == 0) {
+    
         for (let i = 2; i <= 6; i++) {
             audio_info.set('step', i);
     
