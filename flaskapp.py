@@ -4,6 +4,11 @@ from PyDictionary import PyDictionary
 import whisper
 import json
 
+# used for creating spleeter environment and calling ffmpeg
+# much safer than shell_exec of PHP
+import os
+import subprocess
+import shlex
 
 dictionary = PyDictionary()
 model = whisper.load_model("medium")
@@ -49,20 +54,92 @@ def translate():
 
 @app.route("/spleeter", methods=["POST"])
 def spleeter():
-    # TO BE FIXED
+    # needs filename with extension
     json_data = request.get_json()
+    file = json_data['file']
+    file = shlex.quote(file)
     print(json_data)
-    return 0
+    
+    # Call the function to activate the spleeter environment and run separate.py
+    # code for Python 3.8 system
+    #three_eight(file)
+
+    # code for Python 3.11 system with py3.8 spleeter_env virtual env
+    three_eleven(file)
+    
+
+    return "spleeter"
 
 @app.route("/removesilence", methods=["POST"])
 def removesilence():
     # TO BE FIXED
     json_data = request.get_json()
-    print(json_data)
-    return 0
+    file = json_data['file']
+    filename = json_data['filename']
+    removeBGM = json_data['removeBGM']
+    if removeBGM == "on":
+        input_path = os.path.join("audio_files", shlex.quote(filename), "vocals.wav")
+    else:
+        input_path = os.path.join("audio_files", shlex.quote(file))
+    
+
+    # Construct the input and output file paths with proper escaping
+    output_path = os.path.join("audio_files", shlex.quote(filename), "audio_processed.mp3")
+
+    # Build the FFmpeg command list
+    ffmpeg_command = [
+        "ffmpeg",
+        "-y",  # Overwrite output file if it exists
+        "-i", input_path,
+        "-af", "silenceremove=stop_periods=-1:stop_duration=1:stop_threshold=-50dB",
+        output_path
+    ]
+
+      # Execute the FFmpeg command with error handling
+    try:
+        output = subprocess.run(ffmpeg_command, check=True, capture_output=True, text=True)
+        print("ffmpeg success")
+        return "success"
+    except subprocess.CalledProcessError as e:
+        print(f"Error processing audio with FFmpeg: {e}")
+        print("ffmpeg error")
+        return "errors"
+
+@app.route("/testcon", methods=["GET"])
+def testcon():
+    return "connected"
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+
+
+
+# functions on extracting vocals, 
+#   for spleeter_env 
+#   for python 3.8
+def three_eleven(file):
+    if os.name == 'nt':  # Windows
+        activate_cmd = os.path.join('spleeter_env', 'Scripts', 'activate')
+    else:  # Linux, macOS
+        activate_cmd = os.path.join('spleeter_env', 'bin', 'activate')
+
+    # Full command to activate and run separate.py
+    full_cmd = f'{activate_cmd} && python scripts/separate.py {file} && deactivate'
+
+    
+    # Use subprocess for safe and reliable execution
+    try:
+        subprocess.run(full_cmd.split(), shell=True, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error activating spleeter_env or running separate.py: {e}")
+
+def three_eight(file):
+    call_spleeter = ["python", "scripts/separate.py", file]
+    try:
+        subprocess.run(call_spleeter, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error activating spleeter_env or running separate.py: {e}")
+ 
 
 
 # from deep_translator import GoogleTranslator

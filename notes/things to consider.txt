@@ -21,7 +21,7 @@ Things to be updated in Backend
             }
         });
 - reduce file limit from 60 to 25mb                                                - DONE
-- check if walang laman ang record file                                            -
+- check if walang laman ang record file                                            - DONE
 - information thingy                                                               -
 - list doown all configurations in xampp                                           - DONE
     - max_execution_time = 600 seconds or 10 minutes - in Translator_Functions

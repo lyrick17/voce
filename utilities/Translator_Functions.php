@@ -32,7 +32,6 @@ class Translator{
         return $response;
     }
     
-
     static function db_insertAudioFile($path, $pathsize) {
         global $dbcon;
         // prepare file id, filename, filesize, fileformat
@@ -49,6 +48,7 @@ class Translator{
           mysqli_stmt_bind_param($query_insert2, 'siss', $file_name, $is_recorded, $file_size, $file_format);
           mysqli_stmt_execute($query_insert2);
     }
+
     static function db_uploadRecordFile($record) {
         global $dbcon;
         // we will only upload the filename created and the file format, we upload since we need the upload date
@@ -76,7 +76,6 @@ class Translator{
 
           return $temp;
     }
-    
     
     static function createNewFilename($path, $is_recorded) {
         global $dbcon;
@@ -134,7 +133,27 @@ class Translator{
         // if removeBGM is on, do not make a folder, else, create a new folder
         $filename = pathinfo($inputFile, PATHINFO_FILENAME);
 
-        if ($removeBGM == "on") { // we will use vocals.wav to remove silence instead
+        $data = [
+            "file" => $inputFile,           // file with extension
+            "filename" => $filename,        // filename only
+            "removeBGM" => $removeBGM       // ON or OFF
+        ];
+    
+        $json_data = json_encode($data);
+        $url = "http://localhost:5000/removesilence";
+    
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Execute api call
+        curl_exec($ch);
+
+        curl_close($ch);
+
+        /*if ($removeBGM == "on") { // we will use vocals.wav to remove silence instead
             $output = shell_exec("cd .. && ffmpeg -y -i " . escapeshellarg("audio_files/" . $filename . "/vocals.wav") . 
             " -af  silenceremove=stop_periods=-1:stop_duration=1:stop_threshold=-50dB " . escapeshellarg("audio_files/" . $filename . "/audio_processed.mp3"));
         
@@ -142,8 +161,7 @@ class Translator{
         else {                    // we will use the original file since spleeter isn't used
             $output = shell_exec("cd .. && ffmpeg -y -i " . escapeshellarg("audio_files/". $inputFile) . 
             " -af  silenceremove=stop_periods=-1:stop_duration=1:stop_threshold=-50dB " . escapeshellarg("audio_files/" . $filename . "/audio_processed.mp3"));
-
-        }
+        }*/
     }
 
     static function uploadAndTranscribe($newFile, $removeBGM, $src_lang){
@@ -166,7 +184,6 @@ class Translator{
             
                 $json_data = json_encode($data);
         
-        
                 $url = "http://localhost:5000/transcribe";
             
                 $ch = curl_init();
@@ -177,41 +194,47 @@ class Translator{
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_close($ch);
         
-                // Error handling
+                // Error handling - if no response received
                 if (!$response = curl_exec($ch)) {
                     throw new Exception(curl_error($ch)); // More informative error message
                 }
-                // Check for JSON decoding errors
+                
+                // Error handling - if invalid json
                 if (json_last_error() !== JSON_ERROR_NONE) {
                     throw new Exception("Invalid JSON response");
                 }    
-        
-                return  json_decode($response, true);
-        
-        // replace single quotes around language codes and fields with double quotes
-        // $outputString = preg_replace('/(?<!\w)\'(.*?)\'/', '"$1"', $outputString);
 
-        //$outputString = preg_replace('/\'(.*?)\'/', '"$1"', $outputString);
-        // $output = json_decode($outputString, true);
-        
-        // if (!isset($output['text'])) { exit(json_encode(['error' => var_dump($outputString)])); }
+                // Error handling - if text is empty
+                $output = json_decode($response, true);
+                if ($output["text"]) {
+                    return $output;
+                } else {
+                    ErrorHandling::audioError3($newFile); // pass the filename so it can be deleted, since it's not processed
+                }
 
-        // if ($output["text"]) {
-        //     return $output;
-        //     // the array will be returned so both text and language can be accessed
-        // } else {
-        //     ErrorHandling::audioError3($newFile); // pass the filename so it can be deleted, since it's not processed
-        // }
+                //return  json_decode($response, true);
+        
+                // replace single quotes around language codes and fields with double quotes
+                // $outputString = preg_replace('/(?<!\w)\'(.*?)\'/', '"$1"', $outputString);
+
+                //$outputString = preg_replace('/\'(.*?)\'/', '"$1"', $outputString);
+                // $output = json_decode($outputString, true);
+                
+                // if (!isset($output['text'])) { exit(json_encode(['error' => var_dump($outputString)])); }
+
+                // if ($output["text"]) {
+                //     return $output;
+                //     // the array will be returned so both text and language can be accessed
+                // } else {
+                //     ErrorHandling::audioError3($newFile); // pass the filename so it can be deleted, since it's not processed
+                // }
     }
-
-
-
 
     static function getVocals($file) {
         # Activate the virtual environment
-        # use spleeter for extracting vocals,
+        #   use spleeter for extracting vocals,
         #   and pass the file as argument 
-        # then, deactivate virtual environment
+        #   then, deactivate virtual environment
         
         #   code for Python 3.8 system
         # $output = shell_exec("cd .. && python scripts/separate.py " . escapeshellarg($file) . ");
@@ -219,9 +242,26 @@ class Translator{
         #   code for Python 3.11 system with py3.8 spleeter_env virtual env
         $output = shell_exec("cd .. && spleeter_env\\Scripts\\activate && python scripts/separate.py " . escapeshellarg($file) . " && deactivate");
        
+        # Contains API call on Spleeter Instead
+        /*$data = ["file" => $file];
+    
+        $json_data = json_encode($data);
+        $url = "http://localhost:5000/spleeter";
+    
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Execute api call
+        curl_exec($ch);
+
+        curl_close($ch);
+        */
+
     }
 
-    
     //IMPORTANT! $history should contain the query result 
     // translation format should either be text2text
     static function displayHistory($history, $translation_format){
@@ -280,7 +320,6 @@ class Translator{
         }
     }
 
-    
     static function getLangCodes(){
         $url = "http://localhost:5000/getlangcodes"; //Python endpoint for language codes.
         $data = ["key1" => "value1", "key2" => "value2"];        
@@ -302,7 +341,6 @@ class Translator{
             return $data;
         }
     }
-
 
     static function translate($input = '', $src = '', $target = '') {
         
@@ -335,6 +373,22 @@ class Translator{
         }    
 
         return $response;
+    }
+
+    static function checkConnection() {
+        $url = "http://localhost:5000/testcon"; //Python endpoint for language codes.
+        $data = ["key1" => "value1", "key2" => "value2"];        
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);        
+        $response = curl_exec($ch);
+        // Close the cURL session
+        curl_close($ch);
+
+        // Process the response, bring user back to index if connection found
+        if ($response != false  && $response == "connected") {
+            header("Location: index.php");
+            exit();
+        }
     }
 }
 ?>
