@@ -1,0 +1,4 @@
+CONFIGURATIONS TO BE DONE:
+max_execution_time = 600 seconds or 10 minutes - [in Translator_Functions]
+upload_max_filesize = 80M                      - [in Error Handling]
+post_max_size = 60M                            - [in Error Handling]

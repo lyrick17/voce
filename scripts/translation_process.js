@@ -247,11 +247,11 @@ function checkFileSize(uploadField) {
         const filesize = uploadField.files[0].size;
         const fileMB = filesize / 1024 / 1024;
         //console.log(fileMB);
-        if (fileMB > 60) {
-            errormessage.innerHTML = "File Size limit is only on 60MB.";
+        if (fileMB > 25) {
+            errormessage.innerHTML = "File Size limit is only on 25MB.";
             uploadField.value = "";
             return false;
-        } else if (errormessage.innerHTML == "File Size limit is only on 60MB.") {
+        } else if (errormessage.innerHTML == "File Size limit is only on 25MB.") {
             errormessage.innerHTML = "";
         }
         return true;

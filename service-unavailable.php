@@ -6,6 +6,9 @@ function dd($item)
     var_dump($item);
     exit();
 }
+// Call the test connection function to check if api is on, which would direct the user on translation page
+require("utilities/Translator_Functions.php");
+Translator::checkConnection();
 
 ?>
 
