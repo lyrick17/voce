@@ -179,6 +179,7 @@ uploadField.addEventListener("change", function() {
 const form = document.getElementById("form");
 
 form.addEventListener('submit', function(e) {
+    console.log("aaaa");
     e.preventDefault();
 
     const audio_info = new FormData(this);

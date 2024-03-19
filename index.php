@@ -175,7 +175,7 @@ require ("utilities/recent_audio_translation.php");
                         }
                         ?>
 
-                                                                                            </textarea>
+                                                                                                </textarea>
                     </div>
                     <!-- former button before updating ui 
                         <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
@@ -188,7 +188,7 @@ require ("utilities/recent_audio_translation.php");
                                 echo $data[7] ?? '';
                             }
                             ?>
-                                                                                                                                                                                                                                                                                                                </textarea>
+                                                                                                                                                                                                                                                                                                                    </textarea>
                     </div>
                 </div>
             <?php else: ?>
@@ -213,7 +213,7 @@ require ("utilities/recent_audio_translation.php");
                 <div class="box2">
                     <div class="details">
                         <input type="hidden" name="record" />
-                        <button type="record-button" id="mic" class="mic-toggle hovering">
+                        <button type="button" id="mic" class="mic-toggle hovering">
                             <span class="material-symbols-outlined" style="font-size: 150px;">
                                 mic
                             </span>
