@@ -176,7 +176,7 @@ require ("utilities/recent_text_translation.php");
             </div>
             <div class="box2">
                 <!-- Output text-->
-                <div class="output-p" contenteditable="true" readonly>
+                <div class="output-p" readonly>
                     <p class="test outputText" id="text-output">
                     </p>
                 </div>
@@ -190,9 +190,7 @@ require ("utilities/recent_text_translation.php");
             </div>
         </div>
         <div class="feedback">
-            <a href="feedback">
-                <p> send feedback </p>
-            </a>
+            <button id="open-feedback">send feedback</button>
         </div>
         <!-- dictionary-->
         <div class="dict-div">
@@ -208,13 +206,52 @@ require ("utilities/recent_text_translation.php");
         </form>
     </div>
     </div>
+    <div class="feedback-sidebar">
+        <div class="feedbackcontainer">
+            <div class="feedbackheader">
+                <h3>Send Feedback to Voce</h3>
+                <button class="close-feedback"
+                    onclick="document.querySelector('.feedback-sidebar').classList.remove('active'); document.querySelector('#overlay').classList.remove('active');">X</button>
+            </div>
+            <form method="post" action="index.php">
+                <h2>Tell us what you think!</h2>
+                <!--  <h5 id="contact-error" style="<?php echo "color: " . $contact_color . ";" ?? ''; ?>">
+                    <?php echo htmlspecialchars($contact_message) ?? ''; ?>
+                    <h5> -->
+                <div class="input-form">
+                    <input type="text" name="contact_name" class="form-control name-form" id="name"
+                        placeholder="Your Name">
+                </div>
+                <div class="input-form">
+                    <input type="text" class="form-control subject-form" name="contact_subject" id="subject"
+                        placeholder="Subject">
+                </div>
+                <div class="feedback-textfield">
+                    <textarea class="form-control no-resize" name="contact_message" rows="5"
+                        placeholder="Message"></textarea>
+                </div>
+                <br />
+                <div class="text-center"><button type="submit" class="feedback-button" name="contact_submit">Send
+                        Message</button></div>
+        </div>
+    </div>
+    </form>
+    <script src="scripts/landingpage.js"></script>
+    <script>
+        const openFeedbackBtn = document.getElementById('open-feedback');
+        const feedbackSidebar = document.querySelector('.feedback-sidebar');
 
+        openFeedbackBtn.addEventListener('click', () => {
+            feedbackSidebar.classList.toggle('active');
+        });
 
+        // Get a reference to the submit button (if needed for future functionality)
+        const submitBtn = feedbackSidebar.querySelector('button');
 
-
-
+    </script>
 
     <script src="scripts/dictionary.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"
@@ -224,6 +261,7 @@ require ("utilities/recent_text_translation.php");
     <script src="scripts/translation_process2.js"></script>
     <script src="scripts/newindex.js"></script>
     <!-- <script src="scripts/delete.js"></script> -->
+
 
 
 

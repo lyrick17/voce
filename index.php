@@ -118,6 +118,7 @@ require ("utilities/recent_audio_translation.php");
                     <label class="label1">
                         Source language:
                     </label>
+                    &nbsp&nbsp
                     <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
                         <?php $textid = $_SESSION['recent_audio'];
                         $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE text_id = '$textid' AND from_audio_file = 1 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
@@ -145,6 +146,7 @@ require ("utilities/recent_audio_translation.php");
                     <label class="label1">
                         Target language:
                     </label>
+                    &nbsp&nbsp
                     <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
                         <?php echo $data[5] ?? ''; ?>
                     <?php else: ?>
@@ -173,7 +175,7 @@ require ("utilities/recent_audio_translation.php");
                         }
                         ?>
 
-                                                                                    </textarea>
+                                                                                            </textarea>
                     </div>
                     <!-- former button before updating ui 
                         <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
@@ -186,7 +188,7 @@ require ("utilities/recent_audio_translation.php");
                                 echo $data[7] ?? '';
                             }
                             ?>
-                                                                                                                                                                                                                                                                                                        </textarea>
+                                                                                                                                                                                                                                                                                                                </textarea>
                     </div>
                 </div>
             <?php else: ?>
