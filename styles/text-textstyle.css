@@ -491,7 +491,19 @@ option {
   display: flex;
   width: 80%;
   justify-content: flex-end;
-  flex-direction: row;
+  margin-top: 5px;
+}
+
+.feedback button {
+  border: none;
+  cursor: pointer;
+  background-color: #fffafa;
+  font-style: italic;
+  font-size: 14px;
+}
+
+.feedback button:hover {
+  text-decoration: underline;
 }
 
 .tryagain {
@@ -513,4 +525,86 @@ option {
 .outputText {
   margin: 0;
   padding: 5px;
+}
+
+.word-span {
+  cursor: pointer;
+}
+
+.word-span:hover {
+  background-color: lightblue;
+}
+
+.feedback-sidebar {
+  position: fixed;
+  right: -300px; /* Move sidebar off-screen to the right */
+  top: 0;
+  width: 300px;
+  background-color: #f5f5f5;
+  padding: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  visibility: hidden; /* Initially hidden */
+  z-index: 3;
+  height: 100vh;
+}
+
+.feedbackheader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.feedbackheader button {
+  border: none;
+  cursor: pointer;
+  padding: 20px;
+  font-size: 20px;
+  background-color: none;
+}
+
+.feedback-sidebar.active {
+  /* Style for sidebar when opened */
+  right: 0; /* Slide sidebar into view from the right */
+  visibility: visible;
+  display: flex;
+}
+
+.feedbackcontainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.feedbackcontainer input {
+  border-radius: 10px;
+}
+
+.text-center {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.text-center button {
+}
+.feedback-textfield {
+  margin-top: 20px;
+  width: 100%;
+  position: relative;
+}
+.no-resize {
+  resize: none;
+  width: 90%;
+  padding: 10px;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.input-form {
+  margin-top: 20px;
+}
+
+.input-form input {
+  border: 20px;
+  padding: 10px;
 }

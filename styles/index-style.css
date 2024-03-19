@@ -277,11 +277,14 @@ textarea {
 .language-selector {
   display: flex;
   align-items: center;
+  font-family: "Poppins";
+  font-weight: 600;
+  margin: 0;
+  font-size: 20px;
+  color: #333333;
+  text-transform: capitalize;
 }
 
-.language-selector span {
-  margin-left: 5px;
-}
 .language-selector .label1 {
   font-weight: 600;
   margin: 0;

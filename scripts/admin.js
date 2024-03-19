@@ -164,14 +164,17 @@ fetchPromise.then((response) =>
             label: 'Total translations',
             data: graphData['pie_values'],
             backgroundColor: [
-              'rgba(255, 255, 255, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-              'rgba(0, 0, 0, 0.2)'
+              // 'rgba(255, 255, 255, 0.2)',
+              // 'rgba(54, 162, 235, 0.2)',
+              // 'rgba(255, 206, 86, 0.2)',
+              // 'rgba(75, 192, 192, 0.2)',
+              // 'rgba(153, 102, 255, 0.2)',
+              // 'rgba(255, 159, 64, 0.2)',
+              // 'rgba(0, 0, 0, 0.2)'
             ],
+            labelFont: {
+              size: 69
+            },
             borderColor: [
               'rgba(255, 26, 104, 1)',
               'rgba(54, 162, 235, 1)',
@@ -318,7 +321,7 @@ fetchPromise.then((response) =>
           options: {
             plugins: {
               customCanvasBackgroundColor: {
-                color: '#fccdcd',
+                color: 'white',
               }
             },
             scales: {

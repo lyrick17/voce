@@ -1,4 +1,4 @@
-<div class="sidebar" style="display: none;">
+<div class="sidebar">
     <div class="top-iconsheader">
         <div class="top-icons">
             <a href=""><img src="images/anti-clockwise.png" alt="Language Icon" width="30px"></a>
