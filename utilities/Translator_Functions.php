@@ -390,5 +390,10 @@ class Translator{
             exit();
         }
     }
+
+    static function dd($arr){
+        var_dump($arr);
+        exit();
+    }
 }
 ?>
