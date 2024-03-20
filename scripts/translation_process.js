@@ -202,16 +202,32 @@ form.addEventListener('submit', function(e) {
 
     // each step would receive a response if the step has an error, or success
     //  proceed on next steps if no error, otherwise, break process
+
+const controller = new AbortController();
+const signal = controller.signal;
+
+    const abortListener = () => abortTranslation(e);
+
 async function translationProcess(audio_info) {
     // step 1
     let data = await fetch('utilities/audio_translation.php', {
                         method: "POST",
                         body: audio_info,
+                        signal: signal,
                     })
                     .then(response => response.json());
-                    
-                    
+
+    window.onbeforeunload = function(e) {
+        console.log("Unloading");
+        e.returnValue = "Browser unloading.";
+        if (controller){
+            controller.abort();
+        }
+    };
+
     let removeBGM = data.removeBGM ? data.removeBGM : ' ';
+
+
 
     // step 2 to 5
     if (data.error == 0) {
@@ -234,7 +250,7 @@ async function translationProcess(audio_info) {
             // console.log(data);
         }
     }
-
+    window.onbeforeunload = null;
     finishProcess(data.error);
 
 }
@@ -262,7 +278,8 @@ function checkFileSize(uploadField) {
 
 function finishProcess(errornumber) {
     if (errornumber == 0) {
-        window.location.href = "index.php?translated=1";
+        window.location.href =  "index.php?translated=1";
+        // 
     } else {
         window.location.href = "index.php?error=" + errornumber;
     }

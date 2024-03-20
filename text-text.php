@@ -34,7 +34,7 @@ require ("utilities/recent_text_translation.php");
     </div>
 </div> -->
 
-<body>
+<body id = "t2t-body">
     <!-- Main Content -->
 
     <!-- Navbar -->

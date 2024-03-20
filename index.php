@@ -35,13 +35,24 @@ require ("utilities/recent_audio_translation.php");
 
 </head>
 
-<body>
+<!-- Confirm delete window 
+<div class="delete-window">
+    <div class="confirm-div">
+        <h4 class="confirm-text"></h4>
+        <div class="confirm-btn-div">
+            <button class="confirm-btn confirm-yes">Yes</button>
+            <button class="confirm-btn confirm-no">No</button>
+        </div>
+    </div>
+</div> -->
+
+<body id = "a2t-body">
 
     <!-- Navbar -->
     <nav>
         <div class="logo">
             <a href="index.php"> <img src="images/logo.png" alt="Voce logo"></a>
-            <span>Text Translator</span>
+            <span>Audio Translator</span>
         </div>
     </nav>
     <!-- End of Navbar -->
