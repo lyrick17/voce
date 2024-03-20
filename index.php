@@ -56,7 +56,6 @@ require ("utilities/recent_audio_translation.php");
         </div>
     </nav>
     <!-- End of Navbar -->
-    <?php include ("sidebar.php") ?>
     <div class="main-content">
 
         <div id="loadingModal" class="modalloading">
