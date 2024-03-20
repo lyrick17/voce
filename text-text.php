@@ -228,6 +228,7 @@ require ("utilities/recent_text_translation.php");
         </div>
     </div>
     </form>
+    <script src="scripts/landingpage.js"></script>
     <script>
         function updateBox2Height() {
             const outputP = document.querySelector(".outputText");

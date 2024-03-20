@@ -306,6 +306,21 @@ require ("utilities/recent_audio_translation.php");
 
                     <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
 
+    <br>
+    
+    <nav>
+        <div class="footer">
+        <div>
+            <a href="faqs.php">FAQs</a>
+            <a href="about.php">About Voce</a>
+        </div>
+        <div >
+            <span>Voce © 2024. All Rights Reserved</span>
+        </div>
+        </div>
+    </nav>
+
+
     <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
