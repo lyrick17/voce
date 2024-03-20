@@ -6,12 +6,15 @@ require ("common_languages.php"); // Translator_Functions and Error Habdling are
 // consider if javascript is turned off,
 
 
+
 if (!isset ($_SESSION['a_info']))
     $_SESSION['a_info'] = array();
 // $_SESSION['a_info']['newfile'] contains new Filename
 // $_SESSION['a_info']['text'] contains transcript text from Whisper
 // $_SESSION['a_info']['lang'] contains transcript language from Whisper
 // $_SESSION['a_info']['output'] contains result text which is translated from API
+
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // required for uploading the file

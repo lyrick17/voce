@@ -46,7 +46,7 @@ require ("utilities/recent_audio_translation.php");
     </div>
 </div> -->
 
-<body>
+<body id = "a2t-body">
 
     <!-- Navbar -->
     <nav>
