@@ -103,7 +103,7 @@ yesBtn.addEventListener("click", () => {
     fd.append('filesToDelete', JSON.stringify(filesToDelete));
     fd.append('rowsToDelete', JSON.stringify(rowsToDelete));
     
-    fetch('delete_query.php',{
+    fetch('utilities/delete_query.php',{
         method : 'post', 
         body: fd})
         .then((res) => res.json()) // Converts response to JSON

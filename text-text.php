@@ -33,7 +33,7 @@ require ("utilities/recent_text_translation.php");
     </div>
 </div> -->
 
-<body>
+<body id = "t2t-body">
     <!-- Main Content -->
 
     <!-- Navbar -->
@@ -205,11 +205,9 @@ require ("utilities/recent_text_translation.php");
                 <button class="close-feedback"
                     onclick="document.querySelector('.feedback-sidebar').classList.remove('active'); document.querySelector('#overlay').classList.remove('active');">X</button>
             </div>
-            <form method="post" action="index.php">
-                <h2>Tell us what you think!</h2>
-                <!--  <h5 id="contact-error" style="<?php echo "color: " . $contact_color . ";" ?? ''; ?>">
-                    <?php echo htmlspecialchars($contact_message) ?? ''; ?>
-                    <h5> -->
+            <form method="post" action="index.php" id="contact-form">
+                <h3>Tell us what you think!</h3>
+                <span id="contact-return-message"></span>
                 <div class="input-form">
                     <input type="text" name="contact_name" class="form-control name-form" id="name"
                         placeholder="Your Name">
@@ -223,11 +221,14 @@ require ("utilities/recent_text_translation.php");
                         placeholder="Message"></textarea>
                 </div>
                 <br />
-                <div class="text-center"><button type="submit" class="feedback-button" name="contact_submit">Send
-                        Message</button></div>
+                <div class="text-center">
+                    <button type="submit" class="feedback-button" name="contact_submit">
+                        Send Message
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-    </form>
     <script src="scripts/landingpage.js"></script>
     <script>
         function updateBox2Height() {

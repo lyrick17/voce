@@ -46,17 +46,16 @@ require ("utilities/recent_audio_translation.php");
     </div>
 </div> -->
 
-<body>
+<body id = "a2t-body">
 
     <!-- Navbar -->
     <nav>
         <div class="logo">
             <a href="index.php"> <img src="images/logo.png" alt="Voce logo"></a>
-            <span>Text Translator</span>
+            <span>Audio Translator</span>
         </div>
     </nav>
     <!-- End of Navbar -->
-    <?php include ("sidebar.php") ?>
     <div class="main-content">
 
         <div id="loadingModal" class="modalloading">
