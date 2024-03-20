@@ -189,7 +189,7 @@ require ("utilities/recent_text_translation.php");
             </div>
         </div>
         <div class="feedback">
-            <button id="open-feedback">send feedback</button>
+            <button type="button" id="open-feedback">send feedback</button>
         </div>
         <!-- dictionary-->
         <div class="dict-div">

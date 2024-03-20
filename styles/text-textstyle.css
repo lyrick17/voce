@@ -673,3 +673,32 @@ p::-webkit-scrollbar {
     width: 80vw;
   }
 }
+
+
+nav .footer {
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 55px;
+  margin-right: 55px;
+  text-align: center;
+  padding: 15px;
+  bottom: 0;
+}
+nav .footer a {
+  padding: 10px;
+  text-decoration: none;
+  font-family: "Poppins", sans-serif;
+  color: white;
+  align-items: center;
+}
+nav .footer a:hover {
+  color: rgb(0, 0, 0);
+  transition: 0.3s ease;
+}
+nav .footer span {
+  padding: 10px;
+  text-decoration: none;
+  font-family: "Poppins", sans-serif;
+  color: white;
+  align-items: center;
+}

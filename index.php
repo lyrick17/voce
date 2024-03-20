@@ -173,9 +173,7 @@ require ("utilities/recent_audio_translation.php");
                             if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
                                 echo $data[6] ?? '';
                             }
-                            ?>
-
-                                                                                                                                                                                                                    </textarea>
+                            ?></textarea>
                     </div>
                     <!-- former button before updating ui 
                         <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
@@ -187,8 +185,7 @@ require ("utilities/recent_audio_translation.php");
                             if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
                                 echo $data[7] ?? '';
                             }
-                            ?>
-                                                                                                                                                                                                                                                                                                                                                                                                                                        </textarea>
+                            ?></textarea>
                     </div>
                 </div>
             <?php else: ?>
@@ -233,7 +230,7 @@ require ("utilities/recent_audio_translation.php");
 
         </div>
         <div class="feedback">
-            <button id="open-feedback">send feedback</button>
+            <button type="button" id="open-feedback">send feedback</button>
         </div>
         <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
             <a href="index.php"><button class="tryagain">Translate again</button></a>
@@ -253,11 +250,9 @@ require ("utilities/recent_audio_translation.php");
                 <button class="close-feedback"
                     onclick="document.querySelector('.feedback-sidebar').classList.remove('active'); document.querySelector('#overlay').classList.remove('active');">X</button>
             </div>
-            <form method="post" action="index.php">
-                <h2>Tell us what you think!</h2>
-                <!--  <h5 id="contact-error" style="<?php echo "color: " . $contact_color . ";" ?? ''; ?>">
-                    <?php echo htmlspecialchars($contact_message) ?? ''; ?>
-                    <h5> -->
+            <form method="post" action="index.php" id="contact-form">
+                <h3>Tell us what you think!</h3>
+                <span id="contact-return-message"></span>
                 <div class="input-form">
                     <input type="text" name="contact_name" class="form-control name-form" id="name"
                         placeholder="Your Name">
@@ -273,9 +268,9 @@ require ("utilities/recent_audio_translation.php");
                 <br />
                 <div class="text-center"><button type="submit" class="feedback-button" name="contact_submit">Send
                         Message</button></div>
+            </form>
         </div>
     </div>
-    </form>
     <!-- Live Recording 
                 <div class="container">
                     <input type="hidden" name="record" />
@@ -330,6 +325,7 @@ require ("utilities/recent_audio_translation.php");
         integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="scripts/index.js"></script>
+    <script src="scripts/contact.js"></script>
     <script src="scripts/translation_process.js"></script>
 </body>
 
