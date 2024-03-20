@@ -272,6 +272,8 @@ require ("utilities/recent_text_translation.php");
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="scripts/index.js"></script>
     <script src="scripts/translation_process2.js"></script>
+    <script src="scripts/newindex.js"></script>
+    <script src="scripts/contact.js"></script>
     <!-- <script src="scripts/delete.js"></script> -->
 
 
