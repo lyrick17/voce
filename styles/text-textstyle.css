@@ -674,7 +674,6 @@ p::-webkit-scrollbar {
   }
 }
 
-
 nav .footer {
   justify-content: flex-start;
   align-items: center;
@@ -702,3 +701,4 @@ nav .footer span {
   color: white;
   align-items: center;
 }
+
