@@ -55,7 +55,9 @@ function setupStream(stream) {
 
     console.log('setup');
     
-    mic_btn.innerHTML = "Stop Recording";
+    mic_btn.innerHTML = '<i class="fa fa-stop-circle" style="font-size:150px;" ></i>';
+    mic_btn.classList.add("recording");
+    
 
     // ------ RECORDER START ---------------
         recorder.start();
@@ -81,7 +83,8 @@ function setupStream(stream) {
             playback.src = audioURL;
 
             resetUpload();                                      // remove uploaded files if there is any
-            mic_btn.innerHTML = "Record Now";
+            mic_btn.innerHTML = '<i class="fa fa-microphone" style="font-size:150px;"></i>';
+            mic_btn.classList.remove("recording");
         }
     
     // ------ FOR DETECTING SILENCE ---------------

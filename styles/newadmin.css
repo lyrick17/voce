@@ -196,13 +196,6 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
   display: none;
 }
 
-.donut-container canvas {
-  min-height: 300px !important;
-}
-
-#donutCanvas {
-  font-size: large !important;
-}
 #myChart {
   min-width: 700px !important;
   min-height: 300px !important;

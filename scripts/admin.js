@@ -173,7 +173,7 @@ fetchPromise.then((response) =>
               // 'rgba(0, 0, 0, 0.2)'
             ],
             labelFont: {
-              size: 69
+              size: 69,
             },
             borderColor: [
               'rgba(255, 26, 104, 1)',

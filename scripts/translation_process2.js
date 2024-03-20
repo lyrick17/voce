@@ -70,10 +70,11 @@ function displayTranslation(data) {
     console.log(words);
     let tags = "";
     for(let i = 0; i < words.length; i++){
-        tags +=  "<span class ='word-span'>" + words[i] +"</span>";
+        tags +=  "<span class ='word-span'> " + words[i] +"</span> ";
     }
 
     document.querySelector(".outputText").innerHTML = tags;
+    updateBox2Height();
 
     const wordSpans = document.querySelectorAll(".word-span");
     const displayWord = document.querySelector(".hovered-word");
