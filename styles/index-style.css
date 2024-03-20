@@ -1,3 +1,5 @@
+@import url("https://unpkg.com/css.gg@2.0.0/icons/css/mic.css");
+
 html {
   margin: 0;
   font-family: "Poppins", sans-serif;
@@ -140,6 +142,7 @@ textarea {
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   z-index: 0;
+  justify-content: center;
 }
 
 .box2 {
@@ -244,7 +247,7 @@ textarea {
 .header-downloadfile {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   width: 100%;
   padding: 5px;
 }
@@ -270,9 +273,8 @@ textarea {
 .language-selector-wrapper {
   display: flex;
   width: 50%;
-
+  justify-content: center;
   padding: 20px;
-  justify-content: flex-start;
 }
 .language-selector {
   display: flex;
@@ -423,12 +425,16 @@ textarea {
   height: 500px;
 }
 
+textarea::-webkit-scrollbar {
+  width: 0px;
+}
 .details {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 .details button {
   appearance: none;
@@ -437,6 +443,7 @@ textarea {
   cursor: pointer;
   background: none;
   color: crimson;
+  border-radius: 50%;
 }
 .modalloading {
   display: none;
@@ -483,7 +490,19 @@ textarea {
   display: flex;
   width: 80%;
   justify-content: flex-end;
-  flex-direction: row;
+  margin-top: 5px;
+}
+
+.feedback button {
+  border: none;
+  cursor: pointer;
+  background-color: #fffafa;
+  font-style: italic;
+  font-size: 14px;
+}
+
+.feedback button:hover {
+  text-decoration: underline;
 }
 
 .tryagain {
@@ -495,18 +514,7 @@ textarea {
   border-radius: 5px;
   cursor: pointer;
   font-size: 24px;
-  position: fixed;
   font-family: "Poppins", sans-serif;
-  position: absolute;
-  margin-right: 200px;
-  right: 0;
-}
-
-.mic-toggle {
-  appearance: none; /* Remove default button styles */
-  border: none; /* Remove default border */
-  background: transparent; /* Make background transparent */
-  cursor: pointer; /* Indicate clickable behavior */
 }
 
 select {
@@ -527,6 +535,173 @@ select {
 }
 option {
   text-transform: capitalize;
+}
+.mic-toggle.recording {
+  /* Target the button with recording class */
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.feedback-sidebar {
+  position: fixed;
+  right: -300px; /* Move sidebar off-screen to the right */
+  top: 0;
+  width: 300px;
+  background-color: #f5f5f5;
+  padding: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  visibility: hidden; /* Initially hidden */
+  z-index: 3;
+  height: 100vh;
+}
+
+.feedbackheader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.feedbackheader button {
+  border: none;
+  cursor: pointer;
+  padding: 20px;
+  font-size: 20px;
+  background-color: none;
+}
+
+.feedback-sidebar.active {
+  /* Style for sidebar when opened */
+  right: 0; /* Slide sidebar into view from the right */
+  visibility: visible;
+  display: flex;
+}
+
+.feedbackcontainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.feedbackcontainer input {
+  border-radius: 10px;
+}
+
+.feedback-textfield {
+  margin-top: 20px;
+  width: 100%;
+  position: relative;
+}
+.text-center {
+  display: flex;
+  justify-content: flex-end;
+}
+.no-resize {
+  resize: none;
+  width: 90%;
+  padding: 10px;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.input-form {
+  margin-top: 20px;
+}
+
+.input-form input {
+  border: 20px;
+  padding: 10px;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: rgba(255, 0, 0, 0.3);
+    border-radius: 50%; /* Make it a circle */
+    width: 180px;
+    height: 180px;
+  }
+
+  100% {
+    background-color: transparent; /* Back to transparent */
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    z-index: 1;
+    align-items: center;
+  }
+  .language-selector-wrapper {
+    width: 100%;
+  }
+  .language-selector {
+    display: flex;
+    align-items: center;
+    font-family: "Poppins";
+    font-weight: 600;
+    margin: 0;
+    font-size: 20px;
+    color: #333333;
+    text-transform: capitalize;
+    flex-direction: column;
+  }
+  select {
+    border: 10px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-family: "Poppins", sans-serif;
+    padding: 20px;
+    width: 500px;
+    font-weight: 300;
+    display: flex;
+    height: 55px;
+    cursor: pointer;
+    padding: 0 16px;
+    border-radius: 8px;
+    align-items: center;
+    background: #fff;
+  }
+  .header-language {
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    align-items: center;
+  }
+  .box,
+  .box2 {
+    position: relative;
+    height: 300px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 80vw;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 0;
+    justify-content: center;
+  }
+}
+@media only screen and (max-width: 1008px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    z-index: 1;
+    align-items: center;
+  }
+  .header-language {
+    width: 100%;
+    flex-direction: column;
+  }
+  .box,
+  .box2 {
+    width: 80vw;
+  }
 }
 
 

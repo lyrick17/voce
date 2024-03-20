@@ -74,6 +74,7 @@ function displayTranslation(data) {
     }
 
     document.querySelector(".outputText").innerHTML = tags;
+    updateBox2Height();
 
     const wordSpans = document.querySelectorAll(".word-span");
     const displayWord = document.querySelector(".hovered-word");

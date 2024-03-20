@@ -168,13 +168,14 @@ require ("utilities/recent_audio_translation.php");
             <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
                 <div class="box">
                     <div class="text-section">
-                        <textarea id="originalText" name="originalText" class="customtextfield" rows="4" readonly><?php
-                        if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
-                            echo $data[6] ?? '';
-                        }
-                        ?>
+                        <textarea id="originalText" name="originalText" class="customtextfield" rows="4"
+                            readonly><?php
+                            if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
+                                echo $data[6] ?? '';
+                            }
+                            ?>
 
-                                                                                                </textarea>
+                                                                                                                                                                                                                    </textarea>
                     </div>
                     <!-- former button before updating ui 
                         <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
@@ -187,7 +188,7 @@ require ("utilities/recent_audio_translation.php");
                                 echo $data[7] ?? '';
                             }
                             ?>
-                                                                                                                                                                                                                                                                                                                    </textarea>
+                                                                                                                                                                                                                                                                                                                                                                                                                                        </textarea>
                     </div>
                 </div>
             <?php else: ?>
@@ -213,9 +214,8 @@ require ("utilities/recent_audio_translation.php");
                     <div class="details">
                         <input type="hidden" name="record" />
                         <button type="button" id="mic" class="mic-toggle hovering">
-                            <span class="material-symbols-outlined" style="font-size: 150px;">
-                                mic
-                            </span>
+                            <!-- <i class="gg-mic"></i> -->
+                            <i class="fa fa-microphone" style="font-size:150px;"></i>
                         </button>
                         <audio class="playback" controls></audio>
                     </div>
@@ -230,6 +230,10 @@ require ("utilities/recent_audio_translation.php");
                 <a href=""><img src="images/dictionary-icon.png" alt="Language Icon" width="30px"></a>
                 <label>Dictionary</label>
             </div>
+
+        </div>
+        <div class="feedback">
+            <button id="open-feedback">send feedback</button>
         </div>
         <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
             <a href="index.php"><button class="tryagain">Translate again</button></a>
@@ -239,6 +243,36 @@ require ("utilities/recent_audio_translation.php");
         </form>
 
     </div>
+    <div class="feedback-sidebar">
+        <div class="feedbackcontainer">
+            <div class="feedbackheader">
+                <h3>Send Feedback to Voce</h3>
+                <button class="close-feedback"
+                    onclick="document.querySelector('.feedback-sidebar').classList.remove('active'); document.querySelector('#overlay').classList.remove('active');">X</button>
+            </div>
+            <form method="post" action="index.php">
+                <h2>Tell us what you think!</h2>
+                <!--  <h5 id="contact-error" style="<?php echo "color: " . $contact_color . ";" ?? ''; ?>">
+                    <?php echo htmlspecialchars($contact_message) ?? ''; ?>
+                    <h5> -->
+                <div class="input-form">
+                    <input type="text" name="contact_name" class="form-control name-form" id="name"
+                        placeholder="Your Name">
+                </div>
+                <div class="input-form">
+                    <input type="text" class="form-control subject-form" name="contact_subject" id="subject"
+                        placeholder="Subject">
+                </div>
+                <div class="feedback-textfield">
+                    <textarea class="form-control no-resize" name="contact_message" rows="5"
+                        placeholder="Message"></textarea>
+                </div>
+                <br />
+                <div class="text-center"><button type="submit" class="feedback-button" name="contact_submit">Send
+                        Message</button></div>
+        </div>
+    </div>
+    </form>
     <!-- Live Recording 
                 <div class="container">
                     <input type="hidden" name="record" />
@@ -270,16 +304,6 @@ require ("utilities/recent_audio_translation.php");
 
 
                     <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
-
-
-    <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
-        <div class="download button" dir="rtl" id="download-file">
-            <form method="post" action="utilities/download_audio_output.php">
-                <button type="submit" name="text" style="padding:5px;">Download as Text File</button>
-                <button type="submit" name="word" style="padding:5px;">Download as Word File</button>
-            </form>
-        </div>
-    <?php endif; ?>
 
     <br>
     

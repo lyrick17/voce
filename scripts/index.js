@@ -1,5 +1,5 @@
 
-    document.addEventListener('DOMContentLoaded', function () {
+   /* document.addEventListener('DOMContentLoaded', function () {
         // Get all the cells with class 'truncate-text'
         var cells = document.querySelectorAll('.truncate-text');
     
@@ -46,7 +46,18 @@
                 modal.style.display = 'none';
             }
         });
+    }); */
+
+    const openFeedbackBtn = document.getElementById('open-feedback');
+    const feedbackSidebar = document.querySelector('.feedback-sidebar');
+
+    openFeedbackBtn.addEventListener('click', () => {
+        feedbackSidebar.classList.toggle('active');
     });
+
+    // Get a reference to the submit button (if needed for future functionality)
+    const submitBtn = feedbackSidebar.querySelector('button');
+    
     // modal for loading the duck
     function showLoading() {
         document.getElementById('loadingModal').style.display = 'flex';
