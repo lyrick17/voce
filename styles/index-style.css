@@ -99,7 +99,7 @@ nav .logo span {
   margin-bottom: 0;
   display: flex;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   margin-right: 0;
   transition: margin-right 0.5s ease;
   background-color: #fffafa;
@@ -539,6 +539,7 @@ nav .footer {
   margin-right: 55px;
   text-align: center;
   padding: 15px;
+  bottom: 0;
 }
 nav .footer a {
   padding: 10px;

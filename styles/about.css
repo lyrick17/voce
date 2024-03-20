@@ -1,0 +1,16 @@
+.about-section {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    display: inline;
+    padding: 0px 30px;
+    margin: 0px 20px;
+    align-items: start;
+    text-align: center;
+}
+.about-section2 {
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 10px;
+    padding: 0px 30px;
+    margin: 20px;
+    display: inline;
+}

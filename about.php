@@ -20,8 +20,8 @@ function dd($item)
     <!--<link rel="stylesheet" href="styles/style2.css"> -->
     <link rel="stylesheet" href="styles/simplePagination.css">
     <link rel="stylesheet" href="styles/index-style.css">
-    <link rel="stylesheet" href="styles/landingpage.css">
-    <title>Audio to Text Translation</title>
+    <link rel="stylesheet" href="styles/about.css">
+    <title>About Voce</title>
     <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,26 +48,36 @@ function dd($item)
     <div class="main-content" style="background: url('images/headset.jpg') center/cover no-repeat;">
 
         <div class="header">
-            <a href="text-text.php"><button><img src="images/translator.png" alt="Language Icon"
-                        width="30px">Text</button></a>
-            <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
-                    a File</button></a>
+            <a href="text-text.php"><button><img src="images/translator.png" alt="Language Icon" width="30px">Text</button></a>
+            <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload a File</button></a>
         </div>
         <!-- ======= Hero Section ======= -->
-        <section>
-
-            
-                <div class="" style="text-align:left">
-                <h1>Voce</h1>
-
-                <div><a href="text-text.php" class="btn-get-started rounded-pill scrollto">Get Started</a></div>
-                </div>
-
-        </section>
+        <div class="about-section header">
+            <img src="images/logo.png" alt="Voce logo" height="150">
+            <p><i>powered by Whisper and Google Translator</i></p>
+            <p style="font-size: 20px;">Unlock the power of your audio content by effortlessly translating it into another language</p>
+            <p style="font-size: 20px;">We provide Audio to Text translation services to allow you to translate your audio into another language</p>
+        </div>
         <br>
-
+        <br>
     </div>
-    
+    <div class="main-content">
+        <div class="about-section2 header">
+            <h2>Powered by <i>Whisper</i></h2>
+            <p>
+            Whisper AI is a state-of-the-art automatic speech recognition (ASR) system developed by OpenAI. 
+            It can convert spoken language into written text with high accuracy and efficiency.
+            Whisper AI has been trained to provide the best performance across a wide range of languages and dialects, making it capable of transcribing speech in various languages and domains.
+            Whisper is utilized to provide you the best services in Voce!
+            </p>
+        </div>
+        <div class="about-section2 header">
+            <h2>Powered by <i>Google Translator</i></h2>
+            <p>Google Translator is a powerful tool that would help people on communicating with different languages. 
+                It uses advanced technology to automatically translate text from one language to another. This technology
+                is utilizied on both Voce's Audio to Text and Text to Text translation services.</p>
+        </div>
+    </div>
     <br>
     
     <nav>

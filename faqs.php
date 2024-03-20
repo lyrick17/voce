@@ -6,10 +6,6 @@ function dd($item)
     var_dump($item);
     exit();
 }
-
-require ("utilities/common_languages.php"); // Translator_Functions and Error Handling are alr required in this file
-require ("utilities/recent_audio_translation.php");
-
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +18,7 @@ require ("utilities/recent_audio_translation.php");
     <!--<link rel="stylesheet" href="styles/style2.css"> -->
     <link rel="stylesheet" href="styles/simplePagination.css">
     <link rel="stylesheet" href="styles/index-style.css">
-    <title>Audio to Text Translation</title>
+    <title>FAQs Voce</title>
     <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
