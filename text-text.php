@@ -199,13 +199,6 @@ require ("utilities/recent_text_translation.php");
         </div>
 
     </div>
-        <div class="download button" dir="rtl" id="download-file" style="display:none;">
-            <form method="post" action="utilities/download_text_output.php">
-                <button type="submit" name="text" style="padding:5px;">Download as Text File</button>
-                <button type="submit" name="word" style="padding:5px;">Download as Word File</button>
-            </form>
-        </div>
-    </div>
     <div class="feedback-sidebar">
         <div class="feedbackcontainer">
             <div class="feedbackheader">

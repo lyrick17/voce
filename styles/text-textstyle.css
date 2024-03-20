@@ -609,6 +609,61 @@ option {
   padding: 10px;
 }
 
+@media only screen and (max-width: 640px) {
+  select {
+    width: 100px; /* Change width to auto here */
+  }
+}
+@media only screen and (max-width: 960px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    z-index: 1;
+    align-items: center;
+  }
+  .language-selector-wrapper {
+    justify-content: center;
+  }
+  .language-selector {
+    display: flex;
+    align-items: center;
+    font-family: "Poppins";
+    font-weight: 600;
+    margin: 0;
+    font-size: 20px;
+    color: #333333;
+    text-transform: capitalize;
+    flex-direction: column;
+  }
+  select {
+    width: 500px;
+    align-items: center;
+  }
+  .header-language {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+  .box,
+  .box2 {
+    width: 80vw;
+  }
+}
+@media only screen and (max-width: 1008px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    z-index: 1;
+    align-items: center;
+  }
+  .box,
+  .box2 {
+    width: 80vw;
+  }
+}
 
 nav .footer {
   justify-content: flex-start;
