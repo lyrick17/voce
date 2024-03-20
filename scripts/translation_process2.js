@@ -44,7 +44,7 @@ function translateInput() {
 function realTimeTranslate() {
     const form = document.getElementById("myForm");
     const text_info = new FormData(form);
-
+    console.log("translating");
     fetch('utilities/text_translation.php', {
         method: "POST",
         body: text_info,
@@ -74,13 +74,13 @@ function displayTranslation(data) {
     }
 
     document.querySelector(".outputText").innerHTML = tags;
+    updateBox2Height();
 
     const wordSpans = document.querySelectorAll(".word-span");
     const displayWord = document.querySelector(".hovered-word");
     const displayedMeaning = document.querySelector(".word-meaning");
 
 
-    console.log("HI THERE");
     const nonLetterRegex = /[^a-zA-Z'-]/g;
     wordSpans.forEach((wordspan) => {
     wordspan.addEventListener("click", () => {

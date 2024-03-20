@@ -18,7 +18,6 @@ require ("utilities/recent_text_translation.php");
     <title>Text to Text Translation</title>
     <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
 
 
 </head>
@@ -245,20 +244,41 @@ require ("utilities/recent_text_translation.php");
     </nav>
     <script src="scripts/landingpage.js"></script>
     <script>
-        const openFeedbackBtn = document.getElementById('open-feedback');
-        const feedbackSidebar = document.querySelector('.feedback-sidebar');
+        function updateBox2Height() {
+            const outputP = document.querySelector(".outputText");
+            const padding = parseInt(getComputedStyle(outputP).paddingTop) + parseInt(getComputedStyle(outputP).paddingBottom);
+            const newHeight = outputP.scrollHeight + padding + "px";
 
-        openFeedbackBtn.addEventListener('click', () => {
-            feedbackSidebar.classList.toggle('active');
+            const box2 = outputP.closest('.box2');
+            box2.style.height = newHeight;
+        }
+
+        // Adapting box1's logic for box2:
+        const outputP = document.querySelector(".outputText");
+        outputP.addEventListener("input", () => { // Use "input" event for broader compatibility
+            updateBox2Height();
         });
+    </script>
+    <script>
+        const textInput = document.getElementById('text-input');
+        const container = textInput.closest('.box'); // Get the closest parent box
 
-        // Get a reference to the submit button (if needed for future functionality)
-        const submitBtn = feedbackSidebar.querySelector('button');
 
+        textInput.addEventListener('input', function () {
+            const desiredHeight = this.scrollHeight + parseInt(getComputedStyle(this).paddingTop) + parseInt(getComputedStyle(this).paddingBottom);
+            container.style.height = desiredHeight + 'px';
+        });
+    </script>
+    <script>
+        const textarea = document.querySelector("textarea");
+        textarea.addEventListener("keyup", e => {
+            textarea.style.height = "63px";
+            let scHeight = e.target.scrollHeight;
+            textarea.style.height = `${scHeight}px`;
+        });
     </script>
 
-    <script src="scripts/dictionary.js"></script>
-
+    <script src="scripts/landingpage.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"
