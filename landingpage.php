@@ -1,6 +1,5 @@
 <?php include ("mysql/mysqli_registration.php");
 
-require ("utilities/contact.php");
 
 ?>
 
@@ -29,6 +28,7 @@ require ("utilities/contact.php");
 </head>
 
 <body style="background: url('images/headset.jpg') center/cover no-repeat;">
+
 
   <header id="header">
     <div class="container d-flex align-items-center justify-content-between">

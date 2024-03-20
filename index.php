@@ -35,17 +35,6 @@ require ("utilities/recent_audio_translation.php");
 
 </head>
 
-<!-- Confirm delete window 
-<div class="delete-window">
-    <div class="confirm-div">
-        <h4 class="confirm-text"></h4>
-        <div class="confirm-btn-div">
-            <button class="confirm-btn confirm-yes">Yes</button>
-            <button class="confirm-btn confirm-no">No</button>
-        </div>
-    </div>
-</div> -->
-
 <body>
 
     <!-- Navbar -->
@@ -283,14 +272,18 @@ require ("utilities/recent_audio_translation.php");
     <?php endif; ?>
 
     <br>
-    <!-- Truncate Text -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p id="modalText"></p>
+    
+    <nav>
+        <div class="footer">
+        <div>
+            <a href="faqs.php">FAQs</a>
+            <a href="about.php">About Voce</a>
         </div>
-    </div>
-
+        <div >
+            <span>Voce © 2024. All Rights Reserved</span>
+        </div>
+        </div>
+    </nav>
 
 
     </div>

@@ -11,7 +11,7 @@ import subprocess
 import shlex
 
 dictionary = PyDictionary()
-model = whisper.load_model("medium")
+model = whisper.load_model("base")
 langs_dict = GoogleTranslator().get_supported_languages(as_dict=True) 
 app = Flask('lang_codes')
 
