@@ -108,61 +108,20 @@ Translator::checkConnection();
             <center> <img src="images/sadrobot.gif"></center>
         </div>
     </div>
-    <!-- Live Recording 
-                <div class="container">
-                    <input type="hidden" name="record" />
-                    <button type="button" id="mic" class="mic-toggle">Record Now</button>
-                    <audio class="playback" controls></audio>
-                </div> -->
-
-
-    <!-- <div class="container">
-                    <div class="wrapper">
-                        <header>Transcribe Now</header>
-
-
-                        <div class="upload-file" id="drop-zone" ondrop="fileDropHandler(event);"
-                            ondragover="dragOverHandler(event);" ondragenter="dragEnterHandler(event);"
-                            ondragleave="dragLeaveHandler(event);">
-                            <center><i class="bx bx-upload"></i></center>
-                            <p>Drag and Drop File to Upload</p>
-                        </div>
-                        <input class="file-input" type="file" name="user_file" id="fileInputLabel" for="fileInput">
-                        <input class="removeBGM" type="checkbox" name="removeBGM">
-                        <label for="removeBGM">Remove BGM <br> <span style="font-style: italic; color: red;">*Remove
-                                BGM
-                                before translating audio with music.</span></label>
-                        <br><span style="font-style: italic; color: red;">*Only a maximum of 60MB file is
-                            accepted.</span>
-                    </div> 
-
-
-
-                    <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
-
-
-    <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
-        <div class="download button" dir="rtl" id="download-file">
-            <form method="post" action="utilities/download_audio_output.php">
-                <button type="submit" name="text" style="padding:5px;">Download as Text File</button>
-                <button type="submit" name="word" style="padding:5px;">Download as Word File</button>
-            </form>
-        </div>
-    <?php endif; ?>
-
     <br>
-    <!-- Truncate Text -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p id="modalText"></p>
+    
+    <nav>
+        <div class="footer">
+        <div>
+            <a href="faqs.php">FAQs</a>
+            <a href="about.php">About Voce</a>
         </div>
+        <div >
+            <span>Voce © 2024. All Rights Reserved</span>
+        </div>
+        </div>
+    </nav>
     </div>
-
-
-
-    </div>
-
     <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
