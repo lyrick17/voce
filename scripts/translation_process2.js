@@ -173,5 +173,9 @@ function timerForSavingDB() {
     }, 3000); // save the translation to the database after 5 seconds
 }
 
+function capitalizeFirstLetter(str) {
+    str = str.toLowerCase()
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
 
