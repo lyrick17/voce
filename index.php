@@ -52,7 +52,7 @@ require ("utilities/recent_audio_translation.php");
     <nav>
         <div class="logo">
             <a href="index.php"> <img src="images/logo.png" alt="Voce logo"></a>
-            <span>Text Translator</span>
+            <span>Audio Translator</span>
         </div>
     </nav>
     <!-- End of Navbar -->
