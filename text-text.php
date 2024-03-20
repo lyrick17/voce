@@ -34,7 +34,7 @@ require ("utilities/recent_text_translation.php");
     </div>
 </div> -->
 
-<body id = "t2t-body">
+<body>
     <!-- Main Content -->
 
     <!-- Navbar -->
@@ -199,12 +199,12 @@ require ("utilities/recent_text_translation.php");
         </div>
 
     </div>
-    <div class="download button" dir="rtl" id="download-file" style="display:none;">
-        <form method="post" action="utilities/download_text_output.php">
-            <button type="submit" name="text" style="padding:5px;">Download as Text File</button>
-            <button type="submit" name="word" style="padding:5px;">Download as Word File</button>
-        </form>
-    </div>
+        <div class="download button" dir="rtl" id="download-file" style="display:none;">
+            <form method="post" action="utilities/download_text_output.php">
+                <button type="submit" name="text" style="padding:5px;">Download as Text File</button>
+                <button type="submit" name="word" style="padding:5px;">Download as Word File</button>
+            </form>
+        </div>
     </div>
     <div class="feedback-sidebar">
         <div class="feedbackcontainer">
@@ -237,6 +237,19 @@ require ("utilities/recent_text_translation.php");
             </form>
         </div>
     </div>
+
+
+    <nav>
+        <div class="footer">
+        <div>
+            <a href="faqs.php">FAQs</a>
+            <a href="about.php">About Voce</a>
+        </div>
+        <div >
+            <span>Voce © 2024. All Rights Reserved</span>
+        </div>
+        </div>
+    </nav>
     <script src="scripts/landingpage.js"></script>
     <script>
         const openFeedbackBtn = document.getElementById('open-feedback');

@@ -44,7 +44,7 @@ function dd($item)
         </div>
     </nav>
     <!-- End of Navbar -->
-    <?php include ("sidebar.php") ?>
+    
     <div class="main-content" style="background: url('images/headset.jpg') center/cover no-repeat;">
 
         <div class="header">
