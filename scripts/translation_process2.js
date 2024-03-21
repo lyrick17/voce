@@ -73,7 +73,10 @@ function displayTranslation(data) {
         tags +=  "<span class ='word-span'>" + words[i] +" </span>";
     }
 
-    document.querySelector(".outputText").innerHTML = tags;
+    if(targetLanguage.value == 'english')
+        document.querySelector(".outputText").innerHTML = tags;
+    else
+        document.querySelector(".outputText").innerHTML = data.translation;
     updateBox2Height();
 
     const wordSpans = document.querySelectorAll(".word-span");
