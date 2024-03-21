@@ -1,5 +1,5 @@
 <?php
- require("mysql/mysqli_connect.php"); 
+ require("../mysql/mysqli_connect.php"); 
 
 
 //total number of a2t/t2t translations. from current to past 6 days

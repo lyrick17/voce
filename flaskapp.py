@@ -12,7 +12,7 @@ import shlex
 
 words_def = pd.read_csv('scripts/cleaned_def.csv', sep=',',engine='python',encoding='utf-8-sig')
 words_def.set_index('Word', inplace=True)
-model = whisper.load_model("small")
+model = whisper.load_model("medium")
 langs_dict = GoogleTranslator().get_supported_languages(as_dict=True) 
 app = Flask('lang_codes')
 
