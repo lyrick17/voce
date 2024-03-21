@@ -739,3 +739,12 @@ nav .footer span {
   color: white;
   align-items: center;
 }
+
+.word-span {
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.word-span:hover {
+  background-color: lightblue;
+}

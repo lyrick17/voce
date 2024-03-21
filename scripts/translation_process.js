@@ -11,7 +11,8 @@
 const mic_btn = document.querySelector('#mic');
 const playback = document.querySelector(".playback");
 
-mic_btn.addEventListener("click", ToggleMic);
+if(mic_btn != null)
+    mic_btn.addEventListener("click", ToggleMic);
 
 let is_recording = false;
 let recorder = null;
@@ -177,35 +178,40 @@ function detectSound(analyser, domainData, bufferLength) {
 
 const uploadField = document.getElementById("fileInputLabel");
 
-uploadField.addEventListener("change", function() {
-    if (checkFileSize(this)) {      
-        resetRecord();              // reset the record once user uploads file
-    };
-});
+if(uploadField != null){
+    uploadField.addEventListener("change", function() {
+        if (checkFileSize(this)) {      
+            resetRecord();              // reset the record once user uploads file
+        };
+    });    
+}
 
 
 const form = document.getElementById("form");
 
-form.addEventListener('submit', function(e) {
-    console.log("aaaa");
-    e.preventDefault();
+if(form != null){
+    form.addEventListener('submit', function(e) {
+        console.log("aaaa");
+        e.preventDefault();
+    
+        const audio_info = new FormData(this);
+    
+        // add a 'step' data in the POST variables for server to detect what current step to take
+        // add a 'record' data in the POST variables if user recorded
+        audio_info.append('step', 1);
+        if (audio_blob) { audio_info.append('record', audio_blob); }
+    
+        console.log(audio_info.values());
+    
+        // validate if file is 60mb or there is a record
+        if (checkFileSize(uploadField) || audio_blob) {
+            translationProcess(audio_info);
+        } else {
+            removeLoading(); 
+        }
+    });
+}
 
-    const audio_info = new FormData(this);
-
-    // add a 'step' data in the POST variables for server to detect what current step to take
-    // add a 'record' data in the POST variables if user recorded
-    audio_info.append('step', 1);
-    if (audio_blob) { audio_info.append('record', audio_blob); }
-
-    console.log(audio_info.values());
-
-    // validate if file is 60mb or there is a record
-    if (checkFileSize(uploadField) || audio_blob) {
-        translationProcess(audio_info);
-    } else {
-        removeLoading(); 
-    }
-});
 
 
     // each step would receive a response if the step has an error, or success
@@ -333,4 +339,87 @@ function resetRecord() {
 
 function resetUpload() {
     uploadField.value = "";
+}
+
+function capitalizeFirstLetter(str) {
+    str = str.toLowerCase()
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+function displayTranslation(words){ 
+    words = words.split(" ");
+    console.log(words);
+    let tags = "";
+    for(let i = 0; i < words.length; i++){
+        tags +=  "<span class ='word-span'>" + words[i] +" </span>";
+    }
+    document.getElementById('translatedText').innerHTML = tags;
+    const wordSpans = document.querySelectorAll(".word-span");
+    const displayWord = document.querySelector(".hovered-word");
+    const displayedMeaning = document.querySelector(".word-meaning");
+
+
+    const nonLetterRegex = /[^a-zA-Z-]/g;
+    wordSpans.forEach((wordspan) => {
+    wordspan.addEventListener("click", () => {
+        console.log("clicked");
+        // Displays the word on the dictionary div 
+        displayedMeaning.textContent = "Loading";
+        let clickedWord = wordspan.textContent;
+        clickedWord = clickedWord.replace(nonLetterRegex, "")
+        displayWord.textContent = clickedWord;
+        displayMeaning(clickedWord);
+    });
+    });
+
+
+    
+    async function displayMeaning(word){
+        const data = new FormData();
+        data.append("word", capitalizeFirstLetter(word));
+
+        try{
+            await fetch('utilities/getmeaning.php', {
+                method : 'POST',
+                body: data
+            }).then((res) => res.json())
+            .then((response) => {
+
+
+                console.log(response);
+                console.log(typeof response['Definition'])
+                console.log(typeof response['POS'])
+                displayedMeaning.textContent = "";
+                const regex = /[^a-zA-Z]/g;
+                if(typeof response['Definition'] == 'object'){
+                    definition = response['Definition'];
+                    pos = response['POS'];
+
+                    for(let i = 0; i < pos.length; i++){
+                        displayedMeaning.innerHTML = displayedMeaning.innerHTML + `${pos[i].replace(regex, "")}
+                        - ${definition[i]} <br><br>`;
+                    }
+                }
+                else{
+                    displayedMeaning.innerHTML = displayedMeaning.innerHTML + `${response['POS'].replace(regex, "")}
+                    - ${response['Definition']} <br><br>`;
+                }
+
+            });
+        }
+        catch(err){
+            displayedMeaning.innerHTML = "";
+
+        }
+        
+    }
+}
+
+
+output = document.getElementById('translatedText');
+dictDiv = document.querySelector('.dict-div');
+
+// Displays definition of words if dictionary and output is not null
+if(output != null && dictDiv != null){
+    displayTranslation(output.textContent);
 }
