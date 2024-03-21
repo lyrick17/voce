@@ -425,6 +425,10 @@ textarea {
   height: 500px;
 }
 
+.customtextfield{
+  resize: none;
+}
+
 textarea::-webkit-scrollbar {
   width: 0px;
 }
