@@ -1,12 +1,12 @@
 <?php 
-
+require ("../mysql/mysqli_session.php");
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require "phpmailer/src/Exception.php";
-require "phpmailer/src/PHPMailer.php";
-require "phpmailer/src/SMTP.php";
+require "../phpmailer/src/Exception.php";
+require "../phpmailer/src/PHPMailer.php";
+require "../phpmailer/src/SMTP.php";
 
 require "smtp.php";
 
@@ -96,7 +96,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
         
     }
 
-
+    $json = ['message' => $contact_message, 'color' => $contact_color, 'error' => 0];
+    exit(json_encode($json));
 }
 
 function sanitize_input($post) {

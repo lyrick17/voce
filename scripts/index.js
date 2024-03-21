@@ -5,7 +5,6 @@
     
         // Get the modal and its close button
         var modal = document.getElementById('myModal');
-        var closeBtn = modal.querySelector('.close');
     
         // Iterate through each cell and add the truncation functionality
         cells.forEach(function (cell) {

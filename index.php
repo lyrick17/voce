@@ -46,17 +46,16 @@ require ("utilities/recent_audio_translation.php");
     </div>
 </div> -->
 
-<body>
+<body id = "a2t-body">
 
     <!-- Navbar -->
     <nav>
         <div class="logo">
             <a href="index.php"> <img src="images/logo.png" alt="Voce logo"></a>
-            <span>Text Translator</span>
+            <span>Audio Translator</span>
         </div>
     </nav>
     <!-- End of Navbar -->
-    <?php include ("sidebar.php") ?>
     <div class="main-content">
 
         <div id="loadingModal" class="modalloading">
@@ -305,6 +304,21 @@ require ("utilities/recent_audio_translation.php");
 
 
                     <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
+
+    <br>
+    
+    <nav>
+        <div class="footer">
+        <div>
+            <a href="faqs.php">FAQs</a>
+            <a href="about.php">About Voce</a>
+        </div>
+        <div >
+            <span>Voce © 2024. All Rights Reserved</span>
+        </div>
+        </div>
+    </nav>
+
 
     <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"

@@ -1,5 +1,5 @@
-//Requests graph data from graph_query.php
-const fetchPromise =  fetch('graph_query.php');
+//Requests graph data from utilities/graph_query.php
+const fetchPromise =  fetch('utilities/graph_query.php');
 let graphData = [];
 
 //Converts response to json after request is fulfilled

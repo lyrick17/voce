@@ -44,7 +44,7 @@ function translateInput() {
 function realTimeTranslate() {
     const form = document.getElementById("myForm");
     const text_info = new FormData(form);
-
+    console.log("translating");
     fetch('utilities/text_translation.php', {
         method: "POST",
         body: text_info,
@@ -70,7 +70,7 @@ function displayTranslation(data) {
     console.log(words);
     let tags = "";
     for(let i = 0; i < words.length; i++){
-        tags +=  "<span class ='word-span'> " + words[i] +"</span> ";
+        tags +=  "<span class ='word-span'>" + words[i] +" </span>";
     }
 
     document.querySelector(".outputText").innerHTML = tags;
@@ -81,7 +81,6 @@ function displayTranslation(data) {
     const displayedMeaning = document.querySelector(".word-meaning");
 
 
-    console.log("HI THERE");
     const nonLetterRegex = /[^a-zA-Z'-]/g;
     wordSpans.forEach((wordspan) => {
     wordspan.addEventListener("click", () => {
@@ -99,32 +98,41 @@ function displayTranslation(data) {
     
     async function displayMeaning(word){
         const data = new FormData();
-        data.append("word", word);
+        data.append("word", capitalizeFirstLetter(word));
 
-        await fetch('utilities/getmeaning.php', {
-            method : 'POST',
-            body: data
-        }).then((res) => res.json())
-        .then((response) => {
+        try{
+            await fetch('utilities/getmeaning.php', {
+                method : 'POST',
+                body: data
+            }).then((res) => res.json())
+            .then((response) => {
 
 
-            console.log(response);
-            displayedMeaning.textContent = "";
+                console.log(response);
+                console.log(typeof response['Definition'])
+                console.log(typeof response['POS'])
+                displayedMeaning.textContent = "";
+                const regex = /[^a-zA-Z]/g;
+                if(typeof response['Definition'] == 'object'){
+                    definition = response['Definition'];
+                    pos = response['POS'];
 
-            Object.keys(response).forEach(key => {
-                
-                displayedMeaning.innerHTML = displayedMeaning.innerHTML + String(key) + ": <br>";
-
-                for(let i = 0; i < response[key].length; i++){
-                    displayedMeaning.innerHTML = displayedMeaning.innerHTML + (i+1) + ".) " + response[key][i] + "<br>";
+                    for(let i = 0; i < pos.length; i++){
+                        displayedMeaning.innerHTML = displayedMeaning.innerHTML + `${pos[i].replace(regex, "")}
+                        - ${definition[i]} <br><br>`;
+                    }
+                }
+                else{
+                    displayedMeaning.innerHTML = displayedMeaning.innerHTML + `${response['POS'].replace(regex, "")}
+                    - ${response['Definition']} <br><br>`;
                 }
 
-                displayedMeaning.innerHTML = displayedMeaning.innerHTML + "<br>";
             });
+        }
+        catch(err){
+            displayedMeaning.innerHTML = "";
 
-
-
-        });
+        }
         
     }
 }
@@ -165,5 +173,9 @@ function timerForSavingDB() {
     }, 3000); // save the translation to the database after 5 seconds
 }
 
+function capitalizeFirstLetter(str) {
+    str = str.toLowerCase()
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
 
