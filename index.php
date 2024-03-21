@@ -173,7 +173,6 @@ require ("utilities/recent_audio_translation.php");
                             if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
                                 echo $data[6] ?? '';
                             }?></textarea>
-
                     </div>
                     <!-- former button before updating ui 
                         <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
