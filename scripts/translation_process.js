@@ -54,7 +54,8 @@ function setupStream(stream) {
     recorder = new MediaRecorder(stream);
 
     console.log('setup');
-    
+    playback.style.display = "none";    // temporarily remove the playback when recording
+
     mic_btn.innerHTML = '<i class="fa fa-stop-circle" style="font-size:150px;" ></i>';
     mic_btn.classList.add("recording");
     
@@ -73,14 +74,16 @@ function setupStream(stream) {
     // when we stop recording we can create a blob from the chunks - type: format; compression
         recorder.onstop = e => {
             console.log('stopped');
+            
             document.getElementById("audio-translate-btn").disabled = false;
             const blob = new Blob(chunks, { type: "audio/webm; codecs=opus"});
             audio_blob = blob;                                  // save blob on file for audio transfer to fetchapi
             chunks = [];                                        // reset the chunks
-
+            
             
             const audioURL = window.URL.createObjectURL(blob);  // display the recorded audio in the website
             playback.src = audioURL;
+            playback.style.display = "block";                   // bring back playback after recording
 
             resetUpload();                                      // remove uploaded files if there is any
             mic_btn.innerHTML = '<i class="fa fa-microphone" style="font-size:150px;"></i>';
@@ -143,8 +146,10 @@ function detectSound(analyser, domainData, bufferLength) {
                 if (is_recording) {
                     is_recording = false;
                     recorder.stop();
+                    
                     console.log("Silence detected, recording stopped.");
                     document.getElementById("audio-translate-btn").disabled = false;
+                    playback.style.display = "block";                   // bring back playback after recording
                 }
             }, 5000); // 5 seconds of silence to stop recording
         }

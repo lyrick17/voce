@@ -195,8 +195,7 @@ require ("utilities/recent_audio_translation.php");
                         <input class="file-input" type="file" name="user_file" id="fileInputLabel" for="fileInput"><br>
                         <div>
                             <input class="removeBGM" type="checkbox" name="removeBGM">
-                            <label for="removeBGM"><span style="font-style: italic; color: red;">*Remove BGM
-                                    before translating audio with music.</span></label>
+                            <label for="removeBGM"><span style="font-style: italic; color: red;">*Remove Background Noise / Music</span></label>
                         </div>
 
 

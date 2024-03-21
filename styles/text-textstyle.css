@@ -143,7 +143,6 @@ textarea {
   display: flex;
   flex-direction: column;
 
-  align-items: center;
   padding: 20px;
   width: 45vw; /* Adjust width for larger screens */
   border-top-right-radius: 10px;
