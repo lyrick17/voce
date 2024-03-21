@@ -179,12 +179,12 @@ require ("utilities/recent_audio_translation.php");
                 </div>
                 <div class="box2">
                     <div class="text-section">
-                        <textarea id="translatedText" name="translatedText" class="customtextfield" rows="4"
+                        <p id="translatedText" name="translatedText" class="customtextfield" rows="4"
                             readonly><?php
                             if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
                                 echo $data[7] ?? '';
                             }
-                            ?></textarea>
+                            ?></p>
                     </div>
                 </div>
             <?php else: ?>
@@ -234,10 +234,14 @@ require ("utilities/recent_audio_translation.php");
         <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
             <a href="index.php"><button class="tryagain">Translate again</button></a>
                     <!-- dictionary-->
-            <div class="dict-div">
-                <h2 class="hovered-word">Word</h2>
-                <p class="word-meaning">Meaning: </p>
-            </div>
+
+            <?php if ($data[5] == 'english') :?>
+                <div class="dict-div">
+                    <h2 class="hovered-word"></h2>
+                    <p class="word-meaning">Meaning: </p>
+                </div>
+            <?php endif; ?>
+
         <?php else: ?>
             <button type="submit" class="translate-button" id="audio-translate-btn">Translate</button>
         <?php endif; ?>
@@ -321,6 +325,7 @@ require ("utilities/recent_audio_translation.php");
 
     </div>
     <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"

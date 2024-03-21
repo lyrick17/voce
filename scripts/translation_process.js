@@ -11,7 +11,8 @@
 const mic_btn = document.querySelector('#mic');
 const playback = document.querySelector(".playback");
 
-mic_btn.addEventListener("click", ToggleMic);
+if(mic_btn != null)
+    mic_btn.addEventListener("click", ToggleMic);
 
 let is_recording = false;
 let recorder = null;
@@ -172,35 +173,40 @@ function detectSound(analyser, domainData, bufferLength) {
 
 const uploadField = document.getElementById("fileInputLabel");
 
-uploadField.addEventListener("change", function() {
-    if (checkFileSize(this)) {      
-        resetRecord();              // reset the record once user uploads file
-    };
-});
+if(uploadField != null){
+    uploadField.addEventListener("change", function() {
+        if (checkFileSize(this)) {      
+            resetRecord();              // reset the record once user uploads file
+        };
+    });    
+}
 
 
 const form = document.getElementById("form");
 
-form.addEventListener('submit', function(e) {
-    console.log("aaaa");
-    e.preventDefault();
+if(form != null){
+    form.addEventListener('submit', function(e) {
+        console.log("aaaa");
+        e.preventDefault();
+    
+        const audio_info = new FormData(this);
+    
+        // add a 'step' data in the POST variables for server to detect what current step to take
+        // add a 'record' data in the POST variables if user recorded
+        audio_info.append('step', 1);
+        if (audio_blob) { audio_info.append('record', audio_blob); }
+    
+        console.log(audio_info.values());
+    
+        // validate if file is 60mb or there is a record
+        if (checkFileSize(uploadField) || audio_blob) {
+            translationProcess(audio_info);
+        } else {
+            removeLoading(); 
+        }
+    });
+}
 
-    const audio_info = new FormData(this);
-
-    // add a 'step' data in the POST variables for server to detect what current step to take
-    // add a 'record' data in the POST variables if user recorded
-    audio_info.append('step', 1);
-    if (audio_blob) { audio_info.append('record', audio_blob); }
-
-    console.log(audio_info.values());
-
-    // validate if file is 60mb or there is a record
-    if (checkFileSize(uploadField) || audio_blob) {
-        translationProcess(audio_info);
-    } else {
-        removeLoading(); 
-    }
-});
 
 
     // each step would receive a response if the step has an error, or success
@@ -330,18 +336,19 @@ function resetUpload() {
     uploadField.value = "";
 }
 
-function displayTranslation(data) { 
-    let words = data.translation;
+function capitalizeFirstLetter(str) {
+    str = str.toLowerCase()
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+function displayTranslation(words){ 
     words = words.split(" ");
     console.log(words);
     let tags = "";
     for(let i = 0; i < words.length; i++){
         tags +=  "<span class ='word-span'>" + words[i] +" </span>";
     }
-
-    document.querySelector(".outputText").innerHTML = tags;
-    updateBox2Height();
-
+    document.getElementById('translatedText').innerHTML = tags;
     const wordSpans = document.querySelectorAll(".word-span");
     const displayWord = document.querySelector(".hovered-word");
     const displayedMeaning = document.querySelector(".word-meaning");
@@ -401,4 +408,13 @@ function displayTranslation(data) {
         }
         
     }
+}
+
+
+output = document.getElementById('translatedText');
+dictDiv = document.querySelector('.dict-div');
+
+// Displays definition of words if dictionary and output is not null
+if(output != null && dictDiv != null){
+    displayTranslation(output.textContent);
 }
