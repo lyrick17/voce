@@ -179,12 +179,13 @@ require ("utilities/recent_audio_translation.php");
                 </div>
                 <div class="box2">
                     <div class="text-section">
-                        <p id="translatedText" name="translatedText" class="customtextfield" rows="4"
+                        <p id="translatedText" name="translatedText" class="customtextfield" rows="4" style = "padding: 0; margin: 0;"
                             readonly><?php
                             if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
                                 echo $data[7] ?? '';
                             }
-                            ?></p>
+                            ?>
+                        </p>
                     </div>
                 </div>
             <?php else: ?>
