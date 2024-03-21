@@ -60,23 +60,40 @@ require ("utilities/recent_audio_translation.php");
 
         <div id="loadingModal" class="modalloading">
             <div class="modal-contentloading">
-                <img src="images/duckagain.gif" alt="Loading..." />
+                <img src="images/voce-loading.gif" alt="Loading..." />
                 <p id="loadingModalMessage">Loading....</p>
             </div>
         </div>
         <div class="header">
-            <a href="text-text.php"><button><img src="images/translator.png" alt="Language Icon"
-                        width="30px">Text</button></a>
-            <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
-                    a File</button></a>
+            <a href="text-text.php">
+                <button>
+                    <img src="images/translator.png" alt="Language Icon" width="30px">Text
+                </button>
+            </a>
+            <a href="index.php">
+                <button>
+                    <img src="images/music-file.png" alt="Language Icon" width="30px">Upload a File
+                </button>
+            </a>
+            <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == 1): ?>
+                <a href="admin.php">
+                    <button>
+                        <img src="images/admin.png" alt="Language Icon" width="30px">Admin
+                    </button>
+                </a>
+            <?php endif; ?>
         </div>
         <div class="header-downloadfile-wrapper">
             <div class="header-downloadfile" dir="rtl" id="download-file">
                 <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
                     <div class="download button" dir="rtl" id="download-file">
                         <form method="post" action="utilities/download_audio_output.php">
-                            <button type="submit" name="text" style="padding:5px;">Download as Text File</button>
-                            <button type="submit" name="word" style="padding:5px;">Download as Word File</button>
+                            <button type="submit" name="text" style="padding:5px;">
+                                <img src="images/write.png" alt="Language Icon" width="30px">Download as Text File
+                            </button>
+                            <button type="submit" name="word" style="padding:5px;">
+                                <img src="images/download.png" alt="Language Icon" width="30px">Download as Word File
+                            </button>
                         </form>
                     </div>
                 <?php endif; ?>

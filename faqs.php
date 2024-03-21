@@ -55,6 +55,13 @@ function dd($item)
                         width="30px">Text</button></a>
             <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
                     a File</button></a>
+            <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == 1): ?>
+                <a href="admin.php">
+                    <button>
+                        <img src="images/admin.png" alt="Language Icon" width="30px">Admin
+                    </button>
+                </a>
+            <?php endif; ?>
         </div>
         
         <div class="header-language selector">

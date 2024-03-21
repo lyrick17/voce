@@ -15,7 +15,7 @@ function dd($item)
     exit();
 }
 
-require "utilities/common_languages.php"; // Translator_Functions and Error Handling are alr required in this file
+require "utilities/Translator_Functions.php"; // Translator_Functions and Error Handling are alr required in this file
 require "utilities/verify_audio_files.php";
 $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
