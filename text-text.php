@@ -33,7 +33,7 @@ require ("utilities/recent_text_translation.php");
     </div>
 </div> -->
 
-<body id = "t2t-body">
+<body>
     <!-- Main Content -->
 
     <!-- Navbar -->
@@ -189,7 +189,7 @@ require ("utilities/recent_text_translation.php");
             </div>
         </div>
         <div class="feedback">
-            <button id="open-feedback">send feedback</button>
+            <button type="button" id="open-feedback">send feedback</button>
         </div>
         <!-- dictionary-->
         <div class="dict-div">
@@ -229,6 +229,19 @@ require ("utilities/recent_text_translation.php");
             </form>
         </div>
     </div>
+
+
+    <nav>
+        <div class="footer">
+        <div>
+            <a href="faqs.php">FAQs</a>
+            <a href="about.php">About Voce</a>
+        </div>
+        <div >
+            <span>Voce © 2024. All Rights Reserved</span>
+        </div>
+        </div>
+    </nav>
     <script src="scripts/landingpage.js"></script>
     <script>
         function updateBox2Height() {

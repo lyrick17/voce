@@ -1,6 +1,6 @@
-const form = document.getElementById("contact-form");
+const contactform = document.getElementById("contact-form");
 
-form.addEventListener('submit', function(e) {
+contactform.addEventListener('submit', function(e) {
     e.preventDefault();
     
     const contact_info = new FormData(this);
