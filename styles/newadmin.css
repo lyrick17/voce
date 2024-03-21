@@ -196,7 +196,16 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
   display: none;
 }
 
-#myChart {
-  min-width: 700px !important;
-  min-height: 300px !important;
+.donut-container {
+  min-height: fit-content;
+}
+
+.linechart-container {
+  width: 100%;
+  height: 100%;
+}
+
+.linechart-container #myChart {
+  min-width: 100%;
+  min-height: 100%;
 }

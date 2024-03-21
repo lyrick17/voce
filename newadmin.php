@@ -141,8 +141,40 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                     <div class="row">
                         <div class="col-md-4">
                             <div class="card">
-                                <div class="card-header">Pie Chart</div>
                                 <div class="card-body">
+                                    <h4>Total Audio Files uploaded</h4>
+                                    <h5 class="count">
+                                        <?= $num_of_files['total_files'] ?>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Total Text Translations</h4>
+                                    <h5 class="count">
+                                        <?= $num_of_t2t['total_t2t'] ?>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Total Audio Translations</h4>
+                                    <h5 class="count">
+                                        <?= $num_of_a2t['total_a2t'] ?>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">Pie Chart</div>
+                                <div class="card-body-md">
                                     <div class="donut-container">
                                         <br>
                                         <canvas id="donutCanvas"></canvas>
@@ -150,37 +182,12 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-5 linegraph">
+                        <div class="col-lg linegraph">
                             <div class="card ">
                                 <div class="card-header">Graph</div>
-                                <div class="card-body">
-                                    <p> <canvas id="myChart">
-                                        </canvas></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card">
-                                <div class="card-header">Monthly Statistics</div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <span>Total Audio Translations</span>
-                                                <span class="count">
-                                                    <?= $num_of_t2t['total_t2t'] ?>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <span>Total Audio Translations</span>
-                                                <span class="count">
-                                                    <?= $num_of_a2t['total_a2t'] ?>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="card-body-md linechart-container">
+                                    <canvas id="myChart">
+                                    </canvas>
                                 </div>
                             </div>
                         </div>
@@ -189,7 +196,7 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">Errors in Audio-Text</div>
-                                <div class="card-body">
+                                <div class="card-body-md">
                                     <canvas id="baraudio">
                                     </canvas>
                                 </div>
@@ -198,7 +205,7 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">Errors in Text-Text</div>
-                                <div class="card-body">
+                                <div class="card-body-md">
                                     <canvas id="bartext">
                                     </canvas>
                                 </div>
@@ -206,7 +213,7 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                         </div>
                     </div>
 
-                    <!-- Table Element -->
+                    <!-- Table Element 
                     <div class="card border-0">
                         <div class="card-header">
                             <h5 class="card-title">
@@ -248,13 +255,21 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="dlbtns-container">
                     <button class="dlpie-btn" href="#">Download Pie Graph</button>
                     <button class="dlgraph-btn" href="#">Download Line Graph</button>
                     <button class="dlbar1-btn" href="#">Download Text Errors Graph</button>
                     <button class="dlbar2-btn" href="#">Download Audio Errors Graph</button>
+                    <form method="post" action="newadmin.php">
+                        <button style="padding: 5px;" id="verify-files">
+                            <h3>Verify Audio Files</h3>
+                        </button>
+                    </form>
+                    <p>
+                        <?= $verify_message; ?>
+                    </p>
                 </div>
             </main>
             <a href="#" class="theme-toggle">
@@ -263,31 +278,6 @@ $num_of_a2t = mysqli_fetch_assoc($result);
             </a>
             <footer class="footer">
                 <div class="container-fluid">
-                    <div class="row text-muted">
-                        <div class="col-6 text-start">
-                            <p class="mb-0">
-                                <a href="#" class="text-muted">
-                                    <strong>CodzSwod</strong>
-                                </a>
-                            </p>
-                        </div>
-                        <div class="col-6 text-end">
-                            <ul class="list-inline">
-                                <li class="list-inline-item">
-                                    <a href="#" class="text-muted">Contact</a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#" class="text-muted">About Us</a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#" class="text-muted">Terms</a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#" class="text-muted">Booking</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
             </footer>
         </div>
