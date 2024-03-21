@@ -1,8 +1,2 @@
-from PyDictionary import PyDictionary
-
-
-dictionary = PyDictionary()
-
-
-
-print(dictionary.meaning("brother"))
+import pandas 
+print(pandas.__version__)

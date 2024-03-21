@@ -1,6 +1,5 @@
 from deep_translator import GoogleTranslator
 from flask import Flask, request, jsonify
-from PyDictionary import PyDictionary
 import pandas as pd
 import whisper
 import json
