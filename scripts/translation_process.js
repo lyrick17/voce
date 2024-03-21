@@ -329,3 +329,76 @@ function resetRecord() {
 function resetUpload() {
     uploadField.value = "";
 }
+
+function displayTranslation(data) { 
+    let words = data.translation;
+    words = words.split(" ");
+    console.log(words);
+    let tags = "";
+    for(let i = 0; i < words.length; i++){
+        tags +=  "<span class ='word-span'>" + words[i] +" </span>";
+    }
+
+    document.querySelector(".outputText").innerHTML = tags;
+    updateBox2Height();
+
+    const wordSpans = document.querySelectorAll(".word-span");
+    const displayWord = document.querySelector(".hovered-word");
+    const displayedMeaning = document.querySelector(".word-meaning");
+
+
+    const nonLetterRegex = /[^a-zA-Z-]/g;
+    wordSpans.forEach((wordspan) => {
+    wordspan.addEventListener("click", () => {
+        console.log("clicked");
+        // Displays the word on the dictionary div 
+        displayedMeaning.textContent = "Loading";
+        let clickedWord = wordspan.textContent;
+        clickedWord = clickedWord.replace(nonLetterRegex, "")
+        displayWord.textContent = clickedWord;
+        displayMeaning(clickedWord);
+    });
+    });
+
+
+    
+    async function displayMeaning(word){
+        const data = new FormData();
+        data.append("word", capitalizeFirstLetter(word));
+
+        try{
+            await fetch('utilities/getmeaning.php', {
+                method : 'POST',
+                body: data
+            }).then((res) => res.json())
+            .then((response) => {
+
+
+                console.log(response);
+                console.log(typeof response['Definition'])
+                console.log(typeof response['POS'])
+                displayedMeaning.textContent = "";
+                const regex = /[^a-zA-Z]/g;
+                if(typeof response['Definition'] == 'object'){
+                    definition = response['Definition'];
+                    pos = response['POS'];
+
+                    for(let i = 0; i < pos.length; i++){
+                        displayedMeaning.innerHTML = displayedMeaning.innerHTML + `${pos[i].replace(regex, "")}
+                        - ${definition[i]} <br><br>`;
+                    }
+                }
+                else{
+                    displayedMeaning.innerHTML = displayedMeaning.innerHTML + `${response['POS'].replace(regex, "")}
+                    - ${response['Definition']} <br><br>`;
+                }
+
+            });
+        }
+        catch(err){
+            displayedMeaning.innerHTML = "";
+
+        }
+        
+    }
+}

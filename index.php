@@ -233,9 +233,11 @@ require ("utilities/recent_audio_translation.php");
         </div>
         <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
             <a href="index.php"><button class="tryagain">Translate again</button></a>
-            <br />
-            <br />
-            <br />
+                    <!-- dictionary-->
+            <div class="dict-div">
+                <h2 class="hovered-word">Word</h2>
+                <p class="word-meaning">Meaning: </p>
+            </div>
         <?php else: ?>
             <button type="submit" class="translate-button" id="audio-translate-btn">Translate</button>
         <?php endif; ?>
