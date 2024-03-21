@@ -484,6 +484,7 @@ textarea::-webkit-scrollbar {
   width: 80%;
   display: flex;
   flex-direction: column;
+  background-color: #fff;
 }
 
 .options {

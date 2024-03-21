@@ -50,10 +50,17 @@ function dd($item)
         <div class="header">
             <a href="text-text.php"><button><img src="images/translator.png" alt="Language Icon" width="30px">Text</button></a>
             <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload a File</button></a>
+            <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == 1): ?>
+                <a href="admin.php">
+                    <button>
+                        <img src="images/admin.png" alt="Language Icon" width="30px">Admin
+                    </button>
+                </a>
+            <?php endif; ?>
         </div>
         <!-- ======= Hero Section ======= -->
         <div class="about-section header">
-            <img src="images/logo.png" alt="Voce logo" height="150">
+            <img src="images/logo.png" alt="Voce logo">
             <p><i>powered by Whisper and Google Translator</i></p>
             <p style="font-size: 20px;">Unlock the power of your audio content by effortlessly translating it into another language</p>
             <p style="font-size: 20px;">We provide Audio to Text translation services to allow you to translate your audio into another language</p>
@@ -77,7 +84,22 @@ function dd($item)
                 It uses advanced technology to automatically translate text from one language to another. This technology
                 is utilizied on both Voce's Audio to Text and Text to Text translation services.</p>
         </div>
-    </div>
+        <div class="about-section2 header">
+            <h2>Our Mission</h2>
+            <p>Voce aims to provide a platform for users to easily translate their audio content into text. 
+                We believe that language should not be a barrier to communication, and we strive to make it easier for people to understand and communicate with each other, regardless of the language they speak. 
+                Our goal is to provide a seamless and efficient translation service that is accessible to everyone, and we are committed to continuously improving our platform to better serve our users.</p>
+        </div>
+
+        <div class="grid-container">
+            <div class="grid-item"><img src="images/translateicon.png" /><br />Over 100 Supported Languages</div>
+            <div class="grid-item"><img src="images/reliable.png" /><br />Accurate and Reliable</div>
+            <div class="grid-item"><img src="images/languageicon.png" /><br />Unlimited Use for Free!</div>
+        </div>
+
+
+    
+
     <br>
     
     <nav>
