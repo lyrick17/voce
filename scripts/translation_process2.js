@@ -81,7 +81,7 @@ function displayTranslation(data) {
     const displayedMeaning = document.querySelector(".word-meaning");
 
 
-    const nonLetterRegex = /[^a-zA-Z'-]/g;
+    const nonLetterRegex = /[^a-zA-Z-]/g;
     wordSpans.forEach((wordspan) => {
     wordspan.addEventListener("click", () => {
         console.log("clicked");
