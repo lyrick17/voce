@@ -9,7 +9,7 @@ const emailform = document.getElementById("inputemail-form");
 passform.addEventListener('submit', function(e) {
     e.preventDefault();
     const pass_info = new FormData(passform);
-    fetch('utilities/account.php', {
+    fetch('utilities/edit-account.php', {
         method: "POST",
         body: pass_info,
     })
@@ -36,7 +36,7 @@ passform.addEventListener('submit', function(e) {
 userform.addEventListener('submit', function(e) {
     e.preventDefault();
     const user_info = new FormData(userform);
-    fetch('utilities/account.php', {
+    fetch('utilities/edit-account.php', {
         method: "POST",
         body: user_info,
     })
@@ -61,7 +61,7 @@ emailform.addEventListener('submit', function(e) {
     e.preventDefault();
     const email_info = new FormData(emailform);
 
-    fetch('utilities/account.php', {
+    fetch('utilities/edit-account.php', {
         method: "POST",
         body: email_info,
     })

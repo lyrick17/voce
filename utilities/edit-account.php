@@ -28,12 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['username'])) {
 
     if ($username == $newUsername) {
         // username error, user didnt change username
-        //header("Location: account.php?e=1");
+        //header("Location: edit-account.php?e=1");
         $exit = ['error' => 1];
         exit(json_encode($exit));
     } elseif ($result > 0) {
         // username error, username already exists
-        //header("Location: account.php?e=2");
+        //header("Location: edit-account.php?e=2");
         $exit = ['error' => 2];
         exit(json_encode($exit));
     } else {
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['username'])) {
         $_SESSION['username'] = $newUsername;
         unset($_POST);
 
-        //header("Location: account.php");
+        //header("Location: edit-account.php");
         $exit = ['error' => 0, 'username' => $newUsername];
         exit(json_encode($exit));
     }
@@ -66,17 +66,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['email'])) {
 
     if ($email == $newEmail) {
         // email error, user type his same email
-        //header("Location: account.php?e=3");
+        //header("Location: edit-account.php?e=3");
         $exit = ['error' => 3];
         exit(json_encode($exit));
     } elseif ($result > 0) {
         // email error, email already exists
-        //header("Location: account.php?e=4");
+        //header("Location: edit-account.php?e=4");
         $exit = ['error' => 4];
         exit(json_encode($exit));
     } elseif (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
         // email error, invalid email
-        //header("Location: account.php?e=7");
+        //header("Location: edit-account.php?e=7");
         $exit = ['error' => 7];
         exit(json_encode($exit));
     } else {
@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['email'])) {
         $_SESSION['email'] = $newEmail;
         unset($_POST);
 
-        //header("Location: account.php");
+        //header("Location: edit-account.php");
         $exit = ['error' => 0, 'email' => $newEmail];
         exit(json_encode($exit));
     }
@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
 
     if ($oldPass == $newPass) {
         // pass error, user didnt change password
-        //header("Location: account.php?e=5");
+        //header("Location: edit-account.php?e=5");
         $exit = ['error' => 5];
         exit(json_encode($exit));
     } elseif (password_verify($oldPass, $sess_hashedPass)) {
@@ -118,12 +118,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
         $_SESSION['pword'] = $hashedPass;
         unset($_POST);
 
-        //header("Location: account.php");
+        //header("Location: edit-account.php");
         $exit = ['error' => 0];
         exit(json_encode($exit));
     } else {
         // pass error, old password is wrong
-        //header("Location: account.php?e=6");
+        //header("Location: edit-account.php?e=6");
         $exit = ['error' => 6];
         exit(json_encode($exit));
     }
