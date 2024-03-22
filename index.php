@@ -217,7 +217,6 @@ require ("utilities/recent_audio_translation.php");
                     </div>
                 </div>
 
-                <div class="drop-text">Drop files here</div>
             <?php endif; ?>
             <div class="options">
                 <a href=""><img src="images/anti-clockwise.png" alt="Language Icon" width="30px"></a>
