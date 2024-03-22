@@ -40,11 +40,12 @@ nav .logo span {
   font-weight: 800;
 }
 
-.feedback-button{
+.feedback-button {
   background: #87ceeb;
   color: white;
   border: none;
-  padding: .5em;
+  padding: 12px;
+  border-radius: 12px;
 }
 
 .sidebar {
@@ -436,10 +437,12 @@ textarea {
 
 .text-section .customtextfield {
   height: 500px;
+  overflow-y: auto;
 }
 
-.customtextfield {
+.customtextfield::-webkit-scrollbar {
   resize: none;
+  width: 0px;
 }
 
 textarea::-webkit-scrollbar {
@@ -589,14 +592,14 @@ option {
   cursor: pointer;
   padding: 20px;
   font-size: 20px;
-  background-color: none;
+  background-color: #fffafa;
 }
 
 .feedback-sidebar.active {
-  /* Style for sidebar when opened */
-  right: 0; /* Slide sidebar into view from the right */
+  right: 0;
   visibility: visible;
   display: flex;
+  background: #fffafa;
 }
 
 .feedbackcontainer {
@@ -618,16 +621,22 @@ option {
 .feedback-text {
   font-size: 1.5em;
   text-align: center;
+  color: #87ceeb;
 }
 
 .fback-msg {
   resize: none;
   width: 83%;
   border-radius: 10px;
+  border: inset;
+  padding: 5px;
 }
 
 .submit-fback {
   text-align: center;
+  margin-right: 13px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .feedback-text {
@@ -682,7 +691,6 @@ option {
 }
 
 .input-form input {
-  border: 20px;
   padding: 10px;
 }
 
@@ -758,6 +766,7 @@ option {
     border-bottom-left-radius: 10px;
     z-index: 0;
     justify-content: center;
+    margin-top: 20px;
   }
 }
 @media only screen and (max-width: 1008px) {

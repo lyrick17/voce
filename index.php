@@ -292,7 +292,7 @@ require ("utilities/recent_audio_translation.php");
                 </div>
                 <br />
                 <div class="submit-fback">
-                    <button type="submit" class="feedback-button" name="contact_submit">
+                    <button type="submit" title="Complete all the forms" class="feedback-button" name="contact_submit">
                         Send Message
                     </button>
                 </div>
@@ -348,7 +348,6 @@ require ("utilities/recent_audio_translation.php");
 
     </div>
     <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"
