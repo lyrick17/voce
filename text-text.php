@@ -208,8 +208,10 @@ require ("utilities/recent_text_translation.php");
         <!-- dictionary-->
         <div class="dict-div">
             <div class="dict-div-content">
-                <h2 class="hovered-word">Word</h2>
-                <p class="word-meaning">Meaning: </p>
+                <p id="click-english"></p>
+                <hr />
+                <h2 class="hovered-word"></h2>
+                <p class="word-meaning"></p>
             </div>
         </div>
 

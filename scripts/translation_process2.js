@@ -75,10 +75,13 @@ function displayTranslation(data) {
         tags +=  "<span class ='word-span'>" + words[i] +" </span>";
     }
 
-    if(targetLanguage.value == 'english')
+    if (targetLanguage.value == 'english') {
         document.querySelector(".outputText").innerHTML = tags;
-    else
+        document.getElementById("click-english").innerHTML = "Click on an English word to view it's meaning!";
+    } else {
         document.querySelector(".outputText").innerHTML = data.translation;
+        document.getElementById("click-english").innerHTML = "";
+    }
     updateBox2Height();
 
     const wordSpans = document.querySelectorAll(".word-span");

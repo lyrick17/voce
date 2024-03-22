@@ -419,6 +419,7 @@ textarea {
   width: 100%;
   flex-direction: column;
   min-height: 300px;
+  font-size: 24px;
 }
 
 .text-section .customtextfield {
@@ -485,6 +486,15 @@ textarea::-webkit-scrollbar {
   display: flex;
   flex-direction: column;
   background-color: #fff;
+
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.dict-div-content {
+  padding: 5px 20px;
 }
 
 .feedback {

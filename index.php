@@ -253,8 +253,12 @@ require ("utilities/recent_audio_translation.php");
 
             <?php if ($data[5] == 'english') :?>
                 <div class="dict-div">
-                    <h2 class="hovered-word"></h2>
-                    <p class="word-meaning">Meaning: </p>
+                    <div class="dict-div-content">
+                        <p>Click on an English word to view it's meaning!</p>
+                        <hr />
+                        <h2 class="hovered-word"></h2>
+                        <p class="word-meaning"></p>
+                    </div>
                 </div>
             <?php endif; ?>
 
