@@ -102,7 +102,7 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                         </ul>
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">
+                        <a href="utilities/logout.php" class="sidebar-link">
                             <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout
                         </a>
                     </li>
