@@ -396,10 +396,10 @@ textarea {
   border-radius: 10px; /* Adjust as needed */
 }
 
-.drop-text {
+.drop-text:after {
   /* Set desired text properties like color, font, and size */
   color: #3080ea; /* White color */
-  font-size: 100px;
+  font-size: 50px;
   font-weight: 400;
   text-align: center; /* Center the text horizontally */
   position: absolute; /* Position it relative to the container */
@@ -408,6 +408,10 @@ textarea {
   transform: translate(-50%, -50%); /* Adjust positioning as needed */
   opacity: 0; /* Initially hide the text */
   pointer-events: none;
+}
+
+.highlight-box:hover:after {
+  opacity: 0; /* Show the text on hover */
 }
 
 .container.drag-hover .drop-text {
