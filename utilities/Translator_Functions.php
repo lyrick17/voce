@@ -257,8 +257,8 @@ class Translator{
         // Execute api call
         curl_exec($ch);
 
-        curl_close($ch);
-        */
+        curl_close($ch);*/
+        
 
     }
 
