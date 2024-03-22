@@ -112,6 +112,7 @@ textarea {
   outline: none;
   font-size: 24px;
   font-family: "Poppins", sans-serif;
+  height: 300px;
 }
 
 .container {
@@ -123,7 +124,7 @@ textarea {
 
 .box {
   position: relative;
-  min-height: 300px;
+  height: 300px !important;
   background-color: #ffffff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -138,7 +139,7 @@ textarea {
 
 .box2 {
   position: relative;
-  min-height: 300px;
+  height: 300px !important;
   background-color: #ffffff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -148,6 +149,11 @@ textarea {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   z-index: 0;
+  overflow-y: scroll;
+}
+
+.box2::-webkit-scrollbar{
+  display: none;
 }
 
 .arrow-down {
@@ -366,7 +372,7 @@ option {
 .textinput {
   border: none;
   width: 100%;
-  min-height: 200px;
+  height: 300px !important;
   resize: none;
 }
 
