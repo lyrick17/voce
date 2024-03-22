@@ -12,7 +12,7 @@ import shlex
 
 words_def = pd.read_csv('scripts/cleaned_def.csv', sep=',',engine='python',encoding='utf-8-sig')
 words_def.set_index('Word', inplace=True)
-model = whisper.load_model("medium")
+model = whisper.load_model("small")
 langs_dict = GoogleTranslator().get_supported_languages(as_dict=True) 
 app = Flask('lang_codes')
 
@@ -57,8 +57,11 @@ def getlangcodes():
 def translate():
     json_data = request.get_json()
     print(json_data)
-    src = langs_dict[json_data['src']]
     trg = langs_dict[json_data['trg']]
+    if json_data['src'] == 'auto':
+        return GoogleTranslator(source= 'auto', target= trg).translate(json_data['txt'])
+    
+    src = langs_dict[json_data['src']]
     translated = GoogleTranslator(source= src, target= trg).translate(json_data['txt'])
     return translated
 

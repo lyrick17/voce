@@ -19,6 +19,7 @@ body {
   background-position: right;
   background-size: cover;
   background-repeat: no-repeat;
+
 }
 
 .container {
@@ -178,6 +179,7 @@ body {
   width: 200%;
   transform: translateX(0);
   transition: all 0.6s ease-in-out;
+
 }
 
 .container.active .toggle {

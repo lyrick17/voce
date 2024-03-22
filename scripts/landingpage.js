@@ -14,7 +14,6 @@ if (errormessage == message[0] || errormessage == message[1] || errormessage == 
 
 (function() {
     "use strict";
-  
     /**
      * Easy selector helper function
      */

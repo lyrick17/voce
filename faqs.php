@@ -38,7 +38,7 @@ function dd($item)
     <nav>
         <div class="logo">
             <a href="index.php"> <img src="images/logo.png" alt="Voce logo"></a>
-            <span>Text Translator</span>
+            <span>FAQs</span>
         </div>
     </nav>
     <!-- End of Navbar -->
@@ -55,6 +55,13 @@ function dd($item)
                         width="30px">Text</button></a>
             <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
                     a File</button></a>
+            <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == 1): ?>
+                <a href="admin.php">
+                    <button>
+                        <img src="images/admin.png" alt="Language Icon" width="30px">Admin
+                    </button>
+                </a>
+            <?php endif; ?>
         </div>
         
         <div class="header-language selector">
@@ -67,7 +74,7 @@ function dd($item)
         <div class="container">
 
                 <div class="faq-box">
-                    <div class="text-section">
+                    <div class="text-section" style="padding: 10px;">
                         <h3>How to use Audio to Text Translation?</h3>
                         <p>
                             - A source and target language must be selected first to determine what language do you want your speech to be translated into.

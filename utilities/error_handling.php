@@ -66,34 +66,36 @@ class ErrorHandling{
 
 		if ($mode == "text") {
 			// (1)
-			if ($_POST["src"] == "" || $_POST['target'] == "") {
-				// error, user did not choose language
-				logs("error-tt-1", $dbcon);
-				
-				$exit = ['error' => 1];
-				exit(json_encode($exit));
-				//header("Location: ../text-text.php?error=1");
-				//exit();
-			} 
-
-			// (2)
-			if ($_POST["src"] == $_POST['target']) {
-				// error, user picked same language, useless
-				logs("error-tt-3", $dbcon);
-				$exit = ['error' => 2];
-				exit(json_encode($exit));
-				//header("Location: ../text-text.php?error=2");
-				//exit();
-			}
-
-			// (3)
-			if (!array_key_exists($_POST['src'], $api_lang) || !array_key_exists($_POST['target'], $api_lang)) {
-					logs("error-at-4", $dbcon);
-	
-					$exit = ['error' => 4];
+			if($_POST['src'] != 'auto'){
+				if ($_POST["src"] == "" || $_POST['target'] == "") {
+					// error, user did not choose language
+					logs("error-tt-1", $dbcon);
+					
+					$exit = ['error' => 1];
 					exit(json_encode($exit));
-					//header("Location: ../text-text.php?error=4");
+					//header("Location: ../text-text.php?error=1");
 					//exit();
+				} 
+
+				// (2)
+				if ($_POST["src"] == $_POST['target']) {
+					// error, user picked same language, useless
+					logs("error-tt-3", $dbcon);
+					$exit = ['error' => 2];
+					exit(json_encode($exit));
+					//header("Location: ../text-text.php?error=2");
+					//exit();
+				}
+
+				// (3)
+				if (!array_key_exists($_POST['src'], $api_lang) || !array_key_exists($_POST['target'], $api_lang)) {
+						logs("error-at-4", $dbcon);
+		
+						$exit = ['error' => 4];
+						exit(json_encode($exit));
+						//header("Location: ../text-text.php?error=4");
+						//exit();
+				}
 			}
 
 		} else if ($mode == "audio") {

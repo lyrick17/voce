@@ -15,7 +15,7 @@ function dd($item)
     exit();
 }
 
-require "utilities/common_languages.php"; // Translator_Functions and Error Handling are alr required in this file
+require "utilities/Translator_Functions.php"; // Translator_Functions and Error Handling are alr required in this file
 require "utilities/verify_audio_files.php";
 $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
@@ -73,6 +73,7 @@ $num_of_a2t = mysqli_fetch_assoc($result);
             <div class="h-100">
                 <div class="sidebar-logo">
                     <img src="images/logonew.png" width="130px">
+
                 </div>
                 <ul class="sidebar-nav">
                     <li class="sidebar-item">
@@ -118,6 +119,7 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                         <li class="nav-item dropdown">
                             <a href="#" data-bs-toggle="dropdown" class="nav-icon pe-md-0">
                                 <img src="images/adminprofile.png" class="avatar img-fluid rounded" alt="">
+
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <a href="#" class="dropdown-item">Profile</a>
@@ -276,7 +278,7 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                     <button class="dlgraph-btn" href="#">Download Line Graph</button>
                     <button class="dlbar1-btn" href="#">Download Text Errors Graph</button>
                     <button class="dlbar2-btn" href="#">Download Audio Errors Graph</button>
-                    <form method="post" action="newadmin.php">
+                    <form method="post" action="admin.php">
                         <button style="padding: 5px;" id="verify-files">
                             <h3>Verify Audio Files</h3>
                         </button>
