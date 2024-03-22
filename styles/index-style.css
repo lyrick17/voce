@@ -581,6 +581,7 @@ option {
   display: flex;
 }
 
+
 .feedbackcontainer {
   display: flex;
   flex-direction: column;
@@ -596,6 +597,60 @@ option {
   width: 100%;
   position: relative;
 }
+
+.feedback-text{
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.fback-msg{
+  resize: none;
+  width: 83%;
+  border-radius : 10px;
+}
+
+.submit-fback{
+  text-align: center;
+}
+
+.feedback-text{
+  align-self: center;
+}
+.close-feedback{
+  align-self: flex-end;
+}
+
+.feedback-text{
+  text-align: center;
+}
+#contact-form{
+  text-align: center;
+}
+
+.fback-input{
+  width: 80%;
+}
+
+
+.feedbackheader {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+@media(max-width: 768px){
+  .feedback-sidebar{
+    width: 93%;
+  }
+}
+
+@media only screen and (max-width: 768px){
+  .feedback-sidebar{
+    padding-left: 1em;
+  }
+}
+
+
 .text-center {
   display: flex;
   justify-content: flex-end;

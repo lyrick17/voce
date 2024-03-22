@@ -570,10 +570,6 @@ p::-webkit-scrollbar {
 }
 
 
-.feedbackheader {
-  display: flex;
-  justify-content: flex-end;
-}
 
 .feedbackheader button {
   border: none;
@@ -639,6 +635,13 @@ p::-webkit-scrollbar {
 .fback-input{
   width: 80%;
 }
+
+.feedbackheader {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
 @media(max-width: 768px){
   .feedback-sidebar{
     width: 93%;
@@ -649,7 +652,9 @@ p::-webkit-scrollbar {
   .feedback-sidebar{
     padding-left: 1em;
   }
-}.text-center {
+}
+
+.text-center {
   display: flex;
   justify-content: flex-end;
 }
