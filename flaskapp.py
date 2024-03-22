@@ -20,8 +20,8 @@ app = Flask('lang_codes')
 def get_meaning():
     json_data = request.get_json()
     word = json_data['word']
-    definitions = words_def.loc[word.capitalize(), :]
     try:
+        definitions = words_def.loc[word.capitalize(), :]
         word_definitions = definitions['Definition'].reset_index(drop=True).to_list()
         word_pos = definitions['POS'].reset_index(drop=True).to_list()
 
