@@ -667,6 +667,12 @@ p::-webkit-scrollbar {
     width: 80vw;
   }
 }
+
+@media only screen and (max-width: 500px) {
+  select {
+    width: auto !important;
+  }
+}
 @media only screen and (max-width: 1008px) {
   .container {
     display: flex;
@@ -708,4 +714,3 @@ nav .footer span {
   color: white;
   align-items: center;
 }
-

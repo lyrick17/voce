@@ -7,7 +7,7 @@ function dd($item)
     exit();
 }
 // Call the test connection function to check if api is on, which would direct the user on translation page
-require("utilities/Translator_Functions.php");
+require ("utilities/Translator_Functions.php");
 Translator::checkConnection();
 
 ?>
@@ -105,20 +105,20 @@ Translator::checkConnection();
                 Our team is working diligently to restore the service.
                 Please check back later. Thank you for your understanding!
             </div>
-            <center> <img src="images/sadrobot.gif"></center>
+            <center> <img src="images/servicerobot.png" style="opacity: 0.5;"></center>
         </div>
     </div>
     <br>
-    
+
     <nav>
         <div class="footer">
-        <div>
-            <a href="faqs.php">FAQs</a>
-            <a href="about.php">About Voce</a>
-        </div>
-        <div >
-            <span>Voce © 2024. All Rights Reserved</span>
-        </div>
+            <div>
+                <a href="faqs.php">FAQs</a>
+                <a href="about.php">About Voce</a>
+            </div>
+            <div>
+                <span>Voce © 2024. All Rights Reserved</span>
+            </div>
         </div>
     </nav>
     </div>

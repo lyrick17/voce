@@ -72,29 +72,21 @@ $num_of_a2t = mysqli_fetch_assoc($result);
             <!-- Content For Sidebar -->
             <div class="h-100">
                 <div class="sidebar-logo">
-                    <img src="images/logo1.png" width="50px">
+                    <img src="images/logonew.png" width="130px">
+
                 </div>
                 <ul class="sidebar-nav">
-                    <li class="sidebar-header">
-                        Admin Elements
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">
-                            <i class="fa-solid fa-list pe-2"></i>
-                            Dashboard
-                        </a>
-                    </li>
                     <li class="sidebar-item">
                         <a href="#" class="sidebar-link collapsed" data-bs-target="#pages" data-bs-toggle="collapse"
                             aria-expanded="false"><i class="fa-solid fa-file-lines pe-2"></i>
-                            Errors
+                            Features
                         </a>
                         <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a href="admin-audio-history.php" class="sidebar-link">Audio to text</a>
+                                <a href="index.php" class="sidebar-link">Audio to text</a>
                             </li>
                             <li class="sidebar-item">
-                                <a href="admin-text-history.php" class="sidebar-link">Text-Text</a>
+                                <a href="text-text.php" class="sidebar-link">Text-Text</a>
                             </li>
                         </ul>
                     </li>
@@ -109,6 +101,11 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                             </li>
                         </ul>
                     </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout
+                        </a>
+                    </li>
                 </ul>
             </div>
         </aside>
@@ -121,17 +118,36 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a href="#" data-bs-toggle="dropdown" class="nav-icon pe-md-0">
-                                <img src="images/logoicon.png" class="avatar img-fluid rounded" alt="">
+                                <img src="images/adminprofile.png" class="avatar img-fluid rounded" alt="">
+
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <a href="#" class="dropdown-item">Profile</a>
+
                                 <a href="account.php" class="dropdown-item">Setting</a>
                                 <a href="#" class="dropdown-item">Logout</a>
                             </div>
                         </li>
                     </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="profileTab" role="tabpanel"
+                            aria-labelledby="profile-tab">
+                            <form action="#">
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Username</label>
+                                    <input type="text" class="form-control" id="username">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Change</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </nav>
+
             <main class="content px-3 py-2">
                 <div class="container-fluid">
                     <div class="mb-3">
@@ -282,6 +298,9 @@ $num_of_a2t = mysqli_fetch_assoc($result);
             </footer>
         </div>
     </div>
+    <script>
+        document.getElementById('profileTab').classList.add('show', 'active');
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="scripts/admin.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>

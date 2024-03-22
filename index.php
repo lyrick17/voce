@@ -46,7 +46,7 @@ require ("utilities/recent_audio_translation.php");
     </div>
 </div> -->
 
-<body id = "a2t-body">
+<body id="a2t-body">
 
     <!-- Navbar -->
     <nav>
@@ -88,12 +88,11 @@ require ("utilities/recent_audio_translation.php");
                 <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
                     <div class="download button" dir="rtl" id="download-file">
                         <form method="post" action="utilities/download_audio_output.php">
-                            <button type="submit" name="text" style="padding:5px;">
-                                <img src="images/write.png" alt="Language Icon" width="30px">Download as Text File
-                            </button>
-                            <button type="submit" name="word" style="padding:5px;">
-                                <img src="images/download.png" alt="Language Icon" width="30px">Download as Word File
-                            </button>
+                            <button type="submit" name="text" style="padding:5px;"><img src="images/write.png"
+                                    alt="Language Icon" width="30px">Download as Text File</button>
+                            <button type="submit" name="word" style="padding:5px;"><img src="images/download.png"
+                                    alt="Language Icon" width="30px">Download as Word File</button>
+
                         </form>
                     </div>
                 <?php endif; ?>
@@ -185,17 +184,17 @@ require ("utilities/recent_audio_translation.php");
             <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
                 <div class="box">
                     <div class="text-section">
-                        <textarea id="originalText" name="originalText" class="customtextfield" rows="4"
-                            readonly><?php
-                            if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
-                                echo $data[6] ?? '';
-                            }?></textarea>
+                        <textarea id="originalText" name="originalText" class="customtextfield" rows="4" readonly><?php
+                        if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
+                            echo $data[6] ?? '';
+                        } ?></textarea>
                     </div>
                     <!-- former button before updating ui 
                         <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
                 </div>
                 <div class="box2">
                     <div class="text-section">
+
                         <p id="translatedText" name="translatedText" class="customtextfield" rows="4" style = "padding: 0; margin: 0;"
                             readonly><?php
                             if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
@@ -327,16 +326,16 @@ require ("utilities/recent_audio_translation.php");
                     <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
 
     <br>
-    
+
     <nav>
         <div class="footer">
-        <div>
-            <a href="faqs.php">FAQs</a>
-            <a href="about.php">About Voce</a>
-        </div>
-        <div >
-            <span>Voce © 2024. All Rights Reserved</span>
-        </div>
+            <div>
+                <a href="faqs.php">FAQs</a>
+                <a href="about.php">About Voce</a>
+            </div>
+            <div>
+                <span>Voce © 2024. All Rights Reserved</span>
+            </div>
         </div>
     </nav>
 

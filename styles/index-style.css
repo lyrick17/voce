@@ -349,7 +349,7 @@ textarea {
 }
 
 .options {
-  display: flex;
+  display: none;
   height: 100%;
   margin-left: 10px;
   flex-direction: column;
@@ -425,7 +425,7 @@ textarea {
   height: 500px;
 }
 
-.customtextfield{
+.customtextfield {
   resize: none;
 }
 
@@ -485,10 +485,6 @@ textarea::-webkit-scrollbar {
   display: flex;
   flex-direction: column;
   background-color: #fff;
-}
-
-.options {
-  display: none;
 }
 
 .feedback {
@@ -709,8 +705,11 @@ option {
   }
 }
 
-
-
+@media only screen and (max-width: 500px) {
+  select {
+    width: auto !important;
+  }
+}
 
 nav .footer {
   justify-content: flex-start;
