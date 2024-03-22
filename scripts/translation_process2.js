@@ -44,7 +44,9 @@ function translateInput() {
 function realTimeTranslate() {
     const form = document.getElementById("myForm");
     const text_info = new FormData(form);
-    console.log(text_info);
+    console.log(text_info.get("text"));
+    text_info.set('text', text_info.get('text').replace(/(\r\n|\n|\r)/gm, " ")); 
+    console.log(text_info.get("text"));
     console.log("translating");
     fetch('utilities/text_translation.php', {
         method: "POST",
