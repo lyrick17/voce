@@ -209,3 +209,8 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
   min-width: 100%;
   min-height: 100%;
 }
+
+.modal-container {
+  display: flex;
+  flex-direction: row;
+}

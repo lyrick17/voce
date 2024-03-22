@@ -75,7 +75,7 @@ require ("utilities/recent_audio_translation.php");
                     <img src="images/music-file.png" alt="Language Icon" width="30px">Upload a File
                 </button>
             </a>
-            <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == 1): ?>
+            <?php if (isset ($_SESSION['user_id']) && $_SESSION['user_id'] == 1): ?>
                 <a href="admin.php">
                     <button>
                         <img src="images/admin.png" alt="Language Icon" width="30px">Admin
@@ -195,8 +195,9 @@ require ("utilities/recent_audio_translation.php");
                 <div class="box2">
                     <div class="text-section">
 
-                        <p id="translatedText" name="translatedText" class="customtextfield" rows="4" style = "padding: 0; margin: 0;"
-                            readonly><?php
+                        <p id="translatedText" name="translatedText" class="customtextfield" rows="4"
+                            style="padding: 0; margin: 0;" readonly>
+                            <?php
                             if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
                                 echo $data[7] ?? '';
                             }
@@ -212,7 +213,8 @@ require ("utilities/recent_audio_translation.php");
                         <input class="file-input" type="file" name="user_file" id="fileInputLabel" for="fileInput"><br>
                         <div>
                             <input class="removeBGM" type="checkbox" name="removeBGM">
-                            <label for="removeBGM"><span style="font-style: italic; color: red;">*Remove Background Noise / Music</span></label>
+                            <label for="removeBGM"><span style="font-style: italic; color: red;">*Remove Background Noise /
+                                    Music</span></label>
                         </div>
 
 
@@ -248,9 +250,9 @@ require ("utilities/recent_audio_translation.php");
         </div>
         <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
             <a href="index.php"><button class="tryagain">Translate again</button></a>
-                    <!-- dictionary-->
+            <!-- dictionary-->
 
-            <?php if ($data[5] == 'english') :?>
+            <?php if ($data[5] == 'english'): ?>
                 <div class="dict-div">
                     <div class="dict-div-content">
                         <p>Click on an English word to view it's meaning!</p>
@@ -270,10 +272,11 @@ require ("utilities/recent_audio_translation.php");
     <div class="feedback-sidebar">
         <div class="feedbackcontainer">
             <div class="feedbackheader">
-                <button class="close-feedback" onclick="document.querySelector('.feedback-sidebar').classList.remove('active'); document.querySelector('#overlay').classList.remove('active');">X</button>
+                <button class="close-feedback"
+                    onclick="document.querySelector('.feedback-sidebar').classList.remove('active'); document.querySelector('#overlay').classList.remove('active');">X</button>
             </div>
             <form method="post" action="index.php" id="contact-form">
-                <h3 class = "feedback-text">Send Feedback to Voce</h3>
+                <h3 class="feedback-text">Send Feedback to Voce</h3>
                 <h3>Tell us what you think!</h3>
                 <span id="contact-return-message"></span>
                 <div class="input-form">
@@ -285,8 +288,7 @@ require ("utilities/recent_audio_translation.php");
                         placeholder="Subject">
                 </div>
                 <div class="input-form">
-                    <textarea class= "fback-msg" name="contact_message" rows="5"
-                        placeholder="Message"></textarea>
+                    <textarea class="fback-msg" name="contact_message" rows="5" placeholder="Message"></textarea>
                 </div>
                 <br />
                 <div class="submit-fback">

@@ -15,8 +15,6 @@ function dd($item)
 
 require "utilities/Translator_Functions.php";
 
-require "utilities/contact.php"; // used when user provides feedback
-
 
 $sess_id = $_SESSION['user_id'];
 $username = $_SESSION['username'];
@@ -182,9 +180,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
 
 
 <body>
-
-    <!-- Sidebar -->
-    <?php require "sidebar.php" ?>
 
     <!-- Main Content -->
     <div class="content">
