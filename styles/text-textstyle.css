@@ -142,8 +142,6 @@ textarea {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-
-  align-items: center;
   padding: 20px;
   width: 45vw; /* Adjust width for larger screens */
   border-top-right-radius: 10px;
@@ -660,6 +658,12 @@ p::-webkit-scrollbar {
     width: 80vw;
   }
 }
+
+@media only screen and (max-width: 500px) {
+  select {
+    width: auto !important;
+  }
+}
 @media only screen and (max-width: 1008px) {
   .container {
     display: flex;
@@ -701,4 +705,3 @@ nav .footer span {
   color: white;
   align-items: center;
 }
-
