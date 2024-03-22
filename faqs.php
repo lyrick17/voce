@@ -71,7 +71,7 @@ function dd($item)
                 </div>
             </div>
         </div>
-        <div class="container">
+        <div class="container faq-container">
 
                 <div class="faq-box">
                     <div class="text-section" style="padding: 10px;">

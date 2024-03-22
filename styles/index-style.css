@@ -37,7 +37,14 @@ nav .logo span {
   font-family: "Poppins", sans-serif;
   color: white;
   align-items: center;
-  font-weight: 700;
+  font-weight: 800;
+}
+
+.feedback-button{
+  background: #87ceeb;
+  color: white;
+  border: none;
+  padding: .5em;
 }
 
 .sidebar {

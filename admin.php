@@ -241,9 +241,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                         </ul>
                     </li>
                     <li class="sidebar-item">
-                        <form action="">
-
-                        </form>
                         <a href="utilities/logout.php" class="sidebar-link">
                             <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout
                         </a>
