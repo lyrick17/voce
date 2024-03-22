@@ -206,7 +206,7 @@ class Translator{
 
                 // Error handling - if text is empty
                 $output = json_decode($response, true);
-                if ($output["text"]) {
+                if ($output["text"] && $output["language"] != "nn") {
                     return $output;
                 } else {
                     ErrorHandling::audioError3($newFile); // pass the filename so it can be deleted, since it's not processed
