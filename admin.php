@@ -39,7 +39,146 @@ $num_of_t2t = mysqli_fetch_assoc($result);
 $q = "SELECT COUNT(from_audio_file) AS total_a2t FROM text_translations WHERE from_audio_file = 1";
 $result = mysqli_query($dbcon, $q);
 $num_of_a2t = mysqli_fetch_assoc($result);
+
+
+$sess_id = $_SESSION['user_id'];
+$username = $_SESSION['username'];
+$email = $_SESSION['email'];
+$sess_hashedPass = $_SESSION['pword'];
+$usernameerror = "";
+$emailerror = "";
+$passerror = "";
+
+if (isset ($_GET['e'])) {
+    switch ($_GET['e']) {
+        // username errors
+        case 1:
+            $usernameerror = "<style>#edit-username-btn{display:none}#edit-username-div{display:block;}</style><p style = 'color:red'>You are already using this username.</p>";
+            break;
+        case 2:
+            $usernameerror = "<style>#edit-username-btn{display:none}#edit-username-div{display:block;}</style><p style = 'color:red'>This username already exists.</p>";
+            break;
+
+        // email errors
+        case 3:
+            $emailerror = "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>You are already using this email.</p>";
+            break;
+        case 4:
+            $emailerror = "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>This email is already taken.</p>";
+            break;
+
+
+        // password errors
+        case 5:
+            $passerror = "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your password must be different from your old password</p>";
+            break;
+        case 6:
+            $passerror = "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your old password is not correct.</p>";
+            break;
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['username'])) {
+
+    $newUsername = mysqli_real_escape_string($dbcon, trim($_POST['username']));
+
+    // check if username already exists
+    $query = mysqli_prepare($dbcon, "SELECT user_id FROM admin_users where username = ?");
+    mysqli_stmt_bind_param($query, "s", $newUsername);
+    mysqli_stmt_execute($query);
+    mysqli_stmt_bind_result($query, $result);
+    mysqli_stmt_fetch($query);
+
+    if ($username == $newUsername) {
+        // username error, user didnt change username
+        header("Location: account.php?e=1");
+        exit();
+    } elseif ($result > 0) {
+        // username error, username already exists
+        header("Location: account.php?e=2");
+        exit();
+    } else {
+        // no error
+        $query = mysqli_prepare($dbcon, "UPDATE admin_users SET username = ?
+        WHERE user_id = ?");
+        mysqli_stmt_bind_param($query, "ss", $newUsername, $sess_id);
+        $result = mysqli_stmt_execute($query);
+
+        $_SESSION['username'] = $newUsername;
+        unset($_POST);
+
+        header("Location: account.php");
+        exit();
+
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['email'])) {
+    $newEmail = mysqli_real_escape_string($dbcon, trim($_POST['email']));
+
+    // check if email already exists
+    $query = mysqli_prepare($dbcon, "SELECT user_id FROM admin_users where email = ?");
+    mysqli_stmt_bind_param($query, "s", $newEmail);
+    mysqli_stmt_execute($query);
+    mysqli_stmt_bind_result($query, $result);
+    mysqli_stmt_fetch($query);
+
+
+    if ($email == $newEmail) {
+        // email error, user type his same email
+        header("Location: account.php?e=3");
+        exit();
+    } elseif ($result > 0) {
+        // email error, email already exists
+        header("Location: account.php?e=4");
+        exit();
+    } else {
+        // no error
+        $query = mysqli_prepare($dbcon, "UPDATE admin_users SET email = ?
+        WHERE user_id = ?");
+        mysqli_stmt_bind_param($query, "ss", $newEmail, $sess_id);
+        $result = mysqli_stmt_execute($query);
+
+        $_SESSION['email'] = $newEmail;
+        unset($_POST);
+
+        header("Location: account.php");
+        exit();
+    }
+
+}
+
+if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
+    $oldPass = mysqli_real_escape_string($dbcon, trim($_POST['old-pword']));
+
+    $newPass = mysqli_real_escape_string($dbcon, trim($_POST['new-pword']));
+    $hashedPass = password_hash($newPass, PASSWORD_BCRYPT);
+
+    if ($oldPass == $newPass) {
+        // pass error, user didnt change password
+        header("Location: account.php?e=5");
+        exit();
+    } elseif (password_verify($oldPass, $sess_hashedPass)) {
+        // no error
+        $query = mysqli_prepare($dbcon, "UPDATE admin_users SET pword = ?
+        WHERE user_id = ?");
+        mysqli_stmt_bind_param($query, "ss", $hashedPass, $sess_id);
+        $result = mysqli_stmt_execute($query);
+
+        $_SESSION['pword'] = $hashedPass;
+        unset($_POST);
+
+        header("Location: account.php");
+        exit();
+    } else {
+        // pass error, old password is wrong
+        header("Location: account.php?e=6");
+        exit();
+    }
+}
+
 ?>
+
 
 
 
@@ -130,30 +269,159 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                             <div class="dropdown-menu dropdown-menu-end">
                                 <a href="#" class="dropdown-item">Profile</a>
 
-                                <a href="account.php" class="dropdown-item">Setting</a>
+                                <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                    data-bs-target="#settingsModal">Settings</a>
                                 <a href="#" class="dropdown-item">Logout</a>
                             </div>
                         </li>
                     </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane fade show active" id="profileTab" role="tabpanel"
-                            aria-labelledby="profile-tab">
-                            <form action="#">
+                </div>
+            </nav>
+            <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12 mb-3"> <a href="#" class="btn btn-light btn-block w-100"
+                                            data-bs-toggle="modal" data-bs-target="#changePasswordModal">Change
+                                            Password</a>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <a href="#" class="btn btn-light btn-block w-100" data-bs-toggle="modal"
+                                            data-bs-target="#changeUsernameModal">Change Username</a>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <a href="#" class="btn btn-light btn-block w-100" data-bs-toggle="modal"
+                                            data-bs-target="#changeEmailModal">Change Email</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn btn-light" data-bs-toggle="modal"
+                                data-bs-target="#settingsModal">
+                                <i class="fas fa-arrow-left"></i>
+                            </button>
+                            <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="admin.php" method="POST" id="inputpass-form">
                                 <div class="mb-3">
-                                    <label for="username" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="username">
+                                    <label for="current-password" class="form-label">Current Password</label>
+                                    <input type="password" class="form-control user-input" id="old-pword"
+                                        name="old-pword" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password">
+                                    <label for="new-password" class="form-label user-input">New Password</label>
+                                    <input type="password" class="form-control" id="new-pword" name="new-pword"
+                                        required>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Change</button>
+                                <div class="mb-3">
+                                    <label for="confirm-password" class="form-label user-input">Confirm Password</label>
+                                    <input type="password" class="form-control" id="new-pword2" name="new-pword2"
+                                        required>
+
+                                    <input type="submit" class="edit-submit" id="updatePsword" name="updatePsword"
+                                        value="Edit Password" disabled>
+                                </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save Changes</button>
                             </form>
                         </div>
                     </div>
                 </div>
-            </nav>
+            </div>
+            <div class="modal fade" id="changeUsernameModal" tabindex="-1" aria-labelledby="changeUsernameModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn btn-light" data-bs-toggle="modal"
+                                data-bs-target="#settingsModal">
+                                <i class="fas fa-arrow-left"></i>
+                            </button>
+                            <h5 class="modal-title" id="changeUsernameModalLabel">Change Username</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="account.php" method="POST" id="inputuser-form">
+                                <div class="mb-3">
+                                    <label for="current-username" class="form-label">
+                                        <?= $username ?>
+                                    </label>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="new-username" class="form-label">New Username</label>
+                                    <input type="text" placeholder="Username" class="form-control user-input"
+                                        id="username" name="username" maxlength="50" required>
+                                    <input type="submit" placeholder="Username" class="form-control edit-submit"
+                                        id="updateUsername" name="updateUsername" value="Edit Username" disabled>
+                                </div>
 
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="changeEmailModal" tabindex="-1" aria-labelledby="changeEmailModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn btn-light" data-bs-toggle="modal"
+                                data-bs-target="#settingsModal">
+                                <i class="fas fa-arrow-left"></i>
+                            </button>
+                            <h5 class="modal-title" id="changeEmailModalLabel">Change Email</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="current-email" class="form-label">Current Email</label>
+                                    <input type="email" class="form-control" id="current-email" name="current-email"
+                                        required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="new-email" class="form-label">New Email</label>
+                                    <input type="email" class="form-control" id="new-email" name="new-email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confirm-email" class="form-label">Confirm Email</label>
+                                    <input type="email" class="form-control" id="confirm-email" name="confirm-email"
+                                        required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <main class="content px-3 py-2">
                 <div class="container-fluid">
                     <div class="mb-3">
@@ -307,6 +575,7 @@ $num_of_a2t = mysqli_fetch_assoc($result);
     <script>
         document.getElementById('profileTab').classList.add('show', 'active');
     </script>
+    <script src="scripts/user-account.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="scripts/admin.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>

@@ -4,6 +4,7 @@ html {
   margin: 0;
   font-family: "Poppins", sans-serif;
   height: 100vh;
+  font-weight: 700;
 }
 body::-webkit-scrollbar {
   display: none;
@@ -598,7 +599,6 @@ option {
   display: flex;
 }
 
-
 .feedbackcontainer {
   display: flex;
   flex-direction: column;
@@ -615,58 +615,55 @@ option {
   position: relative;
 }
 
-.feedback-text{
+.feedback-text {
   font-size: 1.5em;
   text-align: center;
 }
 
-.fback-msg{
+.fback-msg {
   resize: none;
   width: 83%;
-  border-radius : 10px;
+  border-radius: 10px;
 }
 
-.submit-fback{
+.submit-fback {
   text-align: center;
 }
 
-.feedback-text{
+.feedback-text {
   align-self: center;
 }
-.close-feedback{
+.close-feedback {
   align-self: flex-end;
 }
 
-.feedback-text{
+.feedback-text {
   text-align: center;
 }
-#contact-form{
+#contact-form {
   text-align: center;
 }
 
-.fback-input{
+.fback-input {
   width: 80%;
 }
-
 
 .feedbackheader {
   display: flex;
   justify-content: flex-end;
 }
 
-
-@media(max-width: 768px){
-  .feedback-sidebar{
+@media (max-width: 768px) {
+  .feedback-sidebar {
     width: 93%;
   }
 }
 
-@media only screen and (max-width: 768px){
-  .feedback-sidebar{
+@media only screen and (max-width: 768px) {
+  .feedback-sidebar {
     padding-left: 1em;
   }
 }
-
 
 .text-center {
   display: flex;
@@ -784,6 +781,10 @@ option {
 @media only screen and (max-width: 500px) {
   select {
     width: auto !important;
+  }
+  .box,
+  .box2 {
+    font-size: 14px;
   }
 }
 

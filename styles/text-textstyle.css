@@ -495,7 +495,7 @@ p::-webkit-scrollbar {
   width: 80vw;
   display: flex;
   flex-direction: column;
-  
+
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -570,19 +570,17 @@ p::-webkit-scrollbar {
 
 .feedback-sidebar {
   position: fixed;
- right: -300px;  /*Move sidebar off-screen to the right */
+  right: -300px; /*Move sidebar off-screen to the right */
   top: 0;
   width: 300px;
   background-color: #f5f5f5;
   padding: 20px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-in-out;
-  visibility: hidden;   /* Initially hidden */
+  visibility: hidden; /* Initially hidden */
   z-index: 3;
   height: 100%;
 }
-
-
 
 .feedbackheader button {
   border: none;
@@ -616,36 +614,36 @@ p::-webkit-scrollbar {
   position: relative;
 }
 
-.feedback-text{
+.feedback-text {
   font-size: 1.5em;
   text-align: center;
 }
 
-.fback-msg{
+.fback-msg {
   resize: none;
   width: 83%;
-  border-radius : 10px;
+  border-radius: 10px;
 }
 
-.submit-fback{
+.submit-fback {
   text-align: center;
 }
 
-.feedback-text{
+.feedback-text {
   align-self: center;
 }
-.close-feedback{
+.close-feedback {
   align-self: flex-end;
 }
 
-.feedback-text{
+.feedback-text {
   text-align: center;
 }
-#contact-form{
+#contact-form {
   text-align: center;
 }
 
-.fback-input{
+.fback-input {
   width: 80%;
 }
 
@@ -654,15 +652,14 @@ p::-webkit-scrollbar {
   justify-content: flex-end;
 }
 
-
-@media(max-width: 768px){
-  .feedback-sidebar{
+@media (max-width: 768px) {
+  .feedback-sidebar {
     width: 93%;
   }
 }
 
-@media only screen and (max-width: 768px){
-  .feedback-sidebar{
+@media only screen and (max-width: 768px) {
+  .feedback-sidebar {
     padding-left: 1em;
   }
 }
@@ -716,7 +713,7 @@ p::-webkit-scrollbar {
     flex-direction: column;
   }
   select {
-    width: 100%;
+    width: 700px;
     align-items: center;
   }
   .header-language {
@@ -728,12 +725,23 @@ p::-webkit-scrollbar {
   .box,
   .box2 {
     width: 80vw;
+    margin-top: 20px;
   }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 600px) {
   select {
-    width: auto !important;
+    width: 300px !important;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  select {
+    width: 600px;
+  }
+  .box,
+  .box2 {
+    font-size: 14px;
   }
 }
 @media only screen and (max-width: 1008px) {
