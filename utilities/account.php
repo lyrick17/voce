@@ -74,6 +74,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['email'])) {
         //header("Location: account.php?e=4");
         $exit = ['error' => 4];
         exit(json_encode($exit));
+    } elseif (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+        // email error, invalid email
+        //header("Location: account.php?e=7");
+        $exit = ['error' => 7];
+        exit(json_encode($exit));
     } else {
         // no error
         $query = mysqli_prepare($dbcon, "UPDATE admin_users SET email = ?

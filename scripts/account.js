@@ -70,7 +70,7 @@ emailform.addEventListener('submit', function(e) {
         if (data.error == 0) { 
             console.log("no error, email changed")
             editMessage(data.error, "email-error");
-            document.getElementById("current-username").value = data.email;
+            document.getElementById("current-email").value = data.email;
         } else {
             console.log(data);
             console.log("error: " + data.error);
@@ -104,6 +104,10 @@ function editMessage(error, error_id) {
             break;
         case 4:
             document.getElementById(error_id).innerHTML = "This email is already taken.";
+            document.getElementById(error_id).style.color = "red";
+            break;
+        case 7:
+            document.getElementById(error_id).innerHTML = "Invalid email.";
             document.getElementById(error_id).style.color = "red";
             break;
 
