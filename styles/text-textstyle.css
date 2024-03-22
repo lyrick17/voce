@@ -522,6 +522,13 @@ p::-webkit-scrollbar {
   text-decoration: underline;
 }
 
+.feedback-button{
+  background: #87ceeb;
+  color: white;
+  border: none;
+  padding: .5em;
+}
+
 .tryagain {
   margin-top: 15px;
   background-color: #87ceeb;

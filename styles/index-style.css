@@ -39,6 +39,13 @@ nav .logo span {
   font-weight: 800;
 }
 
+.feedback-button{
+  background: #87ceeb;
+  color: white;
+  border: none;
+  padding: .5em;
+}
+
 .sidebar {
   position: absolute;
   top: 0;
