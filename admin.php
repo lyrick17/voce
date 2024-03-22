@@ -322,33 +322,30 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                             <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            <form action="admin.php" method="POST" id="inputpass-form">
-                                <div class="mb-3">
-                                    <label for="current-password" class="form-label">Current Password</label>
-                                    <input type="password" class="form-control user-input" id="old-pword"
-                                        name="old-pword" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="new-password" class="form-label user-input">New Password</label>
-                                    <input type="password" class="form-control" id="new-pword" name="new-pword"
-                                        required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confirm-password" class="form-label user-input">Confirm Password</label>
-                                    <input type="password" class="form-control" id="new-pword2" name="new-pword2"
-                                        required>
-
-                                    <input type="submit" class="edit-submit" id="updatePsword" name="updatePsword"
-                                        value="Edit Password" disabled>
-                                </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save Changes</button>
-                            </form>
-                        </div>
+                        <form action="admin.php" method="POST" id="inputpass-form">
+                            <div class="modal-body">
+                                <p style="color: red;" id="pass-error"></p><!--Error Message-->
+                                    <div class="mb-3">
+                                        <label for="current-password" class="form-label">Current Password</label>
+                                        <input type="password" class="form-control user-input" id="old-pword"
+                                            name="old-pword" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="new-password" class="form-label user-input">New Password</label>
+                                        <input type="password" class="form-control" id="new-pword" name="new-pword"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="confirm-password" class="form-label user-input">Confirm Password</label>
+                                        <input type="password" class="form-control" id="new-pword2" name="new-pword2"
+                                            required>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="updatePsword" name="updatePsword">Save Changes</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -365,22 +362,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="account.php" method="POST" id="inputuser-form">
+                            <form action="admin.php" method="POST" id="inputuser-form">
+                                <p style="color: red;" id="user-error"></p><!--Error Message-->
                                 <div class="mb-3">
-                                    <label for="current-username" class="form-label">
-                                        <?= $username ?>
-                                    </label>
+                                    <label for="current-username" class="form-label">Current Username</label>
+                                    <input type="text" placeholder="Username" class="form-control user-input"
+                                        id="current-username" name="current-username" maxlength="50" value="<?= $username ?>" readonly>
                                 </div>
                                 <div class="mb-3">
                                     <label for="new-username" class="form-label">New Username</label>
                                     <input type="text" placeholder="Username" class="form-control user-input"
                                         id="username" name="username" maxlength="50" required>
+                                        <br />
                                     <input type="submit" placeholder="Username" class="form-control edit-submit"
                                         id="updateUsername" name="updateUsername" value="Edit Username" disabled>
                                 </div>
-
+                            </form>
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -398,26 +396,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form action="admin.php" method="POST" id="inputemail-form">
+                            <p style="color: red;" id="email-error"></p><!--Error Message-->
                                 <div class="mb-3">
                                     <label for="current-email" class="form-label">Current Email</label>
-                                    <input type="email" class="form-control" id="current-email" name="current-email"
-                                        required>
+                                    <input type="email" class="form-control" id="current-email" name="current-email" value="<?=$email?>"
+                                        readonly>
                                 </div>
                                 <div class="mb-3">
                                     <label for="new-email" class="form-label">New Email</label>
-                                    <input type="email" class="form-control" id="new-email" name="new-email" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confirm-email" class="form-label">Confirm Email</label>
-                                    <input type="email" class="form-control" id="confirm-email" name="confirm-email"
-                                        required>
+                                    <input type="email" placeholder="Email" class="form-control user-input" id="new-email" name="email" required>
+                                    <br />
+                                    <input type="submit" class="form-control edit-submit"
+                                        id="updateEmail" name="updateEmail" value="Edit Email" disabled>
                                 </div>
                             </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save Changes</button>
                         </div>
                     </div>
                 </div>
@@ -575,6 +568,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
     <script>
         document.getElementById('profileTab').classList.add('show', 'active');
     </script>
+    <script src="scripts/account.js"></script>
     <script src="scripts/user-account.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="scripts/admin.js"></script>
