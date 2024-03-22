@@ -395,8 +395,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                             <form>
                                 <div class="mb-3">
                                     <label for="current-email" class="form-label">Current Email</label>
-                                    <input type="email" class="form-control" id="current-email" name="current-email"
-                                        required>
+                                    <input type="email" class="form-control" id="current-email" name="current-email" value = "<?= $_SESSION['email']?>"
+                                        required disabled>
                                 </div>
                                 <div class="mb-3">
                                     <label for="new-email" class="form-label">New Email</label>
