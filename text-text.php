@@ -39,7 +39,7 @@ require ("utilities/recent_text_translation.php");
     <!-- Navbar -->
     <nav>
         <div class="logo">
-            <img src="images/logo.png" alt="Voce logo">
+            <img src="images/logo.png" alt="Voce logo">        
             <span>Text Translator</span>
         </div>
     </nav>

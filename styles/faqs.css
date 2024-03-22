@@ -10,3 +10,20 @@
     padding: 0;
     margin: 0;
 }
+
+.text-section{
+    padding: 10em;
+    text-align: justify;
+}
+
+p{
+    padding: 1em;
+}
+
+h3{
+    text-align: left;
+    padding: 1em;
+}
+.faq-container{
+    width: 100%;
+}

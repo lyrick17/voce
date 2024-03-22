@@ -51,7 +51,7 @@ require ("utilities/recent_audio_translation.php");
     <!-- Navbar -->
     <nav>
         <div class="logo">
-            <a href="index.php"> <img src="images/logo.png" alt="Voce logo"></a>
+            <img src="images/logo.png" alt="Voce logo">
             <span>Audio Translator</span>
         </div>
     </nav>
