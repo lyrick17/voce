@@ -15,8 +15,8 @@ body{
     justify-content: center;
     flex-direction: column;
     height: 100vh;
-    background-image:linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)),url('../images/headset.jpg');
-    
+    background-image:linear-gradient(to right, rgba(0,0,0,0.45),rgba(0,0,0,0.75)),url('../images/headset.jpg');
+
 	background-position: right;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -169,9 +169,9 @@ body{
 }
 
 .toggle{
-    background-color: #512da8;
+    background-color: #1a1d20;
     height: 100%;
-    background: linear-gradient(to right, #ac5cc0, #a82d6b);
+    background: linear-gradient(to right, #87ceeb, #152931);
     color: #fff;
     position: relative;
     left: -100%;

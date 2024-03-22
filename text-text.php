@@ -73,10 +73,23 @@ require ("utilities/recent_text_translation.php");
     </div>
     <div class="main-content">
         <div class="header">
-            <a href="text-text.php"><button><img src="images/translator.png" alt="Language Icon"
-                        width="30px">Text</button></a>
-            <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
-                    a File</button></a>
+            <a href="text-text.php">
+                <button>
+                    <img src="images/translator.png" alt="Language Icon" width="30px">Text
+                </button>
+            </a>
+            <a href="index.php">
+                <button>
+                    <img src="images/music-file.png" alt="Language Icon" width="30px">Upload a File
+                </button>
+            </a>
+            <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == 1): ?>
+                <a href="admin.php">
+                    <button>
+                        <img src="images/admin.png" alt="Language Icon" width="30px">Admin
+                    </button>
+                </a>
+            <?php endif; ?>
         </div>
         <div class="header-downloadfile-wrapper">
             <div class="header-downloadfile" dir="rtl" id="download-file" style="display: none;">
@@ -125,7 +138,7 @@ require ("utilities/recent_text_translation.php");
                                 <option name="language">
                                     <?= $lang ?>
                                 </option>
-                            <?php endforeach ?>
+                            <?php endforeach; ?>
                         </select>
                 </div>
             </div>
@@ -141,7 +154,7 @@ require ("utilities/recent_text_translation.php");
                             <option name="language">
                                 <?= $lang ?>
                             </option>
-                        <?php endforeach ?>
+                        <?php endforeach; ?>
                     </select>
 
                 </div>
@@ -194,8 +207,10 @@ require ("utilities/recent_text_translation.php");
         </div>
         <!-- dictionary-->
         <div class="dict-div">
-            <h2 class="hovered-word">Word</h2>
-            <p class="word-meaning">Meaning: </p>
+            <div class="dict-div-content">
+                <h2 class="hovered-word">Word</h2>
+                <p class="word-meaning">Meaning: </p>
+            </div>
         </div>
 
     </div>

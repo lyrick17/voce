@@ -19,12 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $audio_query = "SELECT file_id FROM audio_files ORDER BY file_id";
     $audio_result = mysqli_query($dbcon, $audio_query);
     $audio_ids = array();
-    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        $audio_ids[] = $row['file_id'];
+    while($row2 = mysqli_fetch_array($audio_result, MYSQLI_ASSOC)) {
+        $audio_ids[] = $row2['file_id'];
     }
+
+    // Loop through all the files in the audio_files directory
     foreach (glob('audio_files/*') as $file) {
-        // Loop through all the files in the audio_files directory
-        // Your code here
         
         if (is_file($file)) {
             $file = str_replace('audio_files/', '', $file); // Remove "audio_files/" from the file path
@@ -56,6 +56,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
     }
+
+    // Loop through all the file record in database as well
+    foreach ($audio_ids as $audio_id) {
+        if (!in_array($audio_id, $file_ids)) {
+            // if the file is not in the translation, delete it
+            $delquery = "DELETE FROM audio_files WHERE file_id = '$audio_id'";
+            $delresult = mysqli_query($dbcon, $delquery);
+            $removed = true;
+        }
+    }
+
     if ($removed) {
         $verify_message = "All audio files that were uploaded in audio_files and saved in db but not connected to a translation have been deleted.";
     }
