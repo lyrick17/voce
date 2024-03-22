@@ -1,17 +1,5 @@
-dict = {
-     5 : "Integer", 
-    True : "Boolean",
-    "str" : "String",
-}
+from deep_translator import GoogleTranslator
 
-list = ["item1", "item2", "item3"]
+translated = GoogleTranslator(source= 'auto', target= 'english').translate('ako ay namamatay')
 
-print("DICTIONARY: ")
-print(dict[5])
-del dict["str"]
-print(dict[5])
-
-print("LIST: ")
-print(list[1])
-list.remove("item1")
-print(list[0])
+print(translated)

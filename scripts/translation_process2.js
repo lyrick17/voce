@@ -44,6 +44,7 @@ function translateInput() {
 function realTimeTranslate() {
     const form = document.getElementById("myForm");
     const text_info = new FormData(form);
+    console.log(text_info);
     console.log("translating");
     fetch('utilities/text_translation.php', {
         method: "POST",
@@ -56,6 +57,7 @@ function realTimeTranslate() {
             timerForSavingDB();
             console.log("translated");
         } else {
+            console.log(data);
             finishProcess(data.error);
             console.log("error" + data.error);
         }

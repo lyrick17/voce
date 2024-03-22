@@ -120,6 +120,7 @@ require ("utilities/recent_text_translation.php");
 
                         <select name="src" id="sourceLanguage">
                             <option value="">Select One …</option>
+                            <option name = "language">auto</option>
                             <?php foreach ($common_langs as $lang => $code): ?>
                                 <option name="language">
                                     <?= $lang ?>

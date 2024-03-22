@@ -57,8 +57,11 @@ def getlangcodes():
 def translate():
     json_data = request.get_json()
     print(json_data)
-    src = langs_dict[json_data['src']]
     trg = langs_dict[json_data['trg']]
+    if json_data['src'] == 'auto':
+        return GoogleTranslator(source= 'auto', target= trg).translate(json_data['txt'])
+    
+    src = langs_dict[json_data['src']]
     translated = GoogleTranslator(source= src, target= trg).translate(json_data['txt'])
     return translated
 
