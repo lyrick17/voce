@@ -165,24 +165,8 @@ require ("utilities/recent_text_translation.php");
                 <!-- START OF FORM, COVERS TWO SELECT AND ONE TEXT AREA -->
                 <div class="custom-textfield">
 
-                    <?php // url must have translated=1 before showing the output
-                    if (isset ($_SESSION['recent_text'])) {
-                        $textid = $_SESSION['recent_text'];
-                        $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE text_id = '$textid' AND from_audio_file = 0 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
-                    }
-                    ?>
-                    <?php if (isset ($_SESSION['recent_text']) && isset ($_GET['translated']) && $_GET['translated'] == 1) {
-                        echo "Language: " . $data[4];
-                    } ?>
-                    <textarea class="textinput" name="text" id="text-input" placeholder='Type Here...'><?php
-                    if (isset ($_SESSION['recent_text']) && isset ($_GET['translated']) && $_GET['translated'] == 1) {
-                        echo $data[6] ?? '';
-                    }
-                    ?></textarea>
+                    <textarea class="textinput" name="text" id="text-input" placeholder='Type Here...'></textarea>
 
-                    <?php if (isset ($_SESSION['recent_text']) && isset ($_GET['translated']) && $_GET['translated'] == 1) {
-                        echo "Language: " . $data[5];
-                    } ?>
                     <!-- end of form -->
                     </form>
                 </div>

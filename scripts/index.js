@@ -84,6 +84,7 @@ function fileDropHandler(event) {
     document.getElementById('fileInputLabel').files =  transferFile.files;
 
     checkFileSize(document.getElementById('fileInputLabel'));
+    resetRecord();
 }
 
 function dragOverHandler(event) {

@@ -119,14 +119,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $target_lang = $_POST['target'];
 
         $isFromAudio = TRUE;
-
+        if ($is_recorded) {
+            $translation_type = "recorded";
+        } else {
+            $translation_type = "uploaded";
+        }
 
         $fileid = explode("_", $_SESSION['a_info']['newfile'])[0]; // split string by underscore (_), then take first element of result array
 
-        $query_insert1 = mysqli_prepare($dbcon, "INSERT INTO text_translations(file_id, from_audio_file, original_language, translated_language,
-        translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, NOW())");
+        $query_insert1 = mysqli_prepare($dbcon, "INSERT INTO text_translations(file_id, from_audio_file, translation_type, original_language, translated_language,
+        translate_from, translate_to, translation_date) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
 
-        mysqli_stmt_bind_param($query_insert1, 'iissss', $fileid, $isFromAudio, $source_lang, $target_lang, $_SESSION['a_info']['text'], $_SESSION['a_info']['output']);
+        mysqli_stmt_bind_param($query_insert1, 'iisssss', $fileid, $isFromAudio, $translation_type, $source_lang, $target_lang, $_SESSION['a_info']['text'], $_SESSION['a_info']['output']);
         mysqli_stmt_execute($query_insert1);
 
         unset_extra_sess_vars();

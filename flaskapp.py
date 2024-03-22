@@ -16,6 +16,37 @@ model = whisper.load_model("small")
 langs_dict = GoogleTranslator().get_supported_languages(as_dict=True) 
 app = Flask('lang_codes')
 
+
+# functions on extracting vocals, 
+#   for spleeter_env 
+#   for python 3.8
+def three_eleven(file):
+    if os.name == 'nt':  # Windows
+        activate_cmd = os.path.join('spleeter_env', 'Scripts', 'activate')
+    else:  # Linux, macOS
+        activate_cmd = os.path.join('spleeter_env', 'bin', 'activate')
+
+    # Full command to activate and run separate.py
+    full_cmd = f'{activate_cmd} && python scripts/separate.py {file} && deactivate'
+
+    
+    # Use subprocess for safe and reliable execution
+    try:
+        subprocess.run(full_cmd.split(), shell=True, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error activating spleeter_env or running separate.py: {e}")
+
+def three_eight(file):
+    call_spleeter = ["python", "scripts/separate.py", file]
+    try:
+        subprocess.run(call_spleeter, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error activating spleeter_env or running separate.py: {e}")
+ 
+
+
+
+
 @app.route("/get_meanings", methods=["POST"])
 def get_meaning():
     json_data = request.get_json()
@@ -92,13 +123,13 @@ def removesilence():
     filename = json_data['filename']
     removeBGM = json_data['removeBGM']
     if removeBGM == "on":
-        input_path = os.path.join("audio_files", shlex.quote(filename), "vocals.wav")
+        input_path = os.path.join("audio_files", filename, "vocals.wav")
     else:
-        input_path = os.path.join("audio_files", shlex.quote(file))
+        input_path = os.path.join("audio_files", file)
     
 
     # Construct the input and output file paths with proper escaping
-    output_path = os.path.join("audio_files", shlex.quote(filename), "audio_processed.mp3")
+    output_path = os.path.join("audio_files", filename, "audio_processed.mp3")
 
     # Build the FFmpeg command list
     ffmpeg_command = [
@@ -127,33 +158,6 @@ if __name__ == "__main__":
     app.run(debug=True, port=5000)
 
 
-
-# functions on extracting vocals, 
-#   for spleeter_env 
-#   for python 3.8
-def three_eleven(file):
-    if os.name == 'nt':  # Windows
-        activate_cmd = os.path.join('spleeter_env', 'Scripts', 'activate')
-    else:  # Linux, macOS
-        activate_cmd = os.path.join('spleeter_env', 'bin', 'activate')
-
-    # Full command to activate and run separate.py
-    full_cmd = f'{activate_cmd} && python scripts/separate.py {file} && deactivate'
-
-    
-    # Use subprocess for safe and reliable execution
-    try:
-        subprocess.run(full_cmd.split(), shell=True, check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error activating spleeter_env or running separate.py: {e}")
-
-def three_eight(file):
-    call_spleeter = ["python", "scripts/separate.py", file]
-    try:
-        subprocess.run(call_spleeter, check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error activating spleeter_env or running separate.py: {e}")
- 
 
 
 # from deep_translator import GoogleTranslator
