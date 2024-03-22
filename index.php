@@ -60,7 +60,7 @@ require ("utilities/recent_audio_translation.php");
 
         <div id="loadingModal" class="modalloading">
             <div class="modal-contentloading">
-                <img src="images/voce-loading.gif" alt="Loading..." />
+                <img src="images/voce-loading.gif" alt="Loading..." width="100%" />
                 <p id="loadingModalMessage">Loading....</p>
             </div>
         </div>
