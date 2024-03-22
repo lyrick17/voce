@@ -83,10 +83,16 @@ $num_of_a2t = mysqli_fetch_assoc($result);
                         </a>
                         <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a href="index.php" class="sidebar-link">Audio to text</a>
+                                <a href="index.php" class="sidebar-link">Audio to Text</a>
                             </li>
                             <li class="sidebar-item">
-                                <a href="text-text.php" class="sidebar-link">Text-Text</a>
+                                <a href="text-text.php" class="sidebar-link">Text to Text</a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="faqs.php" class="sidebar-link">FAQs</a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="about.php" class="sidebar-link">About Voce</a>
                             </li>
                         </ul>
                     </li>
