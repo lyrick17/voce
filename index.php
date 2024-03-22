@@ -60,15 +60,28 @@ require ("utilities/recent_audio_translation.php");
 
         <div id="loadingModal" class="modalloading">
             <div class="modal-contentloading">
-                <img src="images/duckagain.gif" alt="Loading..." />
+                <img src="images/voce-loading.gif" alt="Loading..." />
                 <p id="loadingModalMessage">Loading....</p>
             </div>
         </div>
         <div class="header">
-            <a href="text-text.php"><button><img src="images/translator.png" alt="Language Icon"
-                        width="30px">Text</button></a>
-            <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
-                    a File</button></a>
+            <a href="text-text.php">
+                <button>
+                    <img src="images/translator.png" alt="Language Icon" width="30px">Text
+                </button>
+            </a>
+            <a href="index.php">
+                <button>
+                    <img src="images/music-file.png" alt="Language Icon" width="30px">Upload a File
+                </button>
+            </a>
+            <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == 1): ?>
+                <a href="admin.php">
+                    <button>
+                        <img src="images/admin.png" alt="Language Icon" width="30px">Admin
+                    </button>
+                </a>
+            <?php endif; ?>
         </div>
         <div class="header-downloadfile-wrapper">
             <div class="header-downloadfile" dir="rtl" id="download-file">
@@ -79,6 +92,7 @@ require ("utilities/recent_audio_translation.php");
                                     alt="Language Icon" width="30px">Download as Text File</button>
                             <button type="submit" name="word" style="padding:5px;"><img src="images/download.png"
                                     alt="Language Icon" width="30px">Download as Word File</button>
+
                         </form>
                     </div>
                 <?php endif; ?>
@@ -180,11 +194,14 @@ require ("utilities/recent_audio_translation.php");
                 </div>
                 <div class="box2">
                     <div class="text-section">
-                        <textarea id="translatedText" name="translatedText" class="customtextfield" rows="4" readonly><?php
-                        if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
-                            echo $data[7] ?? '';
-                        }
-                        ?></textarea>
+
+                        <p id="translatedText" name="translatedText" class="customtextfield" rows="4" style = "padding: 0; margin: 0;"
+                            readonly><?php
+                            if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
+                                echo $data[7] ?? '';
+                            }
+                            ?>
+                        </p>
                     </div>
                 </div>
             <?php else: ?>
@@ -195,8 +212,7 @@ require ("utilities/recent_audio_translation.php");
                         <input class="file-input" type="file" name="user_file" id="fileInputLabel" for="fileInput"><br>
                         <div>
                             <input class="removeBGM" type="checkbox" name="removeBGM">
-                            <label for="removeBGM"><span style="font-style: italic; color: red;">*Remove BGM
-                                    before translating audio with music.</span></label>
+                            <label for="removeBGM"><span style="font-style: italic; color: red;">*Remove Background Noise / Music</span></label>
                         </div>
 
 
@@ -232,9 +248,15 @@ require ("utilities/recent_audio_translation.php");
         </div>
         <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
             <a href="index.php"><button class="tryagain">Translate again</button></a>
-            <br />
-            <br />
-            <br />
+                    <!-- dictionary-->
+
+            <?php if ($data[5] == 'english') :?>
+                <div class="dict-div">
+                    <h2 class="hovered-word"></h2>
+                    <p class="word-meaning">Meaning: </p>
+                </div>
+            <?php endif; ?>
+
         <?php else: ?>
             <button type="submit" class="translate-button" id="audio-translate-btn">Translate</button>
         <?php endif; ?>
@@ -318,6 +340,7 @@ require ("utilities/recent_audio_translation.php");
 
     </div>
     <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"
