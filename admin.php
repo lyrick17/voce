@@ -373,7 +373,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                             <p id="email-error"></p><!--Error Message-->
                                 <div class="mb-3">
                                     <label for="current-email" class="form-label">Current Email</label>
-                                    <input type="email" class="form-control" id="current-email" name="current-email" value="<?=$email?>"
+                                    <input type="email" class="form-control" id="current-email" name="current-email" value = "<?= $_SESSION['email']?>"
                                         disabled>
                                 </div>
                                 <div class="mb-3">
