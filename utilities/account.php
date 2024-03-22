@@ -13,34 +13,6 @@ $usernameerror = "";
 $emailerror = "";
 $passerror = "";
 
-if (isset ($_GET['e'])) {
-    switch ($_GET['e']) {
-        // username errors
-        case 1:
-            $usernameerror = "<style>#edit-username-btn{display:none}#edit-username-div{display:block;}</style><p style = 'color:red'>You are already using this username.</p>";
-            break;
-        case 2:
-            $usernameerror = "<style>#edit-username-btn{display:none}#edit-username-div{display:block;}</style><p style = 'color:red'>This username already exists.</p>";
-            break;
-
-        // email errors
-        case 3:
-            $emailerror = "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>You are already using this email.</p>";
-            break;
-        case 4:
-            $emailerror = "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>This email is already taken.</p>";
-            break;
-
-
-        // password errors
-        case 5:
-            $passerror = "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your password must be different from your old password</p>";
-            break;
-        case 6:
-            $passerror = "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your old password is not correct.</p>";
-            break;
-    }
-}
 
 // for username
 if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['username'])) {

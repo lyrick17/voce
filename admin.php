@@ -49,35 +49,6 @@ $usernameerror = "";
 $emailerror = "";
 $passerror = "";
 
-if (isset ($_GET['e'])) {
-    switch ($_GET['e']) {
-        // username errors
-        case 1:
-            $usernameerror = "<style>#edit-username-btn{display:none}#edit-username-div{display:block;}</style><p style = 'color:red'>You are already using this username.</p>";
-            break;
-        case 2:
-            $usernameerror = "<style>#edit-username-btn{display:none}#edit-username-div{display:block;}</style><p style = 'color:red'>This username already exists.</p>";
-            break;
-
-        // email errors
-        case 3:
-            $emailerror = "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>You are already using this email.</p>";
-            break;
-        case 4:
-            $emailerror = "<style>#edit-email-btn{display:none;}#edit-email-div{display:block;}</style><p style = 'color:red'>This email is already taken.</p>";
-            break;
-
-
-        // password errors
-        case 5:
-            $passerror = "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your password must be different from your old password</p>";
-            break;
-        case 6:
-            $passerror = "<style>#edit-psword-btn{display:none;}#edit-psword-div{display:block;}</style><p style = 'color:red'>Your old password is not correct.</p>";
-            break;
-    }
-}
-
 if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['username'])) {
 
     $newUsername = mysqli_real_escape_string($dbcon, trim($_POST['username']));
@@ -91,11 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['username'])) {
 
     if ($username == $newUsername) {
         // username error, user didnt change username
-        header("Location: account.php?e=1");
+        header("Location: admin.php?e=1");
         exit();
     } elseif ($result > 0) {
         // username error, username already exists
-        header("Location: account.php?e=2");
+        header("Location: admin.php?e=2");
         exit();
     } else {
         // no error
@@ -107,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['username'])) {
         $_SESSION['username'] = $newUsername;
         unset($_POST);
 
-        header("Location: account.php");
+        header("Location: admin.php");
         exit();
 
     }
@@ -126,11 +97,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['email'])) {
 
     if ($email == $newEmail) {
         // email error, user type his same email
-        header("Location: account.php?e=3");
+        header("Location: admin.php?e=3");
         exit();
     } elseif ($result > 0) {
         // email error, email already exists
-        header("Location: account.php?e=4");
+        header("Location: admin.php?e=4");
         exit();
     } else {
         // no error
@@ -142,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['email'])) {
         $_SESSION['email'] = $newEmail;
         unset($_POST);
 
-        header("Location: account.php");
+        header("Location: admin.php");
         exit();
     }
 
@@ -156,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
 
     if ($oldPass == $newPass) {
         // pass error, user didnt change password
-        header("Location: account.php?e=5");
+        header("Location: admin.php?e=5");
         exit();
     } elseif (password_verify($oldPass, $sess_hashedPass)) {
         // no error
@@ -168,11 +139,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
         $_SESSION['pword'] = $hashedPass;
         unset($_POST);
 
-        header("Location: account.php");
+        header("Location: admin.php");
         exit();
     } else {
         // pass error, old password is wrong
-        header("Location: account.php?e=6");
+        header("Location: admin.php?e=6");
         exit();
     }
 }
@@ -324,7 +295,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                         </div>
                         <form action="admin.php" method="POST" id="inputpass-form">
                             <div class="modal-body">
-                                <p style="color: red;" id="pass-error"></p><!--Error Message-->
+                                <p id="pass-error"></p><!--Error Message-->
                                     <div class="mb-3">
                                         <label for="current-password" class="form-label">Current Password</label>
                                         <input type="password" class="form-control user-input" id="old-pword"
@@ -363,11 +334,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                         </div>
                         <div class="modal-body">
                             <form action="admin.php" method="POST" id="inputuser-form">
-                                <p style="color: red;" id="user-error"></p><!--Error Message-->
+                                <p id="user-error"></p><!--Error Message-->
                                 <div class="mb-3">
                                     <label for="current-username" class="form-label">Current Username</label>
                                     <input type="text" placeholder="Username" class="form-control user-input"
-                                        id="current-username" name="current-username" maxlength="50" value="<?= $username ?>" readonly>
+                                        id="current-username" name="current-username" maxlength="50" value="<?= $username ?>" disabled>
                                 </div>
                                 <div class="mb-3">
                                     <label for="new-username" class="form-label">New Username</label>
@@ -397,11 +368,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                         </div>
                         <div class="modal-body">
                             <form action="admin.php" method="POST" id="inputemail-form">
-                            <p style="color: red;" id="email-error"></p><!--Error Message-->
+                            <p id="email-error"></p><!--Error Message-->
                                 <div class="mb-3">
                                     <label for="current-email" class="form-label">Current Email</label>
                                     <input type="email" class="form-control" id="current-email" name="current-email" value="<?=$email?>"
-                                        readonly>
+                                        disabled>
                                 </div>
                                 <div class="mb-3">
                                     <label for="new-email" class="form-label">New Email</label>
