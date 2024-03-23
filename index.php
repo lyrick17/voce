@@ -103,7 +103,7 @@ require ("utilities/recent_audio_translation.php");
                 if (isset ($_GET['error'])) {
                     switch ($_GET['error']) {
                         case 1: // user did not choose language
-                            echo "Please select a model or source/translated language.";
+                            echo "Please select a source/translated language.";
                             break;
                         case 2:  // user did not upload file
                             echo "No File Upload. Please try again.";
