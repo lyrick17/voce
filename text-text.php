@@ -116,7 +116,7 @@ require ("utilities/recent_text_translation.php");
                             echo "Please type text to be translated.";
                             break;
                         case 4: // user added unprovided choices
-                            echo "Please choose only on the provided models/languages.";
+                            echo "Please choose only on the provided languages.";
                             break;
                     }
                 }
