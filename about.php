@@ -1,13 +1,5 @@
 <?php require ("mysql/mysqli_session.php");
 $current_page = basename($_SERVER['PHP_SELF']);
-
-function dd($item)
-{
-    var_dump($item);
-    exit();
-}
-
-
 ?>
 
 <!DOCTYPE html>
@@ -96,10 +88,7 @@ function dd($item)
             <div class="grid-item"><img src="images/reliable.png" /><br />Accurate and Reliable</div>
             <div class="grid-item"><img src="images/languageicon.png" /><br />Unlimited Use for Free!</div>
         </div>
-
-
-    
-
+        
     <br>
     
     <nav>
@@ -114,8 +103,6 @@ function dd($item)
         </div>
     </nav>
 
-
-    <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"
