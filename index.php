@@ -273,7 +273,7 @@ require ("utilities/recent_audio_translation.php");
         <div class="feedbackcontainer">
             <div class="feedbackheader">
                 <button class="close-feedback"
-                    onclick="document.querySelector('.feedback-sidebar').classList.remove('active'); document.querySelector('#overlay').classList.remove('active');">X</button>
+                    onclick="document.querySelector('.feedback-sidebar').classList.remove('active');">X</button>
             </div>
             <form method="post" action="index.php" id="contact-form">
                 <h3 class="feedback-text">Send Feedback to Voce</h3>
@@ -292,7 +292,7 @@ require ("utilities/recent_audio_translation.php");
                 </div>
                 <br />
                 <div class="submit-fback">
-                    <button type="submit" class="feedback-button" name="contact_submit">
+                    <button type="submit" title="Complete all the forms" class="feedback-button" name="contact_submit">
                         Send Message
                     </button>
                 </div>
@@ -348,7 +348,6 @@ require ("utilities/recent_audio_translation.php");
 
     </div>
     <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"

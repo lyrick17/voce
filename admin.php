@@ -206,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                             </li>
                         </ul>
                     </li>
-                    <li class="sidebar-item">
+                    <!--<li class="sidebar-item">
                         <a href="#" class="sidebar-link collapsed" data-bs-target="#auth" data-bs-toggle="collapse"
                             aria-expanded="false"><i class="fa-regular fa-user pe-2"></i>
                             Auth
@@ -216,7 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                                 <a href="#" class="sidebar-link">Edit a user</a>
                             </li>
                         </ul>
-                    </li>
+                    </li>-->
                     <li class="sidebar-item">
                         <a href="utilities/logout.php" class="sidebar-link">
                             <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout
