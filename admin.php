@@ -218,7 +218,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                         </ul>
                     </li>-->
                     <li class="sidebar-item">
-                        <a href="utilities/logout.php" class="sidebar-link">
+                        <a href="utilities/logout.php" class="sidebar-link logout-link">
                             <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout
                         </a>
                     </li>
@@ -355,6 +355,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                     </div>
                 </div>
             </div>
+
 
             <div class="modal fade" id="changeEmailModal" tabindex="-1" aria-labelledby="changeEmailModalLabel"
                 aria-hidden="true">

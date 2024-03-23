@@ -152,7 +152,7 @@ textarea {
   overflow-y: scroll;
 }
 
-.box2::-webkit-scrollbar{
+.box2::-webkit-scrollbar {
   display: none;
 }
 
@@ -528,11 +528,12 @@ p::-webkit-scrollbar {
   text-decoration: underline;
 }
 
-.feedback-button{
+.feedback-button {
   background: #87ceeb;
   color: white;
   border: none;
-  padding: .5em;
+  padding: 12px;
+  border-radius: 12px;
 }
 
 .tryagain {
@@ -573,7 +574,6 @@ p::-webkit-scrollbar {
   right: -300px; /*Move sidebar off-screen to the right */
   top: 0;
   width: 300px;
-  background-color: #f5f5f5;
   padding: 20px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-in-out;
@@ -582,19 +582,20 @@ p::-webkit-scrollbar {
   height: 100%;
 }
 
+
 .feedbackheader button {
   border: none;
   cursor: pointer;
   padding: 20px;
   font-size: 20px;
-  background-color: none;
+  background-color: #fffafa;
 }
 
 .feedback-sidebar.active {
-  /* Style for sidebar when opened */
-  right: 0; /* Slide sidebar into view from the right */
+  right: 0;
   visibility: visible;
   display: flex;
+  background: #fffafa;
 }
 
 .feedbackcontainer {
@@ -615,18 +616,25 @@ p::-webkit-scrollbar {
 }
 
 .feedback-text {
-  font-size: 1.5em;
+  font-size: 1.6em;
   text-align: center;
+  color: #87ceeb;
+  font-weight: 800px;
 }
 
 .fback-msg {
   resize: none;
   width: 83%;
   border-radius: 10px;
+  border: inset;
+  padding: 5px;
 }
 
 .submit-fback {
   text-align: center;
+  margin-right: 13px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .feedback-text {
@@ -681,7 +689,6 @@ p::-webkit-scrollbar {
 }
 
 .input-form input {
-  border: 20px;
   padding: 10px;
 }
 

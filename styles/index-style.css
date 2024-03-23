@@ -4,6 +4,7 @@ html {
   margin: 0;
   font-family: "Poppins", sans-serif;
   height: 100vh;
+  font-weight: 700;
 }
 body::-webkit-scrollbar {
   display: none;
@@ -43,7 +44,8 @@ nav .logo span {
   background: #87ceeb;
   color: white;
   border: none;
-  padding: 0.5em;
+  padding: 12px;
+  border-radius: 12px;
 }
 
 .sidebar {
@@ -435,14 +437,17 @@ textarea {
 
 .text-section .customtextfield {
   height: 500px;
+  overflow-y: auto;
 }
+
 
 #translatedText {
   font-weight: 400;
 }
 
-.customtextfield {
+.customtextfield::-webkit-scrollbar {
   resize: none;
+  width: 0px;
 }
 
 textarea::-webkit-scrollbar {
@@ -592,14 +597,14 @@ option {
   cursor: pointer;
   padding: 20px;
   font-size: 20px;
-  background-color: none;
+  background-color: #fffafa;
 }
 
 .feedback-sidebar.active {
-  /* Style for sidebar when opened */
-  right: 0; /* Slide sidebar into view from the right */
+  right: 0;
   visibility: visible;
   display: flex;
+  background: #fffafa;
 }
 
 .feedbackcontainer {
@@ -621,16 +626,22 @@ option {
 .feedback-text {
   font-size: 1.5em;
   text-align: center;
+  color: #87ceeb;
 }
 
 .fback-msg {
   resize: none;
   width: 83%;
   border-radius: 10px;
+  border: inset;
+  padding: 5px;
 }
 
 .submit-fback {
   text-align: center;
+  margin-right: 13px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .feedback-text {
@@ -685,7 +696,6 @@ option {
 }
 
 .input-form input {
-  border: 20px;
   padding: 10px;
 }
 
