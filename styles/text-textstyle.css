@@ -582,13 +582,6 @@ p::-webkit-scrollbar {
   height: 100%;
 }
 
-.feedbackheader button {
-  border: none;
-  cursor: pointer;
-  padding: 20px;
-  font-size: 20px;
-  background-color: #fffafa;
-}
 
 .feedbackheader button {
   border: none;

@@ -55,7 +55,7 @@ function dd($item)
                         width="30px">Text</button></a>
             <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload
                     a File</button></a>
-            <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == 1): ?>
+            <?php if (isset ($_SESSION['user_id']) && $_SESSION['user_id'] == 1): ?>
                 <a href="admin.php">
                     <button>
                         <img src="images/admin.png" alt="Language Icon" width="30px">Admin
@@ -63,71 +63,81 @@ function dd($item)
                 </a>
             <?php endif; ?>
         </div>
-        
+
         <div class="header-language selector">
             <div class="">
                 <div class="language-selector">
-                    <h2>Frequently Asked Questions about Voce</h2>
+                    <h3>Frequently Asked Questions about Voce</h3>
                 </div>
             </div>
         </div>
         <div class="container faq-container">
 
+            <center>
                 <div class="faq-box">
                     <div class="text-section" style="padding: 10px;">
                         <h3>How to use Audio to Text Translation?</h3>
                         <p>
-                            - A source and target language must be selected first to determine what language do you want your speech to be translated into.
-                            After selecting, you can upload your audio file or record your speech and click the "Translate" button to start the translation process.
+                            - A source and target language must be selected first to determine what language do you want
+                            your speech to be translated into.
+                            After selecting, you can upload your audio file or record your speech and click the
+                            "Translate" button to start the translation process.
                         </p>
                         <hr />
                         <h3>Is there a file size limit?</h3>
                         <p>
-                            - Yes. The file size that Voce can process must only be up to 25mb. Anything more than the allowed limit will not be processed.
+                            - Yes. The file size that Voce can process must only be up to 25mb. Anything more than the
+                            allowed limit will not be processed.
                         </p>
                         <hr />
                         <h3>Can I upload and record at the same time?</h3>
                         <p>
-                            - Unfortunately, we only allow one submitted audio per translation process. Recording your speech will forfeit your uploaded audio, and uploading your audio file will disregard your previously recorded speech.
+                            - Unfortunately, we only allow one submitted audio per translation process. Recording your
+                            speech will forfeit your uploaded audio, and uploading your audio file will disregard your
+                            previously recorded speech.
                         </p>
                         <hr />
                         <h3>An error saying "Audio file not processed well" is showing. What does this mean?</h3>
                         <p>
-                            - This error message means that the audio file you uploaded or recorded was not able to capture your speech, thus there is no speech to be translated. 
-                            This may be due to the audio quality. Please make sure that the audio file you are submitting is in the correct format and is of good quality.
+                            - This error message means that the audio file you uploaded or recorded was not able to
+                            capture your speech, thus there is no speech to be translated.
+                            This may be due to the audio quality. Please make sure that the audio file you are
+                            submitting is in the correct format and is of good quality.
                         </p>
                         <hr />
                         <h3>How can I translate an audio with background music / noise?</h3>
                         <p>
-                            - Before clicking the "Translate" button, check the Remove BGM checkbox to allow 
-                            the system to remove the background music or noise from your audio file. 
+                            - Before clicking the "Translate" button, check the Remove BGM checkbox to allow
+                            the system to remove the background music or noise from your audio file.
                             This further ensures that the translation process will be more accurate.<br />
                             - However, consider that clicking this option would take longer to process your audio file.
                         </p>
                         <hr />
                         <h3>Can I translate a video?</h3>
                         <p>
-                            - Yes! Voce also process video files. 
-                            However, only the audio from the video will be processed and translated. 
+                            - Yes! Voce also process video files.
+                            However, only the audio from the video will be processed and translated.
                             Furthermore, it must be in the accepted file formats and 25mb file size or below.
                         </p>
                         <hr />
                         <h3>What are the file formats accepted?</h3>
                         <p>
                             - The file formats accepted are:
-                                <i>m4a, mp3, webm, mp4, mpga, wav, mpeg</i>
+                            <i>m4a, mp3, webm, mp4, mpga, wav, mpeg</i>
                         </p>
                         <hr />
                         <h3>How can I save the Translation?</h3>
                         <p>
-                            - An option to download the translated text as a text file or word file will be available 
-                            after the translation process is completed. You can download the translated text by clicking the "Download as Text File" or "Download as Word File" button.
+                            - An option to download the translated text as a text file or word file will be available
+                            after the translation process is completed. You can download the translated text by clicking
+                            the "Download as Text File" or "Download as Word File" button.
                         </p>
                         <hr />
-                        
+
                     </div>
                 </div>
-                
+            </center>
+
 
 
         </div>
@@ -177,16 +187,16 @@ function dd($item)
     <?php endif; ?>
 
     <br>
-    
+
     <nav>
         <div class="footer">
-        <div>
-            <a href="faqs.php">FAQs</a>
-            <a href="about.php">About Voce</a>
-        </div>
-        <div >
-            <span>Voce © 2024. All Rights Reserved</span>
-        </div>
+            <div>
+                <a href="faqs.php">FAQs</a>
+                <a href="about.php">About Voce</a>
+            </div>
+            <div>
+                <span>Voce © 2024. All Rights Reserved</span>
+            </div>
         </div>
     </nav>
 

@@ -72,7 +72,7 @@ inputUser.addEventListener("keyup", () => {
     const userPattern = /^[\w\-]+$/;
     let newUsername = inputUser.value;
 
-    submitUsername.disabled = !(newUsername.length >= 6 && newUsername.length <= 30 && userPattern.test(newUsername));
+    submitUsername.disabled = !(newUsername.length > 0 && userPattern.test(newUsername));
 
     // add css hover if submitUsername is enabled
     btnhover(submitUsername);

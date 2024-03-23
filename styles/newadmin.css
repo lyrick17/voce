@@ -215,3 +215,8 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
   margin-top: auto; /* Optionally adjust vertical spacing */
   font-size: 20px !important;
 }
+  
+.modal-container {
+  display: flex;
+  flex-direction: row;
+}
