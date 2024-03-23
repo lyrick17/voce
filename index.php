@@ -118,7 +118,7 @@ require ("utilities/recent_audio_translation.php");
                             echo "Audio File not processed well. Please try again.";
                             break;
                         case 6: // user added unprovided choices
-                            echo "Please choose only on the provided models/languages.";
+                            echo "Please choose only on the provided languages.";
                             break;
                         case 7: // user added unprovided choices
                             echo "Recorded audio cannot be processed. Please contact Voce team.";
