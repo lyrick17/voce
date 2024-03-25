@@ -61,13 +61,11 @@ for($i = 0; $i < 7; $i++){
 $t_error = [];
 $a_error = [];
 
-$t_error[0] = "SELECT COUNT(*) FROM activity_logs WHERE activity_description = 'error text-text: language not selected';";
-$t_error[1] = "SELECT COUNT(*) FROM activity_logs WHERE activity_description = 'error text-text: no text input';";
-$t_error[2] = "SELECT COUNT(*) FROM activity_logs WHERE activity_description = 'error text-text: same language selected';";
-$t_error[3] = "SELECT COUNT(*) FROM activity_logs WHERE activity_description = 'error text-text: user chose unprovided language';";
+$t_error[0] = "SELECT COUNT(*) FROM activity_logs WHERE activity_description = 'error text-text: user chose unprovided language';";
+$t_error[1] = "SELECT COUNT(*) FROM activity_logs WHERE activity_description = 'error text-text: 5000 character limit reached';";
 
 $t_error_result = [];
-for ($t = 0; $t < 4; $t++) {
+for ($t = 0; $t < 2; $t++) {
     $t_error_row[$t] = mysqli_fetch_row(mysqli_query($dbcon, $t_error[$t]));
 }
 
@@ -84,8 +82,8 @@ for ($a = 0; $a < 6; $a++) {
 }
 
 // place all the total errors in designated variables
-$bartext_values = [0, 0, 0, 0];
-for($i = 0; $i < 4; $i++) {
+$bartext_values = [0, 0];
+for($i = 0; $i < 2; $i++) {
     $bartext_values[$i] = $t_error_row[$i]; 
 }
 

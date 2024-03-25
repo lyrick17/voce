@@ -191,10 +191,8 @@ fetchPromise.then((response) =>
         };
         // bar text error data
         const bartext_data = {
-          labels: ['language not selected', 
-                  'no text input',
-                  'same language selected',
-                  'chose unprovided language'],
+          labels: ['chose unprovided language',
+                  '5000 character limit reached'],
           datasets: [{
             label: 'Total Error',
             data: graphData['bartext_values'],
