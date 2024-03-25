@@ -100,28 +100,11 @@ require ("utilities/recent_text_translation.php");
                             width="30px">Download as Word File</button>
                 </form>
             </div>
+            <div style="text-align:center;">
+            <p style="color: red; text-align:center;font-style" id="error-message">
+            </p>
+            </div>
         </div>
-        <!-- Error Message: Pabago nalang if may naiisip kang ibang design -->
-        <p style="color: red; display: none;" id="error-message"><i>
-                <?php
-                if (isset ($_GET['error'])) {
-                    switch ($_GET['error']) {
-                        case 1: // user did not chooose language
-                            echo "Please select a source/translated language.";
-                            break;
-                        case 2: // user did not enter text
-                            echo "Please choose two different language.";
-                            break;
-                        case 3: // user chose two same language
-                            echo "Please type text to be translated.";
-                            break;
-                        case 4: // user added unprovided choices
-                            echo "Please choose only on the provided languages.";
-                            break;
-                    }
-                }
-                ?>
-            </i></p>
         <div class="header-language selector">
             <!-- SELECT LANGUAGE -->
             <div class="language-selector-wrapper">
