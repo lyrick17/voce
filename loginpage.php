@@ -33,7 +33,7 @@ if (isset ($_SESSION['username'])) {
 
                 <input type="text" placeholder="Username/Email" id="user" name="user">
                 <input type="password" placeholder="Password" id="pass" name="pass">
-                <a href="#">Forget Your Password?</a>
+                <!-- <a href="#">Forget Your Password?</a> -->
                 <input type="submit" id="submit-login" name="submit-register" value="Sign In">
             </form>
         </div>

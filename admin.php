@@ -294,6 +294,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                         <form action="admin.php" method="POST" id="inputpass-form">
                             <div class="modal-body">
                                 <p id="pass-error"></p><!--Error Message-->
+                                <p>*must be atleast 8 characters</p><!--Error Message-->
+
                                     <div class="mb-3">
                                         <label for="current-password" class="form-label">Current Password</label>
                                         <input type="password" class="form-control user-input" id="old-pword"
@@ -374,12 +376,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                             <p id="email-error"></p><!--Error Message-->
                                 <div class="mb-3">
                                     <label for="current-email" class="form-label">Current Email</label>
-                                    <input type="email" class="form-control" id="current-email" name="current-email" value = "<?= $_SESSION['email']?>"
+                                    <input type="email" class="form-control" id="current-email" name="current-email" value = "<?= $_SESSION['email']?>" maxlength="100" 
                                         disabled>
                                 </div>
                                 <div class="mb-3">
                                     <label for="new-email" class="form-label">New Email</label>
-                                    <input type="email" placeholder="Email" class="form-control user-input" id="new-email" name="email" required>
+                                    <input type="email" placeholder="Email" class="form-control user-input" id="new-email" name="email" maxlength="100" required>
                                     <br />
                                     <input type="submit" class="form-control edit-submit"
                                         id="updateEmail" name="updateEmail" value="Edit Email">

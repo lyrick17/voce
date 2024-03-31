@@ -85,7 +85,7 @@ require ("utilities/recent_audio_translation.php");
                 <?php endif; ?>
             </div>
         </div>
-        <p id="error-message"><i>
+        <p id="error-message" style="color:red;"><i>
                 <?php
                 if (isset ($_GET['error'])) {
                     switch ($_GET['error']) {
