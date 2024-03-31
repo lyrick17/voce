@@ -1,11 +1,6 @@
 <?php require ("mysql/mysqli_session.php");
 $current_page = basename($_SERVER['PHP_SELF']);
 
-function dd($item)
-{
-    var_dump($item);
-    exit();
-}
 // Call the test connection function to check if api is on, which would direct the user on translation page
 require ("utilities/Translator_Functions.php");
 Translator::checkConnection();
@@ -34,17 +29,6 @@ Translator::checkConnection();
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 
-<!-- Confirm delete window 
-<div class="delete-window">
-    <div class="confirm-div">
-        <h4 class="confirm-text"></h4>
-        <div class="confirm-btn-div">
-            <button class="confirm-btn confirm-yes">Yes</button>
-            <button class="confirm-btn confirm-no">No</button>
-        </div>
-    </div>
-</div> -->
-
 <body>
 
     <!-- Navbar -->
@@ -55,33 +39,7 @@ Translator::checkConnection();
         </div>
     </nav>
     <!-- End of Navbar -->
-    <div class="sidebar">
-        <div class="top-iconsheader">
-            <div class="top-icons">
-                <a href=""><img src="images/anti-clockwise.png" alt="Language Icon" width="30px"></a>
-                <a href=""><img src="images/anti-clockwise.png" alt="Language Icon" width="30px"></a>
-            </div>
-            <div class="top-close">
-                <a href=""><img src="images/xmas.png" alt="Language Icon" width="30px"></a>
-            </div>
-        </div>
-        <div class="sidebar-header">
-            <h2 style="margin-left: 10px;">History</h2>
-        </div>
-        <div class="sidebar-headerclear">
-            <a href="#" style="margin-right: 4px; padding: 5px;">Clear all history</a>
-        </div>
-        <br>
-        <div class="sidebar-history">
-            Testting first
-            Testting first
-            Testting first
-            Testting first
-        </div>
-        <div class="robot-section">
-            <img src="images/hi-robot.gif" class="robot" alt="robot waving" width="80%">
-        </div>
-    </div>
+    
     <div class="main-content">
 
         <div id="loadingModal" class="modalloading">
@@ -122,7 +80,6 @@ Translator::checkConnection();
         </div>
     </nav>
     </div>
-    <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"
