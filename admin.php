@@ -206,17 +206,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                             </li>
                         </ul>
                     </li>
-                    <!--<li class="sidebar-item">
-                        <a href="#" class="sidebar-link collapsed" data-bs-target="#auth" data-bs-toggle="collapse"
-                            aria-expanded="false"><i class="fa-regular fa-user pe-2"></i>
-                            Auth
-                        </a>
-                        <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Edit a user</a>
-                            </li>
-                        </ul>
-                    </li>-->
                     <li class="sidebar-item">
                         <a href="utilities/logout.php" class="sidebar-link logout-link">
                             <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout
@@ -475,49 +464,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                         </div>
                     </div>
 
-                    <!-- Table Element 
-                    <div class="card border-0">
-                        <div class="card-header">
-                            <h5 class="card-title">
-                                Basic Table
-                            </h5>
-                            <h6 class="card-subtitle text-muted">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum ducimus,
-                                necessitatibus reprehenderit itaque!
-                            </h6>
-                        </div>
-                        <div class="card-body">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">First</th>
-                                        <th scope="col">Last</th>
-                                        <th scope="col">Handle</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td colspan="2">Larry the Bird</td>
-                                        <td>@twitter</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> -->
                 </div>
                 <div class="dlbtns-container">
                     <button class="dlpie-btn" href="#">Download Total Translations Graph</button>
