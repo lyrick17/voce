@@ -51,13 +51,17 @@
     const openFeedbackBtn = document.getElementById('open-feedback');
     const feedbackSidebar = document.querySelector('.feedback-sidebar');
 
-    openFeedbackBtn.addEventListener('click', () => {
-        feedbackSidebar.classList.toggle('active');
-    });
+    if(openFeedbackBtn != null){
+        openFeedbackBtn.addEventListener('click', () => {
+            feedbackSidebar.classList.toggle('active');
+        });
+    }
 
     // Get a reference to the submit button (if needed for future functionality)
-    const submitBtn = feedbackSidebar.querySelector('button');
-    
+
+    if(feedbackSidebar != null){
+        const submitBtn = feedbackSidebar.querySelector('button');
+    }
     // modal for loading the duck
     function showLoading() {
         document.getElementById('loadingModal').style.display = 'flex';

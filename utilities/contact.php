@@ -22,6 +22,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $error = 0;
     $strlen_error = 0;
+    $strlen_error2 = 0;
   
     $_POST['contact_name'] = sanitize_input($_POST['contact_name']);
     $_POST['contact_subject'] = sanitize_input($_POST['contact_subject']);
@@ -33,11 +34,14 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
     $c_subject = (!empty($_POST['contact_subject'])) ? $_POST['contact_subject'] : $error++;
     $c_message = (!empty($_POST['contact_message'])) ? $_POST['contact_message'] : $error++;
     if (strlen($c_message) > 2000) { $strlen_error++; $error++; }
+    if (strlen($c_name) > 255 || strlen($c_subject) > 255) { $strlen_error2++; $error++; }
     
     
     if ($error > 0) {
         if ($strlen_error == 1) {
             $contact_message = $message[3];
+        } elseif ($strlen_error2 == 1) {
+            $contact_message = $message[2];
         } else {
             $contact_message = $message[1];
         }

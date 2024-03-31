@@ -150,14 +150,18 @@ function displayTranslation(data) {
 
 function finishProcess(errornumber) {
     switch (errornumber) {
-        case 1: // user did not chooose language
+        /*case 1: // user did not chooose language
             document.getElementById("error-message").innerHTML = 'Please select a source/translated language.';
             break;
         case 2: // user did not enter text
             document.getElementById("error-message").innerHTML = 'Please choose two different language.';
             break;
+        */
         case 4: // user added unprovided choices
-            document.getElementById("error-message").innerHTML = 'Please choose only on the provided models/languages.';
+            document.getElementById("error-message").innerHTML = 'Please choose only on the provided languages.';
+            break;
+        case 5: // user added unprovided choices
+            document.getElementById("error-message").innerHTML = 'Character limit is only 5,000.';
             break;
     }
 }

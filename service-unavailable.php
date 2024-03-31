@@ -63,7 +63,7 @@ Translator::checkConnection();
                 Our team is working diligently to restore the service.
                 Please check back later. Thank you for your understanding!
             </div>
-            <center> <img src="images/servicerobot.png" style="opacity: 0.5; border-radius: 10px;"></center>
+            <center> <img src="images/servicerobot.png" style="border-radius: 10px;"></center>
         </div>
     </div>
     <br>

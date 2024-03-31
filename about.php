@@ -36,13 +36,15 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </div>
     </nav>
     <!-- End of Navbar -->
-    
+
     <div class="main-content" style="background: url('images/headset.jpg') center/cover no-repeat;">
 
         <div class="header">
-            <a href="text-text.php"><button><img src="images/translator.png" alt="Language Icon" width="30px">Text</button></a>
-            <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload a File</button></a>
-            <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == 1): ?>
+            <a href="text-text.php"><button><img src="images/translator.png" alt="Language Icon"
+                        width="30px">Text</button></a>
+            <a href="index.php"><button><img src="images/music-file.png" alt="Language Icon" width="30px">Upload a
+                    File</button></a>
+            <?php if (isset ($_SESSION['user_id']) && $_SESSION['user_id'] == 1): ?>
                 <a href="admin.php">
                     <button>
                         <img src="images/admin.png" alt="Language Icon" width="30px">Admin
@@ -54,8 +56,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <div class="about-section header">
             <img src="images/logo.png" alt="Voce logo">
             <p><i>powered by Whisper and Google Translator</i></p>
-            <p style="font-size: 20px;">Unlock the power of your audio content by effortlessly translating it into another language</p>
-            <p style="font-size: 20px;">We provide Audio to Text translation services to allow you to translate your audio into another language</p>
+            <p style="font-size: 20px;">Unlock the power of your audio content by effortlessly translating it into
+                another language</p>
+            <p style="font-size: 20px;">We provide Audio to Text translation services to allow you to translate your
+                audio into another language</p>
         </div>
         <br>
         <br>
@@ -64,23 +68,27 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <div class="about-section2 header">
             <h2>Powered by <i>Whisper</i></h2>
             <p>
-            Whisper AI is a state-of-the-art automatic speech recognition (ASR) system developed by OpenAI. 
-            It can convert spoken language into written text with high accuracy and efficiency.
-            Whisper AI has been trained to provide the best performance across a wide range of languages and dialects, making it capable of transcribing speech in various languages and domains.
-            Whisper is utilized to provide you the best services in Voce!
+                Whisper AI is a state-of-the-art automatic speech recognition (ASR) system developed by OpenAI.
+                It can convert spoken language into written text with high accuracy and efficiency.
+                Whisper AI has been trained to provide the best performance across a wide range of languages and
+                dialects, making it capable of transcribing speech in various languages and domains.
+                Whisper is utilized to provide you the best services in Voce!
             </p>
         </div>
         <div class="about-section2 header">
             <h2>Powered by <i>Google Translator</i></h2>
-            <p>Google Translator is a powerful tool that would help people on communicating with different languages. 
-                It uses advanced technology to automatically translate text from one language to another. This technology
+            <p>Google Translator is a powerful tool that would help people on communicating with different languages.
+                It uses advanced technology to automatically translate text from one language to another. This
+                technology
                 is utilizied on both Voce's Audio to Text and Text to Text translation services.</p>
         </div>
         <div class="about-section2 header">
             <h2>Our Mission</h2>
-            <p>Voce aims to provide a platform for users to easily translate their audio content into text. 
-                We believe that language should not be a barrier to communication, and we strive to make it easier for people to understand and communicate with each other, regardless of the language they speak. 
-                Our goal is to provide a seamless and efficient translation service that is accessible to everyone, and we are committed to continuously improving our platform to better serve our users.</p>
+            <p>Voce aims to provide a platform for users to easily translate their audio content into text.
+                We believe that language should not be a barrier to communication, and we strive to make it easier for
+                people to understand and communicate with each other, regardless of the language they speak.
+                Our goal is to provide a seamless and efficient translation service that is accessible to everyone, and
+                we are committed to continuously improving our platform to better serve our users.</p>
         </div>
 
         <div class="grid-container">
@@ -88,21 +96,17 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <div class="grid-item"><img src="images/reliable.png" /><br />Accurate and Reliable</div>
             <div class="grid-item"><img src="images/languageicon.png" /><br />Unlimited Use for Free!</div>
         </div>
-        
-    <br>
-    
-    <nav>
+
         <div class="footer">
             <div>
                 <a href="faqs.php">FAQs</a>
                 <a href="about.php">About Voce</a>
-            </div>
-            <div>
-                <span>Voce © 2024. All Rights Reserved</span>
+                <div>
+                    <span>Voce © 2024. All Rights Reserved</span>
+                </div>
             </div>
         </div>
-    </nav>
-
+    </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"

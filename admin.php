@@ -1,7 +1,7 @@
 <?php require ("mysql/mysqli_session.php");
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
-<?php if (!isset ($_SESSION['username'])) {
+<?php if (!isset($_SESSION['username'])) {
 
     header("location: index.php");
     exit();
@@ -433,7 +433,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                     <div class="row">
                         <div class="col-md-4">
                             <div class="card">
-                                <div class="card-header">Pie Chart</div>
+                                <div class="card-header">Total Translations</div>
                                 <div class="card-body-md">
                                     <div class="donut-container">
                                         <br>
@@ -444,7 +444,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                         </div>
                         <div class="col-lg linegraph">
                             <div class="card ">
-                                <div class="card-header">Graph</div>
+                                <div class="card-header">Translations for the Past 7 days</div>
                                 <div class="card-body-md linechart-container">
                                     <canvas id="myChart">
                                     </canvas>
@@ -518,8 +518,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                     </div> -->
                 </div>
                 <div class="dlbtns-container">
-                    <button class="dlpie-btn" href="#">Download Pie Graph</button>
-                    <button class="dlgraph-btn" href="#">Download Line Graph</button>
+                    <button class="dlpie-btn" href="#">Download Total Translations Graph</button>
+                    <button class="dlgraph-btn" href="#">Download Recent Translations Graph</button>
                     <button class="dlbar1-btn" href="#">Download Text Errors Graph</button>
                     <button class="dlbar2-btn" href="#">Download Audio Errors Graph</button>
                     <form method="post" action="admin.php">

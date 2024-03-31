@@ -182,7 +182,7 @@ function logs($log_act, $dbcon) {
             $activity = "error text-text: user chose unprovided language";
             break;
         case "error-tt-5":
-            $activity = "error text-text: system error";
+            $activity = "error text-text: 5000 character limit reached";
             break;
 
             // Errors for AUDIO TO TEXT

@@ -3,8 +3,8 @@
 html {
   margin: 0;
   font-family: "Poppins", sans-serif;
-  height: 100vh;
-  font-weight: 700;
+  min-height: 100vh;
+  overflow-y: scroll;
 }
 body::-webkit-scrollbar {
   display: none;
@@ -440,7 +440,6 @@ textarea {
   overflow-y: auto;
 }
 
-
 #translatedText {
   font-weight: 400;
 }
@@ -769,7 +768,7 @@ option {
     margin-top: 30px;
   }
 }
-@media only screen and (max-width: 1008px) {
+@media only screen and (max-width: 1060px) {
   .container {
     display: flex;
     flex-direction: column;
@@ -799,27 +798,27 @@ option {
   }
 }
 
-nav .footer {
+.footer {
   justify-content: flex-start;
   align-items: center;
   margin-left: 55px;
   margin-right: 55px;
   text-align: center;
-  padding: 15px;
   bottom: 0;
+  padding: 20px;
 }
-nav .footer a {
+.footer a {
   padding: 10px;
   text-decoration: none;
   font-family: "Poppins", sans-serif;
   color: white;
   align-items: center;
 }
-nav .footer a:hover {
+.footer a:hover {
   color: rgb(0, 0, 0);
   transition: 0.3s ease;
 }
-nav .footer span {
+.footer span {
   padding: 10px;
   text-decoration: none;
   font-family: "Poppins", sans-serif;
