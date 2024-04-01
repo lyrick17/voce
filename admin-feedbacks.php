@@ -14,6 +14,15 @@ require "utilities/Translator_Functions.php"; // Translator_Functions and Error 
 
 $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
 
+
+$sess_id = $_SESSION['user_id'];
+$username = $_SESSION['username'];
+$email = $_SESSION['email'];
+$sess_hashedPass = $_SESSION['pword'];
+$usernameerror = "";
+$emailerror = "";
+$passerror = "";
+
 //Retrieves searched users 
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
     $search = mysqli_real_escape_string($dbcon, trim($_GET['search']));
@@ -301,36 +310,45 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
                     <div class="row">
                         <div class="col-md-8 pb-3">
                             <form method="get" action="admin-feedbacks.php">
-                                <input type="text" placeholder="Search..." name="search" class="w-50 p-2" maxlength="2000">
-                                <a href="admin-feedbacks.php" class="btn btn-secondary text-end">Clear Search</a>
+                                <input type="text" placeholder="Search..." name="search" class="w-50 p-2" maxlength="255">
+                                <input type="submit" name="search-submit" class="btn btn-primary" value="Search">
+                                <a href="admin-feedbacks.php" class="btn btn-secondary">Clear Search</a>
                             </form>
                         </div>
                         
                     </div>
                     <div class="row">
                         <div class="col-md-8">
-                            <div>
-                                <?php while($row = mysqli_fetch_assoc($history)): ?>
-                                    <div class="card paginate">
-                                        <div class="card-body">
-                                            <h4>Feedback No. #<?= $row['contact_id'] ?></h4>
-                                            <h5 class="count">
-                                                Name: <b><?= $row['username'] ?></b>
-                                            </h5>
-                                            <h6>Subject: <b><?= $row['subject'] ?></b></h6>
-                                            <hr />
-                                            <span><b>Message:</b></span><br />
-                                            <p><?= $row['message'] ?></p>
+                            <?php if ($num_of_feedback['total_feedback'] != 0): ?>
+                                <div>
+                                    <?php while($row = mysqli_fetch_assoc($history)): ?>
+                                        <div class="card paginate">
+                                            <div class="card-body">
+                                                <h4>Feedback No. #<?= $row['contact_id'] ?></h4>
+                                                <h5 class="count">
+                                                    Name: <b><?= $row['username'] ?></b>
+                                                </h5>
+                                                <h6>Subject: <b><?= $row['subject'] ?></b></h6>
+                                                <hr />
+                                                <span><b>Message:</b></span><br />
+                                                <p><?= $row['message'] ?></p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    
-                                <?php endwhile; ?>
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <div id="page-nav-content">
-                                    <div id="page-nav"></div>
+                                        
+                                    <?php endwhile; ?>
                                 </div>
-                            </div>
+                                <div class="d-flex justify-content-center">
+                                    <div id="page-nav-content">
+                                        <div id="page-nav"></div>
+                                    </div>
+                                </div>
+                            <?php else: ?>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4>No feedbacks have been found.</h4>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                             <br />
                         </div>
                         <div class="col-md-4">
@@ -348,17 +366,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <div class="row">
-                        
-                    </div>
-                    <div class="row">
-                        
-                    </div>
-                    <div class="row">
-                        
                     </div>
 
                 </div>
