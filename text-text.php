@@ -22,17 +22,6 @@ require ("utilities/recent_text_translation.php");
 
 </head>
 
-<!-- Confirm delete window 
-<div class="delete-window">
-    <div class="confirm-div">
-        <h4 class="confirm-text"></h4>
-        <div class="confirm-btn-div">
-            <button class="confirm-btn confirm-yes">Yes</button>
-            <button class="confirm-btn confirm-no">No</button>
-        </div>
-    </div>
-</div> -->
-
 <body>
     <!-- Main Content -->
 
@@ -44,33 +33,7 @@ require ("utilities/recent_text_translation.php");
         </div>
     </nav>
     <!-- End of Navbar -->
-    <div class="sidebar">
-        <div class="top-iconsheader">
-            <div class="top-icons">
-                <a href=""><img src="images/anti-clockwise.png" alt="Language Icon" width="30px"></a>
-                <a href=""><img src="images/anti-clockwise.png" alt="Language Icon" width="30px"></a>
-            </div>
-            <div class="top-close">
-                <a href=""><img src="images/xmas.png" alt="Language Icon" width="30px"></a>
-            </div>
-        </div>
-        <div class="sidebar-header">
-            <h2 style="margin-left: 10px;">History</h2>
-        </div>
-        <div class="sidebar-headerclear">
-            <a href="#" style="margin-right: 4px; padding: 5px;">Clear all history</a>
-        </div>
-        <br>
-        <div class="sidebar-history">
-            Testting first
-            Testting first
-            Testting first
-            Testting first
-        </div>
-        <div class="robot-section">
-            <img src="images/hi-robot.gif" class="robot" alt="robot waving" width="80%">
-        </div>
-    </div>
+    
     <div class="main-content">
         <div class="header">
             <a href="text-text.php">
@@ -100,28 +63,11 @@ require ("utilities/recent_text_translation.php");
                             width="30px">Download as Word File</button>
                 </form>
             </div>
+            <div style="text-align:center;">
+            <p style="color: red; text-align:center;font-style" id="error-message">
+            </p>
+            </div>
         </div>
-        <!-- Error Message: Pabago nalang if may naiisip kang ibang design -->
-        <p style="color: red; display: none;" id="error-message"><i>
-                <?php
-                if (isset ($_GET['error'])) {
-                    switch ($_GET['error']) {
-                        case 1: // user did not chooose language
-                            echo "Please select a source/translated language.";
-                            break;
-                        case 2: // user did not enter text
-                            echo "Please choose two different language.";
-                            break;
-                        case 3: // user chose two same language
-                            echo "Please type text to be translated.";
-                            break;
-                        case 4: // user added unprovided choices
-                            echo "Please choose only on the provided models/languages.";
-                            break;
-                    }
-                }
-                ?>
-            </i></p>
         <div class="header-language selector">
             <!-- SELECT LANGUAGE -->
             <div class="language-selector-wrapper">
@@ -178,13 +124,6 @@ require ("utilities/recent_text_translation.php");
                     </p>
                 </div>
             </div>
-            <div class="options">
-                <a href=""><img src="images/anti-clockwise.png" alt="Language Icon" width="30px"></a>
-                <label>History</label>
-                <br>
-                <a href=""><img src="images/dictionary-icon.png" alt="Language Icon" width="30px"></a>
-                <label>Dictionary</label>
-            </div>
         </div>
         <div class="feedback">
             <button type="button" id="open-feedback">send feedback</button>
@@ -231,7 +170,6 @@ require ("utilities/recent_text_translation.php");
             </form>
         </div>
     </div>
-
 
     <nav>
         <div class="footer">
@@ -290,11 +228,7 @@ require ("utilities/recent_text_translation.php");
     <script src="scripts/translation_process2.js"></script>
     <script src="scripts/newindex.js"></script>
     <script src="scripts/contact.js"></script>
-    <!-- <script src="scripts/delete.js"></script> -->
-
-
-
-
+                        
 </body>
 
 </html>

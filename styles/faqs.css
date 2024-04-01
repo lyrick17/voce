@@ -1,29 +1,40 @@
 .faq-box {
-    position: relative;
-    background-color: #ffffff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    padding: 20px;
-    border-radius: 10px;
+  position: relative;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 400;
 }
 .faq-box h3 {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
-.text-section{
-    padding: 10em;
-    text-align: justify;
+.text-section {
+  padding: 10em;
+  text-align: justify;
 }
 
-p{
-    padding: 1em;
+p {
+  padding: 1em;
 }
 
-h3{
-    text-align: left;
-    padding: 1em;
+h3 {
+  font-size: 30px;
+  text-align: left;
 }
-.faq-container{
-    width: 100%;
+.faq-container {
+  width: 100%;
+}
+
+@media only screen and (max-width: 960px) {
+  .faq-box {
+    width: 80%;
+  }
+  .language-selector h3 {
+    text-align: center;
+  }
 }

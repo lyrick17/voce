@@ -34,18 +34,6 @@ require ("utilities/recent_audio_translation.php");
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 </head>
-
-<!-- Confirm delete window 
-<div class="delete-window">
-    <div class="confirm-div">
-        <h4 class="confirm-text"></h4>
-        <div class="confirm-btn-div">
-            <button class="confirm-btn confirm-yes">Yes</button>
-            <button class="confirm-btn confirm-no">No</button>
-        </div>
-    </div>
-</div> -->
-
 <body id="a2t-body">
 
     <!-- Navbar -->
@@ -92,18 +80,17 @@ require ("utilities/recent_audio_translation.php");
                                     alt="Language Icon" width="30px">Download as Text File</button>
                             <button type="submit" name="word" style="padding:5px;"><img src="images/download.png"
                                     alt="Language Icon" width="30px">Download as Word File</button>
-
                         </form>
                     </div>
                 <?php endif; ?>
             </div>
         </div>
-        <p style="color: red;" id="error-message"><i>
+        <p id="error-message"><i>
                 <?php
                 if (isset ($_GET['error'])) {
                     switch ($_GET['error']) {
                         case 1: // user did not choose language
-                            echo "Please select a model or source/translated language.";
+                            echo "Please select a source/translated language.";
                             break;
                         case 2:  // user did not upload file
                             echo "No File Upload. Please try again.";
@@ -118,7 +105,7 @@ require ("utilities/recent_audio_translation.php");
                             echo "Audio File not processed well. Please try again.";
                             break;
                         case 6: // user added unprovided choices
-                            echo "Please choose only on the provided models/languages.";
+                            echo "Please choose only on the provided languages.";
                             break;
                         case 7: // user added unprovided choices
                             echo "Recorded audio cannot be processed. Please contact Voce team.";
@@ -180,7 +167,6 @@ require ("utilities/recent_audio_translation.php");
         </div>
         <div class="container" id="drop-zone" ondrop="fileDropHandler(event);" ondragover="dragOverHandler(event);"
             ondragenter="dragEnterHandler(event);" ondragleave="dragLeaveHandler(event);">
-
             <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
                 <div class="box">
                     <div class="text-section">
@@ -189,8 +175,6 @@ require ("utilities/recent_audio_translation.php");
                             echo $data[6] ?? '';
                         } ?></textarea>
                     </div>
-                    <!-- former button before updating ui 
-                        <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
                 </div>
                 <div class="box2">
                     <div class="text-section">
@@ -206,7 +190,6 @@ require ("utilities/recent_audio_translation.php");
                     </div>
                 </div>
             <?php else: ?>
-
                 <div class="box">
                     <div class="upload-icon">
                         <img src="images/upload.png" alt="Upload Icon">
@@ -216,19 +199,13 @@ require ("utilities/recent_audio_translation.php");
                             <label for="removeBGM"><span style="font-style: italic; color: red;">*Remove Background Noise /
                                     Music</span></label>
                         </div>
-
-
                     </div>
-
-                    <!-- former button before updating ui 
-                            <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
 
                 </div>
                 <div class="box2">
                     <div class="details">
                         <input type="hidden" name="record" />
                         <button type="button" id="mic" class="mic-toggle hovering">
-                            <!-- <i class="gg-mic"></i> -->
                             <i class="fa fa-microphone" style="font-size:150px;"></i>
                         </button>
                         <audio class="playback" controls></audio>
@@ -236,13 +213,6 @@ require ("utilities/recent_audio_translation.php");
                 </div>
 
             <?php endif; ?>
-            <div class="options">
-                <a href=""><img src="images/anti-clockwise.png" alt="Language Icon" width="30px"></a>
-                <label>History</label>
-                <br>
-                <a href=""><img src="images/dictionary-icon.png" alt="Language Icon" width="30px"></a>
-                <label>Dictionary</label>
-            </div>
 
         </div>
         <div class="feedback">
@@ -273,7 +243,7 @@ require ("utilities/recent_audio_translation.php");
         <div class="feedbackcontainer">
             <div class="feedbackheader">
                 <button class="close-feedback"
-                    onclick="document.querySelector('.feedback-sidebar').classList.remove('active'); document.querySelector('#overlay').classList.remove('active');">X</button>
+                    onclick="document.querySelector('.feedback-sidebar').classList.remove('active');">X</button>
             </div>
             <form method="post" action="index.php" id="contact-form">
                 <h3 class="feedback-text">Send Feedback to Voce</h3>
@@ -292,45 +262,13 @@ require ("utilities/recent_audio_translation.php");
                 </div>
                 <br />
                 <div class="submit-fback">
-                    <button type="submit" class="feedback-button" name="contact_submit">
+                    <button type="submit" title="Complete all the forms" class="feedback-button" name="contact_submit">
                         Send Message
                     </button>
                 </div>
             </form>
         </div>
     </div>
-
-    <!-- Live Recording 
-                <div class="container">
-                    <input type="hidden" name="record" />
-                    <button type="button" id="mic" class="mic-toggle">Record Now</button>
-                    <audio class="playback" controls></audio>
-                </div> -->
-
-
-    <!-- <div class="container">
-                    <div class="wrapper">
-                        <header>Transcribe Now</header>
-
-
-                        <div class="upload-file" id="drop-zone" ondrop="fileDropHandler(event);"
-                            ondragover="dragOverHandler(event);" ondragenter="dragEnterHandler(event);"
-                            ondragleave="dragLeaveHandler(event);">
-                            <center><i class="bx bx-upload"></i></center>
-                            <p>Drag and Drop File to Upload</p>
-                        </div>
-                        <input class="file-input" type="file" name="user_file" id="fileInputLabel" for="fileInput">
-                        <input class="removeBGM" type="checkbox" name="removeBGM">
-                        <label for="removeBGM">Remove BGM <br> <span style="font-style: italic; color: red;">*Remove
-                                BGM
-                                before translating audio with music.</span></label>
-                        <br><span style="font-style: italic; color: red;">*Only a maximum of 60MB file is
-                            accepted.</span>
-                    </div> 
-
-
-
-                    <button type="submit" id="yourButtonID" class="custom-button">Translate</button> -->
 
     <br>
 
@@ -347,8 +285,6 @@ require ("utilities/recent_audio_translation.php");
     </nav>
 
     </div>
-    <!-- for an in-depth walkthrough for pagination, please visit https://bilalakil.me/simplepagination -->
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"

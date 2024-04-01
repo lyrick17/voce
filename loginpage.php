@@ -29,7 +29,6 @@ if (isset ($_SESSION['username'])) {
                     </span>
                 </div>
 
-                <!-- This input type determines whether form is register or LOGIN -->
                 <input type="hidden" id="formType2" name="formType2" value="login">
 
                 <input type="text" placeholder="Username/Email" id="user" name="user">
