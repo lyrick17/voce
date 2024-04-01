@@ -13,12 +13,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <?php
 
 
-function dd($item)
-{
-    var_dump($item);
-    exit();
-}
-
 require "utilities/Translator_Functions.php";
 
 
@@ -86,8 +80,6 @@ $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSI
 
 <body>
 
-    <!-- Sidebar -->
-    <?php require "sidebar.php" ?>
 
     <!-- Main Content -->
     <div class="content">
