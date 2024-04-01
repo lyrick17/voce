@@ -301,7 +301,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
                     <div class="row">
                         <div class="col-md-8 pb-3">
                             <form method="get" action="admin-feedbacks.php">
-                                <input type="text" placeholder="Search..." name="search" class="w-50 p-2">
+                                <input type="text" placeholder="Search..." name="search" class="w-50 p-2" maxlength="2000">
                                 <a href="admin-feedbacks.php" class="btn btn-secondary text-end">Clear Search</a>
                             </form>
                         </div>
