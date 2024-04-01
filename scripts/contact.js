@@ -7,6 +7,7 @@ contactform.addEventListener('submit', function(e) {
     
     
     document.getElementById("contact-return-message").innerHTML = "<i>Sending message...</i>";
+    document.getElementById("contact-return-message").style.color = "black";
     fetch('utilities/contact.php', {
         method: "POST",
         body: contact_info,

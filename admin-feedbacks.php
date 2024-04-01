@@ -9,30 +9,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 <?php
 
+
 require "utilities/Translator_Functions.php"; // Translator_Functions and Error Handling are alr required in this file
-require "utilities/verify_audio_files.php";
+
 $id = is_array($_SESSION['user_id']) ? $_SESSION['user_id']['user_id'] : $_SESSION['user_id'];
-
-
-// Query for total number of feedback sent
-$q = "SELECT COUNT(contact_id) AS total_feedback FROM contacts";
-$result = mysqli_query($dbcon, $q);
-$num_of_feedback = mysqli_fetch_assoc($result);
-
-// Query for total number of files uploaded
-$q = "SELECT COUNT(file_id) AS total_files FROM audio_files";
-$result = mysqli_query($dbcon, $q);
-$num_of_files = mysqli_fetch_assoc($result);
-
-// Query for total number of text-to-text translations
-$q = "SELECT COUNT(from_audio_file) AS total_t2t FROM text_translations WHERE from_audio_file = 0";
-$result = mysqli_query($dbcon, $q);
-$num_of_t2t = mysqli_fetch_assoc($result);
-
-// Query for total number of audio-to-text translations
-$q = "SELECT COUNT(from_audio_file) AS total_a2t FROM text_translations WHERE from_audio_file = 1";
-$result = mysqli_query($dbcon, $q);
-$num_of_a2t = mysqli_fetch_assoc($result);
 
 
 $sess_id = $_SESSION['user_id'];
@@ -43,104 +23,44 @@ $usernameerror = "";
 $emailerror = "";
 $passerror = "";
 
-if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['username'])) {
+//Retrieves searched users 
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
+    $search = mysqli_real_escape_string($dbcon, trim($_GET['search']));
 
-    $newUsername = mysqli_real_escape_string($dbcon, trim($_POST['username']));
+    $q = "SELECT * FROM contacts WHERE 
+                (`contact_id` LIKE '%$search%' OR 
+                `username` LIKE '%$search%' OR 
+                `subject` LIKE '%$search%' OR 
+                `message` LIKE '%$search%')
+                ORDER BY contact_id DESC";
 
-    // check if username already exists
-    $query = mysqli_prepare($dbcon, "SELECT user_id FROM admin_users where username = ?");
-    mysqli_stmt_bind_param($query, "s", $newUsername);
-    mysqli_stmt_execute($query);
-    mysqli_stmt_bind_result($query, $result);
-    mysqli_stmt_fetch($query);
-
-    if ($username == $newUsername) {
-        // username error, user didnt change username
-        header("Location: admin.php?e=1");
-        exit();
-    } elseif ($result > 0) {
-        // username error, username already exists
-        header("Location: admin.php?e=2");
-        exit();
-    } else {
-        // no error
-        $query = mysqli_prepare($dbcon, "UPDATE admin_users SET username = ?
-        WHERE user_id = ?");
-        mysqli_stmt_bind_param($query, "ss", $newUsername, $sess_id);
-        $result = mysqli_stmt_execute($query);
-
-        $_SESSION['username'] = $newUsername;
-        unset($_POST);
-
-        header("Location: admin.php");
-        exit();
-
-    }
-}
-
-if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['email'])) {
-    $newEmail = mysqli_real_escape_string($dbcon, trim($_POST['email']));
-
-    // check if email already exists
-    $query = mysqli_prepare($dbcon, "SELECT user_id FROM admin_users where email = ?");
-    mysqli_stmt_bind_param($query, "s", $newEmail);
-    mysqli_stmt_execute($query);
-    mysqli_stmt_bind_result($query, $result);
-    mysqli_stmt_fetch($query);
-
-
-    if ($email == $newEmail) {
-        // email error, user type his same email
-        header("Location: admin.php?e=3");
-        exit();
-    } elseif ($result > 0) {
-        // email error, email already exists
-        header("Location: admin.php?e=4");
-        exit();
-    } else {
-        // no error
-        $query = mysqli_prepare($dbcon, "UPDATE admin_users SET email = ?
-        WHERE user_id = ?");
-        mysqli_stmt_bind_param($query, "ss", $newEmail, $sess_id);
-        $result = mysqli_stmt_execute($query);
-
-        $_SESSION['email'] = $newEmail;
-        unset($_POST);
-
-        header("Location: admin.php");
-        exit();
+    $query = mysqli_query($dbcon, $q);
+    if ($query) {
+        $history = $query;
     }
 
-}
-
-if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
-    $oldPass = mysqli_real_escape_string($dbcon, trim($_POST['old-pword']));
-
-    $newPass = mysqli_real_escape_string($dbcon, trim($_POST['new-pword']));
-    $hashedPass = password_hash($newPass, PASSWORD_BCRYPT);
-
-    if ($oldPass == $newPass) {
-        // pass error, user didnt change password
-        header("Location: admin.php?e=5");
-        exit();
-    } elseif (password_verify($oldPass, $sess_hashedPass)) {
-        // no error
-        $query = mysqli_prepare($dbcon, "UPDATE admin_users SET pword = ?
-        WHERE user_id = ?");
-        mysqli_stmt_bind_param($query, "ss", $hashedPass, $sess_id);
-        $result = mysqli_stmt_execute($query);
-
-        $_SESSION['pword'] = $hashedPass;
-        unset($_POST);
-
-        header("Location: admin.php");
-        exit();
-    } else {
-        // pass error, old password is wrong
-        header("Location: admin.php?e=6");
-        exit();
+    // Query for total feedback result from search
+    $q = "SELECT COUNT(contact_id) as total_feedback FROM contacts WHERE 
+                (`contact_id` LIKE '%$search%' OR 
+                `username` LIKE '%$search%' OR 
+                `subject` LIKE '%$search%' OR 
+                `message` LIKE '%$search%')";
+    $result = mysqli_query($dbcon, $q);
+    if ($result) {
+        $num_of_feedback = mysqli_fetch_assoc($result);
     }
+    
+} else {
+
+    // Translation history for audio to text 
+    $history = mysqli_query($dbcon, "SELECT * FROM contacts ORDER BY contact_id DESC");
+    
+    // Query for total feedbacks
+    $q = "SELECT COUNT(contact_id) as total_feedback FROM contacts";
+    $result = mysqli_query($dbcon, $q);
+    $num_of_feedback = mysqli_fetch_assoc($result);
 }
+
 
 ?>
 
@@ -154,11 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Admin Feedbacks</title>
     <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="styles/newadmin.css">
+    <link rel="stylesheet" href="styles/simplePagination.css">
 
     <style>
         .card-body {
@@ -203,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                             </li>
                         </ul>
                         <a href="admin-feedbacks.php" class="sidebar-link collapsed">
-                            <i class="fa-solid fa-comment pe-2"></i>Feedbacks
+                            <i class="fa-solid fa-comment pe-1"></i>Feedbacks
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -346,8 +267,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                     </div>
                 </div>
             </div>
-
-
             <div class="modal fade" id="changeEmailModal" tabindex="-1" aria-labelledby="changeEmailModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -386,119 +305,83 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
             <main class="content px-3 py-2">
                 <div class="container-fluid">
                     <div class="mb-3">
-                        <h4>Admin Dashboard</h4>
-
+                        <h4>User Feedbacks</h4>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4>Total Audio Files uploaded</h4>
-                                    <h5 class="count">
-                                        <?= $num_of_files['total_files'] ?>
-                                    </h5>
-                                </div>
-                            </div>
+                        <div class="col-md-8 pb-3">
+                            <form method="get" action="admin-feedbacks.php">
+                                <input type="text" placeholder="Search..." name="search" class="w-50 p-2" maxlength="255">
+                                <input type="submit" name="search-submit" class="btn btn-primary" value="Search">
+                                <a href="admin-feedbacks.php" class="btn btn-secondary">Clear Search</a>
+                            </form>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4>Total Text Translations</h4>
-                                    <h5 class="count">
-                                        <?= $num_of_t2t['total_t2t'] ?>
-                                    </h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4>Total Audio Translations</h4>
-                                    <h5 class="count">
-                                        <?= $num_of_a2t['total_a2t'] ?>
-                                    </h5>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-header">Total Translations</div>
-                                <div class="card-body-md">
-                                    <div class="donut-container">
-                                        <br>
-                                        <canvas id="donutCanvas"></canvas>
+                        <div class="col-md-8">
+                            <?php if ($num_of_feedback['total_feedback'] != 0): ?>
+                                <div>
+                                    <?php while($row = mysqli_fetch_assoc($history)): ?>
+                                        <div class="card paginate">
+                                            <div class="card-body">
+                                                <h4>Feedback No. #<?= $row['contact_id'] ?></h4>
+                                                <h5 class="count">
+                                                    Name: <b><?= $row['username'] ?></b>
+                                                </h5>
+                                                <h6>Subject: <b><?= $row['subject'] ?></b></h6>
+                                                <hr />
+                                                <span><b>Message:</b></span><br />
+                                                <p><?= $row['message'] ?></p>
+                                            </div>
+                                        </div>
+                                        
+                                    <?php endwhile; ?>
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <div id="page-nav-content">
+                                        <div id="page-nav"></div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg linegraph">
-                            <div class="card ">
-                                <div class="card-header">Translations for the Past 7 days</div>
-                                <div class="card-body-md linechart-container">
-                                    <canvas id="myChart">
-                                    </canvas>
+                            <?php else: ?>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4>No feedbacks have been found.</h4>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php endif; ?>
+                            <br />
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="card">
-                                <div class="card-header">Errors in Audio-Text</div>
-                                <div class="card-body-md">
-                                    <canvas id="baraudio">
-                                    </canvas>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">Errors in Text-Text</div>
-                                <div class="card-body-md">
-                                    <canvas id="bartext">
-                                    </canvas>
+                                <div class="card-body">
+                                    <h4>Total User Feedbacks</h4>
+                                    <h5 class="count">
+                                        <?= $num_of_feedback['total_feedback'] ?>
+                                    </h5>
+                                    <hr />
+                                    <?php if (isset($search)): ?>
+                                        <span>with search results:</span><br />
+                                        <span><i><?= $search; ?></i></span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <div class="dlbtns-container">
-                    <button class="dlpie-btn" href="#">Download Total Translations Graph</button>
-                    <button class="dlgraph-btn" href="#">Download Recent Translations Graph</button>
-                    <button class="dlbar1-btn" href="#">Download Text Errors Graph</button>
-                    <button class="dlbar2-btn" href="#">Download Audio Errors Graph</button>
-                    <form method="post" action="admin.php">
-                        <button style="padding: 5px;" id="verify-files">
-                            <h3>Verify Audio Files</h3>
-                        </button>
-                    </form>
-                    <p>
-                        <?= $verify_message; ?>
-                    </p>
-                </div>
+                
             </main>
             <a href="#" class="theme-toggle">
                 <i class="fa-regular fa-moon"></i>
                 <i class="fa-regular fa-sun"></i>
             </a>
-            <footer class="footer">
-                <div class="container-fluid">
-                </div>
-            </footer>
         </div>
     </div>
-    <script>
-        document.getElementById('profileTab').classList.add('show', 'active');
-    </script>
     <script src="scripts/account.js"></script>
-    <script src="scripts/user-account.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="scripts/admin.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js" integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="scripts/paginate-feedback.js"></script>
     <script>
         const sidebarToggle = document.querySelector("#sidebar-toggle");
         sidebarToggle.addEventListener("click", function () {
