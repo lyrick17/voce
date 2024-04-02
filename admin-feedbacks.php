@@ -332,6 +332,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
                                                 <hr />
                                                 <span><b>Message:</b></span><br />
                                                 <p><?= $row['message'] ?></p>
+                                                <p><?= date('F j, Y g:i A', strtotime($row['contact_date'])) ?></p>
                                             </div>
                                         </div>
                                         
