@@ -1,7 +1,7 @@
 <?php require ("mysql/mysqli_session.php");
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
-<?php if (!isset($_SESSION['username'])) {
+<?php if (!isset ($_SESSION['username'])) {
 
     header("location: index.php");
     exit();
@@ -174,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
     <div class="wrapper">
         <aside id="sidebar" class="js-sidebar">
             <!-- Content For Sidebar -->
-            <div class="h-100">
+            <div>
                 <div class="sidebar-logo">
                     <img src="images/logonew.png" width="130px">
 
@@ -204,11 +204,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                         </ul>
                         <a href="admin-feedbacks.php" class="sidebar-link collapsed">
                             <i class="fa-solid fa-comment pe-2"></i>Feedbacks
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="utilities/logout.php" class="sidebar-link logout-link">
-                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout
                         </a>
                     </li>
                 </ul>
@@ -285,23 +280,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                                 <p id="pass-error"></p><!--Error Message-->
                                 <p>*must be atleast 8 characters</p><!--Error Message-->
 
-                                    <div class="mb-3">
-                                        <label for="current-password" class="form-label">Current Password</label>
-                                        <input type="password" class="form-control user-input" id="old-pword"
-                                            name="old-pword" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="new-password" class="form-label user-input">New Password</label>
-                                        <input type="password" class="form-control" id="new-pword" name="new-pword"
-                                            required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="confirm-password" class="form-label user-input">Confirm Password</label>
-                                        <input type="password" class="form-control" id="new-pword2" name="new-pword2"
-                                            required>
-                                    </div>
-                                    <input type="submit" class="form-control edit-submit"
-                                        id="updatePsword" name="updatePsword" value="Edit Password" disabled>
+                                <div class="mb-3">
+                                    <label for="current-password" class="form-label">Current Password</label>
+                                    <input type="password" class="form-control user-input" id="old-pword"
+                                        name="old-pword" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="new-password" class="form-label user-input">New Password</label>
+                                    <input type="password" class="form-control" id="new-pword" name="new-pword"
+                                        required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confirm-password" class="form-label user-input">Confirm Password</label>
+                                    <input type="password" class="form-control" id="new-pword2" name="new-pword2"
+                                        required>
+                                </div>
+                                <input type="submit" class="form-control edit-submit" id="updatePsword"
+                                    name="updatePsword" value="Edit Password" disabled>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -328,13 +323,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                                 <div class="mb-3">
                                     <label for="current-username" class="form-label">Current Username</label>
                                     <input type="text" placeholder="Username" class="form-control user-input"
-                                        id="current-username" name="current-username" maxlength="50" value="<?= $username ?>" disabled>
+                                        id="current-username" name="current-username" maxlength="50"
+                                        value="<?= $username ?>" disabled>
                                 </div>
                                 <div class="mb-3">
                                     <label for="new-username" class="form-label">New Username</label>
                                     <input type="text" placeholder="Username" class="form-control user-input"
                                         id="username" name="username" maxlength="50" required>
-                                        <br />
+                                    <br />
                                     <input type="submit" placeholder="Username" class="form-control edit-submit"
                                         id="updateUsername" name="updateUsername" value="Edit Username" disabled>
                                 </div>
@@ -362,18 +358,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset ($_POST['new-pword'])) {
                         </div>
                         <div class="modal-body">
                             <form action="admin.php" method="POST" id="inputemail-form">
-                            <p id="email-error"></p><!--Error Message-->
+                                <p id="email-error"></p><!--Error Message-->
                                 <div class="mb-3">
                                     <label for="current-email" class="form-label">Current Email</label>
-                                    <input type="email" class="form-control" id="current-email" name="current-email" value = "<?= $_SESSION['email']?>" maxlength="100" 
-                                        disabled>
+                                    <input type="email" class="form-control" id="current-email" name="current-email"
+                                        value="<?= $_SESSION['email'] ?>" maxlength="100" disabled>
                                 </div>
                                 <div class="mb-3">
                                     <label for="new-email" class="form-label">New Email</label>
-                                    <input type="email" placeholder="Email" class="form-control user-input" id="new-email" name="email" maxlength="100" required>
+                                    <input type="email" placeholder="Email" class="form-control user-input"
+                                        id="new-email" name="email" maxlength="100" required>
                                     <br />
-                                    <input type="submit" class="form-control edit-submit"
-                                        id="updateEmail" name="updateEmail" value="Edit Email">
+                                    <input type="submit" class="form-control edit-submit" id="updateEmail"
+                                        name="updateEmail" value="Edit Email">
                                 </div>
                             </form>
                         </div>
