@@ -56,7 +56,7 @@ function realTimeTranslate() {
     .then(data => {
         if (data.error == 0) { 
             displayTranslation(data);
-            timerForSavingDB();
+            timerForSavingDB(data);
             console.log("translated");
         } else {
             console.log(data);
@@ -159,25 +159,29 @@ function finishProcess(errornumber) {
     }
 }
 
-function timerForSavingDB() {
-    savingTimer = setTimeout(function() {
-        const form = document.getElementById("myForm");
-        const text_info = new FormData(form);
-        let output = document.getElementById("text-output").innerHTML;
-
-        // remove all the html span elements 
-        output = output.replaceAll("\"word-span\"", "");
-        output = output.replaceAll("<span class=>", "");
-        output = output.replaceAll("</span>", "");
-        text_info.append("translation", output);
-        fetch('utilities/text_translation_save.php', {
-            method: "POST",
-            body: text_info,
-        })
-        .then(response => response.json());
-        console.log("saved to db");
-        document.getElementById("download-file").style.display = "block";
-    }, 3000); // save the translation to the database after 5 seconds
+function timerForSavingDB(data) {
+    console.log(data.translation)
+    let errorMsg = "~<b>Voce Connection Error</b>: Please connect to the Internet to continue translating~"
+    if (data.translation != errorMsg) {
+        savingTimer = setTimeout(function() {
+            const form = document.getElementById("myForm");
+            const text_info = new FormData(form);
+            let output = document.getElementById("text-output").innerHTML;
+    
+            // remove all the html span elements 
+            output = output.replaceAll("\"word-span\"", "");
+            output = output.replaceAll("<span class=>", "");
+            output = output.replaceAll("</span>", "");
+            text_info.append("translation", output);
+            fetch('utilities/text_translation_save.php', {
+                method: "POST",
+                body: text_info,
+            })
+            .then(response => response.json());
+            console.log("saved to db");
+            document.getElementById("download-file").style.display = "block";
+        }, 3000); // save the translation to the database after 5 seconds
+    }
 }
 
 function capitalizeFirstLetter(str) {

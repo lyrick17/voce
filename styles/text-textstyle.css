@@ -582,7 +582,6 @@ p::-webkit-scrollbar {
   height: 100%;
 }
 
-
 .feedbackheader button {
   border: none;
   cursor: pointer;
@@ -791,4 +790,17 @@ nav .footer span {
   font-family: "Poppins", sans-serif;
   color: white;
   align-items: center;
+}
+
+@media only screen and (max-width: 650px) {
+  .header-downloadfile {
+    align-items: center;
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .download {
+    margin-right: 100px;
+  }
 }

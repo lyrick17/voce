@@ -64,7 +64,7 @@ require ("utilities/recent_audio_translation.php");
                     <img src="images/music-file.png" alt="Language Icon" width="30px">Upload a File
                 </button>
             </a>
-            <?php if (isset ($_SESSION['user_id']) && $_SESSION['user_id'] == 1): ?>
+            <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == 1): ?>
                 <a href="admin.php">
                     <button>
                         <img src="images/admin.png" alt="Language Icon" width="30px">Admin
@@ -72,9 +72,9 @@ require ("utilities/recent_audio_translation.php");
                 </a>
             <?php endif; ?>
         </div>
-        <div class="header-downloadfile-wrapper">
+        <!-- <div class="header-downloadfile-wrapper">
             <div class="header-downloadfile" dir="rtl" id="download-file">
-                <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
+                <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
                     <div class="download button" dir="rtl" id="download-file">
                         <form method="post" action="utilities/download_audio_output.php">
                             <button type="submit" name="text" style="padding:5px;"><img src="images/write.png"
@@ -85,10 +85,10 @@ require ("utilities/recent_audio_translation.php");
                     </div>
                 <?php endif; ?>
             </div>
-        </div>
+        </div> -->
         <p id="error-message" style="color:red;"><i>
                 <?php
-                if (isset ($_GET['error'])) {
+                if (isset($_GET['error'])) {
                     switch ($_GET['error']) {
                         case 1: // user did not choose language
                             echo "Please select a source/translated language.";
@@ -122,7 +122,7 @@ require ("utilities/recent_audio_translation.php");
                         Source language:
                     </label>
                     &nbsp&nbsp
-                    <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
+                    <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
                         <?php $textid = $_SESSION['recent_audio'];
                         $data = mysqli_query($dbcon, "SELECT * FROM text_translations WHERE text_id = '$textid' AND from_audio_file = 1 ORDER BY translation_date DESC LIMIT 1")->fetch_row();
                         echo $data[4] ?? ''; ?>
@@ -150,7 +150,7 @@ require ("utilities/recent_audio_translation.php");
                         Target language:
                     </label>
                     &nbsp&nbsp
-                    <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
+                    <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
                         <?php echo $data[5] ?? ''; ?>
                     <?php else: ?>
                         <select name="target" id="targetLanguage" class="form-control">
@@ -168,11 +168,11 @@ require ("utilities/recent_audio_translation.php");
         </div>
         <div class="container" id="drop-zone" ondrop="fileDropHandler(event);" ondragover="dragOverHandler(event);"
             ondragenter="dragEnterHandler(event);" ondragleave="dragLeaveHandler(event);">
-            <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
+            <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
                 <div class="box">
                     <div class="text-section">
                         <textarea id="originalText" name="originalText" class="customtextfield" rows="4" readonly><?php
-                        if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
+                        if (isset($_GET['translated']) && $_GET['translated'] == 1) {
                             echo $data[6] ?? '';
                         } ?></textarea>
                     </div>
@@ -183,7 +183,7 @@ require ("utilities/recent_audio_translation.php");
                         <p id="translatedText" name="translatedText" class="customtextfield" rows="4"
                             style="padding: 0; margin: 0;" readonly>
                             <?php
-                            if (isset ($_GET['translated']) && $_GET['translated'] == 1) {
+                            if (isset($_GET['translated']) && $_GET['translated'] == 1) {
                                 echo $data[7] ?? '';
                             }
                             ?>
@@ -216,10 +216,23 @@ require ("utilities/recent_audio_translation.php");
             <?php endif; ?>
 
         </div>
-        <div class="feedback">
-            <button type="button" id="open-feedback">send feedback</button>
+        <div class="header-downloadfile" dir="rtl" id="download-file">
+            <div class="feedback1">
+
+                <button type="button" id="open-feedback">send feedback</button>
+            </div>
+            <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
+                <div class="download button" dir="rtl" id="download-file">
+                    <form method="post" action="utilities/download_audio_output.php">
+                        <button type="submit" name="text" style="padding:5px;"><img src="images/write.png"
+                                alt="Language Icon" width="30px">Download as Text File</button>
+                        <button type="submit" name="word" style="padding:5px;"><img src="images/download.png"
+                                alt="Language Icon" width="30px">Download as Word File</button>
+                    </form>
+                </div>
+            <?php endif; ?>
         </div>
-        <?php if (isset ($_SESSION['recent_audio']) && isset ($_GET['translated']) && $_GET['translated'] == 1): ?>
+        <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
             <a href="index.php"><button class="tryagain">Translate again</button></a>
             <!-- dictionary-->
 
