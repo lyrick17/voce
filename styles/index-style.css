@@ -244,22 +244,12 @@ textarea {
   vertical-align: middle;
 }
 
-.header-downloadfile-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 80%;
-  border: 2px #ccc; /* Add border style here */
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
 .header-downloadfile {
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  padding: 5px;
+  width: 80%;
+  justify-content: space-between;
 }
+
 .header-downloadfile button {
   background-color: #fffafa;
   color: #6495ed;
@@ -268,8 +258,6 @@ textarea {
   font-weight: 400;
   font-size: 14px;
   border: none;
-  margin-right: 60px;
-  vertical-align: middle;
 }
 
 .header-language {
@@ -833,4 +821,17 @@ option {
 
 .word-span:hover {
   background-color: lightblue;
+}
+
+@media only screen and (max-width: 650px) {
+  .header-downloadfile {
+    align-items: center;
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .download {
+    margin-right: 100px;
+  }
 }

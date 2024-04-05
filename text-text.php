@@ -28,12 +28,12 @@ require ("utilities/recent_text_translation.php");
     <!-- Navbar -->
     <nav>
         <div class="logo">
-            <img src="images/logo.png" alt="Voce logo">        
+            <img src="images/logo.png" alt="Voce logo">
             <span>Text Translator</span>
         </div>
     </nav>
     <!-- End of Navbar -->
-    
+
     <div class="main-content">
         <div class="header">
             <a href="text-text.php">
@@ -54,20 +54,6 @@ require ("utilities/recent_text_translation.php");
                 </a>
             <?php endif; ?>
         </div>
-        <div class="header-downloadfile-wrapper">
-            <div class="header-downloadfile" dir="rtl" id="download-file" style="display: none;">
-                <form method="post" action="utilities/download_text_output.php">
-                    <button type="submit" name="text">
-                        <img src="images/write.png" alt="Language Icon" width="30px">Download as Text File</button>
-                    <button type="submit" name="word"><img src="images/download.png" alt="Language Icon"
-                            width="30px">Download as Word File</button>
-                </form>
-            </div>
-            <div style="text-align:center;">
-            <p style="color: red; text-align:center;font-style" id="error-message">
-            </p>
-            </div>
-        </div>
         <div class="header-language selector">
             <!-- SELECT LANGUAGE -->
             <div class="language-selector-wrapper">
@@ -79,7 +65,7 @@ require ("utilities/recent_text_translation.php");
 
                         <select name="src" id="sourceLanguage">
                             <option value="">Select One …</option>
-                            <option name = "language">auto</option>
+                            <option name="language">auto</option>
                             <?php foreach ($common_langs as $lang => $code): ?>
                                 <option name="language">
                                     <?= $lang ?>
@@ -128,6 +114,20 @@ require ("utilities/recent_text_translation.php");
         <div class="feedback">
             <button type="button" id="open-feedback">send feedback</button>
         </div>
+        <div class="header-downloadfile-wrapper">
+            <div class="header-downloadfile" dir="rtl" id="download-file" style="display: none;">
+                <form method="post" action="utilities/download_text_output.php">
+                    <button type="submit" name="text">
+                        <img src="images/write.png" alt="Language Icon" width="30px">Download as Text File</button>
+                    <button type="submit" name="word"><img src="images/download.png" alt="Language Icon"
+                            width="30px">Download as Word File</button>
+                </form>
+            </div>
+            <div style="text-align:center;">
+                <p style="color: red; text-align:center;font-style" id="error-message">
+                </p>
+            </div>
+        </div>
         <!-- dictionary-->
         <div class="dict-div">
             <div class="dict-div-content">
@@ -141,12 +141,13 @@ require ("utilities/recent_text_translation.php");
     </div>
     <div class="feedback-sidebar">
         <div class="feedbackcontainer">
-            
+
             <div class="feedbackheader">
-                <button class="close-feedback" onclick="document.querySelector('.feedback-sidebar').classList.remove('active'); document.querySelector('#overlay').classList.remove('active');">X</button>
+                <button class="close-feedback"
+                    onclick="document.querySelector('.feedback-sidebar').classList.remove('active'); document.querySelector('#overlay').classList.remove('active');">X</button>
             </div>
             <form method="post" action="index.php" id="contact-form">
-                <h3 class = "feedback-text">Send Feedback to Voce</h3>
+                <h3 class="feedback-text">Send Feedback to Voce</h3>
                 <h3>Tell us what you think!</h3>
                 <span id="contact-return-message"></span>
                 <div class="input-form">
@@ -158,8 +159,7 @@ require ("utilities/recent_text_translation.php");
                         placeholder="Subject">
                 </div>
                 <div class="input-form">
-                    <textarea class= "fback-msg" name="contact_message" rows="5"
-                        placeholder="Message"></textarea>
+                    <textarea class="fback-msg" name="contact_message" rows="5" placeholder="Message"></textarea>
                 </div>
                 <br />
                 <div class="submit-fback">
@@ -173,16 +173,15 @@ require ("utilities/recent_text_translation.php");
 
     <nav>
         <div class="footer">
-        <div>
-            <a href="faqs.php">FAQs</a>
-            <a href="about.php">About Voce</a>
-        </div>
-        <div >
-            <span>Voce © 2024. All Rights Reserved</span>
-        </div>
+            <div>
+                <a href="faqs.php">FAQs</a>
+                <a href="about.php">About Voce</a>
+            </div>
+            <div>
+                <span>Voce © 2024. All Rights Reserved</span>
+            </div>
         </div>
     </nav>
-    <script src="scripts/landingpage.js"></script>
     <script>
         function updateBox2Height() {
             const outputP = document.querySelector(".outputText");
@@ -218,7 +217,6 @@ require ("utilities/recent_text_translation.php");
         });
     </script>
 
-    <script src="scripts/landingpage.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"
@@ -228,7 +226,7 @@ require ("utilities/recent_text_translation.php");
     <script src="scripts/translation_process2.js"></script>
     <script src="scripts/newindex.js"></script>
     <script src="scripts/contact.js"></script>
-                        
+
 </body>
 
 </html>

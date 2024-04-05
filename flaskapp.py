@@ -76,15 +76,18 @@ def getlangcodes():
 
 @app.route("/translate", methods=["POST"])
 def translate():
-    json_data = request.get_json()
-    print(json_data)
-    trg = langs_dict[json_data['trg']]
-    if json_data['src'] == 'auto':
-        return GoogleTranslator(source= 'auto', target= trg).translate(json_data['txt'])
-    
-    src = langs_dict[json_data['src']]
-    translated = GoogleTranslator(source= src, target= trg).translate(json_data['txt'])
-    return translated
+    try:
+        json_data = request.get_json()
+        print(json_data)
+        trg = langs_dict[json_data['trg']]
+        if json_data['src'] == 'auto':
+            return GoogleTranslator(source= 'auto', target= trg).translate(json_data['txt'])
+        
+        src = langs_dict[json_data['src']]
+        translated = GoogleTranslator(source= src, target= trg).translate(json_data['txt'])
+        return translated
+    except:
+        return "~<b>Voce Connection Error</b>: Please connect to the Internet to continue translating~"
 
 
 @app.route("/spleeter", methods=["POST"])
@@ -145,7 +148,7 @@ def testcon():
     return "connected"
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5000, threaded = True)
 
 
 
