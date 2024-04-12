@@ -47,7 +47,15 @@ ALTER TABLE `activity_logs` ADD FOREIGN KEY (`translation_id`) REFERENCES `text_
 
 ALTER TABLE `activity_logs` ADD FOREIGN KEY (`admin_id`) REFERENCES `admin_users` (`user_id`);
 
-
+/* username: admin */
+/* password: 12345678 */
 INSERT INTO `admin_users` (`user_id`, `username`, `email`, `pword`, `registration_date`) VALUES
 (1, 'admin', 'voceteam.contact@gmail.com', '$2y$10$vuJ.5f3erY/tY8MWZmeAzO30LZT1cVRGemy74nHQ0b3F73kUOi0Ji', '2024-02-19 06:48:37');
 
+ALTER TABLE `audio_files` CHANGE `file_size` `file_size` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `audio_files` ADD `is_recorded` TINYINT NULL DEFAULT NULL AFTER `file_id`;
+
+ALTER TABLE activity_logs DROP CONSTRAINT activity_logs_ibfk_1;
+
+ALTER TABLE `contacts` ADD `contact_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `message`;
