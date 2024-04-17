@@ -241,10 +241,6 @@ textarea {
   border-top-right-radius: 10px;
 }
 .header-downloadfile {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
   padding: 5px;
 }
 .header-downloadfile button {
@@ -517,11 +513,13 @@ p::-webkit-scrollbar {
 }
 
 .feedback button {
-  border: none;
-  cursor: pointer;
   background-color: #fffafa;
-  font-style: italic;
+  color: #6495ed;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
   font-size: 14px;
+  border: none;
 }
 
 .feedback button:hover {
@@ -534,6 +532,7 @@ p::-webkit-scrollbar {
   border: none;
   padding: 12px;
   border-radius: 12px;
+  cursor: pointer;
 }
 
 .tryagain {
@@ -793,9 +792,8 @@ nav .footer span {
 }
 
 @media only screen and (max-width: 650px) {
-  .header-downloadfile {
-    align-items: center;
-    flex-direction: column;
+  .header-downloadfile-wrapper {
+    text-align: left;
   }
 }
 

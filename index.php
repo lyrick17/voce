@@ -72,20 +72,6 @@ require ("utilities/recent_audio_translation.php");
                 </a>
             <?php endif; ?>
         </div>
-        <!-- <div class="header-downloadfile-wrapper">
-            <div class="header-downloadfile" dir="rtl" id="download-file">
-                <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
-                    <div class="download button" dir="rtl" id="download-file">
-                        <form method="post" action="utilities/download_audio_output.php">
-                            <button type="submit" name="text" style="padding:5px;"><img src="images/write.png"
-                                    alt="Language Icon" width="30px">Download as Text File</button>
-                            <button type="submit" name="word" style="padding:5px;"><img src="images/download.png"
-                                    alt="Language Icon" width="30px">Download as Word File</button>
-                        </form>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div> -->
         <p id="error-message" style="color:red;"><i>
                 <?php
                 if (isset($_GET['error'])) {
@@ -143,8 +129,6 @@ require ("utilities/recent_audio_translation.php");
                 </div>
             </div>
             <div class="language-selector-wrapper">
-
-
                 <div class="language-selector">
                     <label class="label1">
                         Target language:
@@ -235,7 +219,6 @@ require ("utilities/recent_audio_translation.php");
         <?php if (isset($_SESSION['recent_audio']) && isset($_GET['translated']) && $_GET['translated'] == 1): ?>
             <a href="index.php"><button class="tryagain">Translate again</button></a>
             <!-- dictionary-->
-
             <?php if ($data[5] == 'english'): ?>
                 <div class="dict-div">
                     <div class="dict-div-content">
@@ -246,12 +229,10 @@ require ("utilities/recent_audio_translation.php");
                     </div>
                 </div>
             <?php endif; ?>
-
         <?php else: ?>
             <button type="submit" class="translate-button" id="audio-translate-btn">Translate</button>
         <?php endif; ?>
         </form>
-
     </div>
     <div class="feedback-sidebar">
         <div class="feedbackcontainer">
@@ -283,9 +264,6 @@ require ("utilities/recent_audio_translation.php");
             </form>
         </div>
     </div>
-
-    <br>
-
     <nav>
         <div class="footer">
             <div>
@@ -299,11 +277,6 @@ require ("utilities/recent_audio_translation.php");
     </nav>
 
     </div>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"
-        integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="scripts/index.js"></script>
     <script src="scripts/contact.js"></script>
     <script src="scripts/translation_process.js"></script>

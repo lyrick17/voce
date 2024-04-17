@@ -27,6 +27,7 @@ function translateInput() {
     console.log("aa");
     clearTimeout(typingTimer);
     clearTimeout(savingTimer);
+
     if (isSrcChosen && isTargetChosen) { 
         console.log("bb");
 
@@ -45,26 +46,32 @@ function realTimeTranslate() {
     const form = document.getElementById("myForm");
     const text_info = new FormData(form);
     console.log(text_info.get("text"));
-    text_info.set('text', text_info.get('text').replace(/(\r\n|\n|\r)/gm, " ")); 
-    console.log(text_info.get("text"));
-    console.log("translating");
-    fetch('utilities/text_translation.php', {
-        method: "POST",
-        body: text_info,
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.error == 0) { 
-            displayTranslation(data);
-            timerForSavingDB(data);
-            console.log("translated");
-        } else {
-            console.log(data);
-            finishProcess(data.error);
-            console.log("error" + data.error);
-        }
-    });
-    console.log("cc");
+
+    if (text_info.get("text").match(/[a-zA-Z]/) !== null) {
+        text_info.set('text', text_info.get('text').replace(/(\r\n|\n|\r)/gm, " ")); 
+        console.log(text_info.get("text"));
+        console.log("translating");
+        fetch('utilities/text_translation.php', {
+            method: "POST",
+            body: text_info,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error == 0) { 
+                displayTranslation(data);
+                timerForSavingDB(data);
+                console.log("translated");
+            } else {
+                console.log(data);
+                finishProcess(data.error);
+                console.log("error" + data.error);
+            }
+        });
+        console.log("cc");
+
+    }
+
+
 
 }
 

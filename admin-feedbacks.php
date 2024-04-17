@@ -49,12 +49,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
     if ($result) {
         $num_of_feedback = mysqli_fetch_assoc($result);
     }
-    
+
 } else {
 
     // Translation history for audio to text 
     $history = mysqli_query($dbcon, "SELECT * FROM contacts ORDER BY contact_id DESC");
-    
+
     // Query for total feedbacks
     $q = "SELECT COUNT(contact_id) as total_feedback FROM contacts";
     $result = mysqli_query($dbcon, $q);
@@ -83,9 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
 
     <style>
         .card-body {
-            max-height: 500px;
             /* Adjust as needed */
-            max-width: 500px;
+            width: 100%;
             /* Adjust as needed */
         }
     </style>
@@ -125,11 +124,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
                         </ul>
                         <a href="admin-feedbacks.php" class="sidebar-link collapsed">
                             <i class="fa-solid fa-comment pe-1"></i>Feedbacks
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="utilities/logout.php" class="sidebar-link logout-link">
-                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout
                         </a>
                     </li>
                 </ul>
@@ -206,23 +200,23 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
                                 <p id="pass-error"></p><!--Error Message-->
                                 <p>*must be atleast 8 characters</p><!--Error Message-->
 
-                                    <div class="mb-3">
-                                        <label for="current-password" class="form-label">Current Password</label>
-                                        <input type="password" class="form-control user-input" id="old-pword"
-                                            name="old-pword" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="new-password" class="form-label user-input">New Password</label>
-                                        <input type="password" class="form-control" id="new-pword" name="new-pword"
-                                            required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="confirm-password" class="form-label user-input">Confirm Password</label>
-                                        <input type="password" class="form-control" id="new-pword2" name="new-pword2"
-                                            required>
-                                    </div>
-                                    <input type="submit" class="form-control edit-submit"
-                                        id="updatePsword" name="updatePsword" value="Edit Password" disabled>
+                                <div class="mb-3">
+                                    <label for="current-password" class="form-label">Current Password</label>
+                                    <input type="password" class="form-control user-input" id="old-pword"
+                                        name="old-pword" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="new-password" class="form-label user-input">New Password</label>
+                                    <input type="password" class="form-control" id="new-pword" name="new-pword"
+                                        required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confirm-password" class="form-label user-input">Confirm Password</label>
+                                    <input type="password" class="form-control" id="new-pword2" name="new-pword2"
+                                        required>
+                                </div>
+                                <input type="submit" class="form-control edit-submit" id="updatePsword"
+                                    name="updatePsword" value="Edit Password" disabled>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -249,13 +243,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
                                 <div class="mb-3">
                                     <label for="current-username" class="form-label">Current Username</label>
                                     <input type="text" placeholder="Username" class="form-control user-input"
-                                        id="current-username" name="current-username" maxlength="50" value="<?= $username ?>" disabled>
+                                        id="current-username" name="current-username" maxlength="50"
+                                        value="<?= $username ?>" disabled>
                                 </div>
                                 <div class="mb-3">
                                     <label for="new-username" class="form-label">New Username</label>
                                     <input type="text" placeholder="Username" class="form-control user-input"
                                         id="username" name="username" maxlength="50" required>
-                                        <br />
+                                    <br />
                                     <input type="submit" placeholder="Username" class="form-control edit-submit"
                                         id="updateUsername" name="updateUsername" value="Edit Username" disabled>
                                 </div>
@@ -281,18 +276,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
                         </div>
                         <div class="modal-body">
                             <form action="admin.php" method="POST" id="inputemail-form">
-                            <p id="email-error"></p><!--Error Message-->
+                                <p id="email-error"></p><!--Error Message-->
                                 <div class="mb-3">
                                     <label for="current-email" class="form-label">Current Email</label>
-                                    <input type="email" class="form-control" id="current-email" name="current-email" value = "<?= $_SESSION['email']?>" maxlength="100" 
-                                        disabled>
+                                    <input type="email" class="form-control" id="current-email" name="current-email"
+                                        value="<?= $_SESSION['email'] ?>" maxlength="100" disabled>
                                 </div>
                                 <div class="mb-3">
                                     <label for="new-email" class="form-label">New Email</label>
-                                    <input type="email" placeholder="Email" class="form-control user-input" id="new-email" name="email" maxlength="100" required>
+                                    <input type="email" placeholder="Email" class="form-control user-input"
+                                        id="new-email" name="email" maxlength="100" required>
                                     <br />
-                                    <input type="submit" class="form-control edit-submit"
-                                        id="updateEmail" name="updateEmail" value="Edit Email">
+                                    <input type="submit" class="form-control edit-submit" id="updateEmail"
+                                        name="updateEmail" value="Edit Email">
                                 </div>
                             </form>
                         </div>
@@ -310,32 +306,43 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
                     <div class="row">
                         <div class="col-md-8 pb-3">
                             <form method="get" action="admin-feedbacks.php">
-                                <input type="text" placeholder="Search..." name="search" class="w-50 p-2" maxlength="255">
+                                <input type="text" placeholder="Search..." name="search" class="w-50 p-2"
+                                    maxlength="255">
                                 <input type="submit" name="search-submit" class="btn btn-primary" value="Search">
                                 <a href="admin-feedbacks.php" class="btn btn-secondary">Clear Search</a>
                             </form>
                         </div>
-                        
+
                     </div>
                     <div class="row">
                         <div class="col-md-8">
                             <?php if ($num_of_feedback['total_feedback'] != 0): ?>
                                 <div>
-                                    <?php while($row = mysqli_fetch_assoc($history)): ?>
+                                    <?php while ($row = mysqli_fetch_assoc($history)): ?>
                                         <div class="card paginate">
                                             <div class="card-body">
-                                                <h4>Feedback No. #<?= $row['contact_id'] ?></h4>
+                                                <h4>Feedback No. #
+                                                    <?= $row['contact_id'] ?>
+                                                </h4>
                                                 <h5 class="count">
-                                                    Name: <b><?= $row['username'] ?></b>
+                                                    Name: <b>
+                                                        <?= $row['username'] ?>
+                                                    </b>
                                                 </h5>
-                                                <h6>Subject: <b><?= $row['subject'] ?></b></h6>
+                                                <h6>Subject: <b>
+                                                        <?= $row['subject'] ?>
+                                                    </b></h6>
                                                 <hr />
                                                 <span><b>Message:</b></span><br />
-                                                <p><?= $row['message'] ?></p>
-                                                <p><?= date('F j, Y g:i A', strtotime($row['contact_date'])) ?></p>
+                                                <p>
+                                                    <?= $row['message'] ?>
+                                                </p>
+                                                <p>
+                                                    <?= date('F j, Y g:i A', strtotime($row['contact_date'])) ?>
+                                                </p>
                                             </div>
                                         </div>
-                                        
+
                                     <?php endwhile; ?>
                                 </div>
                                 <div class="d-flex justify-content-center">
@@ -362,7 +369,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
                                     <hr />
                                     <?php if (isset($search)): ?>
                                         <span>with search results:</span><br />
-                                        <span><i><?= $search; ?></i></span>
+                                        <span><i>
+                                                <?= $search; ?>
+                                            </i></span>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -370,7 +379,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
                     </div>
 
                 </div>
-                
+
             </main>
             <a href="#" class="theme-toggle">
                 <i class="fa-regular fa-moon"></i>
@@ -380,8 +389,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
     </div>
     <script src="scripts/account.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js" integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.4/jquery.simplePagination.min.js"
+        integrity="sha512-J4OD+6Nca5l8HwpKlxiZZ5iF79e9sgRGSf0GxLsL1W55HHdg48AEiKCXqvQCNtA1NOMOVrw15DXnVuPpBm2mPg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="scripts/paginate-feedback.js"></script>
     <script>
         const sidebarToggle = document.querySelector("#sidebar-toggle");

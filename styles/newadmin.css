@@ -209,13 +209,6 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
   min-height: 100%;
 }
 
-.logout-link {
-  position: absolute; /* Remove the link from normal flow */
-  bottom: 30px; /* Set the distance from the bottom edge */
-  margin-top: auto; /* Optionally adjust vertical spacing */
-  font-size: 20px !important;
-}
-
 .modal-container {
   display: flex;
   flex-direction: row;

@@ -46,6 +46,7 @@ nav .logo span {
   border: none;
   padding: 12px;
   border-radius: 12px;
+  cursor: pointer;
 }
 
 .sidebar {
@@ -825,8 +826,8 @@ option {
 
 @media only screen and (max-width: 650px) {
   .header-downloadfile {
-    align-items: center;
-    flex-direction: column;
+    text-align: left;
+    width: 90%;
   }
 }
 
