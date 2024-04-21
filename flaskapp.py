@@ -85,9 +85,14 @@ def translate():
         
         src = langs_dict[json_data['src']]
         translated = GoogleTranslator(source= src, target= trg).translate(json_data['txt'])
+        
+        translated = translated.replace("\\r\\n", " ")
+        
+        if translated == None:
+            return "~<b>Voce Error</b>: Could not translate input~"
         return translated
     except:
-        return "~<b>Voce Connection Error</b>: Please connect to the Internet to continue translating~"
+        return "~<b>Voce Error</b>: Please connect to the Internet to continue translating~"
 
 
 @app.route("/spleeter", methods=["POST"])
