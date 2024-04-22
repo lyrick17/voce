@@ -14,9 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // translates text, get output
 
-    $source_lang = mysqli_real_escape_string($dbcon, trim($_POST['src']));
-    $target_lang = mysqli_real_escape_string($dbcon, trim($_POST['target']));
-    $orig_text = mysqli_real_escape_string($dbcon, trim($_POST["text"]));
+    $source_lang = clean_input($dbcon, $_POST['src']);
+    $target_lang = clean_input($dbcon, $_POST['target']);
+    $orig_text = clean_input($dbcon, $_POST["text"]);
     $isFromAudio = False;
     $translation = Translator::translate_t2t($orig_text, $source_lang, $target_lang);
 
@@ -31,5 +31,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit(json_encode($exit));
     //header("Location: ../text-text.php?translated=1");
     //exit();
+}
+
+function clean_input($dbcon, $input) {
+    $input = trim($input);
+    $input = stripslashes($input);
+    $input = htmlspecialchars($input);
+    $input = mysqli_real_escape_string($dbcon, $input);
+    return $input;
 }
 ?>

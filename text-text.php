@@ -54,6 +54,12 @@ require ("utilities/recent_text_translation.php");
                 </a>
             <?php endif; ?>
         </div>
+        <div class="header-downloadfile-wrapper">
+            <div style="text-align:center; width:100%;">
+                <p style="color: red;" id="error-message"></p>
+                <i><p id="gentle-message"></p></i>
+            </div>
+        </div>
         <div class="header-language selector">
             <!-- SELECT LANGUAGE -->
             <div class="language-selector-wrapper">
@@ -108,6 +114,7 @@ require ("utilities/recent_text_translation.php");
                 <div class="output-p" readonly>
                     <p class="test outputText" id="text-output">
                     </p>
+                    <span id="translating-message" style="color:gray;font-style:italic;"></span>
                 </div>
             </div>
         </div>
@@ -122,10 +129,6 @@ require ("utilities/recent_text_translation.php");
                     <button type="submit" name="word"><img src="images/download.png" alt="Language Icon"
                             width="30px">Download as Word File</button>
                 </form>
-            </div>
-            <div style="text-align:center;">
-                <p style="color: red; text-align:center;font-style" id="error-message">
-                </p>
             </div>
         </div>
         <!-- dictionary-->
