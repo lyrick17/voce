@@ -86,12 +86,13 @@ def translate():
         src = langs_dict[json_data['src']]
         translated = GoogleTranslator(source= src, target= trg).translate(json_data['txt'])
         
-        translated = translated.replace("\\r\\n", " ")
-        
-        if translated == None:
+        if translated is None:
             return "~<b>Voce Error</b>: Could not translate input~"
+        
+        translated = translated.replace("\\r\\n", " ")
         return translated
-    except:
+    except Exception as e:
+        print(e)
         return "~<b>Voce Error</b>: Please connect to the Internet to continue translating~"
 
 

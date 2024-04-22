@@ -10,13 +10,39 @@ let isTargetChosen = false;
 const sourceLanguage = document.getElementById("sourceLanguage");
 const targetLanguage = document.getElementById("targetLanguage");
 
+// checks the selected language, source and target
+// returns boolean if they select a language
+function checkForm(lang) {
+    const chkform = document.getElementById("myForm");
+    const info = new FormData(chkform);
+    if (lang == 'src') {
+        let source = info.get("src");
+        return source != '';
+    } else if (lang == 'target') {
+        let target = info.get("target");
+        return target != '';
+    }
+}
+
 sourceLanguage.addEventListener("change", function() {
-    isSrcChosen = true;
+    if (checkForm('src')) {
+        isSrcChosen = true;
+        console.log("source chosen");
+    } else {
+        isSrcChosen = false;
+        console.log("source unchosen");
+    }
     translateInput();
-    console.log("source chosen");
 });
 targetLanguage.addEventListener("change", function() {
-    isTargetChosen = true;
+    if (checkForm('target')) {
+        isTargetChosen = true;
+        console.log("target chosen");
+    } else {
+        isTargetChosen = false;
+        console.log("target unchosen");
+    }
+    
     translateInput();
     console.log("target chosen");
 });
@@ -27,11 +53,19 @@ function translateInput() {
     clearTimeout(typingTimer);
     clearTimeout(savingTimer);
 
+    const form = document.getElementById("myForm");
+    const text_info = new FormData(form);
+    let source = text_info.get("src");
+    let target = text_info.get("target");
+    console.log(source);
+    console.log(target);
+
+
     if (isSrcChosen && isTargetChosen) { 
         console.log("checking text input");
-        document.getElementById("gentle-message").innerHTML = '';
         typingTimer = setTimeout(function() {
             realTimeTranslate();    // translate the text after a pause
+            document.getElementById("gentle-message").innerHTML = '';
             document.getElementById("error-message").innerHTML = '';
         }, 600); // Adjust the duration (in milliseconds) as needed
 
@@ -68,6 +102,7 @@ function realTimeTranslate() {
     if (text_info.get("text") != '') {
         
         console.log("translating");
+        document.getElementById("gentle-message").innerHTML = '';
         document.getElementById("translating-message").innerHTML = 'translating...';
         fetch('utilities/text_translation.php', {
             method: "POST",
