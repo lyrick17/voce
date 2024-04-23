@@ -52,7 +52,7 @@
             <div style="background-color: #fff; padding: 20px;  margin: 15px; border-radius: 10px; text-align:center;">
                 <p>We're aware that some users are experiencing difficulties accessing our website. 
                     Our team is working on resolving a MySQL server issue and restore full functionality as soon as possible. 
-                    In the meantime, you can contact us at <b></b> for any urgent inquiries. 
+                    In the meantime, you can contact us at <b>voceteam.contact@gmail.com</b> for any urgent inquiries. 
                     We apologize for any inconvenience this may cause.</p>    
 
             </div>
