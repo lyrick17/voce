@@ -26,12 +26,7 @@ require ("utilities/recent_text_translation.php");
     <!-- Main Content -->
 
     <!-- Navbar -->
-    <nav>
-        <div class="logo">
-            <img src="images/logo.png" alt="Voce logo">
-            <span>Text Translator</span>
-        </div>
-    </nav>
+<?php include "navbar.php" ?>
     <!-- End of Navbar -->
 
     <div class="main-content">

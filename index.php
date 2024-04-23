@@ -38,12 +38,7 @@ require ("utilities/recent_audio_translation.php");
 <body id="a2t-body">
 
     <!-- Navbar -->
-    <nav>
-        <div class="logo">
-            <img src="images/logo.png" alt="Voce logo">
-            <span>Audio Translator</span>
-        </div>
-    </nav>
+    <?php include "navbar.php" ?>
     <!-- End of Navbar -->
     <div class="main-content">
 
