@@ -78,7 +78,8 @@ function fileDropHandler(event) {
     const file = event.dataTransfer.files[0];
 
     if(file.type == "" && file.size % 4096 === 0){
-        console.log("File might be a folder or a file without extension.")
+        document.getElementById("error-message").innerHTML = '<i>Please upload a valid audio file. (m4a, mp3, webm, mp4, mpga, wav, mpeg)</i>';
+        console.log("File is not supported.")
     }
     else{
         filename = file['name'].split(".");
@@ -96,10 +97,14 @@ function fileDropHandler(event) {
         
             checkFileSize(document.getElementById('fileInputLabel'));
             resetRecord();
+        }
+        else{
+            document.getElementById("error-message").innerHTML = '<i>Please upload a valid audio file. (m4a, mp3, webm, mp4, mpga, wav, mpeg)</i>';
+
         }    
     }
-
 }
+
 
 function handleDrop(e) {
     e.preventDefault();
