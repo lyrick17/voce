@@ -21,10 +21,11 @@ if (isset($_SESSION['recent_audio'])):
         // filename for microsoft word
         $filename = "audiotranslation_" . $formattedDateTime . ".doc";
         
-        header("Content-type: application/vnd.ms-word");
+        header("Content-type: application/vnd.ms-word; charset=utf-8");
         header("Content-Disposition: attachment;  Filename=$filename");
 ?>
         <html>
+        <meta charset="UTF-8">
         <body>
             <h1>Voce Audio to Text Translation</h1>
             <hr>
@@ -46,7 +47,7 @@ if (isset($_SESSION['recent_audio'])):
         // filename for text file
         $filename = "audiotranslation_" . $formattedDateTime . ".txt";
         
-        header("Content-type: text/plain");
+        header("Content-type: text/plain; charset=utf-8");
         header("Content-Disposition: attachment;  Filename=$filename");
 
         echo "Voce Audio to Text Translation\n"
