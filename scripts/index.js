@@ -76,33 +76,19 @@ function fileDropHandler(event) {
     event.currentTarget.classList.remove('drag-hover');
     
     const file = event.dataTransfer.files[0];
-
-    if(file.type == "" && file.size % 4096 === 0){
-        document.getElementById("error-message").innerHTML = '<i>Please upload a valid audio file. (m4a, mp3, webm, mp4, mpga, wav, mpeg)</i>';
-        console.log("File is not supported.")
-    }
-    else{
-        filename = file['name'].split(".");
-        file_ext = filename[filename.length-1];
-        file_types = ['m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg'];
+    console.log(file.type);
+    let filelist = new File([file], file.name);
     
-        if(file_types.includes(file_ext)){
-            let filelist = new File([file], file.name);
-    
-            let transferFile = new DataTransfer();
-        
-            transferFile.items.add(filelist);
-            // Simulate a file drop event on the input element
-            document.getElementById('fileInputLabel').files =  transferFile.files;
-        
-            checkFileSize(document.getElementById('fileInputLabel'));
-            resetRecord();
-        }
-        else{
-            document.getElementById("error-message").innerHTML = '<i>Please upload a valid audio file. (m4a, mp3, webm, mp4, mpga, wav, mpeg)</i>';
+    let transferFile = new DataTransfer();
 
-        }    
-    }
+    transferFile.items.add(filelist);
+    // Simulate a file drop event on the input element
+    document.getElementById('fileInputLabel').files =  transferFile.files;
+
+    // check the format, then the file size
+    checkFileFormat(document.getElementById('fileInputLabel'), file.type);
+    checkFileSize(document.getElementById('fileInputLabel'));
+    resetRecord();
 }
 
 

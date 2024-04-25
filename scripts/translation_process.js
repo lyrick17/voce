@@ -28,7 +28,7 @@ function ToggleMic() {
     is_recording = !is_recording;
 
     if (is_recording) {
-        console.log('start');
+
         document.getElementById("audio-translate-btn").disabled = true;
         // Function to request microphone permission
         const getMicrophonePermission = async () => {
@@ -45,8 +45,8 @@ function ToggleMic() {
         
         getMicrophonePermission();
     } else {
-        console.log('stop2');
         recorder.stop();
+        document.getElementById("error-message").innerHTML = '';
     }
 }
 
@@ -54,7 +54,6 @@ function ToggleMic() {
 function setupStream(stream) {
     recorder = new MediaRecorder(stream);
 
-    console.log('setup');
     playback.style.display = "none";    // temporarily remove the playback when recording
 
     mic_btn.innerHTML = '<i class="fa fa-stop-circle" style="font-size:150px;" ></i>';
@@ -74,7 +73,6 @@ function setupStream(stream) {
     // ------ RECORDER STOP ---------------
     // when we stop recording we can create a blob from the chunks - type: format; compression
         recorder.onstop = e => {
-            console.log('stopped');
             
             document.getElementById("audio-translate-btn").disabled = false;
             const blob = new Blob(chunks, { type: "audio/webm; codecs=opus"});
@@ -139,7 +137,6 @@ function detectSound(analyser, domainData, bufferLength) {
         }
 
         if (soundDetected) {
-            console.log('Sound detected');
             clearTimeout(silenceTimeout);
             soundDetected = false;
             // Reset the timer for silence detection
@@ -148,9 +145,9 @@ function detectSound(analyser, domainData, bufferLength) {
                     is_recording = false;
                     recorder.stop();
                     
-                    console.log("Silence detected, recording stopped.");
                     document.getElementById("audio-translate-btn").disabled = false;
                     playback.style.display = "block";                   // bring back playback after recording
+                    document.getElementById("error-message").innerHTML = '';
                 }
             }, 5000); // 5 seconds of silence to stop recording
         }
@@ -183,7 +180,10 @@ if(uploadField != null){
         if (checkFileSize(this)) {      
             resetRecord();              // reset the record once user uploads file
         };
-    });    
+        if (checkFileFormat(this, this.files[0].type)) {      
+            resetRecord();              // reset the record once user uploads file
+        };
+    });   
 }
 
 
@@ -191,7 +191,6 @@ const form = document.getElementById("form");
 
 if(form != null){
     form.addEventListener('submit', function(e) {
-        console.log("aaaa");
         e.preventDefault();
     
         const audio_info = new FormData(this);
@@ -201,9 +200,7 @@ if(form != null){
         audio_info.append('step', 1);
         if (audio_blob) { audio_info.append('record', audio_blob); }
     
-        console.log(audio_info.values());
-    
-        // validate if file is 60mb or there is a record
+        // validate if file is 25mb or there is a record
         if (checkFileSize(uploadField) || audio_blob) {
             translationProcess(audio_info);
         } else {
@@ -232,7 +229,7 @@ async function translationProcess(audio_info) {
                     .then(response => response.json());
 
     window.onbeforeunload = function(e) {
-        console.log("Unloading");
+
         e.returnValue = "Browser unloading.";
         if (controller){
             controller.abort();
@@ -261,7 +258,6 @@ async function translationProcess(audio_info) {
             
             if (data.error != 0) { break; }                 // if there is an error, stop the loop
     
-            // console.log(data);
         }
     }
     window.onbeforeunload = null;
@@ -269,15 +265,42 @@ async function translationProcess(audio_info) {
 
 }
 
+function checkFileFormat(uploadField, type) {
+    let file = uploadField.files[0];
+
+    if(type == "" || file.size % 4096 === 0){
+        // if it's a folder / empty file 
+        document.getElementById("error-message").innerHTML = '<i>File Format Not Supported. Please try again.</i>';
+        
+        uploadField.value = "";
+
+    } else {
+        // check its extension
+        filename = file['name'].split(".");
+        file_ext = filename[filename.length-1];
+        file_types = ['m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg'];
+        
+        if(!file_types.includes(file_ext)){
+
+            document.getElementById("error-message").innerHTML = '<i>File Format Not Supported. Please try again.</i>';
+            uploadField.value = "";
+
+        } else {
+
+            document.getElementById("error-message").innerHTML = '';
+        }
+    }
+}
+
 
 function checkFileSize(uploadField) {
-    // validation if user upload is less than 60mb
+    // validation if user upload is less than 25mb
 
     let errormessage = document.getElementById('error-message');
     if (uploadField.files.length > 0) {
         const filesize = uploadField.files[0].size;
         const fileMB = filesize / 1024 / 1024;
-        //console.log(fileMB);
+
         if (fileMB > 25) {
             errormessage.innerHTML = "File Size limit is only on 25MB.";
             uploadField.value = "";
@@ -293,7 +316,6 @@ function checkFileSize(uploadField) {
 function finishProcess(errornumber) {
     if (errornumber == 0) {
         window.location.href =  "index.php?translated=1";
-        // 
     } else {
         window.location.href = "index.php?error=" + errornumber;
     }
@@ -348,7 +370,7 @@ function capitalizeFirstLetter(str) {
 
 function displayTranslation(words){ 
     words = words.split(" ");
-    console.log(words);
+
     let tags = "";
     for(let i = 0; i < words.length; i++){
         tags +=  "<span class ='word-span'>" + words[i] +" </span>";
@@ -384,7 +406,6 @@ function displayTranslation(words){
         }).then((res) => res.json())
         .then((response) => {
     
-    
             console.log(response);
             displayedMeaning.textContent = "";
     
@@ -399,15 +420,12 @@ function displayTranslation(words){
                 displayedMeaning.innerHTML = displayedMeaning.innerHTML + "<br>";
             });
     
-    
-    
         }).catch((error) => {
             displayedMeaning.textContent = "The definition of " + word + " is not recorded in our dictionary.";
         });
         
     }
 }
-
 
 output = document.getElementById('translatedText');
 dictDiv = document.querySelector('.dict-div');

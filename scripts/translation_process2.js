@@ -4,6 +4,7 @@ const textinput = document.getElementById("text-input");
 
 let typingTimer;                // this timer is for listening to the text area
 let savingTimer;                // this timer is for saving the translation to the database
+let gentleTimer;                // this timer is for gentle reminder to choose language
 let isSrcChosen = false;
 let isTargetChosen = false;
 
@@ -27,42 +28,34 @@ function checkForm(lang) {
 sourceLanguage.addEventListener("change", function() {
     if (checkForm('src')) {
         isSrcChosen = true;
-        console.log("source chosen");
     } else {
         isSrcChosen = false;
-        console.log("source unchosen");
     }
     translateInput();
 });
 targetLanguage.addEventListener("change", function() {
     if (checkForm('target')) {
         isTargetChosen = true;
-        console.log("target chosen");
     } else {
         isTargetChosen = false;
-        console.log("target unchosen");
     }
     
     translateInput();
-    console.log("target chosen");
 });
 
 textinput.addEventListener("input", translateInput);
 function translateInput() {
-    console.log("char input");
     clearTimeout(typingTimer);
     clearTimeout(savingTimer);
+    clearTimeout(gentleTimer);
 
     const form = document.getElementById("myForm");
     const text_info = new FormData(form);
     let source = text_info.get("src");
     let target = text_info.get("target");
-    console.log(source);
-    console.log(target);
 
 
     if (isSrcChosen && isTargetChosen) { 
-        console.log("checking text input");
         typingTimer = setTimeout(function() {
             realTimeTranslate();    // translate the text after a pause
             document.getElementById("gentle-message").innerHTML = '';
@@ -74,9 +67,8 @@ function translateInput() {
         document.getElementById("error-message").innerHTML = 'Please type text to be translated.';
     
     } else {
-        console.log("user did not choose language");
-        if (textinput.value != '') { 
-            setTimeout(function() {   // translate the text after a pause
+        if (textinput.value != '' && document.getElementById("gentle-message").innerHTML == '') { 
+            gentleTimer = setTimeout(function() {   // translate the text after a pause
                 document.getElementById("gentle-message").innerHTML = 'Please select source and target language.';
             }, 3000); // after 3 seconds, notify user that has not chosen a language yet
             
@@ -92,16 +84,12 @@ function realTimeTranslate() {
     const form = document.getElementById("myForm");
     const text_info = new FormData(form);
 
-    console.log(text_info.get("text"));
-
-
     errorMsg = ["~<b>Voce Error</b>: Please connect to the Internet to continue translating~", 
                 "~<b>Voce Error</b>: Could not translate input~"]
 
     // validate if text input is not empty
     if (text_info.get("text") != '') {
         
-        console.log("translating");
         document.getElementById("gentle-message").innerHTML = '';
         document.getElementById("translating-message").innerHTML = 'translating...';
         fetch('utilities/text_translation.php', {
@@ -116,17 +104,13 @@ function realTimeTranslate() {
                     // If no error message, display the translation
                     displayTranslation(data);
                     timerForSavingDB(data);
-                    console.log("translated");
                 } else {
                     // If error, display through gray message
                     document.getElementById("translating-message").innerHTML = data.translation;
                     document.querySelector(".outputText").innerHTML = '';
-                    console.log("translation problem");
                 }
             } else {
-                console.log(data);
                 finishProcess(data.error);
-                console.log("error" + data.error);
             }
         });
     }
@@ -140,8 +124,6 @@ function displayTranslation(data) {
 
     let words = data.translation;
     words = words.split(" ");
-    
-    console.log(words); // display in array
     
     let tags = "";
     for(let i = 0; i < words.length; i++){
@@ -189,8 +171,7 @@ function displayTranslation(data) {
             body: data
         }).then((res) => res.json())
         .then((response) => {
-    
-    
+
             console.log(response);
             displayedMeaning.textContent = "";
     
@@ -234,12 +215,11 @@ function finishProcess(errornumber) {
 }
 
 function timerForSavingDB(data) {
-    console.log(data.translation)
     errorMsg = ["~<b>Voce Error</b>: Please connect to the Internet to continue translating~", 
                 "~<b>Voce Error</b>: Could not translate input~"]
 
-
     if (!errorMsg.includes(data.translation)) {
+        // provide a timer before saving to db, timer is reset when user inputs
         savingTimer = setTimeout(function() {
 
             const form = document.getElementById("myForm");
@@ -257,7 +237,7 @@ function timerForSavingDB(data) {
                 body: text_info,
             })
             .then(response => response.json());
-            console.log("saved to db");
+
             document.getElementById("download-file").style.display = "block";
         }, 3000); // save the translation to the database after 3 seconds
     }
