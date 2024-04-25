@@ -77,7 +77,7 @@ function fileDropHandler(event) {
     
     const file = event.dataTransfer.files[0];
 
-    if(file.type == "" && file.size % 4096 === 0){
+    if(file.type == "" || file.size % 4096 == 0){
         document.getElementById("error-message").innerHTML = '<i>Please upload a valid audio file. (m4a, mp3, webm, mp4, mpga, wav, mpeg)</i>';
         console.log("File is not supported.")
     }
