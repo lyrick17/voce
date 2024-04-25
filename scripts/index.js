@@ -76,7 +76,7 @@ function fileDropHandler(event) {
     event.currentTarget.classList.remove('drag-hover');
     
     const file = event.dataTransfer.files[0];
-    console.log(file.type);
+
     let filelist = new File([file], file.name);
     
     let transferFile = new DataTransfer();
