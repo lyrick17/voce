@@ -57,40 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } else {
 
         try {
-            $email = 'voceteam.contact@gmail.com'; // our email, the recipient
-            $email_subject = $c_subject;
-            $body_content = [
-                "<h3>User Feedback sent from Voce Website</h3>",
-                "<b>Name:</b> {$c_name}",
-                "<br />",
-                "<hr />",
-                "<h4>Message:</h4>",
-                $c_message
-            ];
-            $body = join(PHP_EOL, $body_content);
-
-            // prepare PHPMailer and the content to be sent out onto our email
-            $mail = new PHPMailer(true);
-
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = $smtpuser; // gmail account
-            $mail->Password = $smtppass; // gmail app password
-            $mail->SMTPSecure = 'ssl';
-            $mail->Port = 465;
-
-            $mail->setFrom($email, $c_name);     // the sender of the email, in this case, our email  still
-            $mail->addAddress($email, 'Voce');   // receiver of email, still our email
-
-            $mail->isHTML(true);
-
-            $mail->Subject = $email_subject;
-            $mail->Body = $body;
-
-            $mail->send();
-
-
+            
             // save into db when guest user sends feedback (without userid)
             $query = mysqli_prepare($dbcon, "INSERT INTO contacts(username, subject, message) 
             VALUES (?, ?, ?)");
@@ -125,7 +92,41 @@ function sanitize_input($post)
 
     return $post;
 }
+/*
+$email = 'voceteam.contact@gmail.com'; // our email, the recipient
+$email_subject = $c_subject;
+$body_content = [
+    "<h3>User Feedback sent from Voce Website</h3>",
+    "<b>Name:</b> {$c_name}",
+    "<br />",
+    "<hr />",
+    "<h4>Message:</h4>",
+    $c_message
+];
+$body = join(PHP_EOL, $body_content);
 
+// prepare PHPMailer and the content to be sent out onto our email
+$mail = new PHPMailer(true);
+
+$mail->isSMTP();
+$mail->Host = 'smtp.gmail.com';
+$mail->SMTPAuth = true;
+$mail->Username = $smtpuser; // gmail account
+$mail->Password = $smtppass; // gmail app password
+$mail->SMTPSecure = 'ssl';
+$mail->Port = 465;
+
+$mail->setFrom($email, $c_name);     // the sender of the email, in this case, our email  still
+$mail->addAddress($email, 'Voce');   // receiver of email, still our email
+
+$mail->isHTML(true);
+
+$mail->Subject = $email_subject;
+$mail->Body = $body;
+
+$mail->send();
+
+*/
 
 
 ?>
