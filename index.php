@@ -113,7 +113,7 @@ require ("utilities/recent_audio_translation.php");
                             <select name="src" id="sourceLanguage" class="form-control">
                                 <!--  Will display Languages supported by API and Whisper -->
                                 <option value="auto">Auto-Detect Language...</option>Auto-Detect
-                                <?php foreach ($common_langs as $lang => $code): ?>
+                                <?php foreach ($whisper_langs as $lang => $code): ?>
                                     <option name="language">
                                         <?= $lang ?>
                                     </option>
@@ -173,7 +173,8 @@ require ("utilities/recent_audio_translation.php");
                 <div class="box">
                     <div class="upload-icon">
                         <img src="images/upload.png" alt="Upload Icon">
-                        <input class="file-input" type="file" name="user_file" id="fileInputLabel" for="fileInput" accept=".m4a, .mp3, .webm, .mp4, .mpga, .wav, .mpeg"><br>
+                        <input class="file-input" type="file" name="user_file" id="fileInputLabel" for="fileInput"
+                            accept=".m4a, .mp3, .webm, .mp4, .mpga, .wav, .mpeg"><br>
                         <div>
                             <input class="removeBGM" type="checkbox" name="removeBGM">
                             <label for="removeBGM"><span style="font-style: italic; color: red;">*Remove Background Noise /
