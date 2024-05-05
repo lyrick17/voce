@@ -67,7 +67,7 @@ require ("utilities/recent_text_translation.php");
                         <select name="src" id="sourceLanguage">
                             <option value="">Select One …</option>
                             <option name="language">auto</option>
-                            <?php foreach ($common_langs as $lang => $code): ?>
+                            <?php foreach ($deep_langs as $lang => $code): ?>
                                 <option name="language">
                                     <?= $lang ?>
                                 </option>
@@ -83,7 +83,7 @@ require ("utilities/recent_text_translation.php");
                     <select name="target" id="targetLanguage" class="form-control">
                         <!-- Will display languages supported by API only-->
                         <option value="">Select One …</option>
-                        <?php foreach ($common_langs as $lang => $code): ?>
+                        <?php foreach ($deep_langs as $lang => $code): ?>
                             <option name="language">
                                 <?= $lang ?>
                             </option>
