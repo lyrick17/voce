@@ -113,7 +113,7 @@ require ("utilities/recent_audio_translation.php");
                             <select name="src" id="sourceLanguage" class="form-control">
                                 <!--  Will display Languages supported by API and Whisper -->
                                 <option value="auto">Auto-Detect Language...</option>Auto-Detect
-                                <?php foreach ($whisper_langs as $lang => $code): ?>
+                                <?php foreach ($common_langs as $lang => $code): ?>
                                     <option name="language">
                                         <?= $lang ?>
                                     </option>
@@ -135,7 +135,7 @@ require ("utilities/recent_audio_translation.php");
                         <select name="target" id="targetLanguage" class="form-control">
                             <!-- Will display languages supported by API only-->
                             <option value="">Select One …</option>
-                            <?php foreach ($common_langs as $lang => $code): ?>
+                            <?php foreach ($deep_langs as $lang => $code): ?>
                                 <option name="language">
                                     <?= $lang ?>
                                 </option>

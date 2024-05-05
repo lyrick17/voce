@@ -28,11 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $pathsize = $_FILES['user_file']['size']; // file size
     }
 
-
-    //$userid = $_SESSION['user_id']; // to be used to add userid on new filename
-
-    //$model_size = $_POST['modelSize'];
-    $src_lang = ($_POST['src'] == 'auto') ? "auto" : $whisper_langs[$_POST["src"]] ?? '';  //($_POST['src'] == 'auto') ? "auto" : $common_langs[$_POST["src"]] ?? '';
+    $src_lang = ($_POST['src'] == 'auto') ? "auto" : $common_langs[$_POST["src"]] ?? '';  //($_POST['src'] == 'auto') ? "auto" : $common_langs[$_POST["src"]] ?? '';
     $trg_lang = $common_langs[$_POST["target"]] ?? '';
 
     // Checks whether checkbox is checked or not
@@ -40,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     if ($_POST['step'] == 1) { #!!! error handling and insertion of audio file to database
-        ErrorHandling::checkLanguageChosen("audio", $whisper_langs, $common_langs);
+        ErrorHandling::checkLanguageChosen("audio", $deep_langs, $common_langs);
         if (!$is_recorded) {
             ErrorHandling::checkFileUpload($_FILES["user_file"]);
             ErrorHandling::validateFormat($path);
@@ -103,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['step'] == 5) {
         $trans_src = "";
         if ($_SESSION['a_info']['lang'] == 'zh') {
-            $trans_src = "zh-CN";
+            $trans_src = "chinese (simplified)";
         } else {
             $trans_src = $common_codes[$_SESSION['a_info']['lang']];
         }
