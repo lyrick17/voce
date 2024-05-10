@@ -1,19 +1,20 @@
-<?php 
-function removeFolder($path) {
+<?php
+function removeFolder($path)
+{
     // process of deleting the folder in audio files
     if (is_dir($path)) {
         $iterator = new DirectoryIterator($path);
-    
-        
+
+
         // loop through each content inside the folder
-        foreach($iterator as $file) {
+        foreach ($iterator as $file) {
             if ($file->isFile()) {
                 unlink($file->getRealPath()); // get the relative path and delete the file
             } elseif (!$file->isDot() && $file->isDir()) {
                 rmdir($file->getRealPath()); // get the relative path and delete the folder
             }
         }
-        
+
         // finally, delete the now-empty folder
         rmdir($path);
     }
@@ -21,13 +22,14 @@ function removeFolder($path) {
 
 
 # START: Deleting Audio Files on Database ---------------------------
-function fetchAudioContent($fileid) {
+function fetchAudioContent($fileid)
+{
     global $dbcon;
     $datequery = "SELECT file_id, file_name, DATE_FORMAT(upload_date, '%m%d%Y_%H%i%s') AS formatted_date 
                         FROM audio_files WHERE file_id = '$fileid'";
     $dateresult = mysqli_query($dbcon, $datequery);
 
-    $audiofile =  mysqli_fetch_assoc($dateresult);
+    $audiofile = mysqli_fetch_assoc($dateresult);
 
     // get the filename and extension
     $filename = pathinfo($audiofile['file_name'], PATHINFO_FILENAME);
@@ -36,14 +38,16 @@ function fetchAudioContent($fileid) {
     // put filename, extension and date in array, these infos are needed to select
     //  specific record from the database in order to delete a specific file
     $info = array(
-                "file_id" => $fileid,
-                "filename" => $filename, 
-                "extension" => $extension,
-                "formatted_date" => $audiofile['formatted_date']);
+        "file_id" => $fileid,
+        "filename" => $filename,
+        "extension" => $extension,
+        "formatted_date" => $audiofile['formatted_date']
+    );
 
     return $info;
 }
-function deleteAudioContent($filename) {
+function deleteAudioContent($filename)
+{
     global $dbcon;
 
     $fileid = explode("_", $filename)[0]; // split string by underscore (_), then take first element of result array
@@ -54,30 +58,32 @@ function deleteAudioContent($filename) {
 # END  : Deleting Audio Files on Database ---------------------------
 
 
-function deleteAudioFile($fileid) {
+function deleteAudioFile($fileid)
+{
     //get the audio file content from the database, to be used on locating the filename in audio_files folder
     $audiofile = fetchAudioContent($fileid);
 
     // remove the audio file uploaded by user
-    $filenameMask = "audio_files/" . $fileid . "_" . $audiofile['filename'] . $audiofile['formatted_date'] . "." . $audiofile['extension']; 
-    if (file_exists($filenameMask)) 
+    $filenameMask = "audio_files/" . $fileid . "_" . $audiofile['filename'] . $audiofile['formatted_date'] . "." . $audiofile['extension'];
+    if (file_exists($filenameMask))
         unlink($filenameMask);
-    
+
     // remove the folder created on specific file and all its contents
     $folderMask = "audio_files/" . $fileid . "_" . $audiofile['filename'] . $audiofile['formatted_date'];
     removeFolder($folderMask);
 }
 
-function deleteAllAudioFiles() {
+function deleteAllAudioFiles()
+{
     // since we delete all, get all the files and folder (since we do not need user_id, all of them will be deleted)
     $folderpath = "audio_files/*";
 
     // put all the folder/filenames that matches the $folderpath in an array
     $items = glob($folderpath);
 
-    
+
     foreach ($items as $file) {
-    
+
         // check if it's an audio file or a folder, then delete them 
         //  using their designated step
         if (is_file($file)) {
@@ -85,26 +91,45 @@ function deleteAllAudioFiles() {
         } elseif (is_dir($file)) {
             removeFolder($file);
         }
-    
+
     }
 }
 
-function deleteErrorFile($filename) {
+function deleteErrorFile($filename)
+{
     //get the audio file content from the database, to be used on locating the filename in audio_files folder
 
     $name = pathinfo($filename, PATHINFO_FILENAME);
     $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
     // remove the audio file uploaded by user
-    $filenameMask = "../audio_files/" . $name . "." . $extension; 
-    if (file_exists($filenameMask)) 
+    $filenameMask = "../audio_files/" . $name . "." . $extension;
+    if (file_exists($filenameMask))
         unlink($filenameMask);
-    
+
     // remove the folder created on specific file and all its contents
     $folderMask = "../audio_files/" . $name;
     removeFolder($folderMask);
 
     deleteAudioContent($filename);
+}
+
+function deleteSuccessFile($filename)
+{
+    //get the audio file content from the database, to be used on locating the filename in audio_files folder
+
+    $name = pathinfo($filename, PATHINFO_FILENAME);
+    $extension = pathinfo($filename, PATHINFO_EXTENSION);
+
+    // remove the audio file uploaded by user
+    $filenameMask = "../audio_files/" . $name . "." . $extension;
+    if (file_exists($filenameMask))
+        unlink($filenameMask);
+
+    // remove the folder created on specific file and all its contents
+    $folderMask = "../audio_files/" . $name;
+    removeFolder($folderMask);
+
 }
 
 ?>
