@@ -8,7 +8,7 @@ require ("common_languages.php"); // Translator_Functions and Error Habdling are
 
 
 //if (!isset($_SESSION['a_info']))
-    //$_SESSION['a_info'] = array();
+//$_SESSION['a_info'] = array();
 // $_SESSION['a_info']['newfile'] contains new Filename
 // $_SESSION['a_info']['text'] contains transcript text from Whisper
 // $_SESSION['a_info']['lang'] contains transcript language from Whisper
@@ -99,9 +99,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION[$a_info]['lang'] = $data['language'];
             $success = ['error' => 0];
         } else {
-            $success = ['error' => 5];
+            $success = ['error' => 8];
         }
-        
+
         exit(json_encode($success));
     }
 
@@ -146,22 +146,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         mysqli_stmt_bind_param($query_insert1, 'iisssss', $fileid, $isFromAudio, $translation_type, $source_lang, $target_lang, $_SESSION[$a_info]['text'], $_SESSION[$a_info]['output']);
         mysqli_stmt_execute($query_insert1);
 
-        
-        
+
+
         $id = 0;
         $query_select = mysqli_prepare($dbcon, "SELECT text_id FROM text_translations ORDER BY text_id DESC LIMIT 1");
         mysqli_stmt_execute($query_select);
         mysqli_stmt_bind_result($query_select, $id);
         mysqli_stmt_fetch($query_select);
         mysqli_stmt_close($query_select);
-        
+
         $_SESSION['recent_audio'] = $id;
         $_SESSION['audio_time'] = time();
-        
+
         success_logs("audio-to-text", $id, $dbcon);
-        
+
         $success = ['error' => 0];
+        deleteSuccessFile($_SESSION[$a_info]['newfile']);
         unset_extra_sess_vars($a_info);
+
         exit(json_encode($success));
     }
 }

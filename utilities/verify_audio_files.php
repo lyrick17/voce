@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $verify_message = '';
 $removed = false;
@@ -11,18 +11,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $result = mysqli_query($dbcon, $query);
     $file_ids = array();
-    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         $file_ids[] = $row['file_id'];
     }
-    
+
     // get all the file id in audio_files database
     $audio_query = "SELECT file_id FROM audio_files ORDER BY file_id";
     $audio_result = mysqli_query($dbcon, $audio_query);
     $audio_ids = array();
-    while($row2 = mysqli_fetch_array($audio_result, MYSQLI_ASSOC)) {
+    while ($row2 = mysqli_fetch_array($audio_result, MYSQLI_ASSOC)) {
         $audio_ids[] = $row2['file_id'];
     }
 
+    /*
     // Loop through all the files in the audio_files directory
     foreach (glob('audio_files/*') as $file) {
         
@@ -55,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 }
             }
         }
-    }
+    } */
 
     // Loop through all the file record in database as well
     foreach ($audio_ids as $audio_id) {

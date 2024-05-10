@@ -136,8 +136,10 @@ def translate():
         
         if translated is None:
             return "~<b>Voce Error</b>: Could not translate input~"
-        
+        print(translated)
         translated = translated.replace("\\r\\n", " ")
+        translated = translated.replace("\\r \\n", " ")
+        print(translated)
         return translated
     except Exception as e:
         print(e)
@@ -202,7 +204,7 @@ def testcon():
     return "connected"
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5000, threaded=False)
 
 
 
