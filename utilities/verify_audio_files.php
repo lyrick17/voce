@@ -36,11 +36,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     foreach (glob('audio_files/*') as $file) {
         // we must delete the file that is already been recorded, there might be a chance
         //  when the admin is deleting a file, but a current process is still happening, which can disrupt the user exp
+
+
+        $latestidquery = "SELECT file_id FROM text_translations ORDER BY text_id DESC LIMIT 1";
+        $latestresult = mysqli_query($dbcon, $latestidquery);
+        $row = mysqli_fetch_array($latestresult, MYSQLI_ASSOC);
         if (is_file($file)) {
             $file = str_replace('audio_files/', '', $file); // Remove "audio_files/" from the file path
             $file_id = explode("_", $file)[0];
-            if (in_array($file_id, $file_ids)) {
-                // if the file is IN the translation, delete the file
+            if (in_array($file_id, $file_ids) || $file_id < $row['file_id']) {
+                // if the file is IN the translation or an error recorded file before, delete the file
                 unlink('audio_files/' . $file);
                 $removed = true;
                 
@@ -48,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         } elseif (is_dir($file)) {
             $filename = str_replace('audio_files/', '', $file); // Remove "audio_files/" from the file path
             $file_id = explode("_", $filename)[0];
-            if (in_array($file_id, $file_ids)) {
-                // if the file is IN the translation, delete it
+            if (in_array($file_id, $file_ids) || $file_id < $row['file_id']) {
+                // if the file is IN the translation or an error recorded file before, delete it
                 removeFolder($file);
                 $removed = true;
             }
