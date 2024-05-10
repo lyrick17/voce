@@ -16,23 +16,6 @@ model = whisper.load_model("small")
 langs_dict = GoogleTranslator().get_supported_languages(as_dict=True) 
 app = Flask('lang_codes')
 
-
-import threading
-# ... (rest of your imports)
-
-def transcribe_file(json_data):
-    filePath = "audio_files/" + json_data['fname'] + "/audio_processed.mp3"
-    if json_data['src'] == "auto":
-        result = model.transcribe(filePath)
-    else:
-        result = model.transcribe(filePath, language=json_data['src'])
-        
-    output = {"text": result["text"], "language": result["language"], "error": 0}
-    print(str(output))
-    return output
-
-
-
 # functions on extracting vocals, 
 #   for spleeter_env 
 #   for python 3.8
@@ -68,30 +51,6 @@ def get_meaning():
     json_data = request.get_json()
     meanings = dictionary.meaning(json_data["word"])
     return json.dumps(meanings)
-
-'''
-@app.route("/transcribe", methods=["POST"])
-def transcribe():
-    try:
-        json_data = request.get_json()
-        print(json_data)
-
-        # Create a thread for each transcription task
-        transcription_thread = threading.Thread(target=transcribe_file, args=(json_data,))
-
-        # Start the thread
-        transcription_thread.start()
-
-        # If you want to wait for the thread to finish before continuing with the rest of your code, you can use .join()
-        # transcription_thread.join()
-
-        return {"status": "Transcription started", "error": 0}
-    except Exception as e:
-        print(e)
-        return {"status": "", "error": 1}
-
-
-'''
 
 
 

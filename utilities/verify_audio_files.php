@@ -1,5 +1,4 @@
 <?php
-
 $verify_message = '';
 $removed = false;
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -23,41 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $audio_ids[] = $row2['file_id'];
     }
 
-    /*
-    // Loop through all the files in the audio_files directory
-    foreach (glob('audio_files/*') as $file) {
-        
-        if (is_file($file)) {
-            $file = str_replace('audio_files/', '', $file); // Remove "audio_files/" from the file path
-            $file_id = explode("_", $file)[0];
-            if (!in_array($file_id, $file_ids)) {
-                // if the file is not in the translation, delete it
-                unlink('audio_files/' . $file);
-                $verify_message = "All audio files that were uploaded in audio_files and saved in db but not connected to a translation have been deleted.";
-                $removed = true;
-                // delete the record in db as well
-                // if the file is in the audio_files, delete it
-                if (in_array($file_id, $audio_ids)) {
-                    $delquery = "DELETE FROM audio_files WHERE file_id = '$file_id'";
-                    $delresult = mysqli_query($dbcon, $delquery);
-                }
-            }
-        } elseif (is_dir($file)) {
-            $filename = str_replace('audio_files/', '', $file); // Remove "audio_files/" from the file path
-            $file_id = explode("_", $filename)[0];
-            if (!in_array($file_id, $file_ids)) {
-                // if the file is not in the translation, delete it
-                removeFolder($file);
-                $removed = true;
-                // delete the record in db as well
-                if (in_array($file_id, $audio_ids)) {
-                    $delquery = "DELETE FROM audio_files WHERE file_id = '$file_id'";
-                    $delresult = mysqli_query($dbcon, $delquery);
-                }
-            }
-        }
-    } */
-
     // Loop through all the file record in database as well
     foreach ($audio_ids as $audio_id) {
         if (!in_array($audio_id, $file_ids)) {
@@ -67,6 +31,32 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $removed = true;
         }
     }
+
+    // Loop through all the files in the audio_files directory
+    foreach (glob('audio_files/*') as $file) {
+        // we must delete the file that is already been recorded, there might be a chance
+        //  when the admin is deleting a file, but a current process is still happening, which can disrupt the user exp
+        if (is_file($file)) {
+            $file = str_replace('audio_files/', '', $file); // Remove "audio_files/" from the file path
+            $file_id = explode("_", $file)[0];
+            if (in_array($file_id, $file_ids)) {
+                // if the file is IN the translation, delete the file
+                unlink('audio_files/' . $file);
+                $removed = true;
+                
+            }
+        } elseif (is_dir($file)) {
+            $filename = str_replace('audio_files/', '', $file); // Remove "audio_files/" from the file path
+            $file_id = explode("_", $filename)[0];
+            if (in_array($file_id, $file_ids)) {
+                // if the file is IN the translation, delete it
+                removeFolder($file);
+                $removed = true;
+            }
+        }
+    } 
+
+
 
     if ($removed) {
         $verify_message = "All audio files that were uploaded in audio_files and saved in db but not connected to a translation have been deleted.";
