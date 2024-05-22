@@ -80,18 +80,20 @@ def translate():
         json_data = request.get_json()
         print(json_data)
         trg = langs_dict[json_data['trg']]
-        if json_data['src'] == 'auto':
-            return GoogleTranslator(source= 'auto', target= trg).translate(json_data['txt'])
-        
-        src = langs_dict[json_data['src']]
-        translated = GoogleTranslator(source= src, target= trg).translate(json_data['txt'])
-        
+        print("SOURCE IS : " + json_data['src'])
+        if json_data['src'] == 'auto':            
+            print("Source language is auto...")
+            translated = GoogleTranslator(source= 'auto', target= trg).translate(json_data['txt'])
+        else:
+            src = langs_dict[json_data['src']]
+            translated = GoogleTranslator(source= src, target= trg).translate(json_data['txt'])
         if translated is None:
-            return "~<b>Voce Error</b>: Could not translate input~"
-        
-        translated = translated.replace("\\r\\n", " ")
-        return translated
-    except Exception as e:
+            return json_data['txt']
+        else:
+            translated = translated.replace("\\r\\n", " ")
+            return translated
+            
+    except ConnectionError as e:
         print(e)
         return "~<b>Voce Error</b>: Please connect to the Internet to continue translating~"
 

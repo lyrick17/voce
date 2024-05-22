@@ -11,6 +11,10 @@ let isTargetChosen = false;
 const sourceLanguage = document.getElementById("sourceLanguage");
 const targetLanguage = document.getElementById("targetLanguage");
 
+
+gentleMessage = document.getElementById("gentle-message");
+gentleMessage.style.color = "red";
+
 // checks the selected language, source and target
 // returns boolean if they select a language
 function checkForm(lang) {
@@ -69,7 +73,7 @@ function translateInput() {
     } else {
         if (textinput.value != '' && document.getElementById("gentle-message").innerHTML == '') { 
             gentleTimer = setTimeout(function() {   // translate the text after a pause
-                document.getElementById("gentle-message").innerHTML = 'Please select source and target language.';
+                gentleMessage.innerHTML = 'Please select source and target language.';
             }, 3000); // after 3 seconds, notify user that has not chosen a language yet
             
         }

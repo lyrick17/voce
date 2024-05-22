@@ -59,8 +59,7 @@ class ErrorHandling
 			//exit(json_encode($exit));
 		}
 
-		if (strlen((trim($_POST['text']))) > 5000) {
-
+		if (strlen((trim($_POST['text']))) >= 5000) {
 			// log 2,000
 			logs("error-tt-5", $dbcon);
 
