@@ -245,14 +245,14 @@ require ("utilities/recent_audio_translation.php");
                 <span id="contact-return-message"></span>
                 <div class="input-form">
                     <input type="text" name="contact_name" class="form-control name-form fback-input" id="name"
-                        placeholder="Your Name">
+                        placeholder="Your Name" maxlength="255">
                 </div>
                 <div class="input-form">
                     <input type="text" class="form-control subject-form fback-input" name="contact_subject" id="subject"
-                        placeholder="Subject">
+                        placeholder="Subject" maxlength="255">
                 </div>
                 <div class="input-form">
-                    <textarea class="fback-msg" name="contact_message" rows="5" placeholder="Message"></textarea>
+                    <textarea class="fback-msg" name="contact_message" rows="5" placeholder="Message" maxlength="2000"></textarea>
                 </div>
                 <br />
                 <div class="submit-fback">

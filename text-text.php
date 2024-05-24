@@ -98,7 +98,7 @@ require ("utilities/recent_text_translation.php");
                 <!-- START OF FORM, COVERS TWO SELECT AND ONE TEXT AREA -->
                 <div class="custom-textfield">
 
-                    <textarea class="textinput" name="text" id="text-input" placeholder='Type Here...'></textarea>
+                    <textarea class="textinput" name="text" id="text-input" placeholder='Type Here...' maxlength="4999"></textarea>
 
                     <!-- end of form -->
                     </form>
@@ -150,14 +150,14 @@ require ("utilities/recent_text_translation.php");
                 <span id="contact-return-message"></span>
                 <div class="input-form">
                     <input type="text" name="contact_name" class="form-control name-form fback-input" id="name"
-                        placeholder="Your Name">
+                        placeholder="Your Name" maxlength="255">
                 </div>
                 <div class="input-form">
                     <input type="text" class="form-control subject-form fback-input" name="contact_subject" id="subject"
-                        placeholder="Subject">
+                        placeholder="Subject" maxlength="255">
                 </div>
                 <div class="input-form">
-                    <textarea class="fback-msg" name="contact_message" rows="5" placeholder="Message"></textarea>
+                    <textarea class="fback-msg" name="contact_message" rows="5" placeholder="Message" maxlength="2000"></textarea>
                 </div>
                 <br />
                 <div class="submit-fback">
