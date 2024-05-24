@@ -92,6 +92,9 @@ require ("utilities/recent_audio_translation.php");
                         case 7: // user added unprovided choices
                             echo "Recorded audio cannot be processed. Please contact Voce team.";
                             break;
+                        case 8: // when multiple requests cannot be handled by Whisper
+                            echo "Voce has been experiencing server issues. Please try again.";
+                            break;
                     }
                 }
                 ?>

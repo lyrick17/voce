@@ -188,7 +188,7 @@ if(uploadField != null){
 
 
 const form = document.getElementById("form");
-
+let randomnum = Math.trunc(Math.random() * 10001);
 if(form != null){
     form.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -198,6 +198,7 @@ if(form != null){
         // add a 'step' data in the POST variables for server to detect what current step to take
         // add a 'record' data in the POST variables if user recorded
         audio_info.append('step', 1);
+        audio_info.append('random', randomnum);
         if (audio_blob) { audio_info.append('record', audio_blob); }
     
         // validate if file is 25mb or there is a record
@@ -241,6 +242,7 @@ async function translationProcess(audio_info) {
 
 
     // step 2 to 5
+    
     if (data.error == 0) {
         for (let i = 2; i <= 6; i++) {
             audio_info.set('step', i);

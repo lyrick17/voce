@@ -1,12 +1,14 @@
 <?php
 require ("../mysql/mysqli_session.php");
 
+
 // use PHPMailer\PHPMailer\PHPMailer;
 // use PHPMailer\PHPMailer\Exception;
 
 // require "../phpmailer/src/Exception.php";
 // require "../phpmailer/src/PHPMailer.php";
 // require "../phpmailer/src/SMTP.php";
+
 
 // require "smtp.php";
 
@@ -74,8 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $contact_message = $message[2];
             $contact_color = "red";
         }
-
-
 
     }
 
